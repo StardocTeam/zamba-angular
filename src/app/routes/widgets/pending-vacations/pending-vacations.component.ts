@@ -77,7 +77,7 @@ export class PendingVacationsComponent implements OnInit {
 
     if (tokenData != null) {
       request = {
-        UserId: tokenData['userID'],
+        UserId: 0, //  tokenData['userID'],
         EntityID: '258',
         DoctypesId: '110'
       };
@@ -135,12 +135,12 @@ export class PendingVacationsComponent implements OnInit {
     this.loading = true;
     this.cdr.detectChanges();
 
-    const tokenData = this.tokenService.get();
+    const tokenData: any = this.tokenService.get();
     let genericRequest = {};
+        genericRequest = {
+          UserId: 0,
+          token: tokenData['token'],
 
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userID'],
         Params: {
           EntityID: '258',
           DoctypesId: '110'
@@ -190,7 +190,6 @@ export class PendingVacationsComponent implements OnInit {
           this.loading = false;
           this.cdr.detectChanges();
         });
-    }
   }
 
   GoToTask(obj: any) {

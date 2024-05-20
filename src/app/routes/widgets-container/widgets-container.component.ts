@@ -47,12 +47,12 @@ export class WidgetsContainerComponent implements OnInit {
   }
 
   getWidgetsContainer() {
-    const tokenData = this.tokenService.get();
+    const tokenData: any = this.tokenService.get();
     let genericRequest = {};
+        genericRequest = {
+          UserId: 0,
+          token: tokenData['token'],
 
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userID'],
         Params: ''
       };
 
@@ -85,15 +85,12 @@ export class WidgetsContainerComponent implements OnInit {
           }
         });
     }
-  }
+  
 
   setWidgetsContainer() {
-    const tokenData = this.tokenService.get();
+    const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-
-    if (tokenData != null) {
-      console.log('Imprimo los valores en tokenService en el service', tokenData);
-
+            
       let WCOptions: WidgetsContainerOptions = new WidgetsContainerOptions(
         this.options.displayGrid,
         this.options.draggable,
@@ -103,7 +100,8 @@ export class WidgetsContainerComponent implements OnInit {
       );
 
       genericRequest = {
-        UserId: tokenData['userID'],
+        UserId: 0, // tokenData['userID'],
+        token: tokenData['token'],
         Params: {
           options: JSON.stringify(WCOptions),
           widgetsContainer: JSON.stringify(this.dashboard)
@@ -114,7 +112,6 @@ export class WidgetsContainerComponent implements OnInit {
         this.options = JSON.parse(data.Options);
         this.dashboard = JSON.parse(data.WidgetsContainer);
       });
-    }
   }
 
   static itemChange(item: any, itemComponent: any) {

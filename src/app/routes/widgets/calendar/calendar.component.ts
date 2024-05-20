@@ -28,7 +28,6 @@ import { CalendarService } from './service/calendar.service';
 
 interface MyCalendarEvent extends CalendarEvent {
   groupid: any;
-  userid: any;
 }
 
 const colors: Record<string, EventColor> = {
@@ -117,7 +116,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       afterEnd: false
     },
     groupid: null,
-    userid: null
   };
 
   actions: CalendarEventAction[] = [
@@ -132,8 +130,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
       label: '<span> &bull; Eliminar </span>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        var genericRequest = {
-          UserId: null,
+        const tokenData: any = this.tokenService.get();
+      let genericRequest = {};
+
+        genericRequest = {
+          UserId: tokenData['userID'],
+          token: tokenData['token'],
           Params: {
             calendareventid: event.id
           }
@@ -187,14 +189,18 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     var groupids = [];
-    const tokenData = this.tokenService.get();
-    if (tokenData != null) {
+    const tokenData: any = this.tokenService.get();
+
+      if (tokenData != null) {
       this.groups = [...tokenData['groups']];
       groupids = this.groups.map(group => group.ID);
       this.groups.unshift({ ID: -100, Name: 'Mi Calendario' });
     }
-    var genericRequest = {
-      UserId: null,
+    let genericRequest = {};
+
+      genericRequest = {
+        UserId: tokenData['userID'],
+        token: tokenData['token'],
       Params: {
         groupids: JSON.stringify(groupids),
         userid: tokenData ? tokenData['userID'] : null
@@ -281,8 +287,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let start: Date;
     let end: Date;
 
-    const tokenData = this.tokenService.get();
-
     if (this.start instanceof Date) {
       start = this.start;
     } else {
@@ -304,10 +308,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       secondaryText: this.eventTextColor
     };
     let groupid = null;
-    let userid = null;
 
     if (this.selectedValue == -100) {
-      if (tokenData != null) userid = tokenData['userID'];
+
     } else {
       groupid = this.selectedValue;
     }
@@ -325,15 +328,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
         afterEnd: false
       },
       groupid: groupid,
-      userid: userid
     };
 
-    var genericRequest = {
-      UserId: tokenData ? tokenData['userID'] : null,
+    const tokenData: any = this.tokenService.get();
+    let genericRequest = {};
+        genericRequest = {
+          UserId: tokenData['userID'],
+          token: tokenData['token'],
       Params: {
         groupid: groupid,
         eventdata: JSON.stringify(newEvent),
-        userid: userid
       }
     };
 
@@ -352,7 +356,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let start: Date;
     let end: Date;
 
-    const tokenData = this.tokenService.get();
 
     if (this.start instanceof Date) {
       start = this.start;
@@ -384,16 +387,18 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let userid = null;
 
     if (this.selectedValue == -100) {
-      if (tokenData != null) userid = tokenData['userID'];
     } else {
       groupid = this.selectedValue;
     }
 
     this.editableEventCalendar.groupid = groupid;
-    this.editableEventCalendar.userid = userid;
 
-    var genericRequest = {
-      UserId: tokenData ? tokenData['userID'] : null,
+    const tokenData: any = this.tokenService.get();
+    let genericRequest = {};
+        genericRequest = {
+          UserId: 0,
+          token: tokenData['token'],
+
       Params: {
         groupid: groupid,
         eventdata: JSON.stringify(this.editableEventCalendar),

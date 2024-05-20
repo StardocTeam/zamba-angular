@@ -9,9 +9,9 @@ import { GridsterItem } from 'angular-gridster2';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BehaviorSubject, Observable, Subject, of, throwError } from 'rxjs';
 import { catchError, finalize, takeUntil } from 'rxjs/operators';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 import { PendingTasksService } from './service/pending-tasks.service';
-import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 interface ItemData {
   gender: string;
@@ -56,7 +56,7 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
     private zambaService: ZambaService
-  ) { }
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -70,8 +70,12 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     const tokenData = this.tokenService.get();
     console.log('Token data:', tokenData);
     if (tokenData != null && tokenData['userID'] != null) {
-      var genericRequest = {
-        UserId: tokenData['userID'],
+      const tokenData: any = this.tokenService.get();
+      let genericRequest = {};
+          genericRequest = {
+            UserId: 0,
+            token: tokenData['token'],
+  
         Params: ''
       };
       this.pendingTasksService

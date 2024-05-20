@@ -1,11 +1,9 @@
 import { HttpContext } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ALLOW_ANONYMOUS } from '@delon/auth';
+import { ALLOW_ANONYMOUS, TokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
-import { MatchControl } from '@delon/util/form';
 import { environment } from '@env/environment';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { catchError, finalize, throwError } from 'rxjs';
 
 @Component({
@@ -20,7 +18,9 @@ export class ValidateComponent implements OnInit {
     private router: Router,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private tokenService: TokenService
+
   ) {}
 
   ngOnInit(): void {
@@ -28,8 +28,12 @@ export class ValidateComponent implements OnInit {
       this.route.queryParams.subscribe(params => {
         console.log('los parametros son', params);
         //convertir el objeto params en un array de objetos
-        const genericRequest = {
-          UserId: 0,
+        const tokenData: any = this.tokenService.get();
+      let genericRequest = {};
+
+        genericRequest = {
+          UserId: tokenData['userID'],
+          token: tokenData['token'],
           Params: params
         };
         this.http

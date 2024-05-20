@@ -28,12 +28,14 @@ export class ProAccountCenterComponent implements OnInit {
   ngOnInit(): void {
     this.cdr.detectChanges();
 
-    const tokenData = this.tokenService.get();
-    let genericRequest = {};
+    const tokenData: any = this.tokenService.get();
+      let genericRequest = {};
+      if (tokenData != null) {
+        console.log('Imprimo los valores en tokenService en el service', tokenData);
 
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userID'],
+        genericRequest = {
+          UserId: tokenData['userID'],
+          token: tokenData['token'],
         Params: {}
       };
 

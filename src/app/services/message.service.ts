@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class MessageService {
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
   startListening() {
     window.addEventListener('message', this.handleMessage);
   }

@@ -39,10 +39,12 @@ export class VideoplayerComponent implements OnInit {
     this.src = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/CsAT8LQf8gw?autoplay=1');
   }
   ngOnInit(): void {
-    const tokenData = this.tokenService.get();
-    if (tokenData != null && tokenData['userID'] != null) {
-      var genericRequest = {
-        UserId: tokenData['userID'],
+    const tokenData: any = this.tokenService.get();
+    let genericRequest = {};
+        genericRequest = {
+          UserId: 0,
+          token: tokenData['token'],
+
         Params: ''
       };
       this.videoplayerService.getVideoplayerURL(genericRequest).subscribe((res: any) => {
@@ -53,5 +55,4 @@ export class VideoplayerComponent implements OnInit {
         }
       });
     }
-  }
 }

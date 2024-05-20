@@ -140,13 +140,13 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   getCarouselContent() {
     this.EnableSwipe = true;
-    const tokenData = this.tokenService.get();
 
+    const tokenData: any = this.tokenService.get();
     let genericRequest = {};
+        genericRequest = {
+          UserId: 0,
+          token: tokenData['token'],
 
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userID'],
         Params: ''
       };
 
@@ -179,18 +179,18 @@ export class CarouselComponent implements OnInit, OnDestroy {
             console.error('Error al obtener datos:', error);
           }
         );
-    }
   }
 
   getCarouselConfig() {
-    const tokenData = this.tokenService.get();
+    const tokenData: any = this.tokenService.get();
     let genericRequest = {};
 
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userID'],
+    genericRequest = {
+          UserId: 0,
+          token: tokenData['token'],
         Params: ''
       };
+
       this.carouselService
         ._getCarouselConfig(genericRequest)
         .pipe(
@@ -221,7 +221,6 @@ export class CarouselComponent implements OnInit, OnDestroy {
             console.error('Error al obtener datos:', error);
           }
         );
-    }
   }
 
   nextSlide() {

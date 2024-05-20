@@ -67,9 +67,7 @@ export class RuleComponent implements OnInit {
           }
           break;
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   }
 
   ngOnInit(): void {
@@ -83,7 +81,7 @@ export class RuleComponent implements OnInit {
         console.log('Imprimo los valores en tokenService en el service', tokenData);
 
         genericRequest = {
-          UserId: tokenData['userID'],
+          UserId: 0, //  tokenData['userID'],
           token: tokenData['token'],
           Params: params
         };
