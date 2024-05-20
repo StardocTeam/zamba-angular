@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { Observable, Subject } from 'rxjs';
@@ -7,9 +7,12 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class MessageService {
-  constructor(private router: Router) {}
+
+  constructor(private router: Router) {
+    this.handleMessage = this.handleMessage.bind(this);
+  }
   startListening() {
-    window.addEventListener('message', this.handleMessage);
+    window.addEventListener('message', this.handleMessage,);
   }
 
   handleMessage(event: MessageEvent) {
@@ -20,10 +23,11 @@ export class MessageService {
         return;
       }
       var message = JSON.parse(event.data);
-
+      debugger;
       switch (message.type) {
-        case 'request vacation':
+        case 'navigate':
           console.log(message.data);
+          this.router.navigate([message.data.data]);
           break;
       }
     } catch (e) {
