@@ -5,6 +5,7 @@ import { GridsterItem } from 'angular-gridster2';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { Subscription, catchError } from 'rxjs';
 
+import { Generic } from './entitie/generic';
 import { Vacation } from './entitie/vacation';
 import { PendingVacationsService } from './service/pending-vacations.service';
 
@@ -50,7 +51,8 @@ export class PendingVacationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.GetExternalsearchInfo();
+    //this.GetExternalsearchInfo();
+    this.PostExternalsearchInfo();
 
     this.resizeSubscription = this.resizeEvent.subscribe((event: any) => {
       // console.log("🔴: " + event);
@@ -71,18 +73,16 @@ export class PendingVacationsComponent implements OnInit {
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
-    let genericRequest = {};
+    let request: Generic = new Generic();
 
     if (tokenData != null) {
-      genericRequest = {
+      request = {
         UserId: tokenData['userID'],
-        Params: {
-          EntityID: '258',
-          DoctypesId: '110'
-        }
+        EntityID: '258',
+        DoctypesId: '110'
       };
 
-      this.PVService._GetExternalsearchInfo(genericRequest)
+      this.PVService._GetExternalsearchInfo(request)
         .pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
@@ -110,7 +110,71 @@ export class PendingVacationsComponent implements OnInit {
               vacationItem.s = item['s'];
               vacationItem.userId = item['userId'];
 
-              //TODO: Refactorizar si es que cambia la estructura de forma definitiva.
+              this.vacations.push(vacationItem);
+              this.info = true;
+              this.result = true;
+            }
+
+            this.TotalDays = parseInt(JsonData['TotalDays'].toString());
+          } else {
+            this.info = false;
+            this.result = true;
+          }
+
+          this.vacations.reverse();
+          this.loading = false;
+          this.cdr.detectChanges();
+        });
+    }
+  }
+
+  PostExternalsearchInfo() {
+    this.vacations = [];
+    this.info = false;
+    this.result = false;
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userID'],
+        Params: {
+          EntityID: '258',
+          DoctypesId: '110'
+        }
+      };
+
+      this.PVService._PostExternalsearchInfo(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+            this.loading = false;
+            this.cdr.detectChanges();
+            throw error;
+          })
+        )
+        .subscribe(data => {
+          var JsonData = JSON.parse(data);
+
+          if (JsonData != null) {
+            for (let item of JsonData.VacationList) {
+              var vacationItem: Vacation = new Vacation();
+
+              vacationItem.AuthorizeOption = item['AuthorizeOption'];
+              vacationItem.RequestedDaysOption = item['RequestedDaysOption'];
+              vacationItem.VacationFromOption = item['VacationFromOption'];
+              vacationItem.VacationToOption = item['VacationToOption'];
+
+              vacationItem.DocType = item['DocType'];
+              vacationItem.docid = item['docid'];
+              vacationItem.taskid = item['taskid'];
+              vacationItem.mode = item['mode'];
+              vacationItem.s = item['s'];
+              vacationItem.userId = item['userId'];
+
               this.vacations.push(vacationItem);
               this.info = true;
               this.result = true;
@@ -132,21 +196,6 @@ export class PendingVacationsComponent implements OnInit {
   GoToTask(obj: any) {
     var token = this.tokenService.get();
     if (token != null) {
-      debugger;
-      // var url = this.WebUrl;
-      // var QS = "?DocType=" + obj.DocType +
-      //   "&docid=" + obj.docid +
-      //   "&taskid=" + obj.taskid +
-      //   "&mode=" + obj.mode +
-      //   "&s=" + obj.s +
-      //   "&userId=" + obj.userId +
-      //   "&modalmode=true&" +
-      //   "&t=" + token['token'];
-
-      // var newUrl = url + "/views/WF/TaskViewer" + QS;
-
-      // this.navigateUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
-
       this.router.navigate(['/zamba/form'], {
         queryParams: {
           DocType: obj.DocType,

@@ -11,6 +11,7 @@ import { BehaviorSubject, Observable, Subject, of, throwError } from 'rxjs';
 import { catchError, finalize, takeUntil } from 'rxjs/operators';
 
 import { PendingTasksService } from './service/pending-tasks.service';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 interface ItemData {
   gender: string;
@@ -53,8 +54,9 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     private router: Router,
     private pendingTasksService: PendingTasksService,
     private cdr: ChangeDetectorRef,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    private zambaService: ZambaService
+  ) { }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -102,6 +104,18 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
       } catch (error) {
         console.log('Error al abrir la tarea: ', error);
       }
+    }
+  }
+
+  GoToFormViewer(url: string) {
+    //llamar al preflight para evitar que se desloguee
+    this.zambaService.preFlightLogin();
+    var token = this.tokenService.get();
+    if (token != null) {
+      const urlObject = new URL(`${url}&t=${token['token']}`);
+      const params = urlObject.search;
+      const urlToNavegate = `zamba/form${params}`;
+      this.router.navigateByUrl(urlToNavegate);
     }
   }
 }

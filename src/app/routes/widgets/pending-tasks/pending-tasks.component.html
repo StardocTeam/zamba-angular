@@ -5,7 +5,7 @@
 <div class="item-container" [style.height.px]="divHeight">
   <nz-list nzItemLayout="horizontal" [nzLoading]="loading">
     <ng-container *ngFor="let item of data">
-      <nz-list-item [nzNoFlex]="true" class="nz-list-item" (dblclick)="OpenTask(item.url)">
+      <nz-list-item [nzNoFlex]="true" class="nz-list-item" (dblclick)="GoToFormViewer(item.url)">
         <div class="flex-container">
           <div class="flex-item">
             <span nz-icon nzType="info-circle" nzTheme="outline"></span>

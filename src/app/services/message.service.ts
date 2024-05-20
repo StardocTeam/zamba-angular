@@ -31,7 +31,7 @@ export class MessageService {
           break;
       }
     } catch (e) {
-      console.error('Error al procesar el mensaje: ', e);
+      //console.error('Error al procesar el mensaje: ', e);
     }
   }
 
