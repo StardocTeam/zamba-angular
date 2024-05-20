@@ -73,10 +73,9 @@ export class ZambaService {
         groupsid.push(values['ID']);
       });
 
-            
-            genericRequest = {
-              UserId:  0, // tokenData['userID'],
-              token: tokenData['token'],
+      genericRequest = {
+        UserId: 0, // tokenData['userID'],
+        token: tokenData['token'],
         Params: {
           groups: groupsid.toString()
         }
@@ -123,7 +122,7 @@ export class ZambaService {
         });
 
         genericRequest = {
-          UserId:  0, // tokenData['userID'],
+          UserId: 0, // tokenData['userID'],
           token: tokenData['token'],
           Params: {
             groups: groupsid.toString()

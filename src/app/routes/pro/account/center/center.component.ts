@@ -29,13 +29,13 @@ export class ProAccountCenterComponent implements OnInit {
     this.cdr.detectChanges();
 
     const tokenData: any = this.tokenService.get();
-      let genericRequest = {};
-      if (tokenData != null) {
-        console.log('Imprimo los valores en tokenService en el service', tokenData);
+    let genericRequest = {};
+    if (tokenData != null) {
+      console.log('Imprimo los valores en tokenService en el service', tokenData);
 
-        genericRequest = {
-          UserId: tokenData['userID'],
-          token: tokenData['token'],
+      genericRequest = {
+        UserId: tokenData['userID'],
+        token: tokenData['token'],
         Params: {}
       };
 

@@ -49,69 +49,68 @@ export class WidgetsContainerComponent implements OnInit {
   getWidgetsContainer() {
     const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-        genericRequest = {
-          UserId: 0,
-          token: tokenData['token'],
+    genericRequest = {
+      UserId: 0,
+      token: tokenData['token'],
 
-        Params: ''
-      };
+      Params: ''
+    };
 
-      this.WCService._getWidgetsContainer(genericRequest)
-        .pipe(
-          filter(data => data != '[]'),
-          catchError(error => {
-            console.error('An error occurred:', error);
-            return of('[]');
-          })
-        )
-        .subscribe(data => {
-          var dataJson = JSON.parse(data)[0];
-          var optionsJson = JSON.parse(dataJson.Options);
+    this.WCService._getWidgetsContainer(genericRequest)
+      .pipe(
+        filter(data => data != '[]'),
+        catchError(error => {
+          console.error('An error occurred:', error);
+          return of('[]');
+        })
+      )
+      .subscribe(data => {
+        var dataJson = JSON.parse(data)[0];
+        var optionsJson = JSON.parse(dataJson.Options);
 
-          this.options.displayGrid = optionsJson.displayGrid;
-          this.options.draggable = optionsJson.draggable;
-          this.options.resizable = optionsJson.resizable;
-          this.options.minCols = optionsJson.minCols;
-          this.options.minRows = optionsJson.minRows;
-          var WidgetsWidgetCoordinatesJson = JSON.parse(dataJson.WidgetCoordinates);
+        this.options.displayGrid = optionsJson.displayGrid;
+        this.options.draggable = optionsJson.draggable;
+        this.options.resizable = optionsJson.resizable;
+        this.options.minCols = optionsJson.minCols;
+        this.options.minRows = optionsJson.minRows;
+        var WidgetsWidgetCoordinatesJson = JSON.parse(dataJson.WidgetCoordinates);
 
-          this.dashboard = WidgetsWidgetCoordinatesJson;
+        this.dashboard = WidgetsWidgetCoordinatesJson;
 
-          var api: any | null = this.options.api;
+        var api: any | null = this.options.api;
 
-          if (api != undefined) {
-            api.optionsChanged();
-            this.cdr.detectChanges();
-          }
-        });
-    }
-  
+        if (api != undefined) {
+          api.optionsChanged();
+          this.cdr.detectChanges();
+        }
+      });
+  }
 
   setWidgetsContainer() {
     const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-            
-      let WCOptions: WidgetsContainerOptions = new WidgetsContainerOptions(
-        this.options.displayGrid,
-        this.options.draggable,
-        this.options.resizable,
-        this.options.minCols,
-        this.options.minRows
-      );
 
-      genericRequest = {
-        UserId: 0, // tokenData['userID'],
-        token: tokenData['token'],
-        Params: {
-          options: JSON.stringify(WCOptions),
-          widgetsContainer: JSON.stringify(this.dashboard)
-        }
-      };
+    let WCOptions: WidgetsContainerOptions = new WidgetsContainerOptions(
+      this.options.displayGrid,
+      this.options.draggable,
+      this.options.resizable,
+      this.options.minCols,
+      this.options.minRows
+    );
 
-      this.WCService._setWidgetsContainer(genericRequest).subscribe(data => {
-        this.options = JSON.parse(data.Options);
-        this.dashboard = JSON.parse(data.WidgetsContainer);
-      });
+    genericRequest = {
+      UserId: 0, // tokenData['userID'],
+      token: tokenData['token'],
+      Params: {
+        options: JSON.stringify(WCOptions),
+        widgetsContainer: JSON.stringify(this.dashboard)
+      }
+    };
+
+    this.WCService._setWidgetsContainer(genericRequest).subscribe(data => {
+      this.options = JSON.parse(data.Options);
+      this.dashboard = JSON.parse(data.WidgetsContainer);
+    });
   }
 
   static itemChange(item: any, itemComponent: any) {

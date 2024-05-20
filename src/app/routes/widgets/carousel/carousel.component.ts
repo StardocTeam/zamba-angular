@@ -143,42 +143,42 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
     const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-        genericRequest = {
-          UserId: 0,
-          token: tokenData['token'],
+    genericRequest = {
+      UserId: 0,
+      token: tokenData['token'],
 
-        Params: ''
-      };
+      Params: ''
+    };
 
-      this.carouselService
-        ._getCarouselContent(genericRequest)
-        .pipe(
-          catchError(error => {
-            // Manejo de errores
-            this.images = false;
-            this.cdr.detectChanges();
-            console.error('Error al obtener datos:', error);
-            throw error; // Puedes relanzar el error o retornar un valor por defecto
-          })
-        )
-        .subscribe(
-          data => {
-            this.images = true;
-            this.cdr.detectChanges();
-            this.listContent = JSON.parse(data);
+    this.carouselService
+      ._getCarouselContent(genericRequest)
+      .pipe(
+        catchError(error => {
+          // Manejo de errores
+          this.images = false;
+          this.cdr.detectChanges();
+          console.error('Error al obtener datos:', error);
+          throw error; // Puedes relanzar el error o retornar un valor por defecto
+        })
+      )
+      .subscribe(
+        data => {
+          this.images = true;
+          this.cdr.detectChanges();
+          this.listContent = JSON.parse(data);
 
-            if (this.listContent.length == 0) {
-              this.EnableSwipe = false;
-            }
-
-            this.cdr.detectChanges();
-          },
-          error => {
-            this.images = false;
-            this.cdr.detectChanges();
-            console.error('Error al obtener datos:', error);
+          if (this.listContent.length == 0) {
+            this.EnableSwipe = false;
           }
-        );
+
+          this.cdr.detectChanges();
+        },
+        error => {
+          this.images = false;
+          this.cdr.detectChanges();
+          console.error('Error al obtener datos:', error);
+        }
+      );
   }
 
   getCarouselConfig() {
@@ -186,41 +186,41 @@ export class CarouselComponent implements OnInit, OnDestroy {
     let genericRequest = {};
 
     genericRequest = {
-          UserId: 0,
-          token: tokenData['token'],
-        Params: ''
-      };
+      UserId: 0,
+      token: tokenData['token'],
+      Params: ''
+    };
 
-      this.carouselService
-        ._getCarouselConfig(genericRequest)
-        .pipe(
-          catchError(error => {
-            // Manejo de errores
-            this.images = false;
-            this.cdr.detectChanges();
-            console.error('Error al obtener datos:', error);
-            throw error; // Puedes relanzar el error o retornar un valor por defecto
-          })
-        )
-        .subscribe(
-          data => {
-            this.images = true;
-            this.cdr.detectChanges();
-            var dataJson = JSON.parse(data);
+    this.carouselService
+      ._getCarouselConfig(genericRequest)
+      .pipe(
+        catchError(error => {
+          // Manejo de errores
+          this.images = false;
+          this.cdr.detectChanges();
+          console.error('Error al obtener datos:', error);
+          throw error; // Puedes relanzar el error o retornar un valor por defecto
+        })
+      )
+      .subscribe(
+        data => {
+          this.images = true;
+          this.cdr.detectChanges();
+          var dataJson = JSON.parse(data);
 
-            this.dotPosition = dataJson.DotPosition;
-            this.AutoPlaySpeed = dataJson.AutoPlaySpeed;
-            this.AutoPlay = dataJson.AutoPlay;
-            this.EnableSwipe = dataJson.EnableSwipe;
-            this.Loop = dataJson.Loop;
-            this.cdr.detectChanges();
-          },
-          error => {
-            this.images = false;
-            this.cdr.detectChanges();
-            console.error('Error al obtener datos:', error);
-          }
-        );
+          this.dotPosition = dataJson.DotPosition;
+          this.AutoPlaySpeed = dataJson.AutoPlaySpeed;
+          this.AutoPlay = dataJson.AutoPlay;
+          this.EnableSwipe = dataJson.EnableSwipe;
+          this.Loop = dataJson.Loop;
+          this.cdr.detectChanges();
+        },
+        error => {
+          this.images = false;
+          this.cdr.detectChanges();
+          console.error('Error al obtener datos:', error);
+        }
+      );
   }
 
   nextSlide() {

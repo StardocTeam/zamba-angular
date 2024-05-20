@@ -41,18 +41,18 @@ export class VideoplayerComponent implements OnInit {
   ngOnInit(): void {
     const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-        genericRequest = {
-          UserId: 0,
-          token: tokenData['token'],
+    genericRequest = {
+      UserId: 0,
+      token: tokenData['token'],
 
-        Params: ''
-      };
-      this.videoplayerService.getVideoplayerURL(genericRequest).subscribe((res: any) => {
-        var data = JSON.parse(res);
-        if (data != null) {
-          this.videoId = data.YouTubeVideoID;
-          this.cdr.detectChanges();
-        }
-      });
-    }
+      Params: ''
+    };
+    this.videoplayerService.getVideoplayerURL(genericRequest).subscribe((res: any) => {
+      var data = JSON.parse(res);
+      if (data != null) {
+        this.videoId = data.YouTubeVideoID;
+        this.cdr.detectChanges();
+      }
+    });
+  }
 }

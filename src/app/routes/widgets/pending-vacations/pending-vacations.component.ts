@@ -137,59 +137,59 @@ export class PendingVacationsComponent implements OnInit {
 
     const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-        genericRequest = {
-          UserId: 0,
-          token: tokenData['token'],
+    genericRequest = {
+      UserId: 0,
+      token: tokenData['token'],
 
-        Params: {
-          EntityID: '258',
-          DoctypesId: '110'
-        }
-      };
+      Params: {
+        EntityID: '258',
+        DoctypesId: '110'
+      }
+    };
 
-      this.PVService._PostExternalsearchInfo(genericRequest)
-        .pipe(
-          catchError(error => {
-            console.error('Error al obtener datos:', error);
-            this.loading = false;
-            this.cdr.detectChanges();
-            throw error;
-          })
-        )
-        .subscribe(data => {
-          var JsonData = JSON.parse(data);
+    this.PVService._PostExternalsearchInfo(genericRequest)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          this.loading = false;
+          this.cdr.detectChanges();
+          throw error;
+        })
+      )
+      .subscribe(data => {
+        var JsonData = JSON.parse(data);
 
-          if (JsonData != null) {
-            for (let item of JsonData.VacationList) {
-              var vacationItem: Vacation = new Vacation();
+        if (JsonData != null) {
+          for (let item of JsonData.VacationList) {
+            var vacationItem: Vacation = new Vacation();
 
-              vacationItem.AuthorizeOption = item['AuthorizeOption'];
-              vacationItem.RequestedDaysOption = item['RequestedDaysOption'];
-              vacationItem.VacationFromOption = item['VacationFromOption'];
-              vacationItem.VacationToOption = item['VacationToOption'];
+            vacationItem.AuthorizeOption = item['AuthorizeOption'];
+            vacationItem.RequestedDaysOption = item['RequestedDaysOption'];
+            vacationItem.VacationFromOption = item['VacationFromOption'];
+            vacationItem.VacationToOption = item['VacationToOption'];
 
-              vacationItem.DocType = item['DocType'];
-              vacationItem.docid = item['docid'];
-              vacationItem.taskid = item['taskid'];
-              vacationItem.mode = item['mode'];
-              vacationItem.s = item['s'];
-              vacationItem.userId = item['userId'];
+            vacationItem.DocType = item['DocType'];
+            vacationItem.docid = item['docid'];
+            vacationItem.taskid = item['taskid'];
+            vacationItem.mode = item['mode'];
+            vacationItem.s = item['s'];
+            vacationItem.userId = item['userId'];
 
-              this.vacations.push(vacationItem);
-              this.info = true;
-              this.result = true;
-            }
-
-            this.TotalDays = parseInt(JsonData['TotalDays'].toString());
-          } else {
-            this.info = false;
+            this.vacations.push(vacationItem);
+            this.info = true;
             this.result = true;
           }
 
-          this.vacations.reverse();
-          this.loading = false;
-          this.cdr.detectChanges();
-        });
+          this.TotalDays = parseInt(JsonData['TotalDays'].toString());
+        } else {
+          this.info = false;
+          this.result = true;
+        }
+
+        this.vacations.reverse();
+        this.loading = false;
+        this.cdr.detectChanges();
+      });
   }
 
   GoToTask(obj: any) {

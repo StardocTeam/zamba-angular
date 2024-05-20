@@ -20,7 +20,6 @@ export class ValidateComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private tokenService: TokenService
-
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +28,7 @@ export class ValidateComponent implements OnInit {
         console.log('los parametros son', params);
         //convertir el objeto params en un array de objetos
         const tokenData: any = this.tokenService.get();
-      let genericRequest = {};
+        let genericRequest = {};
 
         genericRequest = {
           UserId: tokenData['userID'],

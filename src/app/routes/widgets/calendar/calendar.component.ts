@@ -115,7 +115,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       beforeStart: false,
       afterEnd: false
     },
-    groupid: null,
+    groupid: null
   };
 
   actions: CalendarEventAction[] = [
@@ -131,7 +131,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         const tokenData: any = this.tokenService.get();
-      let genericRequest = {};
+        let genericRequest = {};
 
         genericRequest = {
           UserId: tokenData['userID'],
@@ -191,16 +191,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
     var groupids = [];
     const tokenData: any = this.tokenService.get();
 
-      if (tokenData != null) {
+    if (tokenData != null) {
       this.groups = [...tokenData['groups']];
       groupids = this.groups.map(group => group.ID);
       this.groups.unshift({ ID: -100, Name: 'Mi Calendario' });
     }
     let genericRequest = {};
 
-      genericRequest = {
-        UserId: tokenData['userID'],
-        token: tokenData['token'],
+    genericRequest = {
+      UserId: tokenData['userID'],
+      token: tokenData['token'],
       Params: {
         groupids: JSON.stringify(groupids),
         userid: tokenData ? tokenData['userID'] : null
@@ -310,7 +310,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let groupid = null;
 
     if (this.selectedValue == -100) {
-
     } else {
       groupid = this.selectedValue;
     }
@@ -327,17 +326,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
         beforeStart: false,
         afterEnd: false
       },
-      groupid: groupid,
+      groupid: groupid
     };
 
     const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-        genericRequest = {
-          UserId: tokenData['userID'],
-          token: tokenData['token'],
+    genericRequest = {
+      UserId: tokenData['userID'],
+      token: tokenData['token'],
       Params: {
         groupid: groupid,
-        eventdata: JSON.stringify(newEvent),
+        eventdata: JSON.stringify(newEvent)
       }
     };
 
@@ -355,7 +354,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   editEvent(): void {
     let start: Date;
     let end: Date;
-
 
     if (this.start instanceof Date) {
       start = this.start;
@@ -395,9 +393,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     const tokenData: any = this.tokenService.get();
     let genericRequest = {};
-        genericRequest = {
-          UserId: 0,
-          token: tokenData['token'],
+    genericRequest = {
+      UserId: 0,
+      token: tokenData['token'],
 
       Params: {
         groupid: groupid,
