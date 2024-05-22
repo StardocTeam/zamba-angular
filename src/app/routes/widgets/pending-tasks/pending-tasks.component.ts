@@ -56,17 +56,20 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
     private zambaService: ZambaService
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
   ngOnInit(): void {
-    this.resizeEvent.subscribe((item: any) => {
-      this.divHeight = item.itemComponent.height - 60;
-      this.cdr.detectChanges();
-    });
+    if (this.resizeEvent != undefined) {
+      this.resizeEvent.subscribe((event: any) => {
+        this.divHeight = event.itemComponent.height - 60;
+        this.cdr.detectChanges();
+      });
+    }
+
     const tokenData = this.tokenService.get();
     console.log('Token data:', tokenData);
     if (tokenData != null && tokenData['userID'] != null) {

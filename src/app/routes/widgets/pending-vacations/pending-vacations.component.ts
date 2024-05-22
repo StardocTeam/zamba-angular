@@ -48,22 +48,24 @@ export class PendingVacationsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private PVService: PendingVacationsService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    if (this.resizeEvent != undefined && this.changeEvent != undefined) {
+      this.resizeSubscription = this.resizeEvent.subscribe((event: any) => {
+        // console.log("🔴: " + event);
+        if (this.widget['name'] == event.item['name']) {
+          this.changeEvent.emit(event);
+          this.cdr.detectChanges();
+        }
+      });
+      this.changeSubscription = this.changeEvent.subscribe((item: any) => {
+        // console.log("🟢: " + item);
+      });
+    }
+
     //this.GetExternalsearchInfo();
     this.PostExternalsearchInfo();
-
-    this.resizeSubscription = this.resizeEvent.subscribe((event: any) => {
-      // console.log("🔴: " + event);
-      if (this.widget['name'] == event.item['name']) {
-        this.changeEvent.emit(event);
-        this.cdr.detectChanges();
-      }
-    });
-    this.changeSubscription = this.changeEvent.subscribe((item: any) => {
-      // console.log("🟢: " + item);
-    });
   }
   GetExternalsearchInfo() {
     this.vacations = [];

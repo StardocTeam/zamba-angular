@@ -9,4 +9,4 @@ const COMPONENTS: Array<Type<null>> = [];
   imports: [SharedModule, RouteRoutingModule],
   declarations: [...COMPONENTS]
 })
-export class RoutesModule {}
+export class RoutesModule { }

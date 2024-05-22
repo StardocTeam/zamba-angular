@@ -23,6 +23,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { LayoutBasicComponent } from './basic/basic.component';
+import { LayoutPendingTaskItemComponent } from '../routes/widgets/pending-tasks/layout-item/layout-pending-task-item/layout-pending-task-item.component';
+
 import { HeaderClearStorageComponent } from './basic/widgets/clear-storage.component';
 import { HeaderFullScreenComponent } from './basic/widgets/fullscreen.component';
 import { HeaderI18nComponent } from './basic/widgets/i18n.component';
@@ -35,7 +37,7 @@ import { HeaderUserComponent } from './basic/widgets/user.component';
 // eslint-disable-next-line import/order
 import { LayoutBlankComponent } from './blank/blank.component';
 
-const COMPONENTS = [LayoutBasicComponent, LayoutBlankComponent];
+const COMPONENTS = [LayoutBasicComponent, LayoutBlankComponent, LayoutPendingTaskItemComponent];
 
 const HEADERCOMPONENTS = [
   HeaderSearchComponent,
@@ -81,4 +83,4 @@ const icons: IconDefinition[] = Object.values(AllIcons);
   exports: [...COMPONENTS, ...PASSPORT],
   providers: [{ provide: NZ_ICONS, useValue: icons }]
 })
-export class LayoutModule {}
+export class LayoutModule { }

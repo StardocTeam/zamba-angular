@@ -64,4 +64,4 @@ const COMPONENTS: Array<Type<void>> = [
   declarations: COMPONENTS,
   exports: COMPONENTS
 })
-export class WidgetsModule {}
+export class WidgetsModule { }

@@ -5,6 +5,11 @@
     </a>
   </layout-default-header-item>
 
+  <layout-default-header-item direction="right">
+    <app-layout-pending-task-item></app-layout-pending-task-item>
+  </layout-default-header-item>
+
+
   <layout-default-header-item direction="middle" />
 
   <layout-default-header-item direction="right">
@@ -12,7 +17,8 @@
   </layout-default-header-item>
 
   <layout-default-header-item direction="right" hidden="mobile">
-    <div layout-default-header-item-trigger nz-dropdown [nzDropdownMenu]="settingsMenu" nzTrigger="click" nzPlacement="bottomRight">
+    <div layout-default-header-item-trigger nz-dropdown [nzDropdownMenu]="settingsMenu" nzTrigger="click"
+      nzPlacement="bottomRight">
       <i nz-icon nzType="setting"></i>
     </div>
     <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
