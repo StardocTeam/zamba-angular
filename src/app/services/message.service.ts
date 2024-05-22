@@ -7,12 +7,11 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class MessageService {
-
   constructor(private router: Router) {
     this.handleMessage = this.handleMessage.bind(this);
   }
   startListening() {
-    window.addEventListener('message', this.handleMessage,);
+    window.addEventListener('message', this.handleMessage);
   }
 
   handleMessage(event: MessageEvent) {
