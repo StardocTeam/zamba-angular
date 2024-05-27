@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+<!--Autor:Stardoc by GMR-->
+<!--Fecha Creacion:12/03/2018-->
+<!--Modificado por: GMR -->
+<!--Fecha de Modificacion: 21/03/2018-->
+<!--Cambio: Se modifico el boton Cancelar y Salir a Cancelar-->
+
+<head>
+    <title></title>
+
+</head>
+
+<body>
+    <center>
+        <div>
+            <div ng-controller="appController">
+                <div class="form-group row"></div>
+                <div class="col">
+                    <div class="cell panel">
+                        <form name="frmMain" action="Ing_Doc_Siniestro_web.html" ng-controller="SiniestrosController"
+                            ng-cloak>
+                            <input id="hdnRuleId" type="hidden" />
+                            <input id="hdnAsocId" type="hidden" />
+                            <div class="container-fluid">
+                                <center>
+                                    <div class="tab-pane active" id="INGRESO DOCUMENTOS DE SINIESTROS">
+                                        <div class="form-group row">
+
+                                            <div class="col-md-6">
+                                                <h5 class="titleceneterDiv">INGRESO CARTA DOCUMENTO SINIESTROS</h5>
+                                            </div>
+                                        </div>
+
+                                        <!--------------------------------------------------------------------------PRIMERA LINEA DE ATRIBUTOS------------------------------------------------------------------------->
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Ramo--> <span class="input-group-addon">Ramo:</span>
+                                                    <select id="zamba_index_19" name="zamba_index_19"
+                                                        class="form-control input-sm" withcode disabled> </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="input-group">
+                                                    <!--Siniestro--> <span class="input-group-addon">Siniestro:</span>
+                                                    <input id="zamba_index_17" name="zamba_index_17" size="1"
+                                                        class="form-control solonums" disabled/>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!--Inicio de espacios-->
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-2"></div>
+                                            <!--Fin de espacios-->
+
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Recepcion--> <span class="input-group-addon">Recepción:</span>
+                                                    <input id="zamba_index_4" name="zamba_index_4"
+                                                        class="form-control input-sm dateTimeToday" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!---------------------------------------------------------------------------SEGUNDA LINEA DE ATRIBUTOS------------------------------------------------------------------------>
+
+                                        <div class="form-group row">
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--Poliza--> <span class="input-group-addon">Póliza:</span>
+                                                    <input id="zamba_index_14" name="zamba_index_14" size="1"
+                                                        class="form-control solonums" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="input-group">
+                                                    <!--Asegurado--> <span class="input-group-addon">Asegurado:</span>
+                                                    <input id="zamba_index_37" name="zamba_index_37" size="1"
+                                                        class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <!--ID trámite--> <span class="input-group-addon"
+                                                        style="color:blue">ID trámite:</span>
+                                                    <input id="zamba_index_86" name="zamba_index_86"
+                                                        class="form-control input-sm " disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!---------------------------------------------------------------------------CAMPO OBSERVACIONES--------------------------------------------------------------------->
+                                        <div class="form-group row">
+                                            <div class="col-xs-6 col-md-6">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <!--Area texto Observacion-->
+                                                        <div>
+                                                            <div ng-controller="ObservacionController">
+                                                                <zamba-observaciones index-id="84"
+                                                                    entity-id="15"></zamba-observaciones>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!----------------------------------------------------------------------------IFRAME------------------------------------------------------------------------------------------->
+
+                                        <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
+                                        <div class="form-group row" style="position:relative; bottom:65px">
+                                            
+                                            <div class="form-group row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12" style="margin-top: 65px;">
+                                                            <div class="row">
+                                                                <div class="col-md-3 col-xs-offset-3">
+                                                                </div>
+                                                                <div class="col-md-4"
+                                                                    style="position:relative;left:-90px;">                                                                    
+                                                                    <button name="zamba_rule_close" id="zamba_rule_close"
+                                                                        class="btn btn-warning" type="submit"
+                                                                        value="Cancelar">Cerrar</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                                                    <div class="row" style="height:100%">
+                                                        <iframe id="previewDocSearch" class="IframeClass"
+                                                            src="../../NGTemplates/PDFViewer/viewer.html"
+                                                            style="width: 100%;height: 400px;"></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                    </div>
+                                </center>
+                            </div>
+
+
+                            <script src="Siniestros.js"></script>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+</body>
+
+</html>
+
+<style>
+    .Inputselect {
+        width: 100px !important;
+    }
+
+
+    .inputEtiquetas {
+        width: 30px !important;
+    }
+
+    /*.panel {
+        border: 1px solid rgb(21, 98, 142) !important;
+    }*/
+
+    .PanelPrincipal {
+        margin-top: 30px;
+    }
+
+    .margenBtn {
+        position: relative;
+        left: 90px;
+    }
+</style>

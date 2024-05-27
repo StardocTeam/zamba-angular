@@ -6,14 +6,16 @@
 <!--Fecha de Modificacion: 12/03/2018-->
 <!--Cambio: Se agrega el campo dropzone y se hacen ajustes visuales -->
 <!--Modificado por: EEB -->
-<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto -->
-
+<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto o sin Impuestos -->
+<!--Modificado por: EEB -->
+<!--Fecha de Modificacion: 27/06/2023><Se agregaron los Atributos de REASEGUROS -->
+ 
 <head>
     <title></title>
 
     <script src="scripts/jquery-3.1.1.min.js" type="text/javascript" language="JavaScript"></script>
-    <script src="../../scripts/zamba.js?v=263" type="text/javascript" language="JavaScript"></script>
-    <script src="scripts/zamba.js?v=263" type="text/javascript" language="JavaScript"></script>
+    <script src="../../scripts/Zamba.js?v=175" type="text/javascript" language="JavaScript"></script>
+    <script src="scripts/Zamba.js?v=175" type="text/javascript" language="JavaScript"></script>
     <script src="../../DropFiles/dropfiles.js"></script>
     <link href="../../Content/partialSearchIndexs.css" rel="stylesheet" />
 
@@ -135,7 +137,7 @@
                                         <div class="col-md-10" style="position:relative;top:-10px;">
                                             <!--LABEL Tipo de Moneda y Monto-->
                                             <span>
-                                                <h5>Tipo de Moneda y Monto Neto</h5>
+                                                <h5>Tipo de Moneda y Monto sin Impuestos</h5>
                                             </span>
                                         </div>
 
@@ -153,7 +155,7 @@
 										
 										<div class="col-xs-12 col-sm-3">
 											<div class="input-group">
-												<span class="input-group-addon">Importe Bruto:</span>
+												<span class="input-group-addon">Importe Total:</span>
 
 												<input id="zamba_index_11535296" name="zamba_index_11535296" min="0" step="any" data-number-to-fixed="2" data-number-stepfactor="100"
                                                    class="form-control Inputselect4" onkeydown="ponerdecimales(event);"
@@ -239,6 +241,63 @@
                                
 
                             </div>
+							
+							<div class="form-group row concept-dependant">
+
+								<!--REASEGUROS-->
+
+								<div class="col-xs-12 col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon">Importe IVA:</span>
+
+										<input id="zamba_index_11535299" name="zamba_index_11535299" min="0" step="any"
+											data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+											maxlength="15" />
+									</div>
+								</div>
+
+								<div class="col-xs-12 col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon">Importe Ingresos Brutos:</span>
+
+										<input id="zamba_index_11535300" name="zamba_index_11535300" min="0" step="any"
+											data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+											maxlength="15" />
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon">Importe Otros Impuestos:</span>
+
+										<input id="zamba_index_11535301" name="zamba_index_11535301" min="0" step="any"
+											data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+											maxlength="15" />
+									</div>
+								</div>
+
+								<div class="col-xs-12 col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon">Numero de Cuota:</span>
+
+										<input id="zamba_index_11535302" name="zamba_index_11535302" min="0" step="any"
+											data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+											maxlength="15" />
+									</div>
+								</div>
+
+								<div class="col-xs-12 col-sm-3">
+									<div class="input-group">
+										<span class="input-group-addon">Cantidad de Cuotas:</span>
+
+										<input id="zamba_index_11535303" name="zamba_index_11535303" min="0" step="any"
+											data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+											maxlength="15" />
+									</div>
+								</div>
+
+								
+							</div>
+
 
                             <div class="form-group row" style="position:relative">
 
@@ -329,7 +388,8 @@
                 </div>
 
                 <script>
-
+					showConceptDependant(document.querySelector("#zamba_index_2725").value);
+					
                     var items = ["2-2-EMBARGOS A PROD. INST.",
                         "2-3-REINTEGRO DE RETENCIONES A PROD. INST.",
                         "3-6-HONORARIOS GCIA. ADM. FINANCIERA",
@@ -427,6 +487,11 @@
 
 
                 </script>
+				<style>
+					.concept-dependant {
+						display: none;
+					}
+				</style>
 
 
             </form>

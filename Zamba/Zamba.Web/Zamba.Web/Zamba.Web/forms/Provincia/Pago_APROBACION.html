@@ -21,11 +21,14 @@
     <!--Fecha de Modificacion: 20/11/2020><Cambio: Se Agregaro el boton y la solapa de Facturas asociadas EL 14/6/22 SE VOLVIO ATRAS-->
     <!--Modificado por: EEB -->
     <!--Fecha de Modificacion: 15/04/2021><Cambio: HAcer editable el Metodo de Pago y Boton guardar para los grupos 71,12872,12598, antes willy hizo modif x o/c -->
-	<!--Fecha de Modificacion: 23/12/2021><Cambio: Se Agregaro EL GRUPO 12598, 71 y 12872 AL BOTON GURADAR  -->
-	<!--Fecha de Modificacion: 23/12/2021><Cambio: Se Agrego EL CAMPO FECHA PAGO 1020168-->
-	<!--Fecha de Modificacion: 11/03/2022><Cambio: tratamiento de Facturas Pendiente de Analisis, Boton y Mensaje, lo reactive 12/08/22-->
-	<!--Modificado por: EEB -->
-	<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto -->
+    <!--Fecha de Modificacion: 23/12/2021><Cambio: Se Agregaro EL GRUPO 12598, 71 y 12872 AL BOTON GURADAR  -->
+    <!--Fecha de Modificacion: 23/12/2021><Cambio: Se Agrego EL CAMPO FECHA PAGO 1020168-->
+    <!--Fecha de Modificacion: 11/03/2022><Cambio: tratamiento de Facturas Pendiente de Analisis, Boton y Mensaje, lo reactive 12/08/22-->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto o sin Impuestos -->
+    <!--Modificado por: EEB -->
+    <!--Fecha de Modificacion: 27/06/2023><Se agregaron los Atributos de REASEGUROS -->
+
 
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -207,6 +210,64 @@
                         </div>
 
                     </div>
+
+                    <div class="form-group row concept-dependant">
+
+                        <!--REASEGUROS-->
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe IVA:</span>
+
+                                <input id="zamba_index_11535299" name="zamba_index_11535299" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Ingresos Brutos:</span>
+
+                                <input id="zamba_index_11535300" name="zamba_index_11535300" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" disabled />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Otros Impuestos:</span>
+
+                                <input id="zamba_index_11535301" name="zamba_index_11535301" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Numero de Cuota:</span>
+
+                                <input id="zamba_index_11535302" name="zamba_index_11535302" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Cantidad de Cuotas:</span>
+
+                                <input id="zamba_index_11535303" name="zamba_index_11535303" min="0" step="any"
+                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                    maxlength="15" disabled />
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
                     <div class="form-group row">
                         <div class="col-sm-4">
                             <div class="input-group">
@@ -241,10 +302,12 @@
                             <div class="col-xs-3">
                                 <div class="input-group">
                                     <!--Fecha de Vencimiento mes corrido-->
-                                    <span class="input-group-addon" style="color:#FF0000"><b>Fecha VTO mes vencido:</b> </span>
-                                <b><input class="form-control input-sm dataType datepicker"
-                                        data-date-open-on-focus="true" id="zamba_index_11535285"
-                                        name="zamba_index_11535285" autocomplete="off" disabled style="color:#FF0000"></b>
+                                    <span class="input-group-addon" style="color:#FF0000"><b>Fecha VTO mes vencido:</b>
+                                    </span>
+                                    <b><input class="form-control input-sm dataType datepicker"
+                                            data-date-open-on-focus="true" id="zamba_index_11535285"
+                                            name="zamba_index_11535285" autocomplete="off" disabled
+                                            style="color:#FF0000"></b>
                                 </div>
                             </div>
                         </div>
@@ -263,7 +326,7 @@
 
                         <div class="col-xs-12 col-sm-4" id="DivImporteOtraMoneda1">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Neto:</span>
+                                <span class="input-group-addon">Importe sin Impuestos:</span>
                                 <input id="zamba_index_11535222" name="zamba_index_11535222" min="0" step="any"
                                     data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
                                     onkeypress="val_Importe(this, event);" maxlength="15" disabled />
@@ -281,7 +344,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-3">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Neto Pesos:</span>
+                                <span class="input-group-addon">Importe Pesos sin Impuestos:</span>
 
                                 <input id="zamba_index_109" name="zamba_index_109" min="0" step="any"
                                     data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
@@ -289,24 +352,24 @@
 
                             </div>
                         </div>
-						
-						<div class="col-xs-12 col-sm-3"> </div>
-						
-						<div class="form-group row">
-							<div class="col-xs-12 col-sm-3">
-								<div class="input-group">
-									<span class="input-group-addon">Importe Bruto:</span>
 
-									<input id="zamba_index_11535296" name="zamba_index_11535296" min="0" step="any"
-                                    data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
-                                    onkeypress="val_Importe(this, event);" maxlength="15" disabled />
-								</div>
-							</div>
-						</div>
-						
-						
+                        <div class="col-xs-12 col-sm-3"> </div>
+
+                        <div class="form-group row">
+                            <div class="col-xs-12 col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Importe Total:</span>
+
+                                    <input id="zamba_index_11535296" name="zamba_index_11535296" min="0" step="any"
+                                        data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                        onkeypress="val_Importe(this, event);" maxlength="15" disabled />
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
-	
+
 
                     <div class="form-group row">
                         <div class="col-md-3">
@@ -335,15 +398,16 @@
                         </div>
 
                     </div>
-					
-					<div class="form-group row">
-                        <div class="col-md-3"> 
-                            
+
+                    <div class="form-group row">
+                        <div class="col-md-3">
+
                             <div class="input-group">
                                 <span class="input-group-addon"></span>
-                                <input id="zamba_index_11535289" name="zamba_index_11535289" size="1" class="form-control" style="color:red !important" disabled />
-                            </div>                                                         
-                            
+                                <input id="zamba_index_11535289" name="zamba_index_11535289" size="1"
+                                    class="form-control" style="color:red !important" disabled />
+                            </div>
+
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
@@ -355,7 +419,7 @@
                         </div>
                         <div class="col-md-3">
                             <div>
-                                
+
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -382,7 +446,7 @@
                                             </div>
                                         </div>
                                         <div>
-										<!-- CORRESPONDE PBI 16602 PAGOS CON MULTIPLES FACTURAS  -->
+                                            <!-- CORRESPONDE PBI 16602 PAGOS CON MULTIPLES FACTURAS  -->
                                             <!--h5>Si el pago corresponde a una Factura, deberas generarlo desde la
                                                 factura.
 											</h5-->
@@ -498,7 +562,7 @@
                     <div class="row">
 
                         <center>
-						
+
                             <div class="col-xs-2 col-md-offset-5">
                                 <!--Botones FORM-->
                                 <input name="zamba_rule_1223308" id="zamba_rule_1223308" onclick="SetRuleId(this);"
@@ -508,16 +572,16 @@
                                 <input name="zamba_rule_1021324" id="zamba_rule_1021324" onclick="SetRuleId(this);"
                                     class="btn btn-warning" type="submit" value="Rechazar al Solicitante">
                             </div>
-							<div class="col-xs-2"> 
-								<input name="zamba_rule_11550067" id="zamba_rule_11550067" onclick="SetRuleId(this);"
-                                class="btn btn-primary" type="submit" value="Marcar Factura Pend de Analisis"
-                                style="display: none">
-							  	
-							</div>
-				
+                            <div class="col-xs-2">
+                                <input name="zamba_rule_11550067" id="zamba_rule_11550067" onclick="SetRuleId(this);"
+                                    class="btn btn-primary" type="submit" value="Marcar Factura Pend de Análisis"
+                                    style="display: none">
+
+                            </div>
+
                             <div class="col-xs-2">
                                 <input name="zamba_save" id="zamba_save" onclick="SetRuleId(this);"
-                                    class="btn btn-primary"  type="submit" value="Guardar" style="display: none"
+                                    class="btn btn-primary" type="submit" value="Guardar" style="display: none"
                                     enableGroups="12868,12601,71,12872,12598">
                             </div>
                             <!--<div class="col-xs-3">
@@ -532,12 +596,43 @@
 
                     <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
 
+                    <!--Iframe documento-->
+
                     <div class="col-md-12 iframeClassPDF" id="iframeStyle">
-                        <div class="row" style="height:100%">
+                        <div class="row" style="width: 100%;height: 400px;">
                             <iframe id="previewDocSearch" class="IframeClass"
                                 src="../../NGTemplates/PDFViewer/viewer.html"></iframe>
                         </div>
                     </div>
+                    <!--Titulo Orden de compra-->
+
+                    <div class="form-group row justify-content-center">
+
+                        <div class="col-sx-12 col-sm-12 offset-sm-9">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="font-size: 30px; color: rgb(3, 3, 186);">ORDEN DE
+                                    COMPRA</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Iframe de la Orden de Compra-->
+                    <div class="col-md-12 iframeClassPDF" id="iframeStyle">
+                        <div class="row" style="height:100%">
+                            <iframe id="IframeOC" style="width: 100%;height: 400px;"></iframe>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="input-group">
+                            <input id="zamba_index_141" name="zamba_index_141" class="form-control" maxlength="15"
+                                style="display: none;" />
+                        </div>
+                    </div>
+
+
                 </div>
                 <!-- CORRESPONDE A PBI 16602 PAGOS CON MULTIPLES FACTURAS   -->
                 <!--div class="tab-pane" id="ComprobantesAsociados">
@@ -607,6 +702,25 @@
                             </zamba-associated>
                         </div>
                     </div>
+
+                    <!--Dropzone Orden de Compra-->
+                    <div class="col-xs-12 col-md-6">
+                        <div class="">
+                            <span style=" font-style: italic;">
+                                Agregue aquí la Orden de Compra
+                                ingresando
+                            </span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12" style="  width: 190%;">
+                                <div>
+                                    <div ng-controller="appController">
+                                        <zamba-drop id="22"> </zamba-drop>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab-pane" id="Remitos">
@@ -632,7 +746,7 @@
             </div>
             <!-- Nuevo -->
 
-            <script src="FacturasyPagos.js?v=201"></script>
+            <script src="FacturasyPagos.js?v=214"></script>
 
             <script type="text/javascript" language="JavaScript">
 
@@ -641,8 +755,16 @@
                     //Establece Puntos millares y coma a los importes traidos del origen.
                     setInputSeparator('zamba_index_109');
                     setInputSeparator('zamba_index_11535222');
-					setInputSeparator('zamba_index_11535296');
-					
+                    setInputSeparator('zamba_index_11535296');
+                    //nuevos campos
+                    setInputSeparator('zamba_index_11535299');
+                    setInputSeparator('zamba_index_11535300');
+                    setInputSeparator('zamba_index_11535301');
+
+                    IframeOcLoad();
+
+                    showConceptDependantRO(document.querySelector("#zamba_index_2725").value);
+
                     $("#IDtramite").val("(" + $("#zamba_index_86").val() + ")");
                 });
 
@@ -651,18 +773,18 @@
             <script type="text/javascript" language="JavaScript">
                 //Establece Puntos millares y coma a los importes traidos del origen.
                 setInputSeparator('zamba_index_109');
-				setInputSeparator('zamba_index_11535296');
-				
+                setInputSeparator('zamba_index_11535296');
+
                 //Renderizacion de valor numerico a importe.
                 $("#zamba_index_109").on({
                     "focusout": render_Importe,
                 });
 
-				$("#zamba_index_11535296").on({
+                $("#zamba_index_11535296").on({
                     "focusout": render_Importe,
                 });
-				
-				
+
+
                 $(document).ready(function () {
                     //Agregando puntero a evento "focusout".
                     $("#zamba_index_72").on({
@@ -913,7 +1035,20 @@
 
                 };
 
+                function IframeOcLoad() {
+                var DocIdIframeOc = $('#zamba_index_141').val();
+                var UrlStar = "http://imageapd//Zamba.Web/Services/GetDocFile.ashx?DocTypeId=22&DocId=" + DocIdIframeOc + "&UserID=3&ConvertToPDf=true";
+
+                $('#IframeOC').attr("src", UrlStar);
+
+            }
+
             </script>
+            <style>
+                .concept-dependant {
+                    display: none;
+                }
+            </style>
 
         </div>
     </form>

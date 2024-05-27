@@ -4,14 +4,14 @@
     // setInputSeparator('zamba_index_109');
 
     //Renderizacion de valor numerico a importe.
-    $("#zamba_index_109").on({
-        "focusout": render_Importe,
-    });
-
     $("#zamba_index_11535299").on({
         "focusout": render_Importe,
     });
 
+    $("#zamba_index_109").on({
+        "focusout": render_Importe,
+    });
+   
     $("#zamba_index_11535300").on({
         "focusout": render_Importe,
     });
@@ -24,14 +24,6 @@
         "focusout": render_Importe,
     });
 
-    //Codigo para que ponga puntos millares al cargar el documento.
-    //document.addEventListener('DOMContentLoaded', (event) => {
-    //    setInputSeparatorElem($("#zamba_index_109")[0]);
-    //    setInputSeparatorElem($("#zamba_index_11535299")[0]);
-    //    setInputSeparatorElem($("#zamba_index_11535300")[0]);
-    //    setInputSeparatorElem($("#zamba_index_11535301")[0]);
-    //    setInputSeparatorElem($("#zamba_index_11535296")[0]);
-    //});
 
     CheckImporteMoneda();
     CheckMiPyme();
@@ -74,6 +66,14 @@
 
 });
 
+//document.addEventListener('DOMContentLoaded', (event) => {
+//    setInputSeparatorElem($("#zamba_index_109")[0]);
+//    setInputSeparatorElem($("#zamba_index_11535299")[0]);
+//    setInputSeparatorElem($("#zamba_index_11535300")[0]);
+//    setInputSeparatorElem($("#zamba_index_11535301")[0]);
+//    setInputSeparatorElem($("#zamba_index_11535296")[0]);
+//});
+
 function showConceptDependant(conceptValue) {
     let codesToValidate = [208, 232, 254, 270, 507, 511];
 
@@ -103,11 +103,11 @@ function showConceptDependantRO(conceptValueText) {
 function setMultipleSeparatorForm() {
     try {
         setTimeout(function () {
-            setInputSeparator('zamba_index_109');
-            setInputSeparator('zamba_index_11535222');
-            setInputSeparator('zamba_index_11535299');
-            setInputSeparator('zamba_index_11535300');
-            setInputSeparator('zamba_index_11535301');
+            //setInputSeparator('zamba_index_109');
+            //setInputSeparator('zamba_index_11535222');
+            //setInputSeparator('zamba_index_11535299');
+            //setInputSeparator('zamba_index_11535300');
+            //setInputSeparator('zamba_index_11535301');
         }, 700);
     } catch (e) {
 
@@ -133,20 +133,25 @@ function setRule() {
 function ValidateConcepto() {
     let Concepto = document.querySelector("#zamba_index_50").value;
     let TipoGasto = document.querySelector("#zamba_index_110").value;
-
+	let ConceptoHabilitado = $("#zamba_index_2725[disabled]")[0];
 
     // habilito orden de compra
     if (Concepto != "") {
         if (TipoGasto == 100) {
-            document.querySelector("#zamba_index_2725").disabled = false;
+			if (ConceptoHabilitado == undefined) {		
+				document.querySelector("#zamba_index_2725").disabled = false;
+			}
         } else {
-            document.querySelector("#zamba_index_2725").disabled = true;
+			if (ConceptoHabilitado == undefined) {		
+				document.querySelector("#zamba_index_2725").disabled = true;
+			}
         }
 
     } else {
-        document.querySelector("#zamba_index_2725").disabled = true;
-    }
-
+			if (ConceptoHabilitado == undefined) {		
+				document.querySelector("#zamba_index_2725").disabled = true;
+			}
+	}
 }
 
 
@@ -180,7 +185,6 @@ function CheckImporteMoneda() {
 
         if (moneda != undefined && moneda != null && moneda != '') {
             if (importeOtraMoneda != undefined && importeOtraMoneda != null && importeOtraMoneda != '') {
-
 
 
 
@@ -254,13 +258,13 @@ function RemoveNonFacItems() {
 function ValidateRequieredFields(sender) {
     var concepto = $("#zamba_index_2725").val();
     var gasto = $("#zamba_index_110").val();
-    //var oc = $("#zamba_index_50").val();
+    var oc = $("#zamba_index_50").val();
 
     if (concepto != undefined && concepto != '' && gasto != undefined && gasto != '') {
-        //if (gasto == 100 && (oc == undefined || oc == '')) {
-            //swal('Datos requeridos', 'Tenes que completar el Nro de Orden de Compra', 'warning');
-            //return false;
-        //}
+        if (gasto == 100 && (oc == undefined || oc == '')) {
+            swal('Datos requeridos', 'Tenes que completar el Nro de Orden de Compra', 'warning');
+            return false;
+        }
 
     }
     else {
@@ -274,23 +278,32 @@ function SelectTipoGasto() {
 
     let TipoGasto = document.querySelector("#zamba_index_110").value;
     let Concepto = document.querySelector("#zamba_index_2725").value;
-
+	let ConceptoHabilitado = $("#zamba_index_2725[disabled]")[0];
+	
     if (TipoGasto == 100) {
-        if (Concepto != "") {
-            document.querySelector("#zamba_index_50").disabled = false;
-            document.querySelector("#zamba_index_2725").disabled = false;
-            $('#AreaRecupero').show();
-        } else {
-            document.querySelector("#zamba_index_50").disabled = false;
-            document.querySelector("#zamba_index_2725").disabled = true;
-            $('#AreaRecupero').hide();
+			if (Concepto != "") {
+				document.querySelector("#zamba_index_50").disabled = false;
+		
+				if (ConceptoHabilitado == undefined) {		
+				document.querySelector("#zamba_index_2725").disabled = false;
+				}		
+				$('#AreaRecupero').show();
+			} else {
+				document.querySelector("#zamba_index_50").disabled = false;
+				if (ConceptoHabilitado == undefined) {		
+					document.querySelector("#zamba_index_2725").disabled = true;
+				}
+				$('#AreaRecupero').hide();
 
-        }
+			}
 
+      
 
     } else {
         document.querySelector("#zamba_index_50").disabled = true;
-        document.querySelector("#zamba_index_2725").disabled = false;
+		if (ConceptoHabilitado == undefined) {	
+			document.querySelector("#zamba_index_2725").disabled = false;
+		}
         $('#AreaRecupero').hide();
 
     }

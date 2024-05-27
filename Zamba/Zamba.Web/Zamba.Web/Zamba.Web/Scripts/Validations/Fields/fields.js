@@ -3,7 +3,7 @@ function val_ImporteEvent(event) {
     if (!isNaN(parseInt(event.key)) || event.key == ',') {
         if (event.target.value.search(',') != -1 && event.key == ',') {
             event.preventDefault();
-            return true;    
+            return true;
         }
     } else {
         event.preventDefault();
@@ -68,16 +68,16 @@ function val_FormatoFecha(formatoFecha) {
 //funcion que renderiza a importe un valor logico obtenido de una fuente.
 function render_Importe(event) {
     var target = event.target;
+
     if (target != undefined) {
         var targetId = target.getAttribute("id");
-        if (targetId != undefined) {
-            if ($("#" + targetId).val() != '') {
-                event.target.value = target.value.replaceAll('-', '');
-                event.target.value = isNaN(parseInt(target.value)) ? 0 : target.value;
 
-                //TO DO: Desarrollar y abstraer una funcion que realice las siguientes sentencias.
-                var indexValue = parseFloat(target.value.replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
-                $("#" + targetId).val(String(indexValue.toFixed(2)).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));
+        if (targetId != undefined) {
+            if (document.querySelector("#" + targetId).value != '') {
+                target.value = target.value.replaceAll('-', '');
+
+                var valor = parseFloat(target.value.replace(/\./g, '').replace(',', '.'));
+                target.value = valor.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
         }
     }
@@ -119,7 +119,7 @@ function setInput_Separator_AtChange(event) {
     //if (val_ImporteEvent(event)) {
     //}
 
-} 
+}
 
 //Funcion que renderisa los valores logicos a un importe pasando el ID del elemento. v1.0 (QUEDARA OBSOSLETO)
 function setInputSeparator(id) {
@@ -129,9 +129,9 @@ function setInputSeparator(id) {
         elemento.val('');
     }
     else if (elemento.val() != undefined) {
-       // elemento.val(elemento.val().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));
-        var newvalue = new Intl.NumberFormat("es-AR", { style: "decimal", minimumFractionDigits: 2 }).format(elemento.val()); 
-        if (newvalue != 'NaN')     elemento.val(newvalue);
+        // elemento.val(elemento.val().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d)\.?)/g, "."));
+        var newvalue = new Intl.NumberFormat("es-AR", { style: "decimal", minimumFractionDigits: 2 }).format(elemento.val());
+        if (newvalue != 'NaN') elemento.val(newvalue);
     }
 }
 
@@ -151,7 +151,7 @@ function setOnInput_ZerosLeftElem(elem) {
             elem.value = elem.value.padStart(MaxLength, "0");
         }
     } catch (e) {
-        console.log(elem.id + ": " + e + "; Funcion: setOnInput_ZerosLeftElem(elem)");        
+        console.log(elem.id + ": " + e + "; Funcion: setOnInput_ZerosLeftElem(elem)");
     }
 }
 

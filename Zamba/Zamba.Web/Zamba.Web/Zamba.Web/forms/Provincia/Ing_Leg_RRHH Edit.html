@@ -35,16 +35,15 @@
                     <div class="tab-pane active" id="Legajo">
                         <div class="form-group row">
                             <div class="col-md-1"></div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="input-group">
-                                    <!--Nro de Legajo--> <span class="input-group-addon" style="font-weight:600">N°
-                                        Leg:</span>
+                                    <!--Nro de Legajo--> <span class="input-group-addon" style="font-weight:600">N° Leg:</span>
                                     <input id="zamba_index_235" name="zamba_index_235" size="1" class="form-control" />
                                     <span class="input-group-btn">
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="input-group">
                                     <span class="input-group-addon" style="font-weight:600">N° y Tipo Doc</span>
                                     <div class="input-group-btn">
@@ -55,36 +54,57 @@
                                     <input id="zamba_index_11" name="zamba_index_11" size="1" class="form-control" />
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nro de Legajo--> <span class="input-group-addon" style="font-weight:600">Usuario AD:</span>
+                                    <input id="zamba_index_144" name="zamba_index_144" size="1" class="form-control" />
+                                    <span class="input-group-btn">
+                                    </span>
+                                </div>
+                            </div>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <!--Nro de Legajo--> <span class="input-group-addon" style="font-weight:600">ID Doc</span>
+                                    <!--Nro de Legajo--> <span class="input-group-addon" style="font-weight:600">ID</span>
                                     <input id="zamba_index_11535261" name="zamba_index_11535261" size="1"
                                         class="form-control" />
                                     <span class="input-group-btn">
                                     </span>
                                 </div>
                                 </div>
-                            
-                            
-
                         </div>
-
                         <div class="form-group row">
                             <div class="col-md-1"></div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="input-group">
-                                    <!--Nro de Legajo--> <span class="input-group-addon" style="font-weight:600">Usuario
-                                        AD:</span>
-                                    <input id="zamba_index_144" name="zamba_index_144" size="1" class="form-control" />
+                                    <!--Nro de Legajo--> <span class="input-group-addon" style="font-weight:600">Mail:</span>
+                                    <input id="zamba_index_43" name="zamba_index_43" size="1" class="form-control" disabled/>
                                     <span class="input-group-btn">
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="input-group">
                                     <!--Nombre Apellido--> <span class="input-group-addon"
                                         style="font-weight:600">Nombre y Apellido:</span>
                                     <input id="zamba_index_238" name="zamba_index_238" size="1" class="form-control" />
+                                    <span class="input-group-btn">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <!--Nombre Apellido--> <span class="input-group-addon"
+                                        style="font-weight:600">Gerencia:</span>
+                                    <input id="zamba_index_11535310" name="zamba_index_11535310" size="1" class="form-control" disabled/>
+                                    <span class="input-group-btn">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <!--Nombre Apellido--> <span class="input-group-addon"
+                                        style="font-weight:600">Fecha de Baja:</span>
+                                    <input id="zamba_index_10178" name="zamba_index_10178" size="1" class="form-control" disabled/>
                                     <span class="input-group-btn">
                                     </span>
                                 </div>
@@ -95,14 +115,28 @@
                         <div class="row" style="margin-top:30px">
                             <div class="col-xs-12 col-md-6 ">
                                 <!--Area texto Observacion-->
+                                <span class="input-group-addon" style="font-weight:600">Observaciones Generales</span>
                                 <div>
                                     <div ng-controller="ObservacionController">
-                                        <zamba-observaciones index-id="84" entity-id="1020003"></zamba-observaciones>
+                                        <zamba-observaciones index-id="84" entity-id="1020003" ></zamba-observaciones>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-xs-12 col-md-6">
+                                <!--Area texto Observacion -->
+                                <span class="input-group-addon form-check" style="font-weight: 600; display: none;" enableGroups="1021053">Observaciones Internas</span>
 
-                            <div class="col-xs-8 col-md-5" style=" margin-top: 15px; ">
+                                <div>
+                                    <div ng-controller="ObservacionController">
+                                        <zamba-observaciones index-id="11535311" entity-id="1020003" class="form-check"enableGroups="1021053"  style="display: none"></zamba-observaciones>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+                        <div class="row" style="margin-top:30px">                            
+
+                            <div class="col-xs-12 col-md-12" style=" margin-top: 15px; ">
                                 <!--DropZone-->
                                 <div id="appblankID" ng-controller="appController">
                                     <zamba-drop id="108" IndexIds="234"> </zamba-drop>
@@ -110,6 +144,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div><div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div>
+                        <div class="form-group row"></div><div class="form-group row"></div>
+                        <div class="form-group row"></div>
 
                         <hr {border: 0 ; border-top: 100px double blue; width: 100%;}>
 

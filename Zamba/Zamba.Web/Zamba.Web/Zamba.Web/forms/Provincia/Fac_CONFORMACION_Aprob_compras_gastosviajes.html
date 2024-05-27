@@ -21,7 +21,9 @@
 <!--Modificado por: EEB -->
 <!--Fecha de Modificacion: 28/11/2019><Cambio: Se Agregaron los Conceptos 136, 227 , 510-->
 <!--Modificado por: EEB -->
-<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto -->
+<!--Fecha de Modificacion: 27/03/2023><Ingresar Importe Bruto o sin Impuestos -->
+<!--Modificado por: EEB -->
+<!--Fecha de Modificacion: 27/06/2023><Se agregaron los Atributos de REASEGUROS -->
 
 
 
@@ -186,6 +188,63 @@
 
                     </div>
 
+                    <div class="form-group row concept-dependant">
+
+                        <!--REASEGUROS-->
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe IVA:</span>
+
+                                <input id="zamba_index_11535299" name="zamba_index_11535299" min="0" step="any"
+                                       data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                       maxlength="15" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Ingresos Brutos:</span>
+
+                                <input id="zamba_index_11535300" name="zamba_index_11535300" min="0" step="any"
+                                       data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                       maxlength="15" disabled />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Importe Otros Impuestos:</span>
+
+                                <input id="zamba_index_11535301" name="zamba_index_11535301" min="0" step="any"
+                                       data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                       maxlength="15" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Numero de Cuota:</span>
+
+                                <input id="zamba_index_11535302" name="zamba_index_11535302" min="0" step="any"
+                                       data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                       maxlength="15" disabled />
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Cantidad de Cuotas:</span>
+
+                                <input id="zamba_index_11535303" name="zamba_index_11535303" min="0" step="any"
+                                       data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
+                                       maxlength="15" disabled />
+                            </div>
+                        </div>
+
+
+                    </div>
+					
+					
                     <div class="form-group row">
 
 
@@ -229,7 +288,7 @@
 
                         <div class="col-xs-12 col-sm-4" id="DivImporteOtraMoneda1">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Neto:</span>
+                                <span class="input-group-addon">Importe Sin Impuestos:</span>
                                 <input id="zamba_index_11535222" name="zamba_index_11535222" min="0" step="any"
                                        data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
                                        onkeypress="val_Importe(this, event);" maxlength="15" disabled />
@@ -247,7 +306,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-3">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Neto Pesos:</span>
+                                <span class="input-group-addon">Importe Pesos sin Impuestos:</span>
 
                                 <input id="zamba_index_109" name="zamba_index_109" min="0" step="any"
                                        data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
@@ -260,7 +319,7 @@
 						
 						<div class="col-xs-12 col-sm-3">
                             <div class="input-group">
-                                <span class="input-group-addon">Importe Bruto:</span>
+                                <span class="input-group-addon">Importe Total:</span>
 
                                 <input id="zamba_index_11535296" name="zamba_index_11535296" min="0" step="any"
                                     data-number-to-fixed="2" data-number-stepfactor="100" class="form-control"
@@ -467,7 +526,7 @@
         </center>
 
 
-        <script src="FacturasyPagos.js?v=200"></script>
+        <script src="FacturasyPagos.js?v=213"></script>
 
         <script>
             $(document).ready(function () {
@@ -478,9 +537,15 @@
 					setInputSeparator('zamba_index_11535296');
                 // InabilitarCampos();
                 //validarfacturaexiste();
+               //nuevos campos
+					setInputSeparator('zamba_index_11535299');
+					setInputSeparator('zamba_index_11535300');
+					setInputSeparator('zamba_index_11535301');
 
                 RemoveNonFacItems();
 
+				showConceptDependantRO(document.querySelector("#zamba_index_2725").value);
+				
                 //$('select[name="zamba_index_110"]').find('option:contains("A Definir")').remove()
                 $('select[name="zamba_index_2725"]').find('option:contains("A definir")').remove()
 
@@ -559,7 +624,11 @@ function ValidarConceptoViajesHabilitacionParaGruposComprasyConcepto210() {
 
         </script>
 
-
+        <style>
+            .concept-dependant {
+                display: none;
+            }
+        </style>
 
     </form>
 
