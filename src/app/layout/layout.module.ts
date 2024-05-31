@@ -24,6 +24,7 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 import { LayoutBasicComponent } from './basic/basic.component';
 import { LayoutPendingTaskItemComponent } from '../routes/widgets/pending-tasks/layout-item/layout-pending-task-item/layout-pending-task-item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HeaderClearStorageComponent } from './basic/widgets/clear-storage.component';
 import { HeaderFullScreenComponent } from './basic/widgets/fullscreen.component';
@@ -36,6 +37,8 @@ import { HeaderTaskComponent } from './basic/widgets/task.component';
 import { HeaderUserComponent } from './basic/widgets/user.component';
 // eslint-disable-next-line import/order
 import { LayoutBlankComponent } from './blank/blank.component';
+
+import { WidgetsModule } from '../routes/widgets/widgets.module';
 
 const COMPONENTS = [LayoutBasicComponent, LayoutBlankComponent, LayoutPendingTaskItemComponent];
 
@@ -77,7 +80,9 @@ const icons: IconDefinition[] = Object.values(AllIcons);
     NzBadgeModule,
     NzAvatarModule,
     NzIconModule,
-    NzCardModule
+    NzCardModule,
+    WidgetsModule,
+    BrowserAnimationsModule
   ],
   declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
   exports: [...COMPONENTS, ...PASSPORT],

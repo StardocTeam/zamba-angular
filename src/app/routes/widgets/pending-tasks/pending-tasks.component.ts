@@ -43,7 +43,8 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
   };
   @Input()
   resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
-  divHeight: number = 600;
+  @Input() divHeight: number = 600;
+  @Input() visualMode: string = "dashboard";
 
   loading = false;
   data: any = [];
