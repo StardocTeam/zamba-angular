@@ -16,7 +16,7 @@ export class LayoutBasicComponent implements OnInit {
     private settings: SettingsService,
     private ZambaService: ZambaService,
     private message: MessageService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
     this.settings.setLayout('collapsed', true);

@@ -1,13 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService, User } from '@delon/theme';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 @Component({
   selector: 'header-user',
   template: `
     <div class="alain-default__nav-item d-flex align-items-center px-sm" nz-dropdown nzPlacement="bottomRight" [nzDropdownMenu]="userMenu">
-      <nz-avatar [nzSrc]="user.avatar" nzSize="small" class="mr-sm" />
+      <nz-avatar [nzSrc]="avatar" nzSize="small" class="mr-sm" />
       {{ user.name }}
     </div>
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
@@ -27,6 +28,7 @@ import { SettingsService, User } from '@delon/theme';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderUserComponent {
+  avatar = '';
   get user(): User {
     return this.settings.user;
   }
@@ -34,8 +36,18 @@ export class HeaderUserComponent {
   constructor(
     private settings: SettingsService,
     private router: Router,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
-  ) {}
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private zambaService: ZambaService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.zambaService.GetProfileImage()
+      .subscribe((data: any) => {
+        let urlData = 'data:image/jpg;base64,' + data;
+        this.settings.user.avatar = urlData
+        this.avatar = urlData;
+        this.cdr.detectChanges();
+      });
+  }
 
   logout(): void {
     this.tokenService.clear();

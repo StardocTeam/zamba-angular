@@ -42,15 +42,14 @@ export class ZambaService {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
 
-  public getThumbsPathHome(data: any) {
-    data = JSON.stringify(data);
-    var url = `${this.LOGIN_URL}search/GetThumbsPathHome`;
+  public GetProfileImage() {
+    var url = `${this.LOGIN_URL}/GetProfileImage`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(url, data, httpOptions);
+    return this.httpClient.post(url, httpOptions);
   }
 
   public GetUserInfoForName(data: any) {
@@ -145,7 +144,7 @@ export class ZambaService {
           console.log('appData: ', appData);
           if (appData) {
             this.settingService.setApp(appData.app);
-            this.settingService.setUser(appData.user);
+            //this.settingService.setUser(appData.user);
             this.aclService.setFull(true);
             this.menuService.add(appData.menu.items);
             this.titleService.default = '';
