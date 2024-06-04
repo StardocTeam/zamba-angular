@@ -7,6 +7,7 @@ import { DashboardV1Component } from './v2/v2.component';
 import { DashboardWorkplaceComponent } from './workplace/workplace.component';
 import { DefaultComponent } from '../default/default.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
+import { SignatureComponent } from 'src/app/signature/signature.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'default', pathMatch: 'full' },
@@ -15,11 +16,12 @@ const routes: Routes = [
   { path: 'analysis', component: DashboardAnalysisComponent },
   { path: 'monitor', component: DashboardMonitorComponent },
   { path: 'workplace', component: DashboardWorkplaceComponent },
-  { path: 'widgets', component: WidgetsContainerComponent }
+  { path: 'widgets', component: WidgetsContainerComponent },
+  { path: 'signature', loadChildren: () => import('src/app/signature/signature.module').then(m => m.SignatureModule) },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule { }
