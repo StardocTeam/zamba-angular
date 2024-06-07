@@ -9,7 +9,7 @@ import { DefaultComponent } from '../default/default.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'default', pathMatch: 'full' },
+  { path: '', redirectTo: 'widgets', pathMatch: 'full' },
   { path: 'default', component: DefaultComponent },
   { path: 'v2', component: DashboardV1Component },
   { path: 'analysis', component: DashboardAnalysisComponent },
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule { }
