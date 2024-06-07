@@ -64,13 +64,17 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
   ngOnInit(): void {
+    this.getMyTasks();
+  }
+
+  getMyTasks() {
     if (this.resizeEvent != undefined) {
       this.resizeEvent.subscribe((event: any) => {
         this.divHeight = event.itemComponent.height - 60;
         this.cdr.detectChanges();
       });
     }
-
+    
     const tokenData = this.tokenService.get();
     console.log('Token data:', tokenData);
     if (tokenData != null && tokenData['userID'] != null) {
@@ -97,6 +101,7 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           try {
             this.data = res;
+            this.cdr.detectChanges();
           } catch (error) {
             console.log('Resultado de buscar mis tareas:', res);
           }

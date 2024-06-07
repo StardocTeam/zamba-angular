@@ -6,7 +6,7 @@ import localeEs from '@angular/common/locales/es';
 import { APP_INITIALIZER, LOCALE_ID, NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SimpleInterceptor, DelonAuthModule } from '@delon/auth';
+import { SimpleInterceptor, DelonAuthModule, TokenService } from '@delon/auth';
 import { DELON_LOCALE, es_ES as delonLang, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { NZ_DATE_LOCALE, provideNzI18n, es_ES as zorroLang } from 'ng-zorro-antd/i18n';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
@@ -108,7 +108,7 @@ import { WidgetsModule } from './routes/widgets/widgets.module';
     ...GLOBAL_THIRD_MODULES,
     ...FORM_MODULES
   ],
-  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18NSERVICE_PROVIDES, ...APPINIT_PROVIDES],
+  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18NSERVICE_PROVIDES, ...APPINIT_PROVIDES, TokenService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
