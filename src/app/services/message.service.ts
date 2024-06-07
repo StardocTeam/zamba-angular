@@ -22,7 +22,6 @@ export class MessageService {
         return;
       }
       var message = JSON.parse(event.data);
-      debugger;
       switch (message.type) {
         case 'navigate':
           console.log(message.data);

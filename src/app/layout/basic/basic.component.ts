@@ -5,6 +5,8 @@ import { environment } from '@env/environment';
 import { MessageService } from 'src/app/services/message.service';
 
 import { ZambaService } from '../../services/zamba/zamba.service';
+import { PendingTasksService } from 'src/app/routes/widgets/pending-tasks/service/pending-tasks.service';
+import { DateRangePopupComponent } from 'ng-zorro-antd/date-picker/date-range-popup.component';
 
 @Component({
   selector: 'layout-basic',
@@ -16,7 +18,7 @@ export class LayoutBasicComponent implements OnInit {
     private settings: SettingsService,
     private ZambaService: ZambaService,
     private message: MessageService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
     this.settings.setLayout('collapsed', true);

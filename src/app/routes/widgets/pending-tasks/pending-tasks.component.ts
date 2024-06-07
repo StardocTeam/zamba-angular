@@ -43,7 +43,8 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
   };
   @Input()
   resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
-  divHeight: number = 600;
+  @Input() divHeight: number = 600;
+  @Input() visualMode: string = "dashboard";
 
   loading = false;
   data: any = [];
@@ -67,10 +68,13 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
   }
 
   getMyTasks() {
-    this.resizeEvent.subscribe((item: any) => {
-      this.divHeight = item.itemComponent.height - 60;
-      this.cdr.detectChanges();
-    });
+    if (this.resizeEvent != undefined) {
+      this.resizeEvent.subscribe((event: any) => {
+        this.divHeight = event.itemComponent.height - 60;
+        this.cdr.detectChanges();
+      });
+    }
+    
     const tokenData = this.tokenService.get();
     console.log('Token data:', tokenData);
     if (tokenData != null && tokenData['userID'] != null) {

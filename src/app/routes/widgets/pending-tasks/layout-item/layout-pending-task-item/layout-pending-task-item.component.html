@@ -1,0 +1,9 @@
+<a layout-default-header-item-trigger id="myButton" (click)="OpenPTDropDown()">
+    <nz-badge [nzCount]="count" [nzOffset]="[7, -7]">
+        <i nz-icon [nzType]="nzType"></i>
+    </nz-badge>
+</a>
+
+<div *ngIf="PTDropDownOpened" class="divContent dropdown-content" (mouseenter)="keepOpened()" (mouseleave)="timer()">
+    <pending-tasks [visualMode]="'romNavBarItem'" [divHeight]="400"></pending-tasks>
+</div>

@@ -1,4 +1,4 @@
-<div class="title">
+<div class="title" *ngIf="visualMode == 'dashboard'">
   <span nz-typography><strong>Tareas Pendientes</strong></span>
   <nz-badge [nzCount]="data.length" />
   <button nz-button nzType="default" nzShape="circle" style="float: right;" nzSize="small">
