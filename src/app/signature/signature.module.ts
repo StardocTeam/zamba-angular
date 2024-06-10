@@ -3,18 +3,23 @@ import { CommonModule } from '@angular/common';
 import { SignatureComponent } from './signature.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { SignatureContainerComponent } from '../signature-container/signature-container.component';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 const routes: Routes = [
-  { path: '', component: SignatureComponent },
+  { path: '', component: SignatureContainerComponent }
 ];
 
 @NgModule({
-  declarations: [SignatureComponent],
+  declarations: [SignatureComponent, SignatureContainerComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    NzModalModule
+    NzModalModule,
+    NzButtonModule,
+    NzIconModule
   ],
-  exports: [SignatureComponent]
+  exports: [SignatureComponent, SignatureContainerComponent]
 })
 export class SignatureModule { }

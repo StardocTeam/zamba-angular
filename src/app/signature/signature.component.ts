@@ -1,4 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { SignatureService } from './signature.service';
 
 @Component({
   selector: 'app-signature',
@@ -16,7 +18,7 @@ export class SignatureComponent implements OnInit {
   drawing: boolean = false;
 
   canvas: any;
-  constructor() {
+  constructor(private modalRef: NzModalRef, private signatureService: SignatureService) {
 
   }
   ngOnInit(): void {
@@ -93,4 +95,22 @@ export class SignatureComponent implements OnInit {
   onMouseOut(event: MouseEvent) {
     this.drawing = false;
   }
+
+  closeModal(): void {
+    this.modalRef.close();
+  }
+
+  SignOk(): void {
+    let dataUrl = this.canvas.toDataURL();
+    console.log('dataUlr: ', dataUrl);
+    var genericRequest = {
+      UserId: 0,
+      token: 0,
+      Params: { sign: dataUrl }
+    };
+    this.signatureService.SignPDF(genericRequest).subscribe((res) => {
+      console.log('res: ', res);
+      this.modalRef.close(res);
+    })
+  };
 }
