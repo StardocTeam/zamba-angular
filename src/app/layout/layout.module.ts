@@ -22,6 +22,9 @@ import { NzIconModule, NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 
+// passport
+import { LayoutPassportComponent } from './passport/passport.component';
+
 import { LayoutBasicComponent } from './basic/basic.component';
 import { LayoutPendingTaskItemComponent } from '../routes/widgets/pending-tasks/layout-item/layout-pending-task-item/layout-pending-task-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -35,7 +38,7 @@ import { HeaderRTLComponent } from './basic/widgets/rtl.component';
 import { HeaderSearchComponent } from './basic/widgets/search.component';
 import { HeaderTaskComponent } from './basic/widgets/task.component';
 import { HeaderUserComponent } from './basic/widgets/user.component';
-// eslint-disable-next-line import/order
+
 import { LayoutBlankComponent } from './blank/blank.component';
 
 import { WidgetsModule } from '../routes/widgets/widgets.module';
@@ -54,8 +57,7 @@ const HEADERCOMPONENTS = [
   HeaderRTLComponent
 ];
 
-// passport
-import { LayoutPassportComponent } from './passport/passport.component';
+
 
 const PASSPORT = [LayoutPassportComponent];
 const icons: IconDefinition[] = Object.values(AllIcons);
