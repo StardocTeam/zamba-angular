@@ -131,6 +131,7 @@ export class PendingVacationsComponent implements OnInit {
   }
 
   PostExternalsearchInfo() {
+    this.TotalDays = 0;
     this.vacations = [];
     this.info = false;
     this.result = false;
