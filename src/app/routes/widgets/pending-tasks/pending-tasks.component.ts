@@ -32,7 +32,7 @@ interface Name {
 })
 export class PendingTasksComponent implements OnInit, OnDestroy {
   @Input()
-  widget: GridsterItem = {
+  widget: any = {
     type: '',
     title: '',
     cols: 0,
@@ -70,8 +70,10 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
   getMyTasks() {
     if (this.resizeEvent != undefined) {
       this.resizeEvent.subscribe((event: any) => {
-        this.divHeight = event.itemComponent.height - 60;
-        this.cdr.detectChanges();
+        if (event.item.id == this.widget.id) {
+          this.divHeight = event.itemComponent.height - 60;
+          this.cdr.detectChanges();
+        }
       });
     }
 
