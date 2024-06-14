@@ -141,7 +141,6 @@ export class ZambaService {
         }),
         map((appData: NzSafeAny) => {
           appData = JSON.parse(appData);
-          console.log('appData: ', appData);
           if (appData) {
             this.settingService.setApp(appData.app);
             //this.settingService.setUser(appData.user);
@@ -165,7 +164,6 @@ export class ZambaService {
 
   public preFlightLogin(): SafeResourceUrl {
     let tokenService = this.tokenService.get();
-    console.log(tokenService);
     let userid = tokenService ? tokenService['userID'] : null;
     let token = tokenService ? tokenService['token'] : null;
     return this.sanitizer.bypassSecurityTrustResourceUrl(
