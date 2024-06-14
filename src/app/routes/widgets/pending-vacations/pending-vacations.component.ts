@@ -38,8 +38,6 @@ export class PendingVacationsComponent implements OnInit {
   @Input()
   changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
 
-  private resizeSubscription: Subscription | undefined;
-  private changeSubscription: Subscription | undefined;
   result: boolean = false;
   loading: boolean = false;
 
@@ -52,19 +50,18 @@ export class PendingVacationsComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.resizeEvent != undefined && this.changeEvent != undefined) {
-      this.resizeSubscription = this.resizeEvent.subscribe((event: any) => {
-        // console.log("🔴: " + event);
-        if (this.widget['name'] == event.item['name']) {
+      this.resizeEvent.subscribe((event: any) => {
+
+        if (this.widget['id'] == event.item.id) {
           this.changeEvent.emit(event);
           this.cdr.detectChanges();
         }
+
       });
-      this.changeSubscription = this.changeEvent.subscribe((item: any) => {
-        // console.log("🟢: " + item);
-      });
+
+      this.changeEvent.subscribe((item: any) => { });
     }
 
-    //this.GetExternalsearchInfo();
     this.PostExternalsearchInfo();
   }
   GetExternalsearchInfo() {

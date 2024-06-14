@@ -66,8 +66,12 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.resizeEvent != undefined) {
       this.resizeEvent.subscribe((event: any) => {
-        this.divHeight = event.itemComponent.height - 60;
-        this.cdr.detectChanges();
+
+        if (this.widget["id"] == event.item.id) {
+          this.divHeight = event.itemComponent.height - 60;
+          this.cdr.detectChanges();
+        }
+
       });
     }
 
