@@ -37,7 +37,7 @@ export class PendingVacationsComponent implements OnInit {
 
   @Input()
   changeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
-
+  @Input() divHeight: number = 600;
   result: boolean = false;
   loading: boolean = false;
 
@@ -53,6 +53,7 @@ export class PendingVacationsComponent implements OnInit {
       this.resizeEvent.subscribe((event: any) => {
 
         if (this.widget['id'] == event.item.id) {
+          this.divHeight = event.itemComponent.height - 60;
           this.changeEvent.emit(event);
           this.cdr.detectChanges();
         }

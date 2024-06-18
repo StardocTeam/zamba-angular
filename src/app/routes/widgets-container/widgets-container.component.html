@@ -2,6 +2,8 @@
   <gridster-item [item]="item" *ngFor="let item of widgets" [ngStyle]="
       item['type'] == 'calendar'
         ? { 'overflow-y': 'scroll' }
+        : item['type'] == 'pending-vacations'
+        ? { overflow: 'hidden' }
         : item['type'] == 'pending-tasks'
         ? { overflow: 'hidden' }
         : { overflow: 'auto' }

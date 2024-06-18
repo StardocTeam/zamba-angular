@@ -4,8 +4,8 @@
 <ng-container *ngIf="widget['type'] === 'videoplayer'" class="bg-video-color">
   <videoplayer [resizeEvent]="resizeEvent" [widget]="widget" />
 </ng-container>
-<pending-tasks class="pending-tasks" *ngIf="widget['type'] === 'pending-tasks'" [resizeEvent]="resizeEvent"
-  [widget]="widget" />
 
 <app-pending-vacations class="pending-tasks" *ngIf="widget['type'] === 'pending-vacations'" [resizeEvent]="resizeEvent"
+  [widget]="widget" />
+<pending-tasks class="pending-tasks" *ngIf="widget['type'] === 'pending-tasks'" [resizeEvent]="resizeEvent"
   [widget]="widget" />
