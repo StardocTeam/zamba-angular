@@ -53,7 +53,10 @@ export class PendingVacationsComponent implements OnInit {
       this.resizeEvent.subscribe((event: any) => {
 
         if (this.widget['id'] == event.item.id) {
-          this.divHeight = event.itemComponent.height - 60;
+          var headerWidget = event.itemComponent.el.querySelector(".headerWidget").offsetHeight;
+          var subHeaderWidget = event.itemComponent.el.querySelector(".subHeaderWidget").offsetHeight;
+
+          this.divHeight = event.itemComponent.height - (headerWidget + subHeaderWidget);
           this.changeEvent.emit(event);
           this.cdr.detectChanges();
         }

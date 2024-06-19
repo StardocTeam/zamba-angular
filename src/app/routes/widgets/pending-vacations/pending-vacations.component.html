@@ -37,8 +37,8 @@
 
 <!-- Vacations List -->
 
-<div class="item-container">
-  <ng-container *ngFor="let item of vacations" class="overflowY" [style.height.px]="divHeight">
+<div id="vacationsList" class="item-container" [style.height.px]="divHeight">
+  <ng-container *ngFor="let item of vacations" class="overflowY">
     <nz-alert (dblclick)="GoToTask(item)" class="pointer" nzBanner nzMessage="
               {{ item.VacationFromOption | date: 'dd/MM/yyyy' }}
               {{ 'VACATION_TO' | i18n }}
