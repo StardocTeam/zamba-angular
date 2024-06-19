@@ -2,7 +2,7 @@ import { TmplAstImmediateDeferredTrigger } from '@angular/compiler';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { _HttpClient } from '@delon/theme';
+import { SettingsService, _HttpClient } from '@delon/theme';
 import { Subscription, zip, filter, catchError } from 'rxjs';
 
 import { employeeUser } from './entitie/employeeUser';
@@ -22,36 +22,15 @@ export class ProAccountCenterComponent implements OnInit {
     private router: Router,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-    private employeeUserService: EmployeeUserService
-  ) {}
+    private employeeUserService: EmployeeUserService,
+    private settings: SettingsService
+  ) { }
 
   ngOnInit(): void {
-    this.cdr.detectChanges();
 
-    const tokenData: any = this.tokenService.get();
-    let genericRequest = {};
-    if (tokenData != null) {
-      console.log('Imprimo los valores en tokenService en el service', tokenData);
-
-      genericRequest = {
-        UserId: tokenData['userID'],
-        token: tokenData['token'],
-        Params: {}
-      };
-
-      this.employeeUserService
-        .getEmployeeUser(genericRequest)
-        .pipe(
-          catchError(error => {
-            console.error('Error al obtener datos:', error);
-            throw error;
-          })
-        )
-        .subscribe((res: any) => {
-          this.user = res;
-
-          this.cdr.detectChanges();
-        });
+    if (this.settings.user.avatar != null && this.settings.user.avatar != '' && this.settings.user.avatar != "data:image/jpg;base64,") {
+      this.user.avatar = this.settings.user.avatar;
     }
+    this.cdr.detectChanges();
   }
 }

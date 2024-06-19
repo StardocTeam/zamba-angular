@@ -42,15 +42,14 @@ export class ZambaService {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
 
-  public getThumbsPathHome(data: any) {
-    data = JSON.stringify(data);
-    var url = `${this.LOGIN_URL}search/GetThumbsPathHome`;
+  public GetProfileImage() {
+    var url = `${this.LOGIN_URL}/GetProfileImage`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(url, data, httpOptions);
+    return this.httpClient.post(url, httpOptions);
   }
 
   public GetUserInfoForName(data: any) {
@@ -142,10 +141,9 @@ export class ZambaService {
         }),
         map((appData: NzSafeAny) => {
           appData = JSON.parse(appData);
-          console.log('appData: ', appData);
           if (appData) {
             this.settingService.setApp(appData.app);
-            this.settingService.setUser(appData.user);
+            //this.settingService.setUser(appData.user);
             this.aclService.setFull(true);
             this.menuService.add(appData.menu.items);
             this.titleService.default = '';
@@ -166,7 +164,6 @@ export class ZambaService {
 
   public preFlightLogin(): SafeResourceUrl {
     let tokenService = this.tokenService.get();
-    console.log(tokenService);
     let userid = tokenService ? tokenService['userID'] : null;
     let token = tokenService ? tokenService['token'] : null;
     return this.sanitizer.bypassSecurityTrustResourceUrl(

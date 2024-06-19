@@ -20,22 +20,16 @@
       <nz-row [nzGutter]="8">
         <nz-col [nzSpan]="24">
           <nz-form-item ngSize="large">
-            <re-captcha class="recaptcha" (resolved)="resolved($event)" siteKey="6LcY0r4pAAAAAATPc_kAOvGS55orN0mdG-jift9o" />
+            <re-captcha class="recaptcha" (resolved)="resolved($event)"
+              siteKey="6Lejqh8pAAAAAE3-td7Z-_ME6Q9GdFkDpRkvoDsm" />
           </nz-form-item>
         </nz-col>
       </nz-row>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <button
-      nz-button
-      nzType="primary"
-      nzSize="large"
-      type="submit"
-      [nzLoading]="loading"
-      class="submit"
-      [disabled]="form.invalid || disableSubmitButton"
-    >
+    <button nz-button nzType="primary" nzSize="large" type="submit" [nzLoading]="loading" class="submit"
+      [disabled]="form.invalid || disableSubmitButton">
       {{ 'app.register.resend-verification-email' | i18n }}
     </button>
     <a class="login" routerLink="/passport/login">{{ 'app.register.back-to-login' | i18n }}</a>

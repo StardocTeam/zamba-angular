@@ -32,7 +32,7 @@ export class employeeUser {
    *
    */
   constructor() {
-    this.avatar = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
+    this.avatar = '';
     this.name = '';
     this.lastName = '';
     this.password = '';

@@ -3,7 +3,8 @@
     <nz-card>
       <ng-container *ngIf="user">
         <div class="avatar-holder">
-          <img src="{{ user.avatar }}" />
+          <img *ngIf="user.avatar" src="{{ user.avatar }}" />
+          <img *ngIf="!user.avatar" />
           <div class="name">{{ user.name }} {{ user.lastName }}</div>
           <div>{{ user.position }}</div>
         </div>
@@ -76,7 +77,8 @@
 
           <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
             <nz-form-label>dateEmploymentEntry</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}" />
+            <input nz-input placeholder=" " [disabled]="true"
+              value="{{ user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}" />
           </div>
 
           <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">

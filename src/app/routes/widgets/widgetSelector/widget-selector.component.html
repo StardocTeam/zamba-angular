@@ -1,11 +1,14 @@
 <app-carousel *ngIf="widget['type'] === 'carousel'" [resizeEvent]="resizeEvent" [changeEvent]="changeEvent"
   [widget]="widget" />
+
 <calendar-widget *ngIf="widget['type'] === 'calendar'" [resizeEvent]="resizeEvent" [widget]="widget" />
+
 <ng-container *ngIf="widget['type'] === 'videoplayer'" class="bg-video-color">
   <videoplayer [resizeEvent]="resizeEvent" [widget]="widget" />
 </ng-container>
 
 <app-pending-vacations class="pending-tasks" *ngIf="widget['type'] === 'pending-vacations'" [resizeEvent]="resizeEvent"
   [widget]="widget" />
+
 <pending-tasks class="pending-tasks" *ngIf="widget['type'] === 'pending-tasks'" [resizeEvent]="resizeEvent"
   [widget]="widget" />
