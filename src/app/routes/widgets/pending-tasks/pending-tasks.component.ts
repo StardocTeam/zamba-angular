@@ -69,11 +69,12 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
 
   getMyTasks() {
     if (this.resizeEvent != undefined) {
-      this.resizeEvent.subscribe((event: any) => {
-        if (event.item.id == this.widget.id) {
+      this.resizeEvent.subscribe((event: any) => {        
+        if (this.widget["id"] == event.item.id) {
           this.divHeight = event.itemComponent.height - 60;
           this.cdr.detectChanges();
         }
+        
       });
     }
 

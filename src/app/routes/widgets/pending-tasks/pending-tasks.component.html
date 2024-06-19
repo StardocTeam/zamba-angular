@@ -1,3 +1,4 @@
+<!-- Header -->
 <div class="title" *ngIf="visualMode == 'dashboard'">
   <span nz-typography><strong>Tareas Pendientes</strong></span>
   <nz-badge [nzCount]="data.length" />
@@ -5,6 +6,8 @@
     <span nz-icon nzType="redo" (click)="getMyTasks()" style="color: black;"></span>
   </button>
 </div>
+
+<!-- Tasks List -->
 <div class="item-container" [style.height.px]="divHeight">
   <nz-list nzItemLayout="horizontal" [nzLoading]="loading">
     <ng-container *ngFor="let item of data">

@@ -18,7 +18,7 @@ import { WidgetsContainerService } from './service/widgets-container.service';
 })
 export class WidgetsContainerComponent implements OnInit {
   options: GridsterConfig = {};
-  dashboard: GridsterItem[] = [];
+  widgets: GridsterItem[] = [];
   resizeEvent: EventEmitter<any> = new EventEmitter<any>();
   changeEvent: EventEmitter<any> = new EventEmitter<any>();
   constructor(
@@ -27,7 +27,7 @@ export class WidgetsContainerComponent implements OnInit {
     private router: Router,
     private WCService: WidgetsContainerService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getWidgetsContainer();
@@ -43,7 +43,7 @@ export class WidgetsContainerComponent implements OnInit {
       }
     };
 
-    this.dashboard = [];
+    this.widgets = [];
   }
 
   getWidgetsContainer() {
@@ -73,10 +73,9 @@ export class WidgetsContainerComponent implements OnInit {
         this.options.resizable = optionsJson.resizable;
         this.options.minCols = optionsJson.minCols;
         this.options.minRows = optionsJson.minRows;
-        var WidgetsWidgetCoordinatesJson = JSON.parse(dataJson.WidgetCoordinates);
+        var widgetsList = JSON.parse(dataJson.WidgetCoordinates);
 
-        this.dashboard = WidgetsWidgetCoordinatesJson;
-
+        this.widgets = widgetsList;
         var api: any | null = this.options.api;
 
         if (api != undefined) {
@@ -103,13 +102,13 @@ export class WidgetsContainerComponent implements OnInit {
       token: tokenData['token'],
       Params: {
         options: JSON.stringify(WCOptions),
-        widgetsContainer: JSON.stringify(this.dashboard)
+        widgetsContainer: JSON.stringify(this.widgets)
       }
     };
 
     this.WCService._setWidgetsContainer(genericRequest).subscribe(data => {
       this.options = JSON.parse(data.Options);
-      this.dashboard = JSON.parse(data.WidgetsContainer);
+      this.widgets = JSON.parse(data.WidgetsContainer);
     });
   }
 
@@ -122,6 +121,6 @@ export class WidgetsContainerComponent implements OnInit {
   }
 
   removeItem(item: any) {
-    this.dashboard.splice(this.dashboard.indexOf(item), 1);
+    this.widgets.splice(this.widgets.indexOf(item), 1);
   }
 }
