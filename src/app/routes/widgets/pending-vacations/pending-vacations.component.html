@@ -3,14 +3,15 @@
   <div nz-col nzSpan="20">
     <div class="">
 
-      <span nz-typography><strong>{{ 'APPROVED_VACATIONS' | i18n }}</strong></span>
+      <span nz-typography><strong>{{ 'app.pending-vacations.APPROVED_VACATIONS' | i18n }}</strong></span>
       <nz-badge [nzCount]="vacations.length" nzShowZero />
 
     </div>
   </div>
 
   <div nz-col class="displayFlex BtnEnd" nzSpan="4">
-    <button [nzLoading]="loading" nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS">
+    <button [nzLoading]="loading" nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS"
+      nz-tooltip nzTooltipTitle="{{ 'app.pending-vacations.RELOAD_TOOLTIP' | i18n }}">
       <span nz-icon nzType="redo" (click)="PostExternalsearchInfo()"></span>
     </button>
   </div>
@@ -23,13 +24,13 @@
     <span nz-typography><strong>
         {{ TotalDays }}
 
-        {{ 'DAYSAVAILABLE' | i18n }}
+        {{ 'app.pending-vacations.DAYSAVAILABLE' | i18n }}
       </strong></span>
   </div>
 
   <div nz-col class="displayFlex BtnEnd" nzSpan="7">
-    <button *ngIf="TotalDays != 0" nz-button nzType="default" nzShape="circle" [nzSize]="size_DAYS_AVAILABLE"
-      (click)="RequestVacation()">
+    <button *ngIf="TotalDays != 0" nz-button nzType="default" nzShape="circle" [nzSize]="size_DAYS_AVAILABLE" nz-tooltip
+      nzTooltipTitle="{{ 'app.pending-vacations.ADD_TOOLTIP' | i18n }}" (click)="RequestVacation()">
       <span nz-icon nzType="plus"></span>
     </button>
   </div>
@@ -41,7 +42,7 @@
   <ng-container *ngFor="let item of vacations" class="overflowY">
     <nz-alert (dblclick)="GoToTask(item)" class="pointer" nzBanner nzMessage="
               {{ item.VacationFromOption | date: 'dd/MM/yyyy' }}
-              {{ 'VACATION_TO' | i18n }}
+              {{ 'app.pending-vacations.VACATION_TO' | i18n }}
               {{ item.VacationToOption | date: 'dd/MM/yyyy' }}" />
   </ng-container>
 </div>
