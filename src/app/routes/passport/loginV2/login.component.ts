@@ -74,10 +74,11 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
           } else if (message.data === 'login-rrhh-error') {
             this.authServerError = true;
             this.cdr.detectChanges();
+            this.router.navigateByUrl('/passport/login');
           }
           break;
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   submit(): void {
@@ -125,6 +126,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
           } else if (res.isActive == false) {
             this.errorUserIsNotActive = true;
             this.cdr.detectChanges();
+
             return;
           }
           this.reuseTabService.clear();
