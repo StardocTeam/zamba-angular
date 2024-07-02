@@ -6,6 +6,9 @@ import { ModalHelper } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
+import { SignatureService } from '../signature/signature.service';
+import { catchError, finalize } from 'rxjs';
+
 @Component({
   selector: 'app-signature-container',
   templateUrl: './signature-container.component.html',
@@ -13,25 +16,42 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class SignatureContainerComponent {
 
-  pdfUrl: SafeResourceUrl;;
+  pdfUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
   private modalHelper = inject(ModalHelper);
   private msg = inject(NzMessageService);
-  constructor(private sanitizer: DomSanitizer,) {
-    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://pdfobject.com/pdf/sample.pdf");
+  constructor(private sanitizer: DomSanitizer, private signatureService: SignatureService) {
+    this.getPDFBase64PayStub();
   }
 
+  getPDFBase64PayStub() {
+    var genericRequest = {
+      UserId: 0,
+      token: 0,
+      Params: {}
+    };
+    this.signatureService.GetPDFBase64PayStub(genericRequest).pipe(
+      finalize(() => {
+      }),
+    ).subscribe({
+      next: (result) => {
+        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + result);
+      },
+      error: (error) => {
+      }
+    });
+  }
   open(): void {
     console.log('click');
     this.modalHelper.create(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'md' }).subscribe(res => {
-      this.msg.info(res);
+
     });
   }
 
   static(): void {
     this.modalHelper.createStatic(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'md' }).subscribe(res => {
-      this.msg.info(res);
+      if (res == 'refresh') {
+        this.getPDFBase64PayStub();
+      }
     });
   }
-
-
 }

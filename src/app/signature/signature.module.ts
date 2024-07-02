@@ -6,6 +6,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { SignatureContainerComponent } from '../signature-container/signature-container.component';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 const routes: Routes = [
   { path: '', component: SignatureContainerComponent }
@@ -18,7 +19,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NzModalModule,
     NzButtonModule,
-    NzIconModule
+    NzIconModule,
+    NzSpinModule
   ],
   exports: [SignatureComponent, SignatureContainerComponent]
 })

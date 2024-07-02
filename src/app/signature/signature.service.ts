@@ -15,4 +15,10 @@ export class SignatureService {
             context: new HttpContext().set(ALLOW_ANONYMOUS, true)
         });
     }
+
+    GetPDFBase64PayStub(genericRequest: any) {
+        return this.http.post(`${environment['apiRestBasePath']}/GetPDFBase64PayStub`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
 }

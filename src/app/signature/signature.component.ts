@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { SignatureService } from './signature.service';
+import { catchError, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-signature',
@@ -17,11 +18,21 @@ export class SignatureComponent implements OnInit {
   yCurr: number = 0;
   drawing: boolean = false;
 
+  confirm: boolean = false;
+
+  showSpinner: boolean = false;
+  signatureSuccess = false;
+  signatureError = false;
   canvas: any;
   constructor(private modalRef: NzModalRef, private signatureService: SignatureService) {
 
   }
   ngOnInit(): void {
+
+  }
+
+  previousStep(): void {
+    this.confirm = false;
     this.clearCanvas();
   }
 
@@ -51,10 +62,14 @@ export class SignatureComponent implements OnInit {
     const context = this.canvas.getContext('2d');
     context.fillStyle = this.backgroundColor;
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
   }
   @HostListener('mousedown', ['$event'])
   @HostListener('touchstart', ['$event'])
   onStart(event: MouseEvent | TouchEvent) {
+    if (this.confirm) {
+      return;
+    }
     this.drawing = true;
     const coordinates = this.getCoordinates(event);
     this.xCurr = coordinates.x;
@@ -71,6 +86,9 @@ export class SignatureComponent implements OnInit {
   @HostListener('mousemove', ['$event'])
   @HostListener('touchmove', ['$event'])
   onMove(event: MouseEvent | TouchEvent) {
+    if (this.confirm) {
+      return;
+    }
     if (!this.drawing) return;
     const coordinates = this.getCoordinates(event);
     this.xCurr = coordinates.x;
@@ -97,20 +115,30 @@ export class SignatureComponent implements OnInit {
   }
 
   closeModal(): void {
-    this.modalRef.close();
+    this.modalRef.close("refresh");
   }
 
   SignOk(): void {
+    this.showSpinner = true;
     let dataUrl = this.canvas.toDataURL();
-    console.log('dataUlr: ', dataUrl);
     var genericRequest = {
       UserId: 0,
       token: 0,
       Params: { sign: dataUrl }
     };
-    this.signatureService.SignPDF(genericRequest).subscribe((res) => {
-      console.log('res: ', res);
-      this.modalRef.close(res);
-    })
-  };
+    this.signatureService.SignPDF(genericRequest).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+      }),
+    ).subscribe({
+      next: (result) => {
+        this.signatureSuccess = true;
+        this.signatureError = false;
+      },
+      error: (error) => {
+        this.signatureError = true;
+        this.signatureSuccess = false;
+      }
+    });
+  }
 }
