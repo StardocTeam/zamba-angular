@@ -9,7 +9,7 @@ import { TokenService } from '@delon/auth';
   templateUrl: './signature.component.html',
   styleUrls: ['./signature.component.less'],
 })
-export class SignatureComponent implements OnInit {
+export class SignatureComponent {
   signatureColor: string = 'black';
   signatureWidth: number = 3;
   backgroundColor: string = 'white';
