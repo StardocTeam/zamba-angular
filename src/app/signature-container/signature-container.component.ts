@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 
 import { SignatureComponent } from '../signature/signature.component';
 
@@ -19,7 +19,7 @@ export class SignatureContainerComponent {
   pdfUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
   private modalHelper = inject(ModalHelper);
   private msg = inject(NzMessageService);
-  constructor(private sanitizer: DomSanitizer, private signatureService: SignatureService) {
+  constructor(private sanitizer: DomSanitizer, private signatureService: SignatureService, private cdr: ChangeDetectorRef) {
     this.getPDFBase64PayStub();
   }
 
@@ -35,6 +35,7 @@ export class SignatureContainerComponent {
     ).subscribe({
       next: (result) => {
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + result);
+        this.cdr.detectChanges();
       },
       error: (error) => {
       }
@@ -49,8 +50,9 @@ export class SignatureContainerComponent {
 
   static(): void {
     this.modalHelper.createStatic(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'md' }).subscribe(res => {
-      if (res == 'refresh') {
-        this.getPDFBase64PayStub();
+      if (res != '') {
+        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + res);
+        this.cdr.detectChanges();
       }
     });
   }

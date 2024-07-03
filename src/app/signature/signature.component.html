@@ -19,7 +19,7 @@
         <canvas id="signatureCanvas" [ngClass]="{'red-border': confirm}"></canvas>
         <div *ngIf="!confirm" class="button-container">
             <button nz-button nzType="default" (click)="clearCanvas()">Borrar</button>
-            <button nz-button nzType="primary" (click)="confirm = true">Aceptar</button>
+            <button nz-button nzType="primary" (click)="confirmSign()">Aceptar</button>
         </div>
         <div *ngIf="confirm" class="button-container">
             <button nz-button nzType="default" (click)="previousStep()">Volver al paso anterior</button>

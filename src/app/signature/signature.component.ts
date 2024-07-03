@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { SignatureService } from './signature.service';
 import { catchError, finalize } from 'rxjs';
+import { TokenService } from '@delon/auth';
 
 @Component({
   selector: 'app-signature',
@@ -10,7 +11,7 @@ import { catchError, finalize } from 'rxjs';
 })
 export class SignatureComponent implements OnInit {
   signatureColor: string = 'black';
-  signatureWidth: number = 2;
+  signatureWidth: number = 3;
   backgroundColor: string = 'white';
   xPrev: number = 0;
   yPrev: number = 0;
@@ -24,7 +25,9 @@ export class SignatureComponent implements OnInit {
   signatureSuccess = false;
   signatureError = false;
   canvas: any;
-  constructor(private modalRef: NzModalRef, private signatureService: SignatureService) {
+
+  pdfResult: string = '';
+  constructor(private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService) {
 
   }
   ngOnInit(): void {
@@ -74,11 +77,11 @@ export class SignatureComponent implements OnInit {
     const coordinates = this.getCoordinates(event);
     this.xCurr = coordinates.x;
     this.yCurr = coordinates.y;
-    const context = this.canvas.getContext('2d');
-    context.beginPath();
-    context.fillStyle = this.signatureColor;
-    context.fillRect(this.xCurr, this.yCurr, this.signatureWidth, this.signatureWidth);
-    context.closePath();
+    if (this.canvas == null) {
+      this.canvas = document.querySelector('#signatureCanvas');
+      this.canvas.width = this.canvas.offsetWidth;
+      this.canvas.height = this.canvas.offsetHeight;
+    }
     this.xPrev = this.xCurr;
     this.yPrev = this.yCurr;
   }
@@ -86,10 +89,9 @@ export class SignatureComponent implements OnInit {
   @HostListener('mousemove', ['$event'])
   @HostListener('touchmove', ['$event'])
   onMove(event: MouseEvent | TouchEvent) {
-    if (this.confirm) {
+    if (this.confirm || !this.drawing) {
       return;
     }
-    if (!this.drawing) return;
     const coordinates = this.getCoordinates(event);
     this.xCurr = coordinates.x;
     this.yCurr = coordinates.y;
@@ -97,6 +99,8 @@ export class SignatureComponent implements OnInit {
     context.beginPath();
     context.moveTo(this.xPrev, this.yPrev);
     context.lineTo(this.xCurr, this.yCurr);
+    context.strokeStyle = this.signatureColor;
+    context.lineWidth = this.signatureWidth;
     context.stroke();
     context.closePath();
     this.xPrev = this.xCurr;
@@ -115,10 +119,35 @@ export class SignatureComponent implements OnInit {
   }
 
   closeModal(): void {
-    this.modalRef.close("refresh");
+    this.modalRef.close(this.pdfResult);
+  }
+  confirmSign(): void {
+    this.confirm = true;
+    const context = this.canvas.getContext('2d');
+    context.font = '23px Arial';
+    context.fillStyle = 'black';
+
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+
+    const tokenData: any = this.tokenService.get();
+    const fistName = tokenData['firstname'];
+    const lastName = tokenData['lastname'];
+    const text = `${fistName} ${lastName} - ${formattedDate}`;
+    const textWidth = context.measureText(text).width;
+
+    const xPosition = (this.canvas.width - textWidth) / 2;
+    const yPosition = this.canvas.height - 5;
+
+    context.fillText(text, xPosition, yPosition);
   }
 
   SignOk(): void {
+    this.pdfResult = '';
     this.showSpinner = true;
     let dataUrl = this.canvas.toDataURL();
     var genericRequest = {
@@ -132,6 +161,7 @@ export class SignatureComponent implements OnInit {
       }),
     ).subscribe({
       next: (result) => {
+        this.pdfResult = result;
         this.signatureSuccess = true;
         this.signatureError = false;
       },
