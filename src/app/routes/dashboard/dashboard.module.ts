@@ -62,8 +62,8 @@ const COMPONENTS = [
     NgForOf,
     GridsterComponent,
     GridsterItemComponent,
-    WidgetSelectorComponent
+    WidgetSelectorComponent,
   ],
   declarations: [...COMPONENTS]
 })
-export class DashboardModule {}
+export class DashboardModule { }
