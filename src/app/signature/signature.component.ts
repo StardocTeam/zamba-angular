@@ -30,10 +30,6 @@ export class SignatureComponent implements OnInit {
   constructor(private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService) {
 
   }
-  ngOnInit(): void {
-
-  }
-
   previousStep(): void {
     this.confirm = false;
     this.clearCanvas();
