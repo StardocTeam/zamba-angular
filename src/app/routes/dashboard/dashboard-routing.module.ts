@@ -7,7 +7,7 @@ import { DashboardV1Component } from './v2/v2.component';
 import { DashboardWorkplaceComponent } from './workplace/workplace.component';
 import { DefaultComponent } from '../default/default.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
-import { SignatureComponent } from 'src/app/signature/signature.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'widgets', pathMatch: 'full' },
@@ -18,6 +18,8 @@ const routes: Routes = [
   { path: 'workplace', component: DashboardWorkplaceComponent },
   { path: 'widgets', component: WidgetsContainerComponent },
   { path: 'signature', loadChildren: () => import('src/app/signature/signature.module').then(m => m.SignatureModule) },
+  { path: 'qr', loadChildren: () => import('src/app/qrgenerator-container/qrgenerator-container.module').then(m => m.QRGeneratorModule) },
+
 ];
 
 @NgModule({
