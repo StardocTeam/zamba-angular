@@ -16,4 +16,10 @@ export class QRService {
         });
     }
 
+    GetPDFBase64ByFileName(genericRequest: any) {
+        return this.http.post(`${environment['apiRestBasePath']}/GetPDFBase64ByFileName`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
+
 }

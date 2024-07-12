@@ -8,7 +8,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { QRGeneratorComponent } from './qrgenerator-container.component';
 
 const routes: Routes = [
-  { path: '', component: QRGeneratorComponent }
+  { path: '', component: QRGeneratorComponent },
+  { path: ':id', component: QRGeneratorComponent }
 ];
 
 @NgModule({
