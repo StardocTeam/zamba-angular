@@ -91,6 +91,7 @@ export class I18NService extends AlainI18nBaseService {
   }
 
   private getDefaultLang(): string {
+
     if (!this.platform.isBrowser) {
       return DEFAULT;
     }
@@ -103,10 +104,12 @@ export class I18NService extends AlainI18nBaseService {
   }
 
   loadLangData(lang: string): Observable<NzSafeAny> {
+
     return this.http.get(`assets/tmp/i18n/${lang}.json`);
   }
 
   use(lang: string, data: Record<string, unknown>): void {
+
     if (this._currentLang === lang) return;
 
     this._data = this.flatData(data, []);
@@ -122,6 +125,7 @@ export class I18NService extends AlainI18nBaseService {
   }
 
   getLangs(): Array<{ code: string; text: string; abbr: string }> {
+
     return this._langs;
   }
 }
