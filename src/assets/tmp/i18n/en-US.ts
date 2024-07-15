@@ -138,8 +138,6 @@ export const enUS = {
     "app.register.register": "Register",
     "app.register.resend-verification": "Resend verification email",
     "app.register.question-resend-verification": "Didn't receive the verification email?",
-
-
     "app.register.form-company-name-placeholder": "Company Name",
     "app.register.form-name-placeholder": "Name",
     "app.register.form-lastname-placeholder": "Lastname",
@@ -195,6 +193,27 @@ export const enUS = {
     "validation.title.required": "Please enter a title",
     "validation.date.required": "Please select the start and end date",
     "validation.goal.required": "Please enter a description of the goal",
-    "validation.standard.required": "Please enter a metric"
+    "validation.standard.required": "Please enter a metric",
+    "section.data.title": "Info",
+    "section.data.first-item": "Personal data",
+    "section.data.second-item": "Family data",
+    "section.data.third-item": "Academic training data",
 
+    "app.pending-vacations.DAYSAVAILABLE": "Available days",
+    "app.pending-vacations.APPROVED_VACATIONS": "Approved vacations",
+    "app.pending-vacations.VACATION_TO": "TO",
+    "app.pending-vacations.NO_INFORMATION": "NO INFORMATION",
+    "app.pending-vacations.UNABLE_TO_GET_INFORMATION": "Unable to get information from the data source",
+    "app.pending-vacations.RELOAD_TOOLTIP": "Reload vacations",
+    "app.pending-vacations.ADD_TOOLTIP": "Request vacations",
+
+    "ruleExecution.an-error-has-occurred": "An error has occurred",
+    "ruleExecution.uncaught-error": "Uncaught error, please try again later.",
+    "ruleExecution.rerun": "Rerun",
+
+    "routeTitle.dashboard": "Dashboard",
+    "routeTitle.widgets": "Dashboard",
+
+    "routeTitle.form": "Form",
+    "routeTitle.account": "Account"
 }
