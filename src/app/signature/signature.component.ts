@@ -3,6 +3,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 import { SignatureService } from './signature.service';
 import { catchError, finalize } from 'rxjs';
 import { TokenService } from '@delon/auth';
+import { SFStringWidgetSchema } from '@delon/form';
 
 @Component({
   selector: 'app-signature',
@@ -27,6 +28,10 @@ export class SignatureComponent {
   canvas: any;
 
   pdfResult: string = '';
+  selectedTabIndex: number = 0;
+
+  keyboardSignature: string = '';
+  keyboardSignatureMaxLength: number = 20;
   constructor(private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService) {
 
   }
@@ -166,5 +171,57 @@ export class SignatureComponent {
         this.signatureSuccess = false;
       }
     });
+  }
+  SingnatureWithKeyboard(): void {
+    this.pdfResult = '';
+    this.showSpinner = true;
+
+    let tempCanvas = document.createElement('canvas');
+
+    tempCanvas.width = 1400;
+    tempCanvas.height = 250;
+    let ctx = tempCanvas.getContext('2d');
+    // Configurar estilo de texto
+    if (ctx) {
+      ctx.font = '68px PlaywriteIN';
+      ctx.fillStyle = 'black';
+
+      // fondo sea transparente
+      ctx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+      let textWidth = ctx.measureText(this.keyboardSignature).width;
+
+      let x = (tempCanvas.width - textWidth) / 2;
+
+      let y = (tempCanvas.height / 2) + (30 / 2); // 30px es el tamaño de la fuente
+
+      ctx.fillText(this.keyboardSignature, x, y); // Usa las posiciones x e y calculadas
+    }
+    let dataUrl = tempCanvas.toDataURL();
+    var genericRequest = {
+      UserId: 0,
+      token: 0,
+      Params: { sign: dataUrl }
+    };
+    this.signatureService.SignPDF(genericRequest).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+      }),
+    ).subscribe({
+      next: (result) => {
+        this.pdfResult = result;
+        this.signatureSuccess = true;
+        this.signatureError = false;
+      },
+      error: (error) => {
+        this.signatureError = true;
+        this.signatureSuccess = false;
+      }
+    });
+  }
+
+  clearSignInput(): void {
+    this.keyboardSignature = '';
+
   }
 }

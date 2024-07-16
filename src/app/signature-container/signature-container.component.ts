@@ -49,7 +49,7 @@ export class SignatureContainerComponent {
   }
 
   static(): void {
-    this.modalHelper.createStatic(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'md' }).subscribe(res => {
+    this.modalHelper.createStatic(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'lg' }).subscribe(res => {
       if (res != '') {
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + res);
         this.cdr.detectChanges();
