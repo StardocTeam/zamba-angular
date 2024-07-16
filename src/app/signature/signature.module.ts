@@ -7,6 +7,9 @@ import { SignatureContainerComponent } from '../signature-container/signature-co
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 const routes: Routes = [
   { path: '', component: SignatureContainerComponent }
@@ -20,7 +23,10 @@ const routes: Routes = [
     NzModalModule,
     NzButtonModule,
     NzIconModule,
-    NzSpinModule
+    NzSpinModule,
+    NzRadioModule,
+    FormsModule,
+    NzTabsModule
   ],
   exports: [SignatureComponent, SignatureContainerComponent]
 })
