@@ -32,7 +32,7 @@ export class ViewFormComponent implements OnInit {
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.navigateUrl = '';
@@ -44,14 +44,15 @@ export class ViewFormComponent implements OnInit {
       const tokenData = this.tokenService.get();
 
       if (tokenData != null) {
-        console.log('Imprimo los valores en tokenService en el service', tokenData);
-
         this.DocType = params['DocType'];
         this.docid = params['docid'];
         this.taskid = params['taskid'];
         this.mode = params['mode'];
         this.s = params['s'];
         this.userId = params['userId'];
+
+        this.userId = params['user'] || params['userid'] || params['u'];
+
         this.t = params['t'];
 
         var queryString =
