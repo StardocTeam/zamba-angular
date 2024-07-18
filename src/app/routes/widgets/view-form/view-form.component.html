@@ -10,10 +10,8 @@
   </div>
 
   <div *ngIf="result == true">
-    <nz-result
-      nzTitle="{{ 'ruleExecution.an-error-has-occurred' | i18n }}"
-      nzStatus="error"
-      nzSubTitle="{{ 'ruleExecution.uncaught-error' | i18n }}"
-    />
+    <nz-result nzTitle="{{ 'ruleExecution.an-error-has-occurred' | i18n }}" nzStatus="error"
+      nzSubTitle="{{ 'ruleExecution.uncaught-error' | i18n }}" />
   </div>
 </ng-template>
+<signature-fab [docType]="DocType" [docId]="docid"></signature-fab>
