@@ -1,7 +1,5 @@
 import { Component, inject, ChangeDetectorRef, OnInit, Input } from '@angular/core';
 
-import { SignatureComponent } from '../signature/signature.component';
-
 import { ModalHelper } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -9,6 +7,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { SignatureService } from '../signature/signature.service';
 import { catchError, finalize } from 'rxjs';
 import { ZambaService } from '../services/zamba/zamba.service';
+import { SignatureV2Component } from '../signature-v2/signature-v2.component';
 
 @Component({
   selector: 'signature-fab',
@@ -57,7 +56,7 @@ export class SignatureFABComponent implements OnInit {
 
 
   static(): void {
-    this.modalHelper.createStatic(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'lg' }).subscribe(res => {
+    this.modalHelper.createStatic(SignatureV2Component, { record: { a: 1, b: '2', c: new Date() } }, { size: 'lg' }).subscribe(res => {
       if (res != '') {
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + res);
         this.cdr.detectChanges();

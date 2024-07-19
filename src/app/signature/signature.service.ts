@@ -22,6 +22,12 @@ export class SignatureService {
         });
     }
 
+
+    SignTask(genericRequest: any) {
+        return this.http.post(`${environment['apiRestBasePath']}/SignTask`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
     ValidateAlreadySigned(genericRequest: any) {
         return this.http.post(`${environment['apiRestBasePath']}/ValidateAlreadySigned`, genericRequest, null, {
             context: new HttpContext().set(ALLOW_ANONYMOUS, true)
