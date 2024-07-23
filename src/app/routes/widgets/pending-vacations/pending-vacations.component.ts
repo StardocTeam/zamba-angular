@@ -68,69 +68,6 @@ export class PendingVacationsComponent implements OnInit {
 
     this.PostExternalsearchInfo();
   }
-  GetExternalsearchInfo() {
-    this.vacations = [];
-    this.info = false;
-    this.result = false;
-    this.loading = true;
-    this.cdr.detectChanges();
-
-    const tokenData = this.tokenService.get();
-    let request: Generic = new Generic();
-
-    if (tokenData != null) {
-      request = {
-        UserId: 0, //  tokenData['userID'],
-        EntityID: '258',
-        DoctypesId: '110'
-      };
-
-      this.PVService._GetExternalsearchInfo(request)
-        .pipe(
-          catchError(error => {
-            console.error('Error al obtener datos:', error);
-            this.loading = false;
-            this.cdr.detectChanges();
-            throw error;
-          })
-        )
-        .subscribe(data => {
-          var JsonData = JSON.parse(data);
-
-          if (JsonData != null) {
-            for (let item of JsonData.VacationList) {
-              var vacationItem: Vacation = new Vacation();
-
-              vacationItem.AuthorizeOption = item['AuthorizeOption'];
-              vacationItem.RequestedDaysOption = item['RequestedDaysOption'];
-              vacationItem.VacationFromOption = item['VacationFromOption'];
-              vacationItem.VacationToOption = item['VacationToOption'];
-
-              vacationItem.DocType = item['DocType'];
-              vacationItem.docid = item['docid'];
-              vacationItem.taskid = item['taskid'];
-              vacationItem.mode = item['mode'];
-              vacationItem.s = item['s'];
-              vacationItem.userId = item['userId'];
-
-              this.vacations.push(vacationItem);
-              this.info = true;
-              this.result = true;
-            }
-
-            this.TotalDays = parseInt(JsonData['TotalDays'].toString());
-          } else {
-            this.info = false;
-            this.result = true;
-          }
-
-          this.vacations.reverse();
-          this.loading = false;
-          this.cdr.detectChanges();
-        });
-    }
-  }
-
   PostExternalsearchInfo() {
     this.TotalDays = 0;
     this.vacations = [];
@@ -162,7 +99,6 @@ export class PendingVacationsComponent implements OnInit {
       )
       .subscribe(data => {
         var JsonData = JSON.parse(data);
-
         if (JsonData != null) {
           for (let item of JsonData.VacationList) {
             var vacationItem: Vacation = new Vacation();
@@ -184,7 +120,7 @@ export class PendingVacationsComponent implements OnInit {
             this.result = true;
           }
 
-          this.TotalDays = parseInt(JsonData['TotalDays'].toString());
+          this.TotalDays = parseInt(JsonData['TotalDays'].toString() || "0");
         } else {
           this.info = false;
           this.result = true;
