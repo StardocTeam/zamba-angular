@@ -1,5 +1,11 @@
 @import '@delon/theme/index';
 
+:host ::ng-deep {
+  .ant-card-body {
+    padding-top: 0px;
+  }
+}
+
 .zamba-user-profile {
   display: flex;
   justify-content: center;
@@ -10,8 +16,8 @@
   text-align: center;
 
   &>img {
-    width: 104px;
-    height: 104px;
+    // width: 104px;
+    // height: 104px;
     margin-bottom: 20px;
   }
 

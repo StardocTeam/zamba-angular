@@ -37,6 +37,7 @@ import { ProProfileAdvancedComponent } from './profile/advanced/advanced.compone
 import { ProProfileBaseComponent } from './profile/basic/basic.component';
 import { ProResultFailComponent } from './result/fail/fail.component';
 import { ProResultSuccessComponent } from './result/success/success.component';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 
 const COMPONENTS = [
   BasicFormComponent,
@@ -79,8 +80,9 @@ const COMPONENTS = [
     NzPaginationModule,
     NzStepsModule,
     CurrencyPipeModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzLayoutModule
   ],
   declarations: COMPONENTS
 })
-export class ProModule {}
+export class ProModule { }

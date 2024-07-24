@@ -16,6 +16,7 @@ import { EmployeeUserService } from './service/employee-user.service';
 })
 export class ProAccountCenterComponent implements OnInit {
   user: employeeUser = new employeeUser();
+  avatarSize = "200px";
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
