@@ -14,5 +14,5 @@ export class EmployeeUserService {
     });
   }
 
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 }

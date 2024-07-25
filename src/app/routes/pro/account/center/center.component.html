@@ -4,15 +4,19 @@
       <ng-container *ngIf="user">
         <nz-divider nzText="Datos Personales" />
 
-        <div nz-row nzGutter="4">
+        <div nz-row nzGutter="10">
           <div nz-col [nzFlex]="avatarSize">
             <div nz-row>
-              <div class="avatar-holder">
+              <div class="circle-container">
                 <img *ngIf="user.avatar" src="{{ user.avatar }}" />
-                <img *ngIf="!user.avatar" />
+                <img *ngIf="!user.avatar" src="{{defaultPhoto}}" />
+              </div>
+
+              <div class="avatar-holder ">
                 <div class="name">{{ user.name }} {{ user.lastName }}</div>
                 <div>{{ user.position }}</div>
               </div>
+
             </div>
           </div>
 
@@ -25,7 +29,7 @@
           </div>
 
           <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="8" [nzMd]="8" [nzLg]="6" [nzXl]="5">
-            <label><strong>email:</strong> {{user.email}} </label>
+            <label><strong>workEmail:</strong> {{user.workEmail}} </label>
             <br>
             <label><strong>workCellPhone:</strong> {{user.workCellPhone}} </label>
           </div>
@@ -33,11 +37,11 @@
 
         <nz-divider nzText="Datos de Empresa" />
 
-        <div nz-row nzGutter="4">
-          <div iud="emi" nz-col [nzFlex]="avatarSize"></div>
+        <div nz-row nzGutter="10">
+          <div nz-col [nzFlex]="avatarSize"></div>
 
           <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="8" [nzMd]="8" [nzLg]="6" [nzXl]="5">
-            <label><strong>company:</strong> {{user.company}} </label>
+            <label><strong>company:</strong> {{ user.company}} </label>
             <br>
             <label><strong>position:</strong> {{ user.position }} </label>
             <br>

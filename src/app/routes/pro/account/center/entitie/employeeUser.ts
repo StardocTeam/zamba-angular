@@ -1,9 +1,8 @@
 export class employeeUser {
   avatar: string;
-
   name: string;
   lastName: string;
-  email: string;
+  workEmail: string;
   workCellPhone: string;
   birthday: Date;
 
@@ -15,15 +14,6 @@ export class employeeUser {
   position: string;
 
   workMode: string;
-
-  //TODO: eliminar comentarios si no se usaran luego como variables.
-  // workLocation: string;
-  // country: string;
-  // city: string;
-  // state: string;
-  // timeDifference: string;
-  // workSchedule: string;
-  // zip: number;
 
   company: string;
   dateEmploymentEntry: Date;
@@ -41,7 +31,7 @@ export class employeeUser {
     this.area = '';
     this.department = '';
     this.position = '';
-    this.email = '';
+    this.workEmail = '';
 
     this.workCellPhone = '';
     this.workMode = '';
@@ -52,10 +42,5 @@ export class employeeUser {
     /*----*/
 
     this.company = '';
-
-    // this.workLocation = '';
-    // this.timeDifference = '';
-    // this.workSchedule = '';
-    // this.zip = 0;
   }
 }
