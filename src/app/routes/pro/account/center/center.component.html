@@ -2,14 +2,17 @@
   <div nz-col [nzSpan]="24">
     <nz-card>
       <ng-container *ngIf="user">
-        <nz-divider nzText="Datos Personales" />
 
-        <div nz-row nzGutter="10">
-          <div nz-col [nzFlex]="avatarSize">
-            <div nz-row>
+
+        <nz-layout>
+          <nz-sider id="photo" style="background-color: white;">
+            <!-- AVATAR -->
+            <div nz-row nzGutter="10">
+
+
               <div class="circle-container">
                 <img *ngIf="user.avatar" src="{{ user.avatar }}" />
-                <img *ngIf="!user.avatar" src="{{defaultPhoto}}" />
+                <img *ngIf="!user.avatar" src="{{ defaultPhoto }}" />
               </div>
 
               <div class="avatar-holder ">
@@ -18,48 +21,68 @@
               </div>
 
             </div>
-          </div>
+          </nz-sider>
+          <nz-layout id="info" style="background-color: white;">
+            <!-- DATOS -->
+            <div nz-col [nzSpan]="24">
 
-          <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="8" [nzMd]="8" [nzLg]="6" [nzXl]="5">
-            <label><strong>name:</strong> {{user.name}} </label>
-            <br>
-            <label><strong>lastname:</strong> {{ user.lastName }} </label>
-            <br>
-            <label><strong>birthday:</strong> {{ user.birthday | date: 'dd/MM/yyyy' }} </label>
-          </div>
+              <nz-divider class="divider" nzText="Datos personales" />
 
-          <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="8" [nzMd]="8" [nzLg]="6" [nzXl]="5">
-            <label><strong>workEmail:</strong> {{user.workEmail}} </label>
-            <br>
-            <label><strong>workCellPhone:</strong> {{user.workCellPhone}} </label>
-          </div>
-        </div>
+              <div nz-row nzGutter="10">
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label><strong>name:</strong> {{user.name}} </label>
+                  <br>
+                  <label><strong>lastname:</strong> {{ user.lastName }} </label>
+                  <br>
+                  <label><strong>birthday:</strong> {{ user.birthday | date: 'dd/MM/yyyy' }} </label>
+                </div>
 
-        <nz-divider nzText="Datos de Empresa" />
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label><strong>workEmail:</strong> {{user.workEmail}} </label>
+                  <br>
+                  <label><strong>workCellPhone:</strong> {{user.workCellPhone}} </label>
+                </div>
+              </div>
 
-        <div nz-row nzGutter="10">
-          <div nz-col [nzFlex]="avatarSize"></div>
+              <br>
+              <nz-divider class="divider" nzText="Datos de Empresa" />
 
-          <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="8" [nzMd]="8" [nzLg]="6" [nzXl]="5">
-            <label><strong>company:</strong> {{ user.company}} </label>
-            <br>
-            <label><strong>position:</strong> {{ user.position }} </label>
-            <br>
-            <label><strong>department:</strong> {{ user.department }} </label>
-            <br>
-            <label><strong>workmode:</strong> {{user.workMode}} </label>
-          </div>
 
-          <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="8" [nzMd]="8" [nzLg]="6" [nzXl]="5">
-            <label><strong>dateEmploymentEntry:</strong> {{user.dateEmploymentEntry | date: 'dd/MM/yyyy' }} </label>
-            <br>
-            <label><strong>Area:</strong> {{ user.area }} </label>
-            <br>
-            <label><strong>employmentStatus:</strong> {{ user.employmentStatus}} </label>
-          </div>
-        </div>
+              <div nz-row nzGutter="10">
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label><strong>company:</strong> {{ user.company}} </label>
+                  <br>
+                  <label><strong>position:</strong> {{ user.position }} </label>
+                  <br>
+                  <label><strong>department:</strong> {{ user.department }} </label>
+                  <br>
+                  <label><strong>workmode:</strong> {{user.workMode}} </label>
+                </div>
+
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label><strong>dateEmploymentEntry:</strong> {{user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}
+                  </label>
+                  <br>
+                  <label><strong>Area:</strong> {{ user.area }} </label>
+                  <br>
+                  <label><strong>employmentStatus:</strong> {{ user.employmentStatus}} </label>
+                </div>
+              </div>
+
+            </div>
+
+
+          </nz-layout>
+        </nz-layout>
+
+
+
 
       </ng-container>
+
+
+
+
     </nz-card>
   </div>
 </div>
