@@ -47,7 +47,8 @@ export class SignatureFABComponent implements OnInit {
       }),
     ).subscribe({
       next: (result) => {
-        this.showFABButton = !result.indexAlreadySigned;
+        var objectResult = JSON.parse(result);
+        this.showFABButton = !objectResult.indexAlreadySigned;
       },
       error: (error) => {
       }
@@ -56,7 +57,7 @@ export class SignatureFABComponent implements OnInit {
 
 
   static(): void {
-    this.modalHelper.createStatic(SignatureV2Component, { record: { a: 1, b: '2', c: new Date() } }, { size: 'lg' }).subscribe(res => {
+    this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId } }, { size: 'lg' }).subscribe(res => {
       if (res != '') {
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + res);
         this.cdr.detectChanges();

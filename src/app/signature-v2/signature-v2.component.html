@@ -14,13 +14,23 @@
                     <i nz-icon nzType="edit" nzTheme="outline"></i> Dibujar
                 </ng-template>
                 <canvas id="signatureCanvas" [ngClass]="{'red-border': confirm}"></canvas>
-                <div *ngIf="!confirm" class="button-container">
-                    <button nz-button nzType="default" (click)="clearCanvas()">Borrar</button>
-                    <button nz-button nzType="primary" (click)="confirmSign()">Aceptar</button>
+                <div *ngIf="!confirm" class="button-container-2">
+                    <button nz-button nzType="default" [disabled]="!hasSignature" (click)="DoSign('previous')">Usar
+                        ultima
+                        firma</button>
+                    <div>
+                        <button nz-button nzType="default" (click)="clearCanvas()">Borrar</button>
+                        <button nz-button nzType="primary" (click)="confirmSign()">Aceptar</button>
+                    </div>
                 </div>
-                <div *ngIf="confirm" class="button-container">
-                    <button nz-button nzType="default" (click)="previousStep()">Volver al paso anterior</button>
-                    <button nz-button class="green-button" (click)="SignOk()">Confirmar</button>
+                <div *ngIf="confirm" class="button-container-2">
+                    <button nz-button nzType="default" [disabled]="!hasSignature" (click)="DoSign('previous')">Usar
+                        ultima
+                        firma</button>
+                    <div>
+                        <button nz-button nzType="default" (click)="previousStep()">Atras</button>
+                        <button nz-button class="green-button" (click)="DoSign('mouse')">Confirmar</button>
+                    </div>
                 </div>
             </nz-tab>
             <nz-tab [nzTitle]="nzTabHeading2">
@@ -33,7 +43,7 @@
                 </div>
                 <div class="button-container">
                     <button nz-button nzType="default" (click)="clearSignInput()">Borrar</button>
-                    <button nz-button nzType="primary" (click)="SingnatureWithKeyboard()">Confirmar</button>
+                    <button nz-button nzType="primary" (click)="DoSign('keyboard')">Confirmar</button>
                 </div>
             </nz-tab>
         </nz-tabset>
@@ -47,6 +57,7 @@
             El documento ha sido firmado exitosamente.
         </h2>
         <div style="text-align: center;">
+            <iframe [src]="pdfSigned" width="600" height="400"></iframe>
             <button nz-button nzType="default" (click)="closeModal()">Continuar</button>
         </div>
     </ng-container>

@@ -60,9 +60,10 @@ const routes: Routes = [
       // Pls refer to https://ng-alain.com/components/reuse-tab
       scrollPositionRestoration: 'top',
       preloadingStrategy: PreloadOptionalModules,
-      bindToComponentInputs: true
+      bindToComponentInputs: true,
+      onSameUrlNavigation: 'reload'
     })
   ],
   exports: [RouterModule]
 })
-export class RouteRoutingModule {}
+export class RouteRoutingModule { }

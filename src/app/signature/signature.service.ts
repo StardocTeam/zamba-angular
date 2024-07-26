@@ -33,4 +33,16 @@ export class SignatureService {
             context: new HttpContext().set(ALLOW_ANONYMOUS, true)
         });
     }
+
+    UserHasSignature(genericRequest: any) {
+        return this.http.post(`${environment['apiRestBasePath']}/UserHasSignature`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
+    getDocument(genericRequest: any) {
+        return this.http.post(`${environment['externalSearchApi']}/getDocument`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
+
 }

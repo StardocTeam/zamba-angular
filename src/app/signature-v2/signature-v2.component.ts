@@ -4,13 +4,15 @@ import { SignatureService } from '../signature/signature.service';
 import { catchError, finalize } from 'rxjs';
 import { TokenService } from '@delon/auth';
 import { SFStringWidgetSchema } from '@delon/form';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-signature2',
   templateUrl: './signature-v2.component.html',
   styleUrls: ['./signature-v2.component.less'],
 })
-export class SignatureV2Component {
+export class SignatureV2Component implements OnInit {
   signatureColor: string = 'black';
   signatureWidth: number = 3;
   backgroundColor: string = 'white';
@@ -32,9 +34,39 @@ export class SignatureV2Component {
 
   keyboardSignature: string = '';
   keyboardSignatureMaxLength: number = 20;
-  constructor(private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService) {
+
+  docType: string = '';
+  docId: string = '';
+
+  hasSignature: boolean = false;
+
+  pdfSigned: SafeUrl | undefined;
+  constructor(private router: Router, private route: ActivatedRoute, private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService, private sanitizer: DomSanitizer) {
 
   }
+  ngOnInit(): void {
+    if (this.modalRef.getContentComponent().record) {
+      this.docType = this.modalRef.getContentComponent().record.docType;
+      this.docId = this.modalRef.getContentComponent().record.docId;
+    }
+    this.signatureService.UserHasSignature({
+      UserId: 0,
+      token: 0,
+      Params: {
+      }
+    }).pipe(
+      finalize(() => {
+      }),
+    ).subscribe({
+      next: (result) => {
+        this.hasSignature = result.hasSignature;
+      },
+      error: (error) => {
+      }
+    });
+  }
+
+
   previousStep(): void {
     this.confirm = false;
     this.clearCanvas();
@@ -147,22 +179,27 @@ export class SignatureV2Component {
     context.fillText(text, xPosition, yPosition);
   }
 
-  SignOk(): void {
-    this.pdfResult = '';
+  SignTask(): void {
     this.showSpinner = true;
     let dataUrl = this.canvas.toDataURL();
     var genericRequest = {
       UserId: 0,
       token: 0,
-      Params: { sign: dataUrl }
+      Params: {
+        sign: dataUrl,
+        DocType: this.docType,
+        DocId: this.docId,
+        document: this.pdfResult,
+        useLastSign: "false"
+      }
     };
-    this.signatureService.SignPDF(genericRequest).pipe(
+    this.signatureService.SignTask(genericRequest).pipe(
       finalize(() => {
         this.showSpinner = false;
       }),
     ).subscribe({
       next: (result) => {
-        this.pdfResult = result;
+        this.pdfSigned = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${result}`);
         this.signatureSuccess = true;
         this.signatureError = false;
       },
@@ -172,10 +209,48 @@ export class SignatureV2Component {
       }
     });
   }
-  SingnatureWithKeyboard(): void {
+
+  DoSign(wayToSign: string): void {
     this.pdfResult = '';
     this.showSpinner = true;
+    var genericRequest = {
+      UserId: 0,
+      token: 0,
+      Params: {
+        doctypeId: this.docType,
+        docid: this.docId,
+        userId: this.tokenService.get()['userID']
+      }
+    };
+    this.signatureService.getDocument(genericRequest).pipe(
+      finalize(() => {
+      }),
+    ).subscribe({
+      next: (result) => {
+        this.pdfResult = JSON.parse(result).data;
+        switch (wayToSign) {
+          case 'keyboard':
+            this.SingnatureWithKeyboard();
+            break;
+          case 'mouse':
+            this.SignTask();
+            break;
+          case 'previous':
+            this.UseLastSignature();
+            break;
+          default:
+            break;
+        }
+      },
+      error: (error) => {
+        this.signatureError = true;
+        this.signatureSuccess = false;
+      }
+    });
 
+  }
+  SingnatureWithKeyboard(): void {
+    this.showSpinner = true;
     let tempCanvas = document.createElement('canvas');
 
     tempCanvas.width = 1400;
@@ -201,7 +276,13 @@ export class SignatureV2Component {
     var genericRequest = {
       UserId: 0,
       token: 0,
-      Params: { sign: dataUrl }
+      Params: {
+        sign: dataUrl,
+        DocType: this.docType,
+        DocId: this.docId,
+        document: this.pdfResult,
+        useLastSign: "false"
+      }
     };
     this.signatureService.SignPDF(genericRequest).pipe(
       finalize(() => {
@@ -209,7 +290,7 @@ export class SignatureV2Component {
       }),
     ).subscribe({
       next: (result) => {
-        this.pdfResult = result;
+        this.pdfSigned = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${result}`);
         this.signatureSuccess = true;
         this.signatureError = false;
       },
@@ -220,6 +301,48 @@ export class SignatureV2Component {
     });
   }
 
+  UseLastSignature(): void {
+    this.showSpinner = true;
+    let dataUrl = ""
+    var genericRequest = {
+      UserId: 0,
+      token: 0,
+      Params: {
+        sign: dataUrl,
+        DocType: this.docType,
+        DocId: this.docId,
+        document: this.pdfResult,
+        useLastSign: "true"
+      }
+    };
+    this.signatureService.SignTask(genericRequest).pipe(
+      finalize(() => {
+        this.showSpinner = false;
+      }),
+    ).subscribe({
+      next: (result) => {
+        this.pdfSigned = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${result}`);
+        this.signatureSuccess = true;
+        this.signatureError = false;
+      },
+      error: (error) => {
+        this.signatureError = true;
+        this.signatureSuccess = false;
+      }
+    });
+  }
+
+  reload(): void {
+    console.log('reload');
+    this.route.queryParams.subscribe(params => {
+      // Navega a la misma ruta con los mismos parámetros de consulta
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: params,
+        replaceUrl: true // Opcional: reemplaza la URL actual en el historial para no crear una entrada adicional
+      });
+    });
+  }
   clearSignInput(): void {
     this.keyboardSignature = '';
 
