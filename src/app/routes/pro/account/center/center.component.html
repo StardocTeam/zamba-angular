@@ -3,19 +3,16 @@
     <nz-card>
       <ng-container *ngIf="user">
 
-
         <nz-layout>
           <nz-sider id="photo" style="background-color: white;">
             <!-- AVATAR -->
-            <div nz-row nzGutter="10">
-
-
+            <div nz-row nzGutter="10" style="margin-top: 10px;">
               <div class="circle-container">
                 <img *ngIf="user.avatar" src="{{ user.avatar }}" />
                 <img *ngIf="!user.avatar" src="{{ defaultPhoto }}" />
               </div>
 
-              <div class="avatar-holder ">
+              <div class="avatar-holder " style="width: 100%;">
                 <div class="name">{{ user.name }} {{ user.lastName }}</div>
                 <div>{{ user.position }}</div>
               </div>
@@ -30,17 +27,25 @@
 
               <div nz-row nzGutter="10">
                 <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label><strong>name:</strong> {{user.name}} </label>
+                  <label *ngIf="user.name != null"><strong>{{ 'app.profile.NAME' | i18n }}:</strong> {{user.name}}
+                  </label>
                   <br>
-                  <label><strong>lastname:</strong> {{ user.lastName }} </label>
+                  <label *ngIf="user.lastName != null"><strong>{{ 'app.profile.LASTNAME' | i18n }}:</strong> {{
+                    user.lastName }} </label>
                   <br>
-                  <label><strong>birthday:</strong> {{ user.birthday | date: 'dd/MM/yyyy' }} </label>
+                  <label *ngIf="user.birthday != null"><strong>{{ 'app.profile.BIRTHDAY' | i18n }}:</strong> {{
+                    user.birthday | date:
+                    'dd/MM/yyyy'}}
+                  </label>
                 </div>
 
                 <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label><strong>workEmail:</strong> {{user.workEmail}} </label>
+                  <label *ngIf="user.workEmail != null"><strong>{{ 'app.profile.WORKEMAIL' | i18n }}:</strong>
+                    {{user.workEmail}} </label>
                   <br>
-                  <label><strong>workCellPhone:</strong> {{user.workCellPhone}} </label>
+                  <label *ngIf="user.workCellPhone != null"><strong>{{ 'app.profile.WORKCELLPHONE' | i18n }}:</strong>
+                    {{user.workCellPhone}}
+                  </label>
                 </div>
               </div>
 
@@ -50,39 +55,37 @@
 
               <div nz-row nzGutter="10">
                 <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label><strong>company:</strong> {{ user.company}} </label>
+                  <label *ngIf="user.company != null"><strong>{{ 'app.profile.COMPANY' | i18n }}:</strong> {{
+                    user.company}} </label>
                   <br>
-                  <label><strong>position:</strong> {{ user.position }} </label>
+                  <label *ngIf="user.position != null"><strong>{{ 'app.profile.POSITION' | i18n }}:</strong> {{
+                    user.position }} </label>
                   <br>
-                  <label><strong>department:</strong> {{ user.department }} </label>
+                  <label *ngIf="user.department != null"><strong>{{ 'app.profile.DEPARTMENT' | i18n }}:</strong> {{
+                    user.department }} </label>
                   <br>
-                  <label><strong>workmode:</strong> {{user.workMode}} </label>
+                  <label *ngIf="user.workMode != null"><strong>{{ 'app.profile.WORKMODE' | i18n }}:</strong>
+                    {{user.workMode}} </label>
                 </div>
 
                 <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label><strong>dateEmploymentEntry:</strong> {{user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}
+                  <label *ngIf="user.dateEmploymentEntry != null"><strong>{{ 'app.profile.DATEEMPLOYMENTENTRY' | i18n
+                      }}:</strong>
+                    {{user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}
                   </label>
                   <br>
-                  <label><strong>Area:</strong> {{ user.area }} </label>
+                  <label *ngIf="user.area != null"><strong>Area:</strong> {{ user.area }} </label>
                   <br>
-                  <label><strong>employmentStatus:</strong> {{ user.employmentStatus}} </label>
+                  <label *ngIf="user.employmentStatus != null"><strong>{{ 'app.profile.EMPLOYMENTSTATUS' | i18n
+                      }}:</strong> {{
+                    user.employmentStatus}} </label>
                 </div>
               </div>
 
             </div>
-
-
           </nz-layout>
         </nz-layout>
-
-
-
-
       </ng-container>
-
-
-
-
     </nz-card>
   </div>
 </div>
