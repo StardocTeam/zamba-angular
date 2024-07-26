@@ -40,6 +40,8 @@ export class SignatureV2Component implements OnInit {
 
   hasSignature: boolean = false;
 
+  saveSign = true;
+
   pdfSigned: SafeUrl | undefined;
   constructor(private router: Router, private route: ActivatedRoute, private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService, private sanitizer: DomSanitizer) {
 
@@ -190,7 +192,8 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         document: this.pdfResult,
-        useLastSign: "false"
+        useLastSign: "false",
+        saveSign: this.saveSign
       }
     };
     this.signatureService.SignTask(genericRequest).pipe(
@@ -281,10 +284,11 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         document: this.pdfResult,
-        useLastSign: "false"
+        useLastSign: "false",
+        saveSign: this.saveSign
       }
     };
-    this.signatureService.SignPDF(genericRequest).pipe(
+    this.signatureService.SignTask(genericRequest).pipe(
       finalize(() => {
         this.showSpinner = false;
       }),
@@ -312,7 +316,8 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         document: this.pdfResult,
-        useLastSign: "true"
+        useLastSign: "true",
+        saveSign: this.saveSign
       }
     };
     this.signatureService.SignTask(genericRequest).pipe(
