@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectorRef, OnInit, Input } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ModalHelper } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -20,6 +20,8 @@ export class SignatureFABComponent implements OnInit {
   docType: any;
   @Input()
   docId: any;
+
+  @Output() refreshRequested = new EventEmitter<void>();
 
   showFABButton: boolean = false;
   pdfUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
@@ -61,10 +63,14 @@ export class SignatureFABComponent implements OnInit {
       if (res != '') {
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + res);
         this.cdr.detectChanges();
+        this.requestRefresh();
       }
     });
   }
 
+  requestRefresh() {
+    this.refreshRequested.emit();
+  }
   TaskViewerMessageHandler(event: MessageEvent) {
     try {
       var message = JSON.parse(event.data);
