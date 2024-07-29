@@ -2,89 +2,112 @@
   <div nz-col [nzSpan]="24">
     <nz-card>
       <ng-container *ngIf="user">
-
-        <nz-layout>
-          <nz-sider id="photo" style="background-color: white;">
+        <nz-layout class="nz-layout-White">
+          <nz-header id="photo" class="background-white header-avatar-height" [ngClass]="{'hidden': !isMobile}">
             <!-- AVATAR -->
-            <div nz-row nzGutter="10" style="margin-top: 10px;">
+            <div nz-row nzGutter="10" class="centerItem">
               <div class="circle-container">
                 <img *ngIf="user.avatar" src="{{ user.avatar }}" />
                 <img *ngIf="!user.avatar" src="../../../../../assets/DefaultPhoto.jpeg" />
               </div>
 
-              <div class="avatar-holder " style="width: 100%;">
+              <div class="avatar-holder">
                 <div class="name">{{ user.name }} {{ user.lastName }}</div>
-                <div>{{ user.position }}</div>
+                <div class="name">{{ user.position }}</div>
               </div>
 
             </div>
-          </nz-sider>
-          <nz-layout id="info" style="background-color: white;">
-            <!-- DATOS -->
-            <div nz-col [nzSpan]="24">
+          </nz-header>
 
-              <nz-divider class="divider" nzText="Datos personales" />
 
-              <div nz-row nzGutter="10">
-                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label *ngIf="user.name != null"><strong>{{ 'app.profile.NAME' | i18n }}:</strong> {{user.name}}
-                  </label>
-                  <br>
-                  <label *ngIf="user.lastName != null"><strong>{{ 'app.profile.LASTNAME' | i18n }}:</strong> {{
-                    user.lastName }} </label>
-                  <br>
-                  <label *ngIf="user.birthday != null"><strong>{{ 'app.profile.BIRTHDAY' | i18n }}:</strong> {{
-                    user.birthday | date:
-                    'dd/MM/yyyy'}}
-                  </label>
+          <nz-layout>
+            <nz-sider id="photo" class="background-white" [ngClass]="{'hidden': isMobile}">
+              <!-- AVATAR -->
+              <div nz-row nzGutter="10" class="div-margin-top-10px centerItem">
+                <div class="circle-container">
+                  <img *ngIf="user.avatar" src="{{ user.avatar }}" />
+                  <img *ngIf="!user.avatar" src="../../../../../assets/DefaultPhoto.jpeg" />
                 </div>
 
-                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label *ngIf="user.workEmail != null"><strong>{{ 'app.profile.WORKEMAIL' | i18n }}:</strong>
-                    {{user.workEmail}} </label>
-                  <br>
-                  <label *ngIf="user.workCellPhone != null"><strong>{{ 'app.profile.WORKCELLPHONE' | i18n }}:</strong>
-                    {{user.workCellPhone}}
-                  </label>
+                <div class="avatar-holder">
+                  <div class="name">{{ user.name }} {{ user.lastName }}</div>
+                  <div>{{ user.position }}</div>
                 </div>
+
               </div>
+            </nz-sider>
 
-              <br>
-              <nz-divider class="divider" nzText="Datos de Empresa" />
+            <nz-layout id="info" class="background-white" [ngClass]="{'padding-left-15px': !isMobile}">
+              <!-- DATOS -->
+              <div nz-col [nzSpan]="24">
 
+                <nz-divider class="divider" nzText="Datos personales" />
 
-              <div nz-row nzGutter="10">
-                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label *ngIf="user.company != null"><strong>{{ 'app.profile.COMPANY' | i18n }}:</strong> {{
-                    user.company}} </label>
-                  <br>
-                  <label *ngIf="user.position != null"><strong>{{ 'app.profile.POSITION' | i18n }}:</strong> {{
-                    user.position }} </label>
-                  <br>
-                  <label *ngIf="user.department != null"><strong>{{ 'app.profile.DEPARTMENT' | i18n }}:</strong> {{
-                    user.department }} </label>
-                  <br>
-                  <label *ngIf="user.workMode != null"><strong>{{ 'app.profile.WORKMODE' | i18n }}:</strong>
-                    {{user.workMode}} </label>
+                <div nz-row nzGutter="10">
+                  <div nz-col nzFlex="auto" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                    <label *ngIf="user.name != null"><strong>{{ 'app.profile.NAME' | i18n }}:</strong> {{user.name}}
+                    </label>
+                    <br>
+                    <label *ngIf="user.lastName != null"><strong>{{ 'app.profile.LASTNAME' | i18n }}:</strong> {{
+                      user.lastName }} </label>
+                    <br>
+                    <label *ngIf="user.birthday != null"><strong>{{ 'app.profile.BIRTHDAY' | i18n }}:</strong> {{
+                      user.birthday | date:
+                      'dd/MM/yyyy'}}
+                    </label>
+                  </div>
+
+                  <div nz-col nzFlex="auto" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                    <label *ngIf="user.workEmail != null"><strong>{{ 'app.profile.WORKEMAIL' | i18n }}:</strong>
+                      {{user.workEmail}} </label>
+                    <br>
+                    <label *ngIf="user.workCellPhone != null"><strong>{{ 'app.profile.WORKCELLPHONE' | i18n }}:</strong>
+                      {{user.workCellPhone}}
+                    </label>
+                  </div>
                 </div>
 
-                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
-                  <label *ngIf="user.dateEmploymentEntry != null"><strong>{{ 'app.profile.DATEEMPLOYMENTENTRY' | i18n
-                      }}:</strong>
-                    {{user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}
-                  </label>
-                  <br>
-                  <label *ngIf="user.area != null"><strong>Area:</strong> {{ user.area }} </label>
-                  <br>
-                  <label *ngIf="user.employmentStatus != null"><strong>{{ 'app.profile.EMPLOYMENTSTATUS' | i18n
-                      }}:</strong> {{
-                    user.employmentStatus}} </label>
+                <br>
+                <nz-divider class="divider" nzText="Datos de Empresa" />
+
+
+                <div nz-row nzGutter="10">
+                  <div nz-col nzFlex="auto" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                    <label *ngIf="user.company != null"><strong>{{ 'app.profile.COMPANY' | i18n }}:</strong> {{
+                      user.company}} </label>
+                    <br>
+                    <label *ngIf="user.position != null"><strong>{{ 'app.profile.POSITION' | i18n }}:</strong> {{
+                      user.position }} </label>
+                    <br>
+                    <label *ngIf="user.department != null"><strong>{{ 'app.profile.DEPARTMENT' | i18n }}:</strong> {{
+                      user.department }} </label>
+                    <br>
+                    <label *ngIf="user.workMode != null"><strong>{{ 'app.profile.WORKMODE' | i18n }}:</strong>
+                      {{user.workMode}} </label>
+                  </div>
+
+                  <div nz-col nzFlex="auto" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                    <label *ngIf="user.dateEmploymentEntry != null"><strong>{{ 'app.profile.DATEEMPLOYMENTENTRY' | i18n
+                        }}:</strong>
+                      {{user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}
+                    </label>
+                    <br>
+                    <label *ngIf="user.area != null"><strong>Area:</strong> {{ user.area }} </label>
+                    <br>
+                    <label *ngIf="user.employmentStatus != null"><strong>{{ 'app.profile.EMPLOYMENTSTATUS' | i18n
+                        }}:</strong> {{
+                      user.employmentStatus}} </label>
+                  </div>
                 </div>
+
               </div>
-
-            </div>
+            </nz-layout>
           </nz-layout>
+
+
         </nz-layout>
+
+
       </ng-container>
     </nz-card>
   </div>
