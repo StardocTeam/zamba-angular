@@ -216,6 +216,17 @@ export const esEs = {
     "routeTitle.widgets": "Dashboard",
 
     "routeTitle.form": "Formulario",
-    "routeTitle.account": "Cuenta"
+    "routeTitle.account": "Cuenta",
 
+    "app.profile.NAME": "Nombre",
+    "app.profile.LASTNAME": "Apellido",
+    "app.profile.BIRTHDAY": "Fecha de nacimiento",
+    "app.profile.WORKEMAIL": "Correo electrónico",
+    "app.profile.WORKCELLPHONE": "Teléfono",
+    "app.profile.COMPANY": "Empresa",
+    "app.profile.POSITION": "Cargo",
+    "app.profile.DEPARTMENT": "Departamento",
+    "app.profile.WORKMODE": "Modo de trabajo",
+    "app.profile.DATEEMPLOYMENTENTRY": "Fecha de ingreso",
+    "app.profile.EMPLOYMENTSTATUS": "Estado laboral",
 }

@@ -2,90 +2,89 @@
   <div nz-col [nzSpan]="24">
     <nz-card>
       <ng-container *ngIf="user">
-        <div class="avatar-holder">
-          <img *ngIf="user.avatar" src="{{ user.avatar }}" />
-          <img *ngIf="!user.avatar" />
-          <div class="name">{{ user.name }} {{ user.lastName }}</div>
-          <div>{{ user.position }}</div>
-        </div>
 
-        <nz-divider nzText="Datos personales" />
+        <nz-layout>
+          <nz-sider id="photo" style="background-color: white;">
+            <!-- AVATAR -->
+            <div nz-row nzGutter="10" style="margin-top: 10px;">
+              <div class="circle-container">
+                <img *ngIf="user.avatar" src="{{ user.avatar }}" />
+                <img *ngIf="!user.avatar" src="../../../../../assets/DefaultPhoto.jpeg" />
+              </div>
 
-        <div nz-row nzGutter="4">
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>name</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.name }}" />
-          </div>
+              <div class="avatar-holder " style="width: 100%;">
+                <div class="name">{{ user.name }} {{ user.lastName }}</div>
+                <div>{{ user.position }}</div>
+              </div>
 
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>lastName</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.lastName }}" />
-          </div>
+            </div>
+          </nz-sider>
+          <nz-layout id="info" style="background-color: white;">
+            <!-- DATOS -->
+            <div nz-col [nzSpan]="24">
 
-          <div nz-col [nzSpan]="24" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>email</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.email }}" />
-          </div>
+              <nz-divider class="divider" nzText="Datos personales" />
 
-          <div nz-col [nzSpan]="12" [nzMd]="6">
-            <nz-form-label>Work Cell Phone</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.workCellPhone }}" />
-          </div>
+              <div nz-row nzGutter="10">
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label *ngIf="user.name != null"><strong>{{ 'app.profile.NAME' | i18n }}:</strong> {{user.name}}
+                  </label>
+                  <br>
+                  <label *ngIf="user.lastName != null"><strong>{{ 'app.profile.LASTNAME' | i18n }}:</strong> {{
+                    user.lastName }} </label>
+                  <br>
+                  <label *ngIf="user.birthday != null"><strong>{{ 'app.profile.BIRTHDAY' | i18n }}:</strong> {{
+                    user.birthday | date:
+                    'dd/MM/yyyy'}}
+                  </label>
+                </div>
 
-          <div nz-col [nzSpan]="12" [nzMd]="6">
-            <nz-form-label>cumple</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.birthday | date: 'dd/MM/yyyy' }}" />
-          </div>
-        </div>
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label *ngIf="user.workEmail != null"><strong>{{ 'app.profile.WORKEMAIL' | i18n }}:</strong>
+                    {{user.workEmail}} </label>
+                  <br>
+                  <label *ngIf="user.workCellPhone != null"><strong>{{ 'app.profile.WORKCELLPHONE' | i18n }}:</strong>
+                    {{user.workCellPhone}}
+                  </label>
+                </div>
+              </div>
 
-        <div nz-row nzGutter="4">
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>password</nz-form-label>
-            <input nz-input type="password" placeholder=" " [disabled]="true" value="{{ user.name }}" />
-          </div>
-        </div>
+              <br>
+              <nz-divider class="divider" nzText="Datos de Empresa" />
 
-        <nz-divider nzText="Datos de Empresa" />
 
-        <div nz-row nzGutter="4">
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>company</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.company }}" />
-          </div>
+              <div nz-row nzGutter="10">
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label *ngIf="user.company != null"><strong>{{ 'app.profile.COMPANY' | i18n }}:</strong> {{
+                    user.company}} </label>
+                  <br>
+                  <label *ngIf="user.position != null"><strong>{{ 'app.profile.POSITION' | i18n }}:</strong> {{
+                    user.position }} </label>
+                  <br>
+                  <label *ngIf="user.department != null"><strong>{{ 'app.profile.DEPARTMENT' | i18n }}:</strong> {{
+                    user.department }} </label>
+                  <br>
+                  <label *ngIf="user.workMode != null"><strong>{{ 'app.profile.WORKMODE' | i18n }}:</strong>
+                    {{user.workMode}} </label>
+                </div>
 
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>position</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.position }}" />
-          </div>
+                <div nz-col nzFlex="auto" [nzSpan]="8" [nzSm]="10" [nzMd]="8" [nzLg]="7" [nzXl]="6">
+                  <label *ngIf="user.dateEmploymentEntry != null"><strong>{{ 'app.profile.DATEEMPLOYMENTENTRY' | i18n
+                      }}:</strong>
+                    {{user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}
+                  </label>
+                  <br>
+                  <label *ngIf="user.area != null"><strong>Area:</strong> {{ user.area }} </label>
+                  <br>
+                  <label *ngIf="user.employmentStatus != null"><strong>{{ 'app.profile.EMPLOYMENTSTATUS' | i18n
+                      }}:</strong> {{
+                    user.employmentStatus}} </label>
+                </div>
+              </div>
 
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>employmentStatus </nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.employmentStatus }}" />
-          </div>
-
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>Area</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.area }}" />
-          </div>
-        </div>
-
-        <div nz-row nzGutter="4">
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>department</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.company }}" />
-          </div>
-
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>dateEmploymentEntry</nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true"
-              value="{{ user.dateEmploymentEntry | date: 'dd/MM/yyyy' }}" />
-          </div>
-
-          <div nz-col [nzSpan]="12" [nzSm]="12" [nzMd]="6">
-            <nz-form-label>workmode </nz-form-label>
-            <input nz-input placeholder=" " [disabled]="true" value="{{ user.workMode }}" />
-          </div>
-        </div>
+            </div>
+          </nz-layout>
+        </nz-layout>
       </ng-container>
     </nz-card>
   </div>
