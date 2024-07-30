@@ -34,7 +34,7 @@ export class ViewFormComponent implements OnInit {
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.navigateUrl = '';

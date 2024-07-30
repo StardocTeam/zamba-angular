@@ -78,7 +78,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
           }
           break;
       }
-    } catch (error) { }
+    } catch (error) {}
   }
 
   submit(): void {

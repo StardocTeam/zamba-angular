@@ -1,16 +1,17 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd/modal';
-import { SignatureService } from '../signature/signature.service';
-import { catchError, finalize } from 'rxjs';
-import { TokenService } from '@delon/auth';
-import { SFStringWidgetSchema } from '@delon/form';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TokenService } from '@delon/auth';
+import { SFStringWidgetSchema } from '@delon/form';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { catchError, finalize } from 'rxjs';
+
+import { SignatureService } from '../signature/signature.service';
 
 @Component({
   selector: 'app-signature2',
   templateUrl: './signature-v2.component.html',
-  styleUrls: ['./signature-v2.component.less'],
+  styleUrls: ['./signature-v2.component.less']
 })
 export class SignatureV2Component implements OnInit {
   signatureColor: string = 'black';
@@ -42,31 +43,33 @@ export class SignatureV2Component implements OnInit {
 
   saveSign = true;
 
-  constructor(private router: Router, private route: ActivatedRoute, private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService, private sanitizer: DomSanitizer) {
-
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalRef: NzModalRef,
+    private signatureService: SignatureService,
+    private tokenService: TokenService,
+    private sanitizer: DomSanitizer
+  ) {}
   ngOnInit(): void {
     if (this.modalRef.getContentComponent().record) {
       this.docType = this.modalRef.getContentComponent().record.docType;
       this.docId = this.modalRef.getContentComponent().record.docId;
     }
-    this.signatureService.UserHasSignature({
-      UserId: 0,
-      token: 0,
-      Params: {
-      }
-    }).pipe(
-      finalize(() => {
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.hasSignature = result.hasSignature;
-      },
-      error: (error) => {
-      }
-    });
+    this.signatureService
+      .UserHasSignature({
+        UserId: 0,
+        token: 0,
+        Params: {}
+      })
+      .pipe(finalize(() => {}))
+      .subscribe({
+        next: result => {
+          this.hasSignature = result.hasSignature;
+        },
+        error: error => {}
+      });
   }
-
 
   previousStep(): void {
     this.confirm = false;
@@ -99,7 +102,6 @@ export class SignatureV2Component implements OnInit {
     const context = this.canvas.getContext('2d');
     context.fillStyle = this.backgroundColor;
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
   }
   @HostListener('mousedown', ['$event'])
   @HostListener('touchstart', ['$event'])
@@ -165,7 +167,7 @@ export class SignatureV2Component implements OnInit {
     const formattedDate = currentDate.toLocaleDateString('es-ES', {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit',
+      day: '2-digit'
     });
 
     const tokenData: any = this.tokenService.get();
@@ -191,24 +193,27 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         document: this.pdfResult,
-        useLastSign: "false",
+        useLastSign: 'false',
         saveSign: this.saveSign
       }
     };
-    this.signatureService.SignTask(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.signatureSuccess = true;
-        this.signatureError = false;
-      },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    this.signatureService
+      .SignTask(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        })
+      )
+      .subscribe({
+        next: result => {
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        }
+      });
   }
 
   DoSign(wayToSign: string): void {
@@ -223,32 +228,31 @@ export class SignatureV2Component implements OnInit {
         userId: this.tokenService.get()['userID']
       }
     };
-    this.signatureService.getDocument(genericRequest).pipe(
-      finalize(() => {
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.pdfResult = JSON.parse(result).data;
-        switch (wayToSign) {
-          case 'keyboard':
-            this.SingnatureWithKeyboard();
-            break;
-          case 'mouse':
-            this.SignTask();
-            break;
-          case 'previous':
-            this.UseLastSignature();
-            break;
-          default:
-            break;
+    this.signatureService
+      .getDocument(genericRequest)
+      .pipe(finalize(() => {}))
+      .subscribe({
+        next: result => {
+          this.pdfResult = JSON.parse(result).data;
+          switch (wayToSign) {
+            case 'keyboard':
+              this.SingnatureWithKeyboard();
+              break;
+            case 'mouse':
+              this.SignTask();
+              break;
+            case 'previous':
+              this.UseLastSignature();
+              break;
+            default:
+              break;
+          }
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
         }
-      },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
-
+      });
   }
   SingnatureWithKeyboard(): void {
     this.showSpinner = true;
@@ -269,7 +273,7 @@ export class SignatureV2Component implements OnInit {
 
       let x = (tempCanvas.width - textWidth) / 2;
 
-      let y = (tempCanvas.height / 2) + (30 / 2); // 30px es el tamaño de la fuente
+      let y = tempCanvas.height / 2 + 30 / 2; // 30px es el tamaño de la fuente
 
       ctx.fillText(this.keyboardSignature, x, y); // Usa las posiciones x e y calculadas
     }
@@ -282,29 +286,32 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         document: this.pdfResult,
-        useLastSign: "false",
+        useLastSign: 'false',
         saveSign: this.saveSign
       }
     };
-    this.signatureService.SignTask(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.signatureSuccess = true;
-        this.signatureError = false;
-      },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    this.signatureService
+      .SignTask(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        })
+      )
+      .subscribe({
+        next: result => {
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        }
+      });
   }
 
   UseLastSignature(): void {
     this.showSpinner = true;
-    let dataUrl = ""
+    let dataUrl = '';
     var genericRequest = {
       UserId: 0,
       token: 0,
@@ -313,24 +320,27 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         document: this.pdfResult,
-        useLastSign: "true",
+        useLastSign: 'true',
         saveSign: this.saveSign
       }
     };
-    this.signatureService.SignTask(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.signatureSuccess = true;
-        this.signatureError = false;
-      },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    this.signatureService
+      .SignTask(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        })
+      )
+      .subscribe({
+        next: result => {
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        }
+      });
   }
 
   reload(): void {
@@ -346,6 +356,5 @@ export class SignatureV2Component implements OnInit {
   }
   clearSignInput(): void {
     this.keyboardSignature = '';
-
   }
 }

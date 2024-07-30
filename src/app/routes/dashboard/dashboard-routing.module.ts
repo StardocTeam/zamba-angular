@@ -8,7 +8,6 @@ import { DashboardWorkplaceComponent } from './workplace/workplace.component';
 import { DefaultComponent } from '../default/default.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
 
-
 const routes: Routes = [
   { path: '', redirectTo: 'widgets', pathMatch: 'full' },
   { path: 'default', component: DefaultComponent },
@@ -18,12 +17,11 @@ const routes: Routes = [
   { path: 'workplace', component: DashboardWorkplaceComponent },
   { path: 'widgets', component: WidgetsContainerComponent },
   { path: 'signature', loadChildren: () => import('src/app/signature/signature.module').then(m => m.SignatureModule) },
-  { path: 'qr', loadChildren: () => import('src/app/qrgenerator-container/qrgenerator-container.module').then(m => m.QRGeneratorModule) },
-
+  { path: 'qr', loadChildren: () => import('src/app/qrgenerator-container/qrgenerator-container.module').then(m => m.QRGeneratorModule) }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

@@ -5,20 +5,36 @@
     </nz-typography>
     <nz-typography>
       <a class="register" routerLink="/passport/register">
-        <span nzTitle class="header-title w-underline">{{ 'app.login.signup' | i18n }}</span></a>
+        <span nzTitle class="header-title w-underline">{{ 'app.login.signup' | i18n }}</span></a
+      >
     </nz-typography>
   </div>
-  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="'app.login.message-invalid-credentials' | i18n"
-    [nzShowIcon]="true" class="mb-lg" />
-  <nz-alert *ngIf="serverError" [nzType]="'error'" [nzMessage]="'app.server.error-message' | i18n" [nzShowIcon]="true"
-    class="mb-lg" />
-  <nz-alert *ngIf="authServerError" [nzType]="'error'" [nzMessage]="'app.server.error-auth-message' | i18n"
-    [nzShowIcon]="true" class="mb-lg" />
+  <nz-alert
+    *ngIf="error"
+    [nzType]="'error'"
+    [nzMessage]="'app.login.message-invalid-credentials' | i18n"
+    [nzShowIcon]="true"
+    class="mb-lg"
+  />
+  <nz-alert *ngIf="serverError" [nzType]="'error'" [nzMessage]="'app.server.error-message' | i18n" [nzShowIcon]="true" class="mb-lg" />
+  <nz-alert
+    *ngIf="authServerError"
+    [nzType]="'error'"
+    [nzMessage]="'app.server.error-auth-message' | i18n"
+    [nzShowIcon]="true"
+    class="mb-lg"
+  />
   <nz-form-item>
-    <nz-alert *ngIf="errorUserIsNotActive" [nzType]="'error'" [nzShowIcon]="false" class="mb-lg"
-      [nzDescription]="linkSendActivationEmail" />
+    <nz-alert
+      *ngIf="errorUserIsNotActive"
+      [nzType]="'error'"
+      [nzShowIcon]="false"
+      class="mb-lg"
+      [nzDescription]="linkSendActivationEmail"
+    />
     <ng-template #linkSendActivationEmail>
-      <span>{{ 'app.server.error-user-isnot-active' | i18n }}</span><br>
+      <span>{{ 'app.server.error-user-isnot-active' | i18n }}</span
+      ><br />
       <a routerLink="/passport/resendverificationemail">{{ 'app.server.error-user-isnot-active-link-text' | i18n }}</a>
     </ng-template>
     <nz-form-control [nzErrorTip]="mailErrorTip">

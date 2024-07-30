@@ -24,11 +24,10 @@ export class ProAccountCenterComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private employeeUserService: EmployeeUserService,
     private settings: SettingsService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-
-    if (this.settings.user.avatar != null && this.settings.user.avatar != '' && this.settings.user.avatar != "data:image/jpg;base64,") {
+    if (this.settings.user.avatar != null && this.settings.user.avatar != '' && this.settings.user.avatar != 'data:image/jpg;base64,') {
       this.user.avatar = this.settings.user.avatar;
     }
     this.cdr.detectChanges();

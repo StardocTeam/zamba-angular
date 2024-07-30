@@ -40,13 +40,12 @@ export class HeaderUserComponent {
     private zambaService: ZambaService,
     private cdr: ChangeDetectorRef
   ) {
-    this.zambaService.GetProfileImage()
-      .subscribe((data: any) => {
-        let urlData = 'data:image/jpg;base64,' + data;
-        this.settings.user.avatar = urlData
-        this.avatar = urlData;
-        this.cdr.detectChanges();
-      });
+    this.zambaService.GetProfileImage().subscribe((data: any) => {
+      let urlData = `data:image/jpg;base64,${data}`;
+      this.settings.user.avatar = urlData;
+      this.avatar = urlData;
+      this.cdr.detectChanges();
+    });
   }
 
   logout(): void {

@@ -15,7 +15,7 @@ export class DefaultComponent implements OnInit {
     public msg: NzMessageService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private router: Router
-  ) { }
+  ) {}
   ngOnInit(): void {
     const tokenData = this.tokenService.get();
   }

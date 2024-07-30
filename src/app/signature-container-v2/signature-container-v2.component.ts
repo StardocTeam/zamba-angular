@@ -1,12 +1,11 @@
 import { Component, inject, ChangeDetectorRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ModalHelper } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
-import { SignatureService } from '../signature/signature.service';
 import { catchError, finalize } from 'rxjs';
+
 import { ZambaService } from '../services/zamba/zamba.service';
+import { SignatureService } from '../signature/signature.service';
 import { SignatureV2Component } from '../signature-v2/signature-v2.component';
 
 @Component({
@@ -15,7 +14,6 @@ import { SignatureV2Component } from '../signature-v2/signature-v2.component';
   styleUrls: ['./signature-container-v2.component.less']
 })
 export class SignatureFABComponent implements OnInit {
-
   @Input()
   docType: any;
   @Input()
@@ -27,13 +25,17 @@ export class SignatureFABComponent implements OnInit {
   pdfUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
   private modalHelper = inject(ModalHelper);
   private msg = inject(NzMessageService);
-  constructor(private sanitizer: DomSanitizer, private zambaService: ZambaService, private signatureService: SignatureService, private cdr: ChangeDetectorRef) {
+  constructor(
+    private sanitizer: DomSanitizer,
+    private zambaService: ZambaService,
+    private signatureService: SignatureService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.zambaService.preFlightLogin();
     this.TaskViewerMessageHandler = this.TaskViewerMessageHandler.bind(this);
   }
   ngOnInit(): void {
     window.addEventListener('message', this.TaskViewerMessageHandler);
-
   }
   ValidateAlreadySigned() {
     var genericRequest = {
@@ -44,27 +46,27 @@ export class SignatureFABComponent implements OnInit {
         DocId: this.docId
       }
     };
-    this.signatureService.ValidateAlreadySigned(genericRequest).pipe(
-      finalize(() => {
-      }),
-    ).subscribe({
-      next: (result) => {
-        var objectResult = JSON.parse(result);
-        this.showFABButton = !objectResult.indexAlreadySigned;
-      },
-      error: (error) => {
-      }
-    });
+    this.signatureService
+      .ValidateAlreadySigned(genericRequest)
+      .pipe(finalize(() => {}))
+      .subscribe({
+        next: result => {
+          var objectResult = JSON.parse(result);
+          this.showFABButton = !objectResult.indexAlreadySigned;
+        },
+        error: error => {}
+      });
   }
 
-
   static(): void {
-    this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId } }, { size: 'lg' }).subscribe(res => {
-      if (res != '') {
-        this.cdr.detectChanges();
-        this.requestRefresh();
-      }
-    });
+    this.modalHelper
+      .createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId } }, { size: 'lg' })
+      .subscribe(res => {
+        if (res != '') {
+          this.cdr.detectChanges();
+          this.requestRefresh();
+        }
+      });
   }
 
   requestRefresh() {
@@ -79,6 +81,6 @@ export class SignatureFABComponent implements OnInit {
           this.ValidateAlreadySigned();
           break;
       }
-    } catch (error) { }
+    } catch (error) {}
   }
 }

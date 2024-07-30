@@ -44,7 +44,7 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
   @Input()
   resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   @Input() divHeight: number = 600;
-  @Input() visualMode: string = "dashboard";
+  @Input() visualMode: string = 'dashboard';
 
   loading = false;
   data: any = [];
@@ -57,7 +57,7 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
     private zambaService: ZambaService
-  ) { }
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -69,12 +69,11 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
 
   getMyTasks() {
     if (this.resizeEvent != undefined) {
-      this.resizeEvent.subscribe((event: any) => {        
-        if (this.widget["id"] == event.item.id) {
+      this.resizeEvent.subscribe((event: any) => {
+        if (this.widget['id'] == event.item.id) {
           this.divHeight = event.itemComponent.height - 60;
           this.cdr.detectChanges();
         }
-        
       });
     }
 

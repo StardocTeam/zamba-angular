@@ -1,17 +1,18 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, HostListener, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { PendingTasksService } from '../../service/pending-tasks.service';
-import { HttpClient } from '@angular/common/http';
-import { ZambaService } from 'src/app/services/zamba/zamba.service';
-import { catchError, delay, finalize } from 'rxjs/operators';
 import { Subscription, of, throwError } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { catchError, delay, finalize } from 'rxjs/operators';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
+
+import { PendingTasksService } from '../../service/pending-tasks.service';
 
 @Component({
   selector: 'app-layout-pending-task-item',
   styleUrls: ['app-layout-pending-task-item.css'],
-  templateUrl: './layout-pending-task-item.component.html',
+  templateUrl: './layout-pending-task-item.component.html'
 })
 export class LayoutPendingTaskItemComponent {
   nzType: string = 'unordered-list';
@@ -66,7 +67,6 @@ export class LayoutPendingTaskItemComponent {
         .subscribe(res => {
           try {
             this.count = res;
-
           } catch (error) {
             console.error('Error en la solicitud:', error);
           }
@@ -80,7 +80,9 @@ export class LayoutPendingTaskItemComponent {
   }
 
   timer() {
-    this.timerSubscription = of(null).pipe(delay(2000)).subscribe(() => this.PTDropDownOpened = false);
+    this.timerSubscription = of(null)
+      .pipe(delay(2000))
+      .subscribe(() => (this.PTDropDownOpened = false));
   }
 
   keepOpened() {

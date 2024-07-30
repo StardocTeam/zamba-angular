@@ -1,14 +1,15 @@
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd/modal';
-import { SignatureService } from './signature.service';
-import { catchError, finalize } from 'rxjs';
 import { TokenService } from '@delon/auth';
 import { SFStringWidgetSchema } from '@delon/form';
+import { NzModalRef } from 'ng-zorro-antd/modal';
+import { catchError, finalize } from 'rxjs';
+
+import { SignatureService } from './signature.service';
 
 @Component({
   selector: 'app-signature',
   templateUrl: './signature.component.html',
-  styleUrls: ['./signature.component.less'],
+  styleUrls: ['./signature.component.less']
 })
 export class SignatureComponent {
   signatureColor: string = 'black';
@@ -32,9 +33,11 @@ export class SignatureComponent {
 
   keyboardSignature: string = '';
   keyboardSignatureMaxLength: number = 20;
-  constructor(private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService) {
-
-  }
+  constructor(
+    private modalRef: NzModalRef,
+    private signatureService: SignatureService,
+    private tokenService: TokenService
+  ) {}
   previousStep(): void {
     this.confirm = false;
     this.clearCanvas();
@@ -66,7 +69,6 @@ export class SignatureComponent {
     const context = this.canvas.getContext('2d');
     context.fillStyle = this.backgroundColor;
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
   }
   @HostListener('mousedown', ['$event'])
   @HostListener('touchstart', ['$event'])
@@ -132,7 +134,7 @@ export class SignatureComponent {
     const formattedDate = currentDate.toLocaleDateString('es-ES', {
       year: 'numeric',
       month: '2-digit',
-      day: '2-digit',
+      day: '2-digit'
     });
 
     const tokenData: any = this.tokenService.get();
@@ -156,21 +158,24 @@ export class SignatureComponent {
       token: 0,
       Params: { sign: dataUrl }
     };
-    this.signatureService.SignPDF(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.pdfResult = result;
-        this.signatureSuccess = true;
-        this.signatureError = false;
-      },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    this.signatureService
+      .SignPDF(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        })
+      )
+      .subscribe({
+        next: result => {
+          this.pdfResult = result;
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        }
+      });
   }
   SingnatureWithKeyboard(): void {
     this.pdfResult = '';
@@ -193,7 +198,7 @@ export class SignatureComponent {
 
       let x = (tempCanvas.width - textWidth) / 2;
 
-      let y = (tempCanvas.height / 2) + (30 / 2); // 30px es el tamaño de la fuente
+      let y = tempCanvas.height / 2 + 30 / 2; // 30px es el tamaño de la fuente
 
       ctx.fillText(this.keyboardSignature, x, y); // Usa las posiciones x e y calculadas
     }
@@ -203,25 +208,27 @@ export class SignatureComponent {
       token: 0,
       Params: { sign: dataUrl }
     };
-    this.signatureService.SignPDF(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.pdfResult = result;
-        this.signatureSuccess = true;
-        this.signatureError = false;
-      },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    this.signatureService
+      .SignPDF(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        })
+      )
+      .subscribe({
+        next: result => {
+          this.pdfResult = result;
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        }
+      });
   }
 
   clearSignInput(): void {
     this.keyboardSignature = '';
-
   }
 }
