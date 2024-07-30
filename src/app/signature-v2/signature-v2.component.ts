@@ -42,7 +42,6 @@ export class SignatureV2Component implements OnInit {
 
   saveSign = true;
 
-  pdfSigned: SafeUrl | undefined;
   constructor(private router: Router, private route: ActivatedRoute, private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService, private sanitizer: DomSanitizer) {
 
   }
@@ -202,7 +201,6 @@ export class SignatureV2Component implements OnInit {
       }),
     ).subscribe({
       next: (result) => {
-        this.pdfSigned = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${result}`);
         this.signatureSuccess = true;
         this.signatureError = false;
       },
@@ -294,7 +292,6 @@ export class SignatureV2Component implements OnInit {
       }),
     ).subscribe({
       next: (result) => {
-        this.pdfSigned = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${result}`);
         this.signatureSuccess = true;
         this.signatureError = false;
       },
@@ -326,7 +323,6 @@ export class SignatureV2Component implements OnInit {
       }),
     ).subscribe({
       next: (result) => {
-        this.pdfSigned = this.sanitizer.bypassSecurityTrustResourceUrl(`data:application/pdf;base64,${result}`);
         this.signatureSuccess = true;
         this.signatureError = false;
       },

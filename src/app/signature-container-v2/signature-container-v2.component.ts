@@ -61,7 +61,6 @@ export class SignatureFABComponent implements OnInit {
   static(): void {
     this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId } }, { size: 'lg' }).subscribe(res => {
       if (res != '') {
-        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + res);
         this.cdr.detectChanges();
         this.requestRefresh();
       }
