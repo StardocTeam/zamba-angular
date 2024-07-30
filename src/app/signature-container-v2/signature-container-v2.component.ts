@@ -20,6 +20,9 @@ export class SignatureFABComponent implements OnInit {
   docType: any;
   @Input()
   docId: any;
+  DocIdSignatureCoordinates: any;
+  isSignedIndexID: any;
+
 
   @Output() refreshRequested = new EventEmitter<void>();
 
@@ -35,7 +38,9 @@ export class SignatureFABComponent implements OnInit {
     window.addEventListener('message', this.TaskViewerMessageHandler);
 
   }
-  ValidateAlreadySigned() {
+  ValidateAlreadySigned(data: any) {
+    this.DocIdSignatureCoordinates = data.DocIdSignatureCoordinates;
+    this.isSignedIndexID = data.isSignedIndexID;
     var genericRequest = {
       UserId: 0,
       token: 0,
@@ -59,7 +64,7 @@ export class SignatureFABComponent implements OnInit {
 
 
   static(): void {
-    this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId } }, { size: 'lg' }).subscribe(res => {
+    this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId, DocIdSignatureCoordinates: this.DocIdSignatureCoordinates, isSignedIndexID: this.isSignedIndexID } }, { size: 'lg' }).subscribe(res => {
       if (res != '') {
         this.cdr.detectChanges();
         this.requestRefresh();
@@ -72,11 +77,11 @@ export class SignatureFABComponent implements OnInit {
   }
   TaskViewerMessageHandler(event: MessageEvent) {
     try {
-      var message = JSON.parse(event.data);
 
+      var message = JSON.parse(event.data);
       switch (message.type) {
         case 'signature':
-          this.ValidateAlreadySigned();
+          this.ValidateAlreadySigned(message.data.data);
           break;
       }
     } catch (error) { }
