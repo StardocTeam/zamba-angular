@@ -24,6 +24,8 @@ export class ViewFormComponent implements OnInit {
 
   WebUrl = environment['zambaWeb'];
 
+  needRefresh: boolean = true;
+
   /**
    *
    */
@@ -75,5 +77,11 @@ export class ViewFormComponent implements OnInit {
   // Function to decode base64 to string
   decodeBase64ToString(base64: string): string {
     return atob(base64);
+  }
+  refreshContent() {
+    this.needRefresh = false;
+    this.cdr.detectChanges();
+    this.needRefresh = true;
+    this.cdr.detectChanges();
   }
 }

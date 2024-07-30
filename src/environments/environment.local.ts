@@ -8,6 +8,7 @@ export const environment = {
   production: false,
   useHash: true,
   apiRestBasePath: 'http://localhost/ZambaWeb.RestApi/api/Dashboard',
+  externalSearchApi: 'http://localhost/ZambaWeb.RestApi/api/ExternalSearch',
   zambaWeb: 'http://localhost/Zamba.Web',
   cliente: 'zamba',
   api: {

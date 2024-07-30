@@ -11,13 +11,15 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SignatureFABComponent } from '../signature-container-v2/signature-container-v2.component';
+import { SignatureV2Component } from '../signature-v2/signature-v2.component';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 const routes: Routes = [
   { path: '', component: SignatureContainerComponent }
 ];
 
 @NgModule({
-  declarations: [SignatureComponent, SignatureContainerComponent, SignatureFABComponent],
+  declarations: [SignatureComponent, SignatureV2Component, SignatureContainerComponent, SignatureFABComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -27,8 +29,9 @@ const routes: Routes = [
     NzSpinModule,
     NzRadioModule,
     FormsModule,
-    NzTabsModule
+    NzTabsModule,
+    NzCheckboxModule
   ],
-  exports: [SignatureComponent, SignatureContainerComponent, SignatureFABComponent]
+  exports: [SignatureComponent, SignatureV2Component, SignatureContainerComponent, SignatureFABComponent]
 })
 export class SignatureModule { }
