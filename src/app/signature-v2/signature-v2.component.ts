@@ -38,6 +38,9 @@ export class SignatureV2Component implements OnInit {
   docType: string = '';
   docId: string = '';
 
+  isSignedIndexID: any;
+  DocIdSignatureCoordinates: any;
+
   hasSignature: boolean = false;
 
   saveSign = true;
@@ -49,6 +52,8 @@ export class SignatureV2Component implements OnInit {
     if (this.modalRef.getContentComponent().record) {
       this.docType = this.modalRef.getContentComponent().record.docType;
       this.docId = this.modalRef.getContentComponent().record.docId;
+      this.DocIdSignatureCoordinates = this.modalRef.getContentComponent().record.DocIdSignatureCoordinates;
+      this.isSignedIndexID = this.modalRef.getContentComponent().record.isSignedIndexID;
     }
     this.signatureService.UserHasSignature({
       UserId: 0,
@@ -192,7 +197,9 @@ export class SignatureV2Component implements OnInit {
         DocId: this.docId,
         document: this.pdfResult,
         useLastSign: "false",
-        saveSign: this.saveSign
+        saveSign: this.saveSign,
+        isSignedIndexID: this.isSignedIndexID,
+        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates)
       }
     };
     this.signatureService.SignTask(genericRequest).pipe(
@@ -283,7 +290,9 @@ export class SignatureV2Component implements OnInit {
         DocId: this.docId,
         document: this.pdfResult,
         useLastSign: "false",
-        saveSign: this.saveSign
+        saveSign: this.saveSign,
+        isSignedIndexID: this.isSignedIndexID,
+        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates)
       }
     };
     this.signatureService.SignTask(genericRequest).pipe(
@@ -314,7 +323,9 @@ export class SignatureV2Component implements OnInit {
         DocId: this.docId,
         document: this.pdfResult,
         useLastSign: "true",
-        saveSign: this.saveSign
+        saveSign: this.saveSign,
+        isSignedIndexID: this.isSignedIndexID,
+        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates)
       }
     };
     this.signatureService.SignTask(genericRequest).pipe(
