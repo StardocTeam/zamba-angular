@@ -228,5 +228,5 @@ export const esEs = {
     "app.profile.DEPARTMENT": "Departamento",
     "app.profile.WORKMODE": "Modo de trabajo",
     "app.profile.DATEEMPLOYMENTENTRY": "Fecha de ingreso",
-    "app.profile.EMPLOYMENTSTATUS": "Estado laboral",
+    "app.profile.EMPLOYMENTSTATUS": "Estado laboral"
 }
