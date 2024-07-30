@@ -22,9 +22,27 @@ export class SignatureService {
         });
     }
 
+
+    SignTask(genericRequest: any) {
+        return this.http.post(`${environment['apiRestBasePath']}/SignTask`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
     ValidateAlreadySigned(genericRequest: any) {
         return this.http.post(`${environment['apiRestBasePath']}/ValidateAlreadySigned`, genericRequest, null, {
             context: new HttpContext().set(ALLOW_ANONYMOUS, true)
         });
     }
+
+    UserHasSignature(genericRequest: any) {
+        return this.http.post(`${environment['apiRestBasePath']}/UserHasSignature`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
+    getDocument(genericRequest: any) {
+        return this.http.post(`${environment['externalSearchApi']}/getDocument`, genericRequest, null, {
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        });
+    }
+
 }
