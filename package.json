@@ -39,7 +39,7 @@
     "color-less": "ng-alain-plugin-theme -t=colorLess",
     "theme": "ng-alain-plugin-theme -t=themeCss",
     "icon": "ng g ng-alain:plugin icon",
-    "build:qa": "npm run lint && ng build --base-href=./ --configuration=qa",
+    "build:qa": "ng build --base-href=./ --configuration=qa",
     "build:dev": "npm run lint && ng build --base-href=./ --configuration=development",
     "build:prod": "npm run lint && ng build --base-href=./ --configuration=production"
   },
