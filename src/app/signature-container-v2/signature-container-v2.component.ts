@@ -65,7 +65,7 @@ export class SignatureFABComponent implements OnInit {
 
   static(): void {
     this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId, DocIdSignatureCoordinates: this.DocIdSignatureCoordinates, isSignedIndexID: this.isSignedIndexID } }, { size: 'lg' }).subscribe(res => {
-      if (res != '') {
+      if (res == "reload") {
         this.cdr.detectChanges();
         this.requestRefresh();
       }
