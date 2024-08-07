@@ -72,13 +72,18 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-control [nzErrorTip]="passwordErrorTip">
-      <nz-input-group nzSize="large" nzAddonBeforeIcon="lock" nz-popover nzPopoverPlacement="right"
-        nzPopoverTrigger="focus" [(nzPopoverVisible)]="visible" nzPopoverOverlayClassName="register-password-cdk"
-        [nzPopoverOverlayStyle]="{ 'width.px': 240 }" [nzPopoverContent]="pwdCdkTpl">
-        <nz-form-label nzRequired="true">{{ 'app.register.form-password-placeholder' | i18n }}</nz-form-label>
-        <input nz-input type="password" formControlName="password" maxlength="50"
+      <nz-form-label nzRequired="true">{{ 'app.register.form-password-placeholder' | i18n }}</nz-form-label>
+      <nz-input-group [nzSuffix]="suffixTemplate" nzSize="large" nzAddonBeforeIcon="lock" nz-popover
+        nzPopoverPlacement="right" nzPopoverTrigger="focus" [(nzPopoverVisible)]="visible"
+        nzPopoverOverlayClassName="register-password-cdk" [nzPopoverOverlayStyle]="{ 'width.px': 240 }"
+        [nzPopoverContent]="pwdCdkTpl">
+        <input nz-input [type]="passwordVisible ? 'text' : 'password'" formControlName="password" maxlength="50"
           placeholder="{{ 'app.register.form-password-placeholder' | i18n }}" />
       </nz-input-group>
+      <ng-template #suffixTemplate>
+        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+          (click)="passwordVisible = !passwordVisible"></span>
+      </ng-template>
       <ng-template #pwdCdkTpl>
         <div style="padding: 4px 0">
           <ng-container [ngSwitch]="status">
@@ -105,9 +110,9 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-control [nzErrorTip]="confirmErrorTip">
-      <nz-input-group nzSize="large" nzAddonBeforeIcon="lock">
-        <nz-form-label nzRequired="true">{{ 'app.register.form-confirm-password-placeholder' | i18n }}</nz-form-label>
-        <input nz-input type="password" formControlName="confirm" maxlength="50"
+      <nz-form-label nzRequired="true">{{ 'app.register.form-confirm-password-placeholder' | i18n }}</nz-form-label>
+      <nz-input-group nzSize="large" nzAddonBeforeIcon="lock" [nzSuffix]="suffixTemplate">
+        <input nz-input [type]="passwordVisible ? 'text' : 'password'" formControlName="confirm" maxlength="50"
           placeholder="{{ 'app.register.form-confirm-password-placeholder' | i18n }}" />
       </nz-input-group>
       <ng-template #confirmErrorTip let-i>

@@ -41,6 +41,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
 
   safeZambaUrl: SafeResourceUrl = '';
 
+  passwordVisible = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
