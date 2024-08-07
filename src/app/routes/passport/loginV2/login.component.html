@@ -34,9 +34,14 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-control [nzErrorTip]="passwordErrorTip">
-      <nz-input-group nzSize="large" nzPrefixIcon="lock">
-        <input nz-input type="password" formControlName="password" placeholder="{{ 'app.login.password' | i18n }}" />
+      <nz-input-group nzSize="large" nzPrefixIcon="lock" [nzSuffix]="suffixTemplate">
+        <input nz-input [type]="passwordVisible ? 'text' : 'password'" formControlName="password"
+          placeholder="{{ 'app.login.password' | i18n }}" />
       </nz-input-group>
+      <ng-template #suffixTemplate>
+        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+          (click)="passwordVisible = !passwordVisible"></span>
+      </ng-template>
       <ng-template #passwordErrorTip let-i>
         <ng-container *ngIf="i.errors.required">
           {{ 'app.login.validate-password' | i18n }}

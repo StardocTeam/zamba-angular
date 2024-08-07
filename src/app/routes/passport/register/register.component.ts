@@ -23,7 +23,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     private router: Router,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.setCurrentPhonePrefix();
     this.getDepartment();
@@ -83,6 +83,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
 
   count = 0;
   interval$: NzSafeAny;
+  passwordVisible = false;
 
   static checkPassword(control: FormControl): NzSafeAny {
     if (!control) {
