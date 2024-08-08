@@ -12,6 +12,8 @@
       <ng-template #companyNameErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{ 'validation.enterprise.required' | i18n }}</ng-container>
         <ng-container *ngIf="i.errors?.maxlength">{{ 'validation.enterprise.maxLength' | i18n }}</ng-container>
+        <ng-container *ngIf="i.errors?.companyNameTaken">{{ 'validation.enterprise.notAvailable' | i18n
+          }}</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
