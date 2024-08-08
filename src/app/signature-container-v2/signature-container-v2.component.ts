@@ -20,6 +20,8 @@ export class SignatureFABComponent implements OnInit {
   docType: any;
   @Input()
   docId: any;
+  @Input()
+  taskId: any;
   DocIdSignatureCoordinates: any;
   isSignedIndexID: any;
 
@@ -64,8 +66,8 @@ export class SignatureFABComponent implements OnInit {
 
 
   static(): void {
-    this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId, DocIdSignatureCoordinates: this.DocIdSignatureCoordinates, isSignedIndexID: this.isSignedIndexID } }, { size: 'lg' }).subscribe(res => {
-      if (res != '') {
+    this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId, DocIdSignatureCoordinates: this.DocIdSignatureCoordinates, isSignedIndexID: this.isSignedIndexID, taskId: this.taskId } }, { size: 'lg' }).subscribe(res => {
+      if (res == "reload") {
         this.cdr.detectChanges();
         this.requestRefresh();
       }

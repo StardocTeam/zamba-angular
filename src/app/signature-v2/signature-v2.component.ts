@@ -38,6 +38,8 @@ export class SignatureV2Component implements OnInit {
   docType: string = '';
   docId: string = '';
 
+  taskId: string = '';
+
   isSignedIndexID: any;
   DocIdSignatureCoordinates: any;
 
@@ -54,6 +56,7 @@ export class SignatureV2Component implements OnInit {
       this.docId = this.modalRef.getContentComponent().record.docId;
       this.DocIdSignatureCoordinates = this.modalRef.getContentComponent().record.DocIdSignatureCoordinates;
       this.isSignedIndexID = this.modalRef.getContentComponent().record.isSignedIndexID;
+      this.taskId = this.modalRef.getContentComponent().record.taskId;
     }
     this.signatureService.UserHasSignature({
       UserId: 0,
@@ -158,7 +161,7 @@ export class SignatureV2Component implements OnInit {
   }
 
   closeModal(): void {
-    this.modalRef.close(this.pdfResult);
+    this.modalRef.close("reload");
   }
   confirmSign(): void {
     this.confirm = true;
@@ -195,7 +198,7 @@ export class SignatureV2Component implements OnInit {
         sign: dataUrl,
         DocType: this.docType,
         DocId: this.docId,
-        document: this.pdfResult,
+        taskId: this.taskId,
         useLastSign: "false",
         saveSign: this.saveSign,
         isSignedIndexID: this.isSignedIndexID,
@@ -219,42 +222,19 @@ export class SignatureV2Component implements OnInit {
   }
 
   DoSign(wayToSign: string): void {
-    this.pdfResult = '';
-    this.showSpinner = true;
-    var genericRequest = {
-      UserId: 0,
-      token: 0,
-      Params: {
-        doctypeId: this.docType,
-        docid: this.docId,
-        userId: this.tokenService.get()['userID']
-      }
-    };
-    this.signatureService.getDocument(genericRequest).pipe(
-      finalize(() => {
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.pdfResult = JSON.parse(result).data;
-        switch (wayToSign) {
-          case 'keyboard':
-            this.SingnatureWithKeyboard();
-            break;
-          case 'mouse':
-            this.SignTask();
-            break;
-          case 'previous':
-            this.UseLastSignature();
-            break;
-          default:
-            break;
-        }
-      },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    switch (wayToSign) {
+      case 'keyboard':
+        this.SingnatureWithKeyboard();
+        break;
+      case 'mouse':
+        this.SignTask();
+        break;
+      case 'previous':
+        this.UseLastSignature();
+        break;
+      default:
+        break;
+    }
 
   }
   SingnatureWithKeyboard(): void {
@@ -288,7 +268,7 @@ export class SignatureV2Component implements OnInit {
         sign: dataUrl,
         DocType: this.docType,
         DocId: this.docId,
-        document: this.pdfResult,
+        taskId: this.taskId,
         useLastSign: "false",
         saveSign: this.saveSign,
         isSignedIndexID: this.isSignedIndexID,
@@ -321,7 +301,7 @@ export class SignatureV2Component implements OnInit {
         sign: dataUrl,
         DocType: this.docType,
         DocId: this.docId,
-        document: this.pdfResult,
+        taskId: this.taskId,
         useLastSign: "true",
         saveSign: this.saveSign,
         isSignedIndexID: this.isSignedIndexID,

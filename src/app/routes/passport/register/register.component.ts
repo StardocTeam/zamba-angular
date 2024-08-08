@@ -10,6 +10,7 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { catchError, finalize, throwError } from 'rxjs';
 
 import { allMobilePrefixes } from '../../../services/phone-prefixes.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'passport-register',
@@ -22,8 +23,9 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     private fb: FormBuilder,
     private router: Router,
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    private msgSrv: NzMessageService
+  ) { }
   ngOnInit(): void {
     this.setCurrentPhonePrefix();
     this.getDepartment();
@@ -83,6 +85,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
 
   count = 0;
   interval$: NzSafeAny;
+  passwordVisible = false;
 
   static checkPassword(control: FormControl): NzSafeAny {
     if (!control) {
@@ -160,7 +163,14 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
               mailControl.setErrors({ emailExists: true });
             }
           }
-          if (!dataResponse.emailIsTaken) {
+          else if (dataResponse.companyNameIsTaken) {
+            const companyNameControl = this.form.get('companyName');
+            if (companyNameControl) {
+              companyNameControl.setErrors({ companyNameTaken: true });
+              this.msgSrv.error("Error!");
+            }
+          }
+          else {
             this.router.navigate(['passport', 'register-result'], { queryParams: { email: data.mail } });
           }
         }
