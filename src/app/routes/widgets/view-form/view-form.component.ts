@@ -58,7 +58,7 @@ export class ViewFormComponent implements OnInit {
         this.t = params['t'];
 
         var queryString =
-          `?DocType=${this.DocType}&docid=${this.docid}&taskid=${this.taskid}&mode=${this.mode}&s=${this.s}&userId=${this.userId}&modalmode=true&` +
+          `?DocType=${this.DocType}&docid=${this.docid}&taskid=${this.taskid}&mode=${this.mode}&s=${this.s}&userId=${this.userId}&modalmode=true&isdashboard=true&` +
           `&t=${this.t}#Zamba`;
 
         var newUrl = `${this.WebUrl}/views/WF/TaskViewer${queryString}`;

@@ -67,7 +67,7 @@ export class RuleComponent implements OnInit {
           }
           break;
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   ngOnInit(): void {
@@ -101,7 +101,7 @@ export class RuleComponent implements OnInit {
               //const encodedString = this.encodeStringToBase64(JSON.stringify(tokenData.token));
               const encodedString = tokenData.token;
 
-              newUrl = `${newUrl}&modalmode=true&t=${encodedString}`;
+              newUrl = `${newUrl}&modalmode=true&isdashboard=true&t=${encodedString}`;
               this.nextStepUrl = this.sanitizer.bypassSecurityTrustResourceUrl(newUrl);
 
               // Abre una nueva ventana o pestaña con la URL especificada
