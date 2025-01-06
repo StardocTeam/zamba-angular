@@ -25,6 +25,7 @@ import { PendingVacationsComponent } from './pending-vacations/pending-vacations
 import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { WidgetsComponent } from './widgets/widgets.component';
 import { WidgetsRoutingModule } from './widgets-routing.module';
+import { ReportComponentComponent } from './report-component/report-component.component';
 
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
@@ -32,7 +33,8 @@ const COMPONENTS: Array<Type<void>> = [
   CarouselComponent,
   VideoplayerComponent,
   PendingTasksComponent,
-  PendingVacationsComponent
+  PendingVacationsComponent,
+  ReportComponentComponent
 ];
 
 @NgModule({
@@ -62,4 +64,4 @@ const COMPONENTS: Array<Type<void>> = [
   declarations: COMPONENTS,
   exports: COMPONENTS
 })
-export class WidgetsModule {}
+export class WidgetsModule { }

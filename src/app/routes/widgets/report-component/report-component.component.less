@@ -1,0 +1,73 @@
+:host {
+    // text-align: center;
+}
+
+nz-header,
+nz-footer {
+    background: #7dbcea;
+    color: #fff;
+}
+
+.ant-layout-sider {
+    position: relative;
+    min-width: 0;
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+nz-sider {
+    flex: 0 0 25% !important;
+    line-height: 10px !important;
+    min-width: 100px !important;
+    max-width: 500px !important;
+    color: #fff;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #7dbcea;
+        border-radius: 10px;
+        border: 3px solid #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #ff0000;
+    }
+
+}
+
+nz-content {
+    min-height: 10px !important;
+    line-height: 10px !important;
+}
+
+nz-layout nz-layout,
+nz-layout:last-child {
+    margin: 0;
+}
+
+.firstDiv {
+    height: 550px !important;
+}
+
+.nzLayoutHeight100percent {
+    height: 100% !important;
+}
+
+.reportList {
+    list-style-type: none;
+    padding: 0;
+}
+
+.reportsContainer {
+    border-right: 1px solid #ccc;
+    padding: 10px;
+}
