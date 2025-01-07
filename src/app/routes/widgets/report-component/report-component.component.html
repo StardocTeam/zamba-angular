@@ -1,13 +1,55 @@
-<style>
-    .reportList a {
-        color: black;
-    }
-</style>
-
 <div class="firstDiv">
     <nz-layout class="nzLayoutHeight100percent">
         <nz-sider>
-            <div class="reportsContainer">
+
+            <!-- TREE 2 -->
+            <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;">
+                <input type="text" nz-input placeholder="Search" ngModel (ngModelChange)="searchValue$.next($event)" />
+            </nz-input-group>
+            <ng-template #suffixIcon>
+                <input type="button" value="Busqueda">
+            </ng-template>
+
+            <nz-divider nzText="Reportes: 7"></nz-divider>
+
+            <nz-tree-view class="nztreeview" [nzTreeControl]="treeControl" [nzDataSource]="dataSource"
+                [nzDirectoryTree]="true">
+
+                <nz-tree-node *nzTreeNodeDef="let node" nzTreeNodePadding>
+                    <nz-tree-node-toggle nzTreeNodeNoopToggle></nz-tree-node-toggle>
+                    <nz-tree-node-option [nzDisabled]="node.disabled">
+                        {{ node.name }}
+                    </nz-tree-node-option>
+                    <div>
+
+                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">A</button>
+                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">C</button>
+                        <button id="botoncitoB" nz-button nzType="primary" nzShape="circle" nzSize="small">B</button>
+
+                    </div>
+
+                </nz-tree-node>
+
+                <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
+                    <nz-tree-node-toggle> (+) </nz-tree-node-toggle>
+                    <nz-tree-node-option [nzDisabled]="node.disabled">
+                        <p class="ReportName" style="margin-bottom: 2px !important; margin-top: 2px !important;"
+                            nz-typography [(nzContent)]="node.name"></p>
+                    </nz-tree-node-option>
+                    <!-- 
+                    <div>
+
+                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">A</button>
+                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">C</button>
+                        <button id="botoncitoB" nz-button nzType="primary" nzShape="circle" nzSize="small">B</button>
+
+                    </div> -->
+
+                </nz-tree-node>
+            </nz-tree-view>
+
+            <!-- TREE 1 -->
+            <!-- <div class="reportsContainer">
                 <ul class="reportList">
                     <li style="border-bottom: 1px solid #ccc;">
                         <a nz-button nzType="link">Reporte de Ventas</a>
@@ -70,15 +112,20 @@
                         <a nz-button nzType="link">Reporte de Riesgos</a>
                     </li>
                 </ul>
-            </div>
+            </div> -->
         </nz-sider>
 
         <nz-content>
             <div style="flex-grow: 1; padding: 10px;">
                 <h2>Contenido del Item</h2>
                 <p>Aquí se mostrará el contenido del item seleccionado.</p>
+                <p>Este es un ejemplo de contenido adicional para el item seleccionado. Puedes agregar más detalles aquí
+                    según sea necesario.</p>
+                <p>Por ejemplo, podrías incluir información sobre el reporte seleccionado, gráficos, tablas, o cualquier
+                    otro tipo de contenido relevante.</p>
+                <p>Recuerda que este espacio es dinámico y debe actualizarse según el item que el usuario seleccione en
+                    la lista o árbol de navegación.</p>
             </div>
         </nz-content>
-
     </nz-layout>
 </div>
