@@ -2,14 +2,15 @@
     <nz-layout class="nzLayoutHeight100percent">
         <nz-sider>
 
-
-            <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;">
-                <input type="text" nz-input placeholder="Search" ngModel (ngModelChange)="searchValue$.next($event)" />
-            </nz-input-group>
-            <ng-template #suffixIcon>
-                <input type="button" value="Busqueda">
-            </ng-template>
-
+            <div class="search-container">
+                <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;">
+                    <input type="text" nz-input placeholder="Search" ngModel
+                        (ngModelChange)="searchValue$.next($event)" />
+                </nz-input-group>
+                <ng-template #suffixIcon>
+                    <input type="button" value="Busqueda">
+                </ng-template>
+            </div>
             <!-- <nz-divider nzText="Reportes: 7"></nz-divider>
 
             <nz-tree-view class="nztreeview" [nzTreeControl]="treeControl" [nzDataSource]="dataSource"
@@ -37,7 +38,7 @@
                 </nz-tree-node>
             </nz-tree-view> -->
 
-            <ul nz-menu nzMode="inline">
+            <ul nz-menu nzMode="inline" heigth="3000px">
                 <!-- <li nz-submenu nzTitle="Navigation One" nzIcon="mail" nzOpen>
                     <ul>
                         <li nz-menu-item nzSelected>Option 1
@@ -56,24 +57,107 @@
                     </ul>
                 </li> -->
 
-                <li nz-menu-group nzTitle="Item 1"></li>
+                <li nz-menu-group nzTitle="Financial Reports"></li>
 
-                <li nz-menu-item nzSelected>Option 1
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-
-
-                </li>
-
-                <li nz-menu-item>Option 3
+                <li nz-menu-item nzSelected>Annual Report
                     <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
                         nzSize="small">A</button>
                 </li>
 
-                <li nz-menu-item>Option 4
+                <li nz-menu-item>Quarterly Report
                     <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
                         nzSize="small">A</button>
                 </li>
+
+                <li nz-menu-item>Monthly Report
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-group nzTitle="Sales Reports"></li>
+
+                <li nz-menu-item>Sales Summary
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+                <li nz-menu-item>Sales Summary
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+                <li nz-menu-item>Sales Summary
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+                <li nz-menu-item>Sales Summary
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+                <li nz-menu-item>Sales Summary
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+                <li nz-menu-item>Sales Summary
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+                <li nz-menu-item>Sales Summary
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Regional Sales
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+
+                <li nz-menu-item>Regional Sales LLLLLL
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+
+                <li nz-menu-item>Regional Sales LLLLLLLLLLLLL
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+
 
             </ul>
 

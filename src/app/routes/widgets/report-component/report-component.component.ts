@@ -1,8 +1,10 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NzTreeFlatDataSource, NzTreeFlattener } from 'ng-zorro-antd/tree-view';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { auditTime, map } from 'rxjs/operators';
+import { auditTime, catchError, map } from 'rxjs/operators';
+import { ReportService } from './service/report.service';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 
 //TODO: Hacer una limpieza completa y acomodamiento completo de todo el codigo TS y LESS que tenga lineas de codigo basuca que no sirven para nada.
 
@@ -86,7 +88,6 @@ interface ExampleFlatNode {
   styleUrls: ['./report-component.component.less'],
 })
 
-
 export class ReportComponentComponent {
   flatNodeMap = new Map<FlatNode, TreeNode>();
   nestedNodeMap = new Map<TreeNode, FlatNode>();
@@ -94,6 +95,35 @@ export class ReportComponentComponent {
   searchValue = '';
   originData$ = new BehaviorSubject(TREE_DATA);
   searchValue$ = new BehaviorSubject<string>('');
+
+  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private RService: ReportService) {
+
+    this.filteredData$.subscribe(result => {
+      this.dataSource.setData(result.treeData);
+
+      const hasSearchValue = !!this.searchValue;
+      if (hasSearchValue) {
+        if (this.expandedNodes.length === 0) {
+          this.expandedNodes = this.treeControl.expansionModel.selected;
+          this.treeControl.expansionModel.clear();
+        }
+        this.treeControl.expansionModel.select(...result.needsToExpanded);
+      } else {
+        if (this.expandedNodes.length) {
+          this.treeControl.expansionModel.clear();
+          this.treeControl.expansionModel.select(...this.expandedNodes);
+          this.expandedNodes = [];
+        }
+      }
+    });
+  }
+
+  ngOnInit(): void {
+
+    this.GetReports();
+  }
+
+
 
   transformer = (node: TreeNode, level: number): FlatNode => {
     const existingNode = this.nestedNodeMap.get(node);
@@ -135,32 +165,30 @@ export class ReportComponentComponent {
     )
   ]).pipe(map(([data, value]) => (value ? filterTreeData(data, value) : new FilteredTreeResult(data))));
 
-  constructor() {
-    this.filteredData$.subscribe(result => {
-      this.dataSource.setData(result.treeData);
-
-      debugger;
-
-      const hasSearchValue = !!this.searchValue;
-      if (hasSearchValue) {
-        if (this.expandedNodes.length === 0) {
-          this.expandedNodes = this.treeControl.expansionModel.selected;
-          this.treeControl.expansionModel.clear();
-        }
-        this.treeControl.expansionModel.select(...result.needsToExpanded);
-      } else {
-        if (this.expandedNodes.length) {
-          this.treeControl.expansionModel.clear();
-          this.treeControl.expansionModel.select(...this.expandedNodes);
-          this.expandedNodes = [];
-        }
-      }
-    });
-  }
 
   hasChild = (_: number, node: FlatNode): boolean => node.expandable;
 
 
 
 
+
+  private GetReports() {
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid']
+      };
+
+      this.RService._GetReports(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      ).subscribe((data: any) => {
+        this.originData$.next(data);
+      });
+    }
+  }
 }

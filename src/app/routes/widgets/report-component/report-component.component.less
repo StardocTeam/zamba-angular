@@ -1,7 +1,3 @@
-:host {
-    // text-align: center;
-}
-
 nz-header,
 nz-footer {
     background: #7dbcea;
@@ -116,6 +112,59 @@ nz-input-group {
 nz-divider {
     margin-top: 0px !important;
     margin-bottom: 0px !important;
+}
+
+.right-align {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+li[nz-menu-item] {
+    position: relative;
+}
+
+.fixed-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    /* Asegúrate de que el menú esté por encima de otros elementos */
+}
+
+.right-align {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search-container {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: #ffffff;
+    z-index: 10;
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
+}
+
+
+.fixed-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.nzLayoutHeight100percent {
+    height: 100% !important;
 }
 
 .right-align {
