@@ -2,7 +2,7 @@
     <nz-layout class="nzLayoutHeight100percent">
         <nz-sider>
 
-            <!-- TREE 2 -->
+
             <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;">
                 <input type="text" nz-input placeholder="Search" ngModel (ngModelChange)="searchValue$.next($event)" />
             </nz-input-group>
@@ -10,7 +10,7 @@
                 <input type="button" value="Busqueda">
             </ng-template>
 
-            <nz-divider nzText="Reportes: 7"></nz-divider>
+            <!-- <nz-divider nzText="Reportes: 7"></nz-divider>
 
             <nz-tree-view class="nztreeview" [nzTreeControl]="treeControl" [nzDataSource]="dataSource"
                 [nzDirectoryTree]="true">
@@ -20,12 +20,9 @@
                     <nz-tree-node-option [nzDisabled]="node.disabled">
                         {{ node.name }}
                     </nz-tree-node-option>
+
                     <div>
-
                         <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">A</button>
-                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">C</button>
-                        <button id="botoncitoB" nz-button nzType="primary" nzShape="circle" nzSize="small">B</button>
-
                     </div>
 
                 </nz-tree-node>
@@ -36,83 +33,50 @@
                         <p class="ReportName" style="margin-bottom: 2px !important; margin-top: 2px !important;"
                             nz-typography [(nzContent)]="node.name"></p>
                     </nz-tree-node-option>
-                    <!-- 
-                    <div>
-
-                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">A</button>
-                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">C</button>
-                        <button id="botoncitoB" nz-button nzType="primary" nzShape="circle" nzSize="small">B</button>
-
-                    </div> -->
 
                 </nz-tree-node>
-            </nz-tree-view>
+            </nz-tree-view> -->
 
-            <!-- TREE 1 -->
-            <!-- <div class="reportsContainer">
-                <ul class="reportList">
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Ventas</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Inventario</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Finanzas</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Clientes</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Proveedores</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Producción</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Marketing</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Recursos Humanos</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Calidad</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Logística</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Ventas Internacionales</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Desarrollo</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Seguridad</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Mantenimiento</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Sostenibilidad</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Innovación</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Proyectos</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Auditoría</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Cumplimiento</a>
-                    </li>
-                    <li style="border-bottom: 1px solid #ccc;">
-                        <a nz-button nzType="link">Reporte de Riesgos</a>
-                    </li>
-                </ul>
-            </div> -->
+            <ul nz-menu nzMode="inline">
+                <!-- <li nz-submenu nzTitle="Navigation One" nzIcon="mail" nzOpen>
+                    <ul>
+                        <li nz-menu-item nzSelected>Option 1
+                            <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                                nzSize="small">A</button>
+                        </li>
+
+                        <li nz-menu-item>Option 3
+                            <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                                nzSize="small">A</button>
+                        </li>
+                        <li nz-menu-item>Option 4
+                            <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                                nzSize="small">A</button>
+                        </li>
+                    </ul>
+                </li> -->
+
+                <li nz-menu-group nzTitle="Item 1"></li>
+
+                <li nz-menu-item nzSelected>Option 1
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+
+
+                </li>
+
+                <li nz-menu-item>Option 3
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+                <li nz-menu-item>Option 4
+                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                        nzSize="small">A</button>
+                </li>
+
+            </ul>
+
         </nz-sider>
 
         <nz-content>
