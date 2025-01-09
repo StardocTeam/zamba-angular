@@ -4,11 +4,51 @@ nz-footer {
     color: #fff;
 }
 
+
+.firstDiv {
+    height: 500px !important;
+}
+
+.nzLayoutHeight100percent {
+    height: 100% !important;
+}
+
+.search-container {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: #ffffff;
+    z-index: 10;
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
+}
+
+.right-align {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .ant-layout-sider {
     position: relative;
     min-width: 0;
     background: #ffffff;
     transition: all 0.2s;
+}
+
+
+li[nz-menu-item] {
+    position: relative;
+}
+
+nz-content {
+    min-height: 10px !important;
+    line-height: 10px !important;
+}
+
+nz-layout nz-layout,
+nz-layout:last-child {
+    margin: 0;
 }
 
 nz-sider {
@@ -34,62 +74,10 @@ nz-sider {
         border: 3px solid #f1f1f1;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: #ff0000;
-    }
+    // ::-webkit-scrollbar-thumb:hover {
+    //     background: #ff0000;
+    // }
 
-}
-
-nz-content {
-    min-height: 10px !important;
-    line-height: 10px !important;
-}
-
-nz-layout nz-layout,
-nz-layout:last-child {
-    margin: 0;
-}
-
-.firstDiv {
-    height: 500px !important;
-}
-
-.nzLayoutHeight100percent {
-    height: 100% !important;
-}
-
-.reportList {
-    list-style-type: none;
-    padding: 0;
-}
-
-.reportsContainer {
-    border-right: 1px solid #ccc;
-    padding: 10px;
-}
-
-.reportName {
-    margin-bottom: 0px !important;
-}
-
-.reportName:hover {
-    cursor: pointer;
-}
-
-nz-tree-view {
-    padding-top: 7px !important;
-    padding-bottom: 7px !important;
-    padding-right: 7px !important;
-}
-
-.nztreeview {
-    padding-top: 7px !important;
-    padding-bottom: 7px !important;
-    padding-right: 7px !important;
-}
-
-.reportList a {
-    color: black;
 }
 
 nz-input-group {
@@ -100,13 +88,10 @@ nz-input-group {
     color: #f50;
 }
 
-.right-align {
-    position: absolute;
-    right: 10px;
-}
-
-.tree-node-container {
-    position: relative;
+nz-tree-view {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    padding-right: 7px !important;
 }
 
 nz-divider {
@@ -114,66 +99,16 @@ nz-divider {
     margin-bottom: 0px !important;
 }
 
-.right-align {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+.nzMenuGroup {
+    background: #7dc1ff !important;
 }
 
-li[nz-menu-item] {
-    position: relative;
+.btnSearch {
+    margin-bottom: 0px !important;
 }
 
-.fixed-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    overflow-y: auto;
-    z-index: 1000;
-    /* Asegúrate de que el menú esté por encima de otros elementos */
-}
+//////////////////////////////////////////////////////////////////////
 
-.right-align {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.search-container {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    background: #ffffff;
-    z-index: 10;
-    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
-}
-
-
-.fixed-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    overflow-y: auto;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-}
-
-.nzLayoutHeight100percent {
-    height: 100% !important;
-}
-
-.right-align {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-li[nz-menu-item] {
+.tree-node-container {
     position: relative;
 }

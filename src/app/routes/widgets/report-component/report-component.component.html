@@ -3,10 +3,11 @@
         <nz-sider>
 
             <div class="search-container">
-                <nz-input-group [nzSuffix]="suffixIcon" style="width: 100%;">
+                <nz-input-group class="btnSearch" [nzSuffix]="suffixIcon" style="width: 100%;">
                     <input type="text" nz-input placeholder="Search" ngModel
                         (ngModelChange)="searchValue$.next($event)" />
                 </nz-input-group>
+
                 <ng-template #suffixIcon>
                     <input type="button" value="Busqueda">
                 </ng-template>
@@ -38,26 +39,8 @@
                 </nz-tree-node>
             </nz-tree-view> -->
 
-            <ul nz-menu nzMode="inline" heigth="3000px">
-                <!-- <li nz-submenu nzTitle="Navigation One" nzIcon="mail" nzOpen>
-                    <ul>
-                        <li nz-menu-item nzSelected>Option 1
-                            <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                                nzSize="small">A</button>
-                        </li>
-
-                        <li nz-menu-item>Option 3
-                            <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                                nzSize="small">A</button>
-                        </li>
-                        <li nz-menu-item>Option 4
-                            <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                                nzSize="small">A</button>
-                        </li>
-                    </ul>
-                </li> -->
-
-                <li nz-menu-group nzTitle="Financial Reports"></li>
+            <ul nz-menu nzMode="inline">
+                <li nz-menu-group class="nzMenuGroup" nzTitle="Financial Reports"></li>
 
                 <li nz-menu-item nzSelected>Annual Report
                     <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
@@ -74,7 +57,7 @@
                         nzSize="small">A</button>
                 </li>
 
-                <li nz-menu-group nzTitle="Sales Reports"></li>
+                <li nz-menu-group class="nzMenuGroup" nzTitle="Sales Reports"></li>
 
                 <li nz-menu-item>Sales Summary
                     <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
