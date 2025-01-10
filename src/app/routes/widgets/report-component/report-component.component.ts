@@ -5,7 +5,7 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { auditTime, catchError, map } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-
+import { Report } from "./entitie/report";
 //TODO: Hacer una limpieza completa y acomodamiento completo de todo el codigo TS y LESS que tenga lineas de codigo basuca que no sirven para nada.
 
 interface TreeNode {
@@ -89,12 +89,14 @@ interface ExampleFlatNode {
 })
 
 export class ReportComponentComponent {
+  ReportsList: Report[] = [];
   flatNodeMap = new Map<FlatNode, TreeNode>();
   nestedNodeMap = new Map<TreeNode, FlatNode>();
   expandedNodes: TreeNode[] = [];
   searchValue = '';
   originData$ = new BehaviorSubject(TREE_DATA);
   searchValue$ = new BehaviorSubject<string>('');
+  currentReport: Report = new Report({});
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private RService: ReportService) {
 
@@ -119,7 +121,6 @@ export class ReportComponentComponent {
   }
 
   ngOnInit(): void {
-
     this.GetReports();
   }
 
@@ -187,8 +188,18 @@ export class ReportComponentComponent {
           throw error;
         })
       ).subscribe((data: any) => {
-        this.originData$.next(data);
+        var emi = JSON.parse(data);
+        this.ReportsList = emi.map((item: any) => new Report(item));
+
       });
     }
   }
+
+  OpenReport(report: any) {
+    debugger;
+    this.currentReport = report
+  }
+
+
+
 }

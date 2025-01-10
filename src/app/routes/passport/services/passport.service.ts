@@ -38,7 +38,7 @@ export class PassportService {
         }),
         tap(res => {
           res = JSON.parse(res);
-          debugger;
+
           console.log(res);
           res.user.time = +new Date();
           res.user.expired = -1;

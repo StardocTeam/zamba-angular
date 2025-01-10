@@ -12,150 +12,43 @@
                     <input type="button" value="Busqueda">
                 </ng-template>
             </div>
-            <!-- <nz-divider nzText="Reportes: 7"></nz-divider>
-
-            <nz-tree-view class="nztreeview" [nzTreeControl]="treeControl" [nzDataSource]="dataSource"
-                [nzDirectoryTree]="true">
-
-                <nz-tree-node *nzTreeNodeDef="let node" nzTreeNodePadding>
-                    <nz-tree-node-toggle nzTreeNodeNoopToggle></nz-tree-node-toggle>
-                    <nz-tree-node-option [nzDisabled]="node.disabled">
-                        {{ node.name }}
-                    </nz-tree-node-option>
-
-                    <div>
-                        <button id="botoncitoA" nz-button nzType="primary" nzShape="circle" nzSize="small">A</button>
-                    </div>
-
-                </nz-tree-node>
-
-                <nz-tree-node *nzTreeNodeDef="let node; when: hasChild" nzTreeNodePadding>
-                    <nz-tree-node-toggle> (+) </nz-tree-node-toggle>
-                    <nz-tree-node-option [nzDisabled]="node.disabled">
-                        <p class="ReportName" style="margin-bottom: 2px !important; margin-top: 2px !important;"
-                            nz-typography [(nzContent)]="node.name"></p>
-                    </nz-tree-node-option>
-
-                </nz-tree-node>
-            </nz-tree-view> -->
 
             <ul nz-menu nzMode="inline">
-                <li nz-menu-group class="nzMenuGroup" nzTitle="Financial Reports"></li>
 
-                <li nz-menu-item nzSelected>Annual Report
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Quarterly Report
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Monthly Report
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-group class="nzMenuGroup" nzTitle="Sales Reports"></li>
-
-                <li nz-menu-item>Sales Summary
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-                <li nz-menu-item>Sales Summary
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-                <li nz-menu-item>Sales Summary
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-                <li nz-menu-item>Sales Summary
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-                <li nz-menu-item>Sales Summary
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-                <li nz-menu-item>Sales Summary
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-                <li nz-menu-item>Sales Summary
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-                <li nz-menu-item>Regional Sales
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
+                <li nz-submenu nzOpen nzTitle="Reportes" nzIcon="mail">
+                    <ul>
+                        <li nz-menu-item *ngFor="let item of ReportsList" (click)="OpenReport(item)">
 
 
-                <li nz-menu-item>Regional Sales LLLLLL
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
+                            {{ item.Name }}
+                            <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
+                                nzSize="small">...</button>
+
+
+                        </li>
+                    </ul>
                 </li>
-
-
-                <li nz-menu-item>Regional Sales LLLLLLLLLLLLL
-                    <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
-                        nzSize="small">A</button>
-                </li>
-
-
-
             </ul>
 
         </nz-sider>
 
         <nz-content>
             <div style="flex-grow: 1; padding: 10px;">
-                <h2>Contenido del Item</h2>
-                <p>Aquí se mostrará el contenido del item seleccionado.</p>
-                <p>Este es un ejemplo de contenido adicional para el item seleccionado. Puedes agregar más detalles aquí
-                    según sea necesario.</p>
-                <p>Por ejemplo, podrías incluir información sobre el reporte seleccionado, gráficos, tablas, o cualquier
-                    otro tipo de contenido relevante.</p>
-                <p>Recuerda que este espacio es dinámico y debe actualizarse según el item que el usuario seleccione en
-                    la lista o árbol de navegación.</p>
+                <h2>{{currentReport.Name}}</h2>
+
+
+                <p> {{currentReport.Aditional}}</p>
+                <p> {{currentReport.Completar}}</p>
+                <p> {{currentReport.GroupExpression}}</p>
+                <p> {{currentReport.ID}}</p>
+                <p> {{currentReport.Name}}</p>
+                <p> {{currentReport.OBJECTID}}</p>
+                <p> {{currentReport.Query}}</p>
+                <p> {{currentReport.RIGHT_TYPE}}</p>
+                <p> {{currentReport.USER_ID}}</p>
+                <p> {{currentReport.USER_NAME}}</p>
+
+
             </div>
         </nz-content>
     </nz-layout>
