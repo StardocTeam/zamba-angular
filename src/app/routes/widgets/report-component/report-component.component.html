@@ -36,43 +36,31 @@
             <div style="flex-grow: 1; padding: 10px;">
                 <div class="report-details">
                     <h2>{{currentReport.Name}}</h2>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> Aditional: </b></label>
-                        <span>{{currentReport.Aditional}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> Completar: </b></label>
-                        <span>{{currentReport.Completar}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> Group Expression: </b></label>
-                        <span>{{currentReport.GroupExpression}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> ID: </b></label>
-                        <span>{{currentReport.ID}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> OBJECTID: </b></label>
-                        <span>{{currentReport.OBJECTID}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> Query: </b></label>
-                        <span>{{currentReport.Query}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> Right Type: </b></label>
-                        <span>{{currentReport.RIGHT_TYPE}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> User ID: </b></label>
-                        <span>{{currentReport.USER_ID}}</span>
-                    </div>
-                    <div class="report-field">
-                        <label ng-if="currentReport"> <b> User Name: </b></label>
-                        <span>{{currentReport.USER_NAME}}</span>
-                    </div>
                 </div>
+
+                <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed">
+                    <thead>
+                        <tr>
+                            <ng-container *ngFor="let column of listOfColumns;">
+                                <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                                    [nzSortDirections]="column.sortDirections"
+                                    [nzFilterMultiple]="column.filterMultiple" [nzFilters]="column.listOfFilter"
+                                    [nzFilterFn]="column.filterFn">
+                                    {{ column.name }}
+                                </th>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let data of filterTable.data;">
+                            <tr>
+                                <td *ngFor="let key of objectKeys(data)">
+                                    {{ data[key] }}
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </nz-table>
 
             </div>
         </nz-content>

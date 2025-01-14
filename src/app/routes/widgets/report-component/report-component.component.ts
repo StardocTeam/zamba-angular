@@ -1,5 +1,5 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { NzTreeFlatDataSource, NzTreeFlattener } from 'ng-zorro-antd/tree-view';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { auditTime, catchError, map } from 'rxjs/operators';
@@ -7,6 +7,27 @@ import { ReportService } from './service/report.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "./entitie/report";
 //TODO: Hacer una limpieza completa y acomodamiento completo de todo el codigo TS y LESS que tenga lineas de codigo basuca que no sirven para nada.
+
+import {
+  NzTableFilterFn,
+  NzTableFilterList,
+  NzTableModule,
+  NzTableSortFn,
+  NzTableSortOrder
+} from 'ng-zorro-antd/table';
+import { element } from 'protractor';
+
+
+
+interface ColumnItem {
+  name: string;
+  sortOrder: NzTableSortOrder | null;
+  sortFn: NzTableSortFn<any> | null;
+  listOfFilter: NzTableFilterList;
+  filterFn: NzTableFilterFn<any> | null;
+  filterMultiple: boolean;
+  sortDirections: NzTableSortOrder[];
+}
 
 interface TreeNode {
   name: string;
@@ -98,7 +119,8 @@ export class ReportComponentComponent {
   searchValue$ = new BehaviorSubject<string>('');
   currentReport: Report = new Report({});
 
-  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private RService: ReportService) {
+  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private RService: ReportService,
+    private cdr: ChangeDetectorRef) {
 
     this.filteredData$.subscribe(result => {
       this.dataSource.setData(result.treeData);
@@ -188,18 +210,127 @@ export class ReportComponentComponent {
           throw error;
         })
       ).subscribe((data: any) => {
-        var emi = JSON.parse(data);
-        this.ReportsList = emi.map((item: any) => new Report(item));
+        var datos = JSON.parse(data);
+        this.ReportsList = datos.map((item: any) => new Report(item));
 
       });
     }
   }
 
-  OpenReport(report: any) {
-    debugger;
-    this.currentReport = report
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
   }
 
+  OpenReport(report: Report) {
+    this.currentReport = report;
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        Params: {
+          Query: report.Query
+        }
+      };
+
+      this.RService.GetResultsReportQuery(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      )
+        .subscribe((data: any) => {
+          var ObjectData = JSON.parse(data);
+          debugger;
+          this.listOfColumns = [];
+          this.listOfData = [];
+          this.cdr.detectChanges();
+
+          ObjectData.ListColumns.forEach((element: any) => {
+            var newColumn = {
+              name: element.ColumnName,
+              sortOrder: null,
+              sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+              sortDirections: ['ascend', 'descend', null],
+              filterMultiple: true,
+              listOfFilter: [],
+              filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
+            }
+
+            this.listOfColumns.push(newColumn);
+          });
+
+          var newRow: any = [];
+
+
+
+          ObjectData.RowHashtable.forEach((element: any) => {
+            ObjectData.ListColumns.forEach((column: any) => {
+              newRow[column.ColumnName] = element[column.ColumnName];
+            });
+
+            this.listOfData.push(newRow);
+
+          });
+
+          this.cdr.detectChanges();
+        });
+    }
+  }
+
+
+  listOfColumns: ColumnItem[] = [
+    {
+      name: 'Name',
+      sortOrder: null,
+      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+      sortDirections: ['ascend', 'descend', null],
+      filterMultiple: true,
+      listOfFilter: [],
+      filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
+    },
+    {
+      name: 'Age',
+      sortOrder: 'descend',
+      sortFn: (a: any, b: any) => a.age - b.age,
+      sortDirections: ['descend', null],
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: true
+    },
+    {
+      name: 'Address',
+      sortOrder: null,
+      sortDirections: ['ascend', 'descend', null],
+      sortFn: (a: any, b: any) => a.address.length - b.address.length,
+      filterMultiple: false,
+      listOfFilter: [],
+      filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1
+    }
+  ];
+  listOfData: any[] = [
+    {
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park'
+    },
+    {
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park'
+    },
+    {
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park'
+    },
+    {
+      name: 'Jim Red',
+      age: 32,
+      address: 'London No. 2 Lake Park'
+    }
+  ];
 
 
 }

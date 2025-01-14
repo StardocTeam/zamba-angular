@@ -19,6 +19,14 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
 
+import {
+  NzTableFilterFn,
+  NzTableFilterList,
+  NzTableModule,
+  NzTableSortFn,
+  NzTableSortOrder
+} from 'ng-zorro-antd/table';
+
 import { CalendarComponent } from './calendar/calendar.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { PendingTasksComponent } from './pending-tasks/pending-tasks.component';
@@ -27,6 +35,8 @@ import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { WidgetsComponent } from './widgets/widgets.component';
 import { WidgetsRoutingModule } from './widgets-routing.module';
 import { ReportComponentComponent } from './report-component/report-component.component';
+
+
 
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
@@ -61,7 +71,8 @@ const COMPONENTS: Array<Type<void>> = [
     ContextMenuModule,
     NzSkeletonModule,
     ScrollingModule,
-    NzTreeViewModule
+    NzTreeViewModule,
+    NzTableModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS
