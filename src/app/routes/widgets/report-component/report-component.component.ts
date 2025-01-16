@@ -27,6 +27,7 @@ interface ColumnItem {
   filterFn: NzTableFilterFn<any> | null;
   filterMultiple: boolean;
   sortDirections: NzTableSortOrder[];
+  width: string;
 }
 
 interface TreeNode {
@@ -119,6 +120,67 @@ export class ReportComponentComponent {
   searchValue$ = new BehaviorSubject<string>('');
   currentReport: Report = new Report({});
 
+
+
+
+
+  listOfColumns: ColumnItem[] = [
+    // {
+    //   name: 'Name',
+    //   sortOrder: null,
+    //   sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
+    //   sortDirections: ['ascend', 'descend', null],
+    //   filterMultiple: true,
+    //   listOfFilter: [],
+    //   // filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
+    //   filterFn: null,
+    //   width: "120px"
+    // },
+    // {
+    //   name: 'Age',
+    //   sortOrder: 'descend',
+    //   sortFn: (a: any, b: any) => a.age - b.age,
+    //   sortDirections: ['descend', null],
+    //   listOfFilter: [],
+    //   filterFn: null,
+    //   filterMultiple: true,
+    //   width: "120px"
+    // },
+    // {
+    //   name: 'Address',
+    //   sortOrder: null,
+    //   sortDirections: ['ascend', 'descend', null],
+    //   sortFn: (a: any, b: any) => a.address.length - b.address.length,
+    //   filterMultiple: false,
+    //   listOfFilter: [],
+    //   filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1,
+    //   width: "120px"
+    // }
+  ];
+  listOfData: any[] = [
+    // {
+    //   name: 'John Brown',
+    //   age: 32,
+    //   address: 'New York No. 1 Lake Park'
+    // },
+    // {
+    //   name: 'Jim Green',
+    //   age: 42,
+    //   address: 'London No. 1 Lake Park'
+    // },
+    // {
+    //   name: 'Joe Black',
+    //   age: 32,
+    //   address: 'Sidney No. 1 Lake Park'
+    // },
+    // {
+    //   name: 'Jim Red',
+    //   age: 32,
+    //   address: 'London No. 2 Lake Park'
+    // }
+  ];
+
+
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private RService: ReportService,
     private cdr: ChangeDetectorRef) {
 
@@ -145,8 +207,6 @@ export class ReportComponentComponent {
   ngOnInit(): void {
     this.GetReports();
   }
-
-
 
   transformer = (node: TreeNode, level: number): FlatNode => {
     const existingNode = this.nestedNodeMap.get(node);
@@ -242,20 +302,28 @@ export class ReportComponentComponent {
       )
         .subscribe((data: any) => {
           var ObjectData = JSON.parse(data);
-          debugger;
           this.listOfColumns = [];
           this.listOfData = [];
           this.cdr.detectChanges();
 
           ObjectData.ListColumns.forEach((element: any) => {
+            var columnWidth = "150px";
+
+            //TODO: Hacer esto dinamico
+            if (element.ColumnName == "Descripcion") {
+              columnWidth = "600px";
+            }
+
             var newColumn = {
               name: element.ColumnName,
               sortOrder: null,
-              sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-              sortDirections: ['ascend', 'descend', null],
-              filterMultiple: true,
+              sortFn: null,
+              sortDirections: [null],
+              filterMultiple: false,
               listOfFilter: [],
-              filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
+              // filterFn: (list: string[], item: any) => list.some(name => item[element.ColumnName].indexOf(name) !== -1)
+              filterFn: null,
+              width: columnWidth
             }
 
             this.listOfColumns.push(newColumn);
@@ -280,57 +348,19 @@ export class ReportComponentComponent {
   }
 
 
-  listOfColumns: ColumnItem[] = [
-    {
-      name: 'Name',
-      sortOrder: null,
-      sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-      sortDirections: ['ascend', 'descend', null],
-      filterMultiple: true,
-      listOfFilter: [],
-      filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
-    },
-    {
-      name: 'Age',
-      sortOrder: 'descend',
-      sortFn: (a: any, b: any) => a.age - b.age,
-      sortDirections: ['descend', null],
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: true
-    },
-    {
-      name: 'Address',
-      sortOrder: null,
-      sortDirections: ['ascend', 'descend', null],
-      sortFn: (a: any, b: any) => a.address.length - b.address.length,
-      filterMultiple: false,
-      listOfFilter: [],
-      filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1
-    }
-  ];
-  listOfData: any[] = [
-    {
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
-    },
-    {
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park'
-    },
-    {
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    },
-    {
-      name: 'Jim Red',
-      age: 32,
-      address: 'London No. 2 Lake Park'
-    }
-  ];
 
+  private sortFnByGrid(element: any) {
+    return (a: any, b: any) => {
+      const aValue = a[element.ColumnName];
+      const bValue = b[element.ColumnName];
 
+      if (aValue < bValue) {
+        return -1;
+      } else if (aValue > bValue) {
+        return 1;
+      } else {
+        return 0;
+      }
+    };
+  }
 }
