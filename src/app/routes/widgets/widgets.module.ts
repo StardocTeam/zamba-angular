@@ -10,7 +10,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -58,7 +57,6 @@ const COMPONENTS: Array<Type<void>> = [
     FlatpickrModule.forRoot(),
     NzModalModule,
     NzInputModule,
-    NzIconModule,
     NzGridModule,
     NzTypographyModule,
     NzSelectModule,

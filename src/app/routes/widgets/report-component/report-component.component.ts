@@ -8,10 +8,11 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "./entitie/report";
 //TODO: Hacer una limpieza completa y acomodamiento completo de todo el codigo TS y LESS que tenga lineas de codigo basuca que no sirven para nada.
 
+
+
 import {
   NzTableFilterFn,
   NzTableFilterList,
-  NzTableModule,
   NzTableSortFn,
   NzTableSortOrder
 } from 'ng-zorro-antd/table';
@@ -108,6 +109,7 @@ interface ExampleFlatNode {
   selector: 'app-report-component',
   templateUrl: './report-component.component.html',
   styleUrls: ['./report-component.component.less'],
+
 })
 
 export class ReportComponentComponent {
