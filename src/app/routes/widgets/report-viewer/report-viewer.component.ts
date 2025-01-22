@@ -13,6 +13,8 @@ import {
 import { ReportViewerService } from './service/report-viewer.service';
 import { catchError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { query } from '@angular/animations';
+import { Query } from '@delon/theme';
 
 @Component({
   selector: 'app-report-viewer',
@@ -37,14 +39,11 @@ export class ReportViewerComponent {
       const tokenData = this.tokenService.get();
       let genericRequest = {};
 
-
-      debugger;
       if (tokenData != null) {
         genericRequest = {
           UserId: tokenData['userid'],
           Params: {
-            Id: 10010,
-            params: params
+            Id: 10010
           }
         };
 
@@ -55,58 +54,80 @@ export class ReportViewerComponent {
           })
         )
           .subscribe((data: any) => {
-            var ObjectData = JSON.parse(data);
-            this.listOfColumns = [];
-            this.listOfData = [];
-            this.cdr.detectChanges();
-
-            ObjectData.ListColumns.forEach((element: any) => {
-              var columnWidth = "150px";
-
-              //TODO: Hacer esto dinamico?
-              if (element.ColumnName == "Descripcion") {
-                columnWidth = "600px";
-              }
-
-              var newColumn = {
-                name: element.ColumnName,
-                sortOrder: null,
-                sortFn: null,
-                sortDirections: [null],
-                filterMultiple: false,
-                listOfFilter: [],
-                filterFn: null,
-                width: columnWidth
-              }
-
-              this.listOfColumns.push(newColumn);
-            });
-
-            var newRow: any = [];
-
-
-
-            ObjectData.RowHashtable.forEach((element: any) => {
-              ObjectData.ListColumns.forEach((column: any) => {
-                newRow[column.ColumnName] = element[column.ColumnName];
-              });
-
-              this.listOfData.push(newRow);
-
-            });
-
-            this.cdr.detectChanges();
+            var currentReport: Report = JSON.parse(data)[0];
+            debugger;
+            this.OpenReport(new Report(currentReport));
           });
       }
-
-
-
     });
   }
 
 
   OpenReport(report: Report) {
+    debugger;
+    this.currentReport = report;
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
 
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        Params: {
+          Query: report.Query
+        }
+      };
+
+      this.RVService.GetReportByQuery(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      )
+        .subscribe((data: any) => {
+          var ObjectData = JSON.parse(data);
+          this.listOfColumns = [];
+          this.listOfData = [];
+          this.cdr.detectChanges();
+
+          ObjectData.ListColumns.forEach((element: any) => {
+            var columnWidth = "150px";
+
+            //TODO: Hacer esto dinamico
+            if (element.ColumnName == "Descripcion") {
+              columnWidth = "600px";
+            }
+
+            var newColumn = {
+              name: element.ColumnName,
+              sortOrder: null,
+              sortFn: null,
+              sortDirections: [null],
+              filterMultiple: false,
+              listOfFilter: [],
+              // filterFn: (list: string[], item: any) => list.some(name => item[element.ColumnName].indexOf(name) !== -1)
+              filterFn: null,
+              width: columnWidth
+            }
+
+            this.listOfColumns.push(newColumn);
+          });
+
+          var newRow: any = [];
+
+
+
+          ObjectData.RowHashtable.forEach((element: any) => {
+            ObjectData.ListColumns.forEach((column: any) => {
+              newRow[column.ColumnName] = element[column.ColumnName];
+            });
+
+            this.listOfData.push(newRow);
+
+          });
+
+          this.cdr.detectChanges();
+        });
+    }
   }
 
 
