@@ -1,0 +1,35 @@
+<div style="flex-grow: 1; padding: 10px;">
+
+    <div class="report-details">
+        <h2>Reporte</h2>
+        <p>Aqui se veran los datos relacionados al reporte seleccionado de la lista.</p>
+    </div>
+
+    <div class="report-details">
+        <h2>{{currentReport.Name}}</h2>
+    </div>
+
+    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: '400px' }">
+        <thead>
+            <tr>
+                <ng-container *ngFor="let column of listOfColumns;">
+                    <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                        [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
+                        [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
+                        {{ column.name }}
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of filterTable.data;">
+                <tr>
+                    <td *ngFor="let key of objectKeys(data)">
+                        {{ data[key] }}
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+
+</div>

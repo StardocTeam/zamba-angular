@@ -1,74 +1,34 @@
 <div class="firstDiv">
     <nz-layout class="nzLayoutHeight100percent">
         <nz-sider>
-
             <div class="search-container">
-                <nz-input-group class="btnSearch" [nzSuffix]="suffixIcon" style="width: 100%;">
-                    <input type="text" nz-input placeholder="Search" ngModel
-                        (ngModelChange)="searchValue$.next($event)" />
+                <nz-input-group class="btnSearch" style="width: 100%;">
+                    <!-- <input type="text" nz-input placeholder="Search" ngModel (ngModelChange)="searchValue$.next($event)" /> -->
+                    <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue"
+                        (ngModelChange)="search($event)" />
                 </nz-input-group>
-
-                <ng-template #suffixIcon>
-                    <input type="button" value="Busqueda">
-                </ng-template>
             </div>
 
             <ul nz-menu nzMode="inline">
 
                 <li nz-submenu nzOpen nzTitle="Reportes" nzIcon="mail">
                     <ul>
-                        <li nz-menu-item *ngFor="let item of ReportsList" (click)="OpenReport(item)">
-
+                        <li nz-menu-item *ngFor="let item of ReportsList | filter:searchValue"
+                            (click)="viewReport(item)">
 
                             {{ item.Name }}
+
                             <button id="botoncitoA" class="right-align" nz-button nzType="primary" nzShape="circle"
                                 nzSize="small">...</button>
-
 
                         </li>
                     </ul>
                 </li>
             </ul>
-
         </nz-sider>
 
         <nz-content>
-            <div style="flex-grow: 1; padding: 10px;">
-
-                <div class="report-details">
-                    <h2>Reporte</h2>
-                    <p>Aqui se veran los datos relacionados al reporte seleccionado de la lista.</p>
-                </div>
-
-                <div class="report-details">
-                    <h2>{{currentReport.Name}}</h2>
-                </div>
-
-                <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small"
-                    [nzScroll]="{y: '400px' }">
-                    <thead>
-                        <tr>
-                            <ng-container *ngFor="let column of listOfColumns;">
-                                <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                                    [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
-                                    [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
-                                    {{ column.name }}
-                                </th>
-                            </ng-container>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <ng-container *ngFor="let data of filterTable.data;">
-                            <tr>
-                                <td *ngFor="let key of objectKeys(data)">
-                                    {{ data[key] }}
-                                </td>
-                            </tr>
-                        </ng-container>
-                    </tbody>
-                </nz-table>
-
-            </div>
+            <router-outlet></router-outlet>
         </nz-content>
     </nz-layout>
 </div>

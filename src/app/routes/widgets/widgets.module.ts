@@ -18,13 +18,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
 
-import {
-  NzTableFilterFn,
-  NzTableFilterList,
-  NzTableModule,
-  NzTableSortFn,
-  NzTableSortOrder
-} from 'ng-zorro-antd/table';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { CalendarComponent } from './calendar/calendar.component';
 import { CarouselComponent } from './carousel/carousel.component';
@@ -34,8 +28,8 @@ import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { WidgetsComponent } from './widgets/widgets.component';
 import { WidgetsRoutingModule } from './widgets-routing.module';
 import { ReportComponentComponent } from './report-component/report-component.component';
-
-
+import { ReportViewerComponent } from "./report-viewer/report-viewer.component";
+import { ReportFilterPipe } from './report-component/FilterPipe';
 
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
@@ -44,7 +38,9 @@ const COMPONENTS: Array<Type<void>> = [
   VideoplayerComponent,
   PendingTasksComponent,
   PendingVacationsComponent,
-  ReportComponentComponent
+  ReportComponentComponent,
+  ReportViewerComponent,
+  ReportFilterPipe
 ];
 
 @NgModule({

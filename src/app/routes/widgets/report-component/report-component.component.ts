@@ -1,35 +1,45 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, NgModule } from '@angular/core';
 import { NzTreeFlatDataSource, NzTreeFlattener } from 'ng-zorro-antd/tree-view';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { auditTime, catchError, map } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "./entitie/report";
+import { Router, RouterModule, Routes } from '@angular/router';
+import { ReportViewerComponent } from '../report-viewer/report-viewer.component';
+import { ReportFilterPipe } from './FilterPipe';
+
 //TODO: Hacer una limpieza completa y acomodamiento completo de todo el codigo TS y LESS que tenga lineas de codigo basuca que no sirven para nada.
 
+// const routes: Routes = [
+//   {
+//     path: 'report', component: this, children: [
+//       { path: 'create', component: this },
+//       { path: 'edit/:id', component: this },
+//       { path: ':id', component: ReportViewerComponent }
+//     ]
+//   }
+// ];
 
+// import {
+//   NzTableFilterFn,
+//   NzTableFilterList,
+//   NzTableSortFn,
+//   NzTableSortOrder
+// } from 'ng-zorro-antd/table';
+// import { element } from 'protractor';
 
-import {
-  NzTableFilterFn,
-  NzTableFilterList,
-  NzTableSortFn,
-  NzTableSortOrder
-} from 'ng-zorro-antd/table';
-import { element } from 'protractor';
-
-
-
-interface ColumnItem {
-  name: string;
-  sortOrder: NzTableSortOrder | null;
-  sortFn: NzTableSortFn<any> | null;
-  listOfFilter: NzTableFilterList;
-  filterFn: NzTableFilterFn<any> | null;
-  filterMultiple: boolean;
-  sortDirections: NzTableSortOrder[];
-  width: string;
-}
+// interface ColumnItem {
+//   name: string;
+//   sortOrder: NzTableSortOrder | null;
+//   sortFn: NzTableSortFn<any> | null;
+//   listOfFilter: NzTableFilterList;
+//   filterFn: NzTableFilterFn<any> | null;
+//   filterMultiple: boolean;
+//   sortDirections: NzTableSortOrder[];
+//   width: string;
+// }
 
 interface TreeNode {
   name: string;
@@ -109,8 +119,14 @@ interface ExampleFlatNode {
   selector: 'app-report-component',
   templateUrl: './report-component.component.html',
   styleUrls: ['./report-component.component.less'],
-
 })
+
+
+
+// @NgModule({
+//   imports: [RouterModule.forChild(routes)],
+//   exports: [RouterModule]
+// })
 
 export class ReportComponentComponent {
   ReportsList: Report[] = [];
@@ -124,67 +140,10 @@ export class ReportComponentComponent {
 
 
 
-
-
-  listOfColumns: ColumnItem[] = [
-    // {
-    //   name: 'Name',
-    //   sortOrder: null,
-    //   sortFn: (a: any, b: any) => a.name.localeCompare(b.name),
-    //   sortDirections: ['ascend', 'descend', null],
-    //   filterMultiple: true,
-    //   listOfFilter: [],
-    //   // filterFn: (list: string[], item: any) => list.some(name => item.name.indexOf(name) !== -1)
-    //   filterFn: null,
-    //   width: "120px"
-    // },
-    // {
-    //   name: 'Age',
-    //   sortOrder: 'descend',
-    //   sortFn: (a: any, b: any) => a.age - b.age,
-    //   sortDirections: ['descend', null],
-    //   listOfFilter: [],
-    //   filterFn: null,
-    //   filterMultiple: true,
-    //   width: "120px"
-    // },
-    // {
-    //   name: 'Address',
-    //   sortOrder: null,
-    //   sortDirections: ['ascend', 'descend', null],
-    //   sortFn: (a: any, b: any) => a.address.length - b.address.length,
-    //   filterMultiple: false,
-    //   listOfFilter: [],
-    //   filterFn: (address: string, item: any) => item.address.indexOf(address) !== -1,
-    //   width: "120px"
-    // }
-  ];
-  listOfData: any[] = [
-    // {
-    //   name: 'John Brown',
-    //   age: 32,
-    //   address: 'New York No. 1 Lake Park'
-    // },
-    // {
-    //   name: 'Jim Green',
-    //   age: 42,
-    //   address: 'London No. 1 Lake Park'
-    // },
-    // {
-    //   name: 'Joe Black',
-    //   age: 32,
-    //   address: 'Sidney No. 1 Lake Park'
-    // },
-    // {
-    //   name: 'Jim Red',
-    //   age: 32,
-    //   address: 'London No. 2 Lake Park'
-    // }
-  ];
-
-
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private RService: ReportService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef, private router: Router) {
+
+
 
     this.filteredData$.subscribe(result => {
       this.dataSource.setData(result.treeData);
@@ -204,10 +163,15 @@ export class ReportComponentComponent {
         }
       }
     });
+
+
+
   }
 
   ngOnInit(): void {
     this.GetReports();
+
+    this.cdr.detectChanges();
   }
 
   transformer = (node: TreeNode, level: number): FlatNode => {
@@ -253,10 +217,6 @@ export class ReportComponentComponent {
 
   hasChild = (_: number, node: FlatNode): boolean => node.expandable;
 
-
-
-
-
   private GetReports() {
     const tokenData = this.tokenService.get();
     let genericRequest = {};
@@ -272,6 +232,7 @@ export class ReportComponentComponent {
           throw error;
         })
       ).subscribe((data: any) => {
+
         var datos = JSON.parse(data);
         this.ReportsList = datos.map((item: any) => new Report(item));
 
@@ -279,90 +240,98 @@ export class ReportComponentComponent {
     }
   }
 
-  objectKeys(obj: any): string[] {
-    return Object.keys(obj);
+  viewReport(report: Report) {
+    this.router.navigate([`/report/${report.ID}`]);
   }
-
-  OpenReport(report: Report) {
-    this.currentReport = report;
-    const tokenData = this.tokenService.get();
-    let genericRequest = {};
-
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userid'],
-        Params: {
-          Query: report.Query
-        }
-      };
-
-      this.RService.GetResultsReportQuery(genericRequest).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      )
-        .subscribe((data: any) => {
-          var ObjectData = JSON.parse(data);
-          this.listOfColumns = [];
-          this.listOfData = [];
-          this.cdr.detectChanges();
-
-          ObjectData.ListColumns.forEach((element: any) => {
-            var columnWidth = "150px";
-
-            //TODO: Hacer esto dinamico
-            if (element.ColumnName == "Descripcion") {
-              columnWidth = "600px";
-            }
-
-            var newColumn = {
-              name: element.ColumnName,
-              sortOrder: null,
-              sortFn: null,
-              sortDirections: [null],
-              filterMultiple: false,
-              listOfFilter: [],
-              // filterFn: (list: string[], item: any) => list.some(name => item[element.ColumnName].indexOf(name) !== -1)
-              filterFn: null,
-              width: columnWidth
-            }
-
-            this.listOfColumns.push(newColumn);
-          });
-
-          var newRow: any = [];
-
-
-
-          ObjectData.RowHashtable.forEach((element: any) => {
-            ObjectData.ListColumns.forEach((column: any) => {
-              newRow[column.ColumnName] = element[column.ColumnName];
-            });
-
-            this.listOfData.push(newRow);
-
-          });
-
-          this.cdr.detectChanges();
-        });
-    }
+  search(searchValue: string): void {
+    this.searchValue = searchValue;
   }
 
 
+  // objectKeys(obj: any): string[] {
+  //   return Object.keys(obj);
+  // }
 
-  private sortFnByGrid(element: any) {
-    return (a: any, b: any) => {
-      const aValue = a[element.ColumnName];
-      const bValue = b[element.ColumnName];
+  // OpenReport(report: Report) {
+  //   this.currentReport = report;
+  //   const tokenData = this.tokenService.get();
+  //   let genericRequest = {};
 
-      if (aValue < bValue) {
-        return -1;
-      } else if (aValue > bValue) {
-        return 1;
-      } else {
-        return 0;
-      }
-    };
-  }
+  //   if (tokenData != null) {
+  //     genericRequest = {
+  //       UserId: tokenData['userid'],
+  //       Params: {
+  //         Query: report.Query
+  //       }
+  //     };
+
+  //     this.RService.GetResultsReportQuery(genericRequest).pipe(
+  //       catchError(error => {
+  //         console.error('Error al obtener datos:', error);
+  //         throw error;
+  //       })
+  //     )
+  //       .subscribe((data: any) => {
+  //         var ObjectData = JSON.parse(data);
+  //         this.listOfColumns = [];
+  //         this.listOfData = [];
+  //         this.cdr.detectChanges();
+
+  //         ObjectData.ListColumns.forEach((element: any) => {
+  //           var columnWidth = "150px";
+
+  //           //TODO: Hacer esto dinamico
+  //           if (element.ColumnName == "Descripcion") {
+  //             columnWidth = "600px";
+  //           }
+
+  //           var newColumn = {
+  //             name: element.ColumnName,
+  //             sortOrder: null,
+  //             sortFn: null,
+  //             sortDirections: [null],
+  //             filterMultiple: false,
+  //             listOfFilter: [],
+  //             // filterFn: (list: string[], item: any) => list.some(name => item[element.ColumnName].indexOf(name) !== -1)
+  //             filterFn: null,
+  //             width: columnWidth
+  //           }
+
+  //           this.listOfColumns.push(newColumn);
+  //         });
+
+  //         var newRow: any = [];
+
+
+
+  //         ObjectData.RowHashtable.forEach((element: any) => {
+  //           ObjectData.ListColumns.forEach((column: any) => {
+  //             newRow[column.ColumnName] = element[column.ColumnName];
+  //           });
+
+  //           this.listOfData.push(newRow);
+
+  //         });
+
+  //         this.cdr.detectChanges();
+  //       });
+  //   }
+  // }
+
+  // private sortFnByGrid(element: any) {
+  //   return (a: any, b: any) => {
+  //     const aValue = a[element.ColumnName];
+  //     const bValue = b[element.ColumnName];
+
+  //     if (aValue < bValue) {
+  //       return -1;
+  //     } else if (aValue > bValue) {
+  //       return 1;
+  //     } else {
+  //       return 0;
+  //     }
+  //   };
+  // }
 }
+
+
