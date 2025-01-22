@@ -34,7 +34,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.params.subscribe(params => {
 
       const tokenData = this.tokenService.get();
       let genericRequest = {};
@@ -55,7 +55,6 @@ export class ReportViewerComponent {
         )
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
-            debugger;
             this.OpenReport(new Report(currentReport));
           });
       }
