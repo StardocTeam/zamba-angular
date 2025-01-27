@@ -169,6 +169,7 @@ export class ReportComponentComponent {
   }
 
   ngOnInit(): void {
+
     this.GetReports();
 
     this.cdr.detectChanges();
@@ -241,7 +242,10 @@ export class ReportComponentComponent {
   }
 
   viewReport(report: Report) {
-    this.router.navigate([`/report/${report.ID}`]);
+
+    this.router.navigate(['/report', { id: report.ID }]);
+    //this.router.navigate([`/report/${report.ID}`]);
+    //this.router.navigate(["/report/"], { queryParams: { id: report.ID } });
   }
   search(searchValue: string): void {
     this.searchValue = searchValue;

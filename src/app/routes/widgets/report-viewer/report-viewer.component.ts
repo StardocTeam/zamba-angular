@@ -35,7 +35,6 @@ export class ReportViewerComponent {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-
       const tokenData = this.tokenService.get();
       let genericRequest = {};
 
@@ -43,7 +42,7 @@ export class ReportViewerComponent {
         genericRequest = {
           UserId: tokenData['userid'],
           Params: {
-            Id: 10010
+            Id: params['id']
           }
         };
 
@@ -63,7 +62,7 @@ export class ReportViewerComponent {
 
 
   OpenReport(report: Report) {
-    debugger;
+
     this.currentReport = report;
     const tokenData = this.tokenService.get();
     let genericRequest = {};

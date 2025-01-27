@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CalendarComponent } from './calendar/calendar.component';
@@ -8,6 +8,7 @@ import { PendingVacationsComponent } from './pending-vacations/pending-vacations
 import { WidgetsComponent } from './widgets/widgets.component';
 import { ReportComponentComponent } from './report-component/report-component.component';
 import { ReportViewerComponent } from './report-viewer/report-viewer.component';
+import { ReportEditorComponent } from './report-editor/report-editor.component';
 
 const routes: Routes = [
   { path: 'calendar', component: CalendarComponent },
@@ -16,9 +17,11 @@ const routes: Routes = [
   { path: 'pending-vacations', component: PendingVacationsComponent },
   {
     path: 'report', component: ReportComponentComponent, children: [
-      { path: ':id', component: ReportViewerComponent }
+      { path: ':id', component: ReportViewerComponent },
+      { path: 'create', component: ReportEditorComponent }
     ]
-  }
+  },
+  //{ path: "create", component: ReportEditorComponent }
 ];
 
 @NgModule({
