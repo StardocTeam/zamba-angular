@@ -24,20 +24,19 @@
                             {{ item.Name }}
 
                             <button class="right-align btnSetting" nz-button nzShape="circle" nzSize="small">
-                                <i nz-icon class="iconSetting" nzType="setting" nzSize="small"></i>
+                                <i nz-icon class="iconSetting" nzType="setting" nzSize="small" nz-dropdown
+                                    nzTrigger="click" [nzDropdownMenu]="menu"> </i>
                             </button>
 
+                            <nz-dropdown-menu #menu="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item><i nz-icon nzType="eye"></i> Ver</li>
+                                    <li nz-menu-item><i nz-icon nzType="edit"></i> Editar</li>
 
-                            <!-- <div>
-
-                                <i class="right-align iconSetting" nz-icon nzType="setting" nzShape="circle"
-                                    nzSize="small"></i>
-
-                            </div> -->
-
-
-                            <!-- <button id="botoncitoA" nzType="more" class="right-align" nz-button nzType="primary"
-                                nzShape="circle" nzSize="small">...</button> -->
+                                    <li nz-menu-divider></li>
+                                    <li nz-menu-item style="color: red;"> <i nz-icon nzType="delete"></i> Eliminar</li>
+                                </ul>
+                            </nz-dropdown-menu>
 
                         </li>
                     </ul>

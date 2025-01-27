@@ -1,15 +1,18 @@
-<div style="flex-grow: 1; padding: 10px;">
+<div style="flex-grow: 1;">
 
-    <div class="report-details">
-        <h2>Reporte</h2>
-        <p>Aqui se veran los datos relacionados al reporte seleccionado de la lista.</p>
+    <div style="padding-left: 10px;">
+        <div class="report-details">
+            <h2>Reporte</h2>
+            <p>Aqui se veran los datos relacionados al reporte seleccionado de la lista.</p>
+        </div>
+
+        <div class="report-details">
+            <h2>{{currentReport.Name}}</h2>
+        </div>
     </div>
 
-    <div class="report-details">
-        <h2>{{currentReport.Name}}</h2>
-    </div>
 
-    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: '328px' }">
+    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: '338px' }">
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns;">
