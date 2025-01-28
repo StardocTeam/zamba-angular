@@ -24,6 +24,7 @@ import { Query } from '@delon/theme';
 
 
 export class ReportViewerComponent {
+  loading: Boolean = true;
   currentReport: Report = new Report({});
   listOfData: any[] = [];
   listOfColumns: ColumnItem[] = [];
@@ -34,6 +35,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
+    this.loading = false;
     this.route.params.subscribe(params => {
       const tokenData = this.tokenService.get();
       let genericRequest = {};
@@ -112,8 +114,6 @@ export class ReportViewerComponent {
 
           var newRow: any = [];
 
-
-
           ObjectData.RowHashtable.forEach((element: any) => {
             ObjectData.ListColumns.forEach((column: any) => {
               newRow[column.ColumnName] = element[column.ColumnName];
@@ -122,15 +122,12 @@ export class ReportViewerComponent {
             this.listOfData.push(newRow);
 
           });
-
-          this.cdr.detectChanges();
         });
     }
+
+    this.loading = true;
+    this.cdr.detectChanges();
   }
-
-
-
-
 
   objectKeys(obj: any): string[] {
     return Object.keys(obj);

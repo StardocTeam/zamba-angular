@@ -8,15 +8,16 @@ import { Report } from '../report-component/entitie/report';
 })
 export class ReportEditorComponent {
   report: Report = {
+    Category: '',
     Name: '',
     Query: '',
     Aditional: 0,
     Completar: '',
-    GroupExpression: '',
-    RIGHT_TYPE: 0,
-    USER_ID: 0,
-    USER_NAME: '',
-    OBJECTID: 0,
     ID: 0
   };
+
+  onNgInit() {
+    debugger;
+    console.log('ReportEditorComponent onNgInit');
+  }
 }

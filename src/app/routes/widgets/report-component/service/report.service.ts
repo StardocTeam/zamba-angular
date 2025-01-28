@@ -28,7 +28,7 @@ export class ReportService {
     });
   }
 
-  deleteReport(reportId: string) {
+  deleteReport(reportId: any) {
     return this.http.delete(`${environment['apiRestBasePath']}/deleteReport/${reportId}`, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });

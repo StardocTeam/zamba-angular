@@ -17,8 +17,9 @@ const routes: Routes = [
   { path: 'pending-vacations', component: PendingVacationsComponent },
   {
     path: 'report', component: ReportComponentComponent, children: [
+      { path: 'create', component: ReportEditorComponent },
+      { path: 'edit/:id', component: ReportEditorComponent },
       { path: ':id', component: ReportViewerComponent },
-      { path: 'create', component: ReportEditorComponent }
     ]
   },
   //{ path: "create", component: ReportEditorComponent }

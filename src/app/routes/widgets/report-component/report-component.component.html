@@ -31,10 +31,12 @@
                             <nz-dropdown-menu #menu="nzDropdownMenu">
                                 <ul nz-menu>
                                     <li nz-menu-item><i nz-icon nzType="eye"></i> Ver</li>
-                                    <li nz-menu-item><i nz-icon nzType="edit"></i> Editar</li>
+                                    <li nz-menu-item routerLink="/dashboard/report/edit/{{item.ID}}"><i nz-icon
+                                            nzType="edit"></i> Editar</li>
 
                                     <li nz-menu-divider></li>
-                                    <li nz-menu-item style="color: red;"> <i nz-icon nzType="delete"></i> Eliminar</li>
+                                    <li nz-menu-item style="color: red;" (click)="deleteReport(item)"> <i nz-icon
+                                            nzType="delete"></i> Eliminar</li>
                                 </ul>
                             </nz-dropdown-menu>
 

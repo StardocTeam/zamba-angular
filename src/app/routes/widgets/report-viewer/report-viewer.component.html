@@ -16,7 +16,7 @@
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns;">
-                    <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                    <th [nzSortOrder]="column.sortOrder" nzLoading="loading" [nzSortFn]="column.sortFn"
                         [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
                         [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
                         {{ column.name }}
