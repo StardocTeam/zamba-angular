@@ -17,7 +17,7 @@ export class ReportEditorComponent {
   };
 
   onNgInit() {
-    debugger;
+
     console.log('ReportEditorComponent onNgInit');
   }
 }

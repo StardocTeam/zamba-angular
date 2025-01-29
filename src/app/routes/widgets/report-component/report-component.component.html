@@ -17,7 +17,7 @@
             <ul nz-menu nzMode="inline">
                 <li *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}" nzIcon="mail">
                     <ul>
-                        <li nz-menu-item *ngFor="let itemLeaf of (itemTree.currentReport)"
+                        <li nz-menu-item *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
                             routerLink="/dashboard/report/{{itemLeaf.ID}}" routerLinkActive="active">
 
                             {{ itemLeaf.Name }}
