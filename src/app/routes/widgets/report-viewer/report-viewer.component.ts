@@ -35,6 +35,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
+    debugger;
     this.loading = false;
     this.route.params.subscribe(params => {
       const tokenData = this.tokenService.get();

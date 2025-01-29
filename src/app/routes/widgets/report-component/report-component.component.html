@@ -5,7 +5,6 @@
 
             <div class="search-container">
                 <nz-input-group class="btnSearch" style="width: 100%;">
-                    <!-- <input type="text" nz-input placeholder="Search" ngModel (ngModelChange)="searchValue$.next($event)" /> -->
                     <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue"
                         (ngModelChange)="search($event)" />
                 </nz-input-group>
@@ -14,15 +13,14 @@
             <button nz-button class="createButton" nzType="primary" nzBlock routerLink="/dashboard/report/create"
                 routerLinkActive="active">Crear reporte</button>
 
-            <!-- 
-            <ul nz-menu nzMode="inline">
-                <li *ngFor="let itemTree of TREE_DATA; let i = index" nz-submenu nzOpen nzTitle="itemTree.name"
-                    nzIcon="mail">
-                    <ul>
-                        <li nz-menu-item *ngFor="let itemLeaf of TREE_DATA[i].children"
-                            routerLink=" /dashboard/report/{{itemLeaf.currentReport.ID}}" routerLinkActive="active">
 
-                            {{ itemLeaf.currentReport.Name }}
+            <ul nz-menu nzMode="inline">
+                <li *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}" nzIcon="mail">
+                    <ul>
+                        <li nz-menu-item *ngFor="let itemLeaf of (itemTree.currentReport)"
+                            routerLink="/dashboard/report/{{itemLeaf.ID}}" routerLinkActive="active">
+
+                            {{ itemLeaf.Name }}
 
                             <button class="right-align btnSetting" nz-button nzShape="circle" nzSize="small">
                                 <i nz-icon class="iconSetting" nzType="setting" nzSize="small" nz-dropdown
@@ -32,12 +30,12 @@
                             <nz-dropdown-menu #menu="nzDropdownMenu">
                                 <ul nz-menu>
                                     <li nz-menu-item><i nz-icon nzType="eye"></i> Ver</li>
-                                    <li nz-menu-item routerLink="/dashboard/report/edit/{{itemLeaf.currentReport.ID}}">
+                                    <li nz-menu-item routerLink="/dashboard/report/edit/{{itemLeaf.ID}}">
                                         <i nz-icon nzType="edit"></i> Editar
                                     </li>
 
                                     <li nz-menu-divider></li>
-                                    <li nz-menu-item style="color: red;" (click)="deleteReport(itemLeaf.currentReport)">
+                                    <li nz-menu-item style="color: red;" (click)="deleteReport(itemLeaf)">
                                         <i nz-icon nzType="delete"></i> Eliminar
                                     </li>
                                 </ul>
@@ -48,7 +46,7 @@
                 </li>
             </ul>
 
- -->
+
 
 
 
