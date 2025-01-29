@@ -14,8 +14,57 @@
             <button nz-button class="createButton" nzType="primary" nzBlock routerLink="/dashboard/report/create"
                 routerLinkActive="active">Crear reporte</button>
 
+            <!-- 
             <ul nz-menu nzMode="inline">
+                <li *ngFor="let itemTree of TREE_DATA; let i = index" nz-submenu nzOpen nzTitle="itemTree.name"
+                    nzIcon="mail">
+                    <ul>
+                        <li nz-menu-item *ngFor="let itemLeaf of TREE_DATA[i].children"
+                            routerLink=" /dashboard/report/{{itemLeaf.currentReport.ID}}" routerLinkActive="active">
 
+                            {{ itemLeaf.currentReport.Name }}
+
+                            <button class="right-align btnSetting" nz-button nzShape="circle" nzSize="small">
+                                <i nz-icon class="iconSetting" nzType="setting" nzSize="small" nz-dropdown
+                                    nzTrigger="click" [nzDropdownMenu]="menu"> </i>
+                            </button>
+
+                            <nz-dropdown-menu #menu="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item><i nz-icon nzType="eye"></i> Ver</li>
+                                    <li nz-menu-item routerLink="/dashboard/report/edit/{{itemLeaf.currentReport.ID}}">
+                                        <i nz-icon nzType="edit"></i> Editar
+                                    </li>
+
+                                    <li nz-menu-divider></li>
+                                    <li nz-menu-item style="color: red;" (click)="deleteReport(itemLeaf.currentReport)">
+                                        <i nz-icon nzType="delete"></i> Eliminar
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- 
+            <ul nz-menu nzMode="inline">
                 <li nz-submenu nzOpen nzTitle="Reportes" nzIcon="mail">
                     <ul>
                         <li nz-menu-item *ngFor="let item of ReportsList | filter:searchValue"
@@ -43,7 +92,7 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
+            </ul> -->
         </nz-sider>
 
         <nz-content>

@@ -16,8 +16,10 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 
 interface TreeNode {
   name: string;
-  children?: TreeNode[];
+  currentReport: Report;
+  children: TreeNode[];
 }
+
 
 const TREE_DATA: TreeNode[] = [];
 
@@ -35,26 +37,26 @@ class FilteredTreeResult {
 }
 
 
-function filterTreeData(data: TreeNode[], value: string): FilteredTreeResult {
-  const needsToExpanded = new Set<TreeNode>();
-  const _filter = (node: TreeNode, result: TreeNode[]): TreeNode[] => {
-    if (node.name.search(value) !== -1) {
-      result.push(node);
-      return result;
-    }
-    if (Array.isArray(node.children)) {
-      const nodes = node.children.reduce((a, b) => _filter(b, a), [] as TreeNode[]);
-      if (nodes.length) {
-        const parentNode = { ...node, children: nodes };
-        needsToExpanded.add(parentNode);
-        result.push(parentNode);
-      }
-    }
-    return result;
-  };
-  const treeData = data.reduce((a, b) => _filter(b, a), [] as TreeNode[]);
-  return new FilteredTreeResult(treeData, [...needsToExpanded]);
-}
+// function filterTreeData(data: TreeNode[], value: string): FilteredTreeResult {
+//   const needsToExpanded = new Set<TreeNode>();
+//   const _filter = (node: TreeNode, result: TreeNode[]): TreeNode[] => {
+//     if (node.name.search(value) !== -1) {
+//       result.push(node);
+//       return result;
+//     }
+//     if (Array.isArray(node.children)) {
+//       const nodes = node.children.reduce((a, b) => _filter(b, a), [] as TreeNode[]);
+//       if (nodes.length) {
+//         const parentNode = { ...node, children: nodes };
+//         needsToExpanded.add(parentNode);
+//         result.push(parentNode);
+//       }
+//     }
+//     return result;
+//   };
+//   const treeData = data.reduce((a, b) => _filter(b, a), [] as TreeNode[]);
+//   return new FilteredTreeResult(treeData, [...needsToExpanded]);
+// }
 
 @Component({
   selector: 'app-report-component',
@@ -71,29 +73,30 @@ export class ReportComponentComponent {
   originData$ = new BehaviorSubject(TREE_DATA);
   searchValue$ = new BehaviorSubject<string>('');
   currentReport: Report = new Report({});
+  TREE_DATA?: TreeNode[];
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
     private router: Router, private modal: NzModalService) {
 
-    this.filteredData$.subscribe(result => {
-      this.dataSource.setData(result.treeData);
+    // this.filteredData$.subscribe(result => {
+    //   this.dataSource.setData(result.treeData);
 
-      const hasSearchValue = !!this.searchValue;
-      if (hasSearchValue) {
-        if (this.expandedNodes.length === 0) {
-          this.expandedNodes = this.treeControl.expansionModel.selected;
-          this.treeControl.expansionModel.clear();
-        }
-        this.treeControl.expansionModel.select(...result.needsToExpanded);
-      } else {
-        if (this.expandedNodes.length) {
-          this.treeControl.expansionModel.clear();
-          this.treeControl.expansionModel.select(...this.expandedNodes);
-          this.expandedNodes = [];
-        }
-      }
-    });
+    //   const hasSearchValue = !!this.searchValue;
+    //   if (hasSearchValue) {
+    //     if (this.expandedNodes.length === 0) {
+    //       this.expandedNodes = this.treeControl.expansionModel.selected;
+    //       this.treeControl.expansionModel.clear();
+    //     }
+    //     this.treeControl.expansionModel.select(...result.needsToExpanded);
+    //   } else {
+    //     if (this.expandedNodes.length) {
+    //       this.treeControl.expansionModel.clear();
+    //       this.treeControl.expansionModel.select(...this.expandedNodes);
+    //       this.expandedNodes = [];
+    //     }
+    //   }
+    // });
   }
 
   ngOnInit(): void {
@@ -103,20 +106,20 @@ export class ReportComponentComponent {
     this.cdr.detectChanges();
   }
 
-  transformer = (node: TreeNode, level: number): FlatNode => {
-    const existingNode = this.nestedNodeMap.get(node);
-    const flatNode =
-      existingNode && existingNode.name === node.name
-        ? existingNode
-        : {
-          expandable: !!node.children && node.children.length > 0,
-          name: node.name,
-          level
-        };
-    this.flatNodeMap.set(flatNode, node);
-    this.nestedNodeMap.set(node, flatNode);
-    return flatNode;
-  };
+  // transformer = (node: TreeNode, level: number): FlatNode => {
+  //   const existingNode = this.nestedNodeMap.get(node);
+  //   const flatNode =
+  //     existingNode && existingNode.name === node.name
+  //       ? existingNode
+  //       : {
+  //         expandable: !!node.children && node.children.length > 0,
+  //         name: node.name,
+  //         level
+  //       };
+  //   this.flatNodeMap.set(flatNode, node);
+  //   this.nestedNodeMap.set(node, flatNode);
+  //   return flatNode;
+  // };
 
   treeControl = new FlatTreeControl<FlatNode, TreeNode>(
     node => node.level,
@@ -126,27 +129,25 @@ export class ReportComponentComponent {
     }
   );
 
-  treeFlattener = new NzTreeFlattener<TreeNode, FlatNode, TreeNode>(
-    this.transformer,
-    node => node.level,
-    node => node.expandable,
-    node => node.children
-  );
+  // treeFlattener = new NzTreeFlattener<TreeNode, FlatNode, TreeNode>(
+  //   this.transformer,
+  //   node => node.level,
+  //   node => node.expandable,
+  //   node => node.children
+  // );
 
-  dataSource = new NzTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  // dataSource = new NzTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  filteredData$ = combineLatest([
-    this.originData$,
-    this.searchValue$.pipe(
-      auditTime(300),
-      map(value => (this.searchValue = value))
-    )
-  ]).pipe(map(([data, value]) => (value ? filterTreeData(data, value) : new FilteredTreeResult(data))));
-
-
-  hasChild = (_: number, node: FlatNode): boolean => node.expandable;
+  // filteredData$ = combineLatest([
+  //   this.originData$,
+  //   this.searchValue$.pipe(
+  //     auditTime(300),
+  //     map(value => (this.searchValue = value))
+  //   )
+  // ]).pipe(map(([data, value]) => (value ? filterTreeData(data, value) : new FilteredTreeResult(data))));
 
   private GetReports() {
+    this.TREE_DATA = [];
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -164,24 +165,32 @@ export class ReportComponentComponent {
 
         debugger;
 
-        var datos = JSON.parse(data);
+        var datos: Report[] = JSON.parse(data);
 
-        // var emi = datos.reduce((acc, item) => {
-        //   if (!acc[item.Category]) {
-        //     acc[item.Category] = [];
-        //   }
-        //   acc[item.Category].push(item);
-        //   return acc;
-        // }, {} as { [key: string]: Report[] })
+        var emi = datos.reduce((acc, item) => {
+          if (!acc[item.Category]) {
+            acc[item.Category] = [];
+          }
+          acc[item.Category].push(item);
+          return acc;
+        }, {} as { [key: string]: Report[] })
 
 
-
-        // const TREE_DATA: TreeNode[] = Object.keys(emi).map(category => ({
+        //TODO: hacer este proceso mas performante, solo pasando los datos deseados y no todo el objeto.
+        // this.TREE_DATA = Object.keys(emi).map(category => ({
         //   name: category,
-        //   children: emi[category].map(item => ({
-        //     name: item.Name
-        //   }))
+        //   children: emi[category].map(item => ({ currentReport: new Report(item) }))
         // }));
+
+
+        // this.TREE_DATA = Object.keys(emi).map(category => ({
+        //   name: category,
+        //   children: emi[category].map(item => ({ currentReport: new Report(item) }))
+        // }));
+
+
+
+
 
         this.ReportsList = datos.map((item: any) => new Report(item));
 
