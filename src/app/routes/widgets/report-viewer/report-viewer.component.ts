@@ -28,6 +28,7 @@ export class ReportViewerComponent {
   currentReport: Report = new Report({});
   listOfData: any[] = [];
   listOfColumns: ColumnItem[] = [];
+  Description: string = "";
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute) {
@@ -35,7 +36,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-
+    debugger;
     this.loading = false;
     this.route.params.subscribe(params => {
       const tokenData = this.tokenService.get();
@@ -58,9 +59,39 @@ export class ReportViewerComponent {
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
             this.OpenReport(new Report(currentReport));
+            this.GetDescription(currentReport.ID.toString());
           });
       }
     });
+  }
+  GetDescription(Id: string) {
+    debugger;
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        Params: {
+          reportId: Id
+        }
+      };
+
+      this.RVService.GetReportDescriptionByQuery(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      )
+        .subscribe((data: any) => {
+          var ObjectData = JSON.parse(data);
+          this.Description = ObjectData.Description;
+          this.cdr.detectChanges();
+        });
+    }
+
+    this.loading = true;
+    this.cdr.detectChanges();
   }
 
 
