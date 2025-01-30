@@ -36,7 +36,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-    debugger;
+
     this.loading = false;
     this.route.params.subscribe(params => {
       const tokenData = this.tokenService.get();
@@ -65,7 +65,7 @@ export class ReportViewerComponent {
     });
   }
   GetDescription(Id: string) {
-    debugger;
+
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -84,8 +84,7 @@ export class ReportViewerComponent {
         })
       )
         .subscribe((data: any) => {
-          var ObjectData = JSON.parse(data);
-          this.Description = ObjectData.Description;
+          this.Description = data;
           this.cdr.detectChanges();
         });
     }

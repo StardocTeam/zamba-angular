@@ -22,14 +22,42 @@ export class ReportComponentComponent {
   ReportsList: Report[] = [];
   searchValue = '';
   TREE_DATA?: TreeNode[];
+  CreatePermission: boolean = false;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
     private router: Router, private modal: NzModalService) { }
 
   ngOnInit(): void {
+
+    // this.GetPermissions();
     this.GetReports();
     this.cdr.detectChanges();
+  }
+  GetPermissions() {
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid']
+      };
+
+      this.RService._GetPermissions(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      ).subscribe((data: any) => {
+        var data = JSON.parse(data);
+
+        this.CreatePermission = data["ADITIONAL"] ? true : false;
+        // this.ModificationPermission = data["ADITIONAL"] ? true : false;
+        // this.DeletePermission = data["ADITIONAL"] ? true : false;
+
+
+      });
+    }
   }
 
   private GetReports() {

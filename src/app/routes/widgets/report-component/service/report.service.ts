@@ -8,7 +8,14 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class ReportService {
+
   constructor(private http: _HttpClient) { }
+
+  _GetPermissions(genericRequest: {}) {
+    return this.http.post(`${environment['apiRestBasePath']}/getPermissions`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
 
   _GetReports(genericRequest: any) {
     return this.http.post(`${environment['apiRestBasePath']}/getReports`, genericRequest, null, {

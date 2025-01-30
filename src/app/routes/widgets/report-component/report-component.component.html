@@ -4,14 +4,46 @@
 
 
             <div class="search-container">
-                <nz-input-group class="btnSearch" style="width: 100%;">
+
+
+
+                <div nz-row>
+
+                    <div nz-col nzFlex="auto">
+                        <nz-input-group class="btnSearch" style="width: 100%;">
+                            <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue"
+                                (ngModelChange)="search($event)" />
+                        </nz-input-group>
+                    </div>
+
+                    <div nz-col nzFlex="32px" *ngIf="CreatePermission">
+                        <button nz-button class="btnCreateReport" nzType="primary" nzBlock
+                            routerLink="/dashboard/report/create" routerLinkActive="active">
+                            <i nz-icon class="iconSetting" nzType="plus" nzSize="small"> </i>
+                        </button>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+                <!-- <nz-input-group class="btnSearch">
                     <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue"
                         (ngModelChange)="search($event)" />
                 </nz-input-group>
-            </div>
 
+                <button class="right-align" nz-button>
+                    <i nz-icon class="iconSetting" nzType="setting" nzSize="small"> </i>
+                </button> -->
+            </div>
+            <!-- 
             <button nz-button class="createButton" nzType="primary" nzBlock routerLink="/dashboard/report/create"
-                routerLinkActive="active">Crear reporte</button>
+                routerLinkActive="active">Crear reporte</button> -->
 
 
             <ul nz-menu nzMode="inline">
