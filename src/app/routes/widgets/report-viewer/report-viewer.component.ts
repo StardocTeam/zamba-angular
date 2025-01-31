@@ -93,7 +93,6 @@ export class ReportViewerComponent {
     this.cdr.detectChanges();
   }
 
-
   OpenReport(report: Report) {
 
     this.currentReport = report;

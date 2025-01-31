@@ -29,8 +29,7 @@ export class ReportComponentComponent {
     private router: Router, private modal: NzModalService) { }
 
   ngOnInit(): void {
-
-    // this.GetPermissions();
+    this.GetPermissions();
     this.GetReports();
     this.cdr.detectChanges();
   }
@@ -51,11 +50,8 @@ export class ReportComponentComponent {
       ).subscribe((data: any) => {
         var data = JSON.parse(data);
 
-        this.CreatePermission = data["ADITIONAL"] ? true : false;
-        // this.ModificationPermission = data["ADITIONAL"] ? true : false;
-        // this.DeletePermission = data["ADITIONAL"] ? true : false;
-
-
+        //Valor -1 indica que el permiso esta presente sobre todo el modulo de reportes
+        this.CreatePermission = data[0]["ADITIONAL"] == -1 ? true : false;
       });
     }
   }
