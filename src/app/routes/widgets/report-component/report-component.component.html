@@ -1,12 +1,12 @@
-<div class="firstDiv">
-    <nz-layout class="nzLayoutHeight100percent">
+<div class="firstDiv" [style.height.px]="height">
+    <nz-layout class="">
         <nz-sider>
-            <div class="search-container">
-                <div nz-row>
 
-                    <div nz-col nzFlex="auto">
-                        <nz-input-group class="btnSearch" style="width: 100%;">
-                            <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue"
+            <div class="search-anchor search-container">
+                <div nz-row class="">
+                    <div nz-col nzFlex="auto" #suffixIconButton>
+                        <nz-input-group #suffixIconButton class="btnSearch" style="width: 100%;">
+                            <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
                                 (ngModelChange)="search($event)" />
                         </nz-input-group>
                     </div>
@@ -14,7 +14,7 @@
                     <div nz-col nzFlex="100px" *ngIf="CreatePermission">
                         <button nz-button class="btnCreateReport" nzType="primary" nzBlock
                             routerLink="/dashboard/report/create" routerLinkActive="active">
-                            <i nz-icon class="iconSetting" nzType="plus" nzSize="small"> Create </i>
+                            <i nz-icon class="iconSetting" nzType="plus" nzSize="small"> Crear </i>
                         </button>
                     </div>
                 </div>
@@ -24,12 +24,19 @@
             <ul nz-menu nzMode="inline">
                 <li *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}" nzIcon="file">
                     <ul>
-                        <li nz-menu-item *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
+                        <li class="li-line-height" nz-menu-item
+                            *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
                             routerLink="/dashboard/report/{{itemLeaf.ID}}" routerLinkActive="active">
 
-                            {{ itemLeaf.Name }}
+                            <div style="padding-right: 30px;">
+                                <span>{{ itemLeaf.Name }}</span>
+                                <br>
+                                <span class="subtext" style="color: gray; white-space: pre-line;">{{
+                                    itemLeaf.Description}}</span>
+                            </div>
 
-                            <button class="right-align btnSetting" nz-button nzShape="circle" nzSize="small">
+
+                            <button class=" right-align btnSetting" nz-button nzShape="circle" nzSize="small">
                                 <i nz-icon class="iconSetting" nzType="setting" nzSize="small" nz-dropdown
                                     nzTrigger="click" [nzDropdownMenu]="menu"> </i>
                             </button>

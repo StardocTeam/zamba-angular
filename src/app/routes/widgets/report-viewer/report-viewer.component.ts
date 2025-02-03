@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "../report-component/entitie/report";
 
@@ -29,6 +29,7 @@ export class ReportViewerComponent {
   listOfData: any[] = [];
   listOfColumns: ColumnItem[] = [];
   Description: string = "";
+  height: string = "150px";
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute) {
@@ -36,7 +37,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-
+    //this.adjustHeight();
     this.loading = false;
     this.route.params.subscribe(params => {
       const tokenData = this.tokenService.get();
@@ -91,6 +92,18 @@ export class ReportViewerComponent {
 
     this.loading = true;
     this.cdr.detectChanges();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustHeight();
+  }
+
+  adjustHeight() {
+    const height = window.innerHeight;
+    const reportDetailsContainer = document.getElementsByClassName('report-details');
+
+    this.height = (height - 40 - 150).toString() + "px";
   }
 
   OpenReport(report: Report) {

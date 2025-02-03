@@ -9,6 +9,7 @@ import { Report } from '../report-component/entitie/report';
 export class ReportEditorComponent {
   report: Report = {
     Category: '',
+    Description: '',
     Name: '',
     Query: '',
     Aditional: 0,

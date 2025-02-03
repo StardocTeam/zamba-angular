@@ -5,6 +5,7 @@ export class Report {
     Name: string;
     Query: string;
     Category: string;
+    Description: string
 
     constructor(data: any) {
         this.Aditional = data.Aditional;
@@ -13,5 +14,6 @@ export class Report {
         this.Name = data.Name;
         this.Query = data.Query;
         this.Category = data.Category;
+        this.Description = data.Description;
     }
 }

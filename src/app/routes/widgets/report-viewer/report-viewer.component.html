@@ -1,11 +1,12 @@
 <div class="container">
     <div class="report-details">
-        <h2>{{currentReport.Name}}</h2>
+        <h2>{{currentReport.Name}}</h2> {{height}}
         <p>{{Description}}</p>
-
     </div>
 
-    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: 'auto' }">
+    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small"
+        [nzScroll]="{x: 'auto', y: height }">
+
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns;">

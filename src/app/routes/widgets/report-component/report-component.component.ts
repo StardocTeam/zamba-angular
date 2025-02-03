@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, NgModule } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject, NgModule } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
@@ -23,20 +23,34 @@ export class ReportComponentComponent {
   searchValue = '';
   TREE_DATA?: TreeNode[];
   CreatePermission: boolean = false;
+  height: number = 400;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
     private router: Router, private modal: NzModalService) {
 
-    this.CreatePermission = false;
   }
 
   ngOnInit(): void {
-    this.CreatePermission = false;
+    this.adjustHeight();
     this.GetPermissions();
     this.GetReports();
     this.cdr.detectChanges();
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustHeight();
+  }
+
+  adjustHeight() {
+    const height = window.innerHeight;
+    const reportContainer = document.getElementById('firstDiv');
+
+    this.height = height - 64;
+  }
+
+
   GetPermissions() {
     const tokenData = this.tokenService.get();
     let genericRequest = {};
@@ -78,7 +92,6 @@ export class ReportComponentComponent {
         })
       ).subscribe((data: any) => {
         var datos: Report[] = JSON.parse(data);
-
         var Categories = datos.reduce((acc, item) => {
           if (!acc[item.Category]) {
             acc[item.Category] = [];
