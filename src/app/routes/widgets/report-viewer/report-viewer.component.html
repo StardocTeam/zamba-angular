@@ -1,15 +1,11 @@
-<div style="flex-grow: 1;">
+<div class="container">
+    <div class="report-details">
+        <h2>{{currentReport.Name}}</h2>
+        <p>{{Description}}</p>
 
-    <div style="padding-left: 10px;">
-        <div class="report-details">
-            <h2>{{currentReport.Name}}</h2>
-
-            <p>{{Description}}</p>
-        </div>
     </div>
 
-
-    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: '338px' }">
+    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: 'auto' }">
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns;">
@@ -31,5 +27,4 @@
             </ng-container>
         </tbody>
     </nz-table>
-
 </div>

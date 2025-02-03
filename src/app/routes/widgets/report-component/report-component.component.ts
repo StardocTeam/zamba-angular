@@ -26,9 +26,13 @@ export class ReportComponentComponent {
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
-    private router: Router, private modal: NzModalService) { }
+    private router: Router, private modal: NzModalService) {
+
+    this.CreatePermission = false;
+  }
 
   ngOnInit(): void {
+    this.CreatePermission = false;
     this.GetPermissions();
     this.GetReports();
     this.cdr.detectChanges();
@@ -50,10 +54,11 @@ export class ReportComponentComponent {
       ).subscribe((data: any) => {
         var data = JSON.parse(data);
 
-        //Valor -1 indica que el permiso esta presente sobre todo el modulo de reportes
         this.CreatePermission = data[0]["ADITIONAL"] == -1 ? true : false;
       });
     }
+
+    this.cdr.detectChanges();
   }
 
   private GetReports() {

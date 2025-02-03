@@ -1,12 +1,7 @@
 <div class="firstDiv">
     <nz-layout class="nzLayoutHeight100percent">
         <nz-sider>
-
-
             <div class="search-container">
-
-
-
                 <div nz-row>
 
                     <div nz-col nzFlex="auto">
@@ -16,38 +11,18 @@
                         </nz-input-group>
                     </div>
 
-                    <div nz-col nzFlex="32px" *ngIf="CreatePermission">
+                    <div nz-col nzFlex="100px" *ngIf="CreatePermission">
                         <button nz-button class="btnCreateReport" nzType="primary" nzBlock
                             routerLink="/dashboard/report/create" routerLinkActive="active">
-                            <i nz-icon class="iconSetting" nzType="plus" nzSize="small"> </i>
+                            <i nz-icon class="iconSetting" nzType="plus" nzSize="small"> Create </i>
                         </button>
                     </div>
-
                 </div>
-
-
-
-
-
-
-
-
-                <!-- <nz-input-group class="btnSearch">
-                    <input type="text" nz-input placeholder="Search" [(ngModel)]="searchValue"
-                        (ngModelChange)="search($event)" />
-                </nz-input-group>
-
-                <button class="right-align" nz-button>
-                    <i nz-icon class="iconSetting" nzType="setting" nzSize="small"> </i>
-                </button> -->
             </div>
-            <!-- 
-            <button nz-button class="createButton" nzType="primary" nzBlock routerLink="/dashboard/report/create"
-                routerLinkActive="active">Crear reporte</button> -->
 
 
             <ul nz-menu nzMode="inline">
-                <li *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}" nzIcon="mail">
+                <li *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}" nzIcon="file">
                     <ul>
                         <li nz-menu-item *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
                             routerLink="/dashboard/report/{{itemLeaf.ID}}" routerLinkActive="active">
@@ -61,7 +36,6 @@
 
                             <nz-dropdown-menu #menu="nzDropdownMenu">
                                 <ul nz-menu>
-                                    <li nz-menu-item><i nz-icon nzType="eye"></i> Ver</li>
                                     <li nz-menu-item routerLink="/dashboard/report/edit/{{itemLeaf.ID}}">
                                         <i nz-icon nzType="edit"></i> Editar
                                     </li>
@@ -77,52 +51,6 @@
                     </ul>
                 </li>
             </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <!-- 
-            <ul nz-menu nzMode="inline">
-                <li nz-submenu nzOpen nzTitle="Reportes" nzIcon="mail">
-                    <ul>
-                        <li nz-menu-item *ngFor="let item of ReportsList | filter:searchValue"
-                            routerLink="/dashboard/report/{{item.ID}}" routerLinkActive="active">
-
-                            {{ item.Name }}
-
-                            <button class="right-align btnSetting" nz-button nzShape="circle" nzSize="small">
-                                <i nz-icon class="iconSetting" nzType="setting" nzSize="small" nz-dropdown
-                                    nzTrigger="click" [nzDropdownMenu]="menu"> </i>
-                            </button>
-
-                            <nz-dropdown-menu #menu="nzDropdownMenu">
-                                <ul nz-menu>
-                                    <li nz-menu-item><i nz-icon nzType="eye"></i> Ver</li>
-                                    <li nz-menu-item routerLink="/dashboard/report/edit/{{item.ID}}"><i nz-icon
-                                            nzType="edit"></i> Editar</li>
-
-                                    <li nz-menu-divider></li>
-                                    <li nz-menu-item style="color: red;" (click)="deleteReport(item)"> <i nz-icon
-                                            nzType="delete"></i> Eliminar</li>
-                                </ul>
-                            </nz-dropdown-menu>
-
-                        </li>
-                    </ul>
-                </li>
-            </ul> -->
         </nz-sider>
 
         <nz-content>
