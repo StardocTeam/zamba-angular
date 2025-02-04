@@ -12,7 +12,8 @@ import {
   StepForwardOutline,
   ApartmentOutline,
   HomeOutline,
-  MenuOutline
+  MenuOutline,
+  UserOutline
 } from '@ant-design/icons-angular/icons';
 import { GlobalFooterModule } from '@delon/abc/global-footer';
 import { HotkeyModule } from '@delon/abc/hotkey';
@@ -72,7 +73,8 @@ const icons: IconDefinition[] = [
   StepForwardOutline,
   ApartmentOutline,
   HomeOutline,
-  MenuOutline
+  MenuOutline,
+  UserOutline
 ];
 @NgModule({
   imports: [
