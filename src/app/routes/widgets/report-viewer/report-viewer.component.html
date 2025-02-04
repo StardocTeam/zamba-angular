@@ -5,7 +5,7 @@
     </div>
 
     <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: height }"
-        [nzShowPagination]="false">
+        [nzShowPagination]="false" [nzPageIndex]="1" [nzTotal]="listOfData.length">
 
         <thead>
             <tr>

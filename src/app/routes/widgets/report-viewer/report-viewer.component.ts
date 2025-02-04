@@ -30,6 +30,7 @@ export class ReportViewerComponent {
   listOfColumns: ColumnItem[] = [];
   Description: string = "";
   height: string = "400px";
+  PageIndex: number = 1;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute) {
@@ -103,7 +104,7 @@ export class ReportViewerComponent {
     const RDContainer = document.getElementsByClassName('report-details')[0];
     const heightRDContainer = RDContainer.clientHeight == 0 ? 66 : RDContainer.clientHeight;
 
-    this.height = (height - 40 - 150 - heightRDContainer - 14 + 88).toString() + "px";
+    this.height = (height - 40 - 230 - heightRDContainer - 14 + 88).toString() + "px";
     this.cdr.detectChanges();
   }
 

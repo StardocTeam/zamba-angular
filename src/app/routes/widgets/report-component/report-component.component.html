@@ -5,15 +5,6 @@
             <div class="search-anchor">
                 <div nz-row>
 
-
-                    <!-- <div nz-col nzFlex="auto" #suffixIconButton>
-                        <nz-input-group #suffixIconButton class="btnSearch" style="width: 100%;">
-                            <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
-                                (ngModelChange)="search($event)" />
-                        </nz-input-group>
-                    </div> -->
-
-
                     <div nz-col nzFlex="auto">
                         <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%;">
                             <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
@@ -23,10 +14,6 @@
                             <i nz-icon class="iconSetting" nzType="search"></i>
                         </ng-template>
                     </div>
-
-
-
-
 
 
                     <div nz-col nzFlex="100px" *ngIf="CreatePermission">

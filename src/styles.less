@@ -12,5 +12,38 @@
 }
 
 .alain-default__content {
-    height: 1000px !important;
+    //height: 1000px !important;
+}
+
+/* Estilos para navegadores basados en WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 12px;
+    /* Ancho de la barra de desplazamiento vertical */
+    height: 12px;
+    /* Altura de la barra de desplazamiento horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Color de fondo de la pista de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Color de la barra de desplazamiento */
+    border-radius: 6px;
+    /* Bordes redondeados de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+    /* Color de la barra de desplazamiento al pasar el ratón por encima */
+}
+
+/* Estilos para Firefox */
+* {
+    scrollbar-width: thin;
+    /* Ancho de la barra de desplazamiento */
+    scrollbar-color: #1890ff #f1f1f1;
+    /* Color de la barra de desplazamiento y de la pista */
 }
