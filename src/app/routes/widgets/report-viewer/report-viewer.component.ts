@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "../report-component/entitie/report";
 
@@ -29,7 +29,7 @@ export class ReportViewerComponent {
   listOfData: any[] = [];
   listOfColumns: ColumnItem[] = [];
   Description: string = "";
-  height: string = "150px";
+  height: string = "400px";
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute) {
@@ -37,7 +37,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-    //this.adjustHeight();
+    this.adjustHeight();
     this.loading = false;
     this.route.params.subscribe(params => {
       const tokenData = this.tokenService.get();
@@ -60,7 +60,6 @@ export class ReportViewerComponent {
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
             this.OpenReport(new Report(currentReport));
-            this.GetDescription(currentReport.ID.toString());
           });
       }
     });
@@ -101,9 +100,11 @@ export class ReportViewerComponent {
 
   adjustHeight() {
     const height = window.innerHeight;
-    const reportDetailsContainer = document.getElementsByClassName('report-details');
+    const RDContainer = document.getElementsByClassName('report-details')[0];
+    const heightRDContainer = RDContainer.clientHeight == 0 ? 66 : RDContainer.clientHeight;
 
-    this.height = (height - 40 - 150).toString() + "px";
+    this.height = (height - 40 - 150 - heightRDContainer - 14 + 88).toString() + "px";
+    this.cdr.detectChanges();
   }
 
   OpenReport(report: Report) {
@@ -128,6 +129,7 @@ export class ReportViewerComponent {
       )
         .subscribe((data: any) => {
           var ObjectData = JSON.parse(data);
+          this.Description = report.Description;
           this.listOfColumns = [];
           this.listOfData = [];
           this.cdr.detectChanges();

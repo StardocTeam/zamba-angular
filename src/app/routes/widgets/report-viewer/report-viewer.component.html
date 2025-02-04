@@ -1,11 +1,11 @@
 <div class="container">
     <div class="report-details">
-        <h2>{{currentReport.Name}}</h2> {{height}}
+        <h2>{{currentReport.Name}}</h2>
         <p>{{Description}}</p>
     </div>
 
-    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small"
-        [nzScroll]="{x: 'auto', y: height }">
+    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: height }"
+        [nzShowPagination]="false">
 
         <thead>
             <tr>
