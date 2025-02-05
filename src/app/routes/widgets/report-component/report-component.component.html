@@ -15,36 +15,76 @@
                         </ng-template>
                     </div>
 
+                    <div nz-col nzFlex="5px">
+                    </div>
 
                     <div nz-col nzFlex="100px" *ngIf="CreatePermission">
                         <button nz-button class="" nzType="primary" nzBlock routerLink="/dashboard/report/create"
                             routerLinkActive="active">
-                            <i nz-icon class="iconSetting" nzType="plus" nzSize="small"> Crear </i>
+                            <i nz-icon nzType="plus"></i> Crear
+
                         </button>
                     </div>
                 </div>
             </div>
 
 
-            <ul nz-menu nzMode="inline">
+            <ul nz-menu nzMode="inline" [nzInlineIndent]="36">
                 <li *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}" nzIcon="file">
-                    <ul>
-                        <li class="li-line-height" nz-menu-item
+                    <ul nz-menu nzMode="inline">
+                        <li class="li-line-height move-up" nz-menu-item
                             *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
                             routerLink="/dashboard/report/{{itemLeaf.ID}}" routerLinkActive="active">
 
-                            <div style="padding-right: 30px;">
-                                <span>{{ itemLeaf.Name }}</span>
-                                <br>
-                                <span class="subtext" style="color: gray; white-space: pre-line;">{{
-                                    itemLeaf.Description}}</span>
+
+
+                            <div nz-row>
+                                <div nz-col nzSpan="21">
+                                    <!-- <i nz-icon nzType="setting" nzSize="small"></i> -->
+                                    <span class="ellipsis">{{ itemLeaf.Name }}</span>
+                                    <br>
+                                    <span nz-typography nzType="secondary" class="ellipsis">
+                                        {{itemLeaf.Description}}
+                                    </span>
+
+                                </div>
+
+                                <div nz-col nzSpan="3">
+                                    <button class=" right-align btnSetting" nz-button nzShape="circle" nzSize="small">
+                                        <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown
+                                            nzTrigger="click" [nzDropdownMenu]="menu"> </i>
+                                    </button>
+                                </div>
                             </div>
 
 
-                            <button class=" right-align btnSetting" nz-button nzShape="circle" nzSize="small">
-                                <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown
-                                    nzTrigger="click" [nzDropdownMenu]="menu"> </i>
-                            </button>
+                            <!-- 
+
+
+
+
+                            <div nz-row>
+                                <i nz-icon nzType="setting" nzSize="small"></i>
+                                <a class="ellipsis"><strong>{{ itemLeaf.Name }}</strong></a>
+                                <br>
+                                <a nz-typography nzType="secondary" class="ellipsis">
+                                    {{itemLeaf.Description}}
+                                </a>
+
+                                <button class=" right-align btnSetting" nz-button nzShape="circle" nzSize="small">
+                                    <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown
+                                        nzTrigger="click" [nzDropdownMenu]="menu"> </i>
+                                </button>
+                            </div> -->
+
+
+
+
+
+
+
+
+
 
                             <nz-dropdown-menu #menu="nzDropdownMenu">
                                 <ul nz-menu>
