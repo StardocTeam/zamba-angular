@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, Inject, NgModule } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, Inject, NgModule, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
@@ -19,6 +19,8 @@ export interface TreeNode {
 })
 
 export class ReportComponentComponent {
+  @ViewChildren('itemTree') itemTrees!: QueryList<ElementRef>;
+  @ViewChildren('itemLeaf') itemLeafs!: QueryList<ElementRef>;
   ReportsList: Report[] = [];
   searchValue = '';
   TREE_DATA?: TreeNode[];
@@ -139,5 +141,17 @@ export class ReportComponentComponent {
 
   search(searchValue: string): void {
     this.searchValue = searchValue;
+
+    this.TREE_DATA?.forEach(node => {
+      var filteredReports = node.currentReport?.filter(report => report.Name.toLowerCase().includes(this.searchValue.toLowerCase())) || [];
+
+      this.itemTrees.forEach((itemTree: any) => {
+        if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length == 0) {
+          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'none';
+        } else if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length > 0) {
+          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'block';
+        }
+      });
+    });
   }
 }
