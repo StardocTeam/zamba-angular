@@ -26,6 +26,9 @@ export class ReportComponentComponent {
   TREE_DATA?: TreeNode[];
   CreatePermission: boolean = false;
   height: number = 400;
+  XsReportListFlag: boolean = true;
+  XsReportViewerFlag: boolean = false;
+
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
@@ -52,6 +55,18 @@ export class ReportComponentComponent {
     this.height = height - 64;
   }
 
+  switchView(view: string) {
+    switch (view.toLowerCase()) {
+      case 'list':
+        this.XsReportListFlag = true;
+        this.XsReportViewerFlag = false;
+        break;
+      case 'viewer':
+        this.XsReportListFlag = false;
+        this.XsReportViewerFlag = true;
+        break;
+    }
+  }
 
   GetPermissions() {
     const tokenData = this.tokenService.get();
@@ -114,6 +129,23 @@ export class ReportComponentComponent {
       });
     }
   }
+  search(searchValue: string): void {
+    this.searchValue = searchValue;
+
+    this.TREE_DATA?.forEach(node => {
+      var filteredReports = node.currentReport?.filter(report => report.Name.toLowerCase().includes(this.searchValue.toLowerCase())) || [];
+
+      this.itemTrees.forEach((itemTree: any) => {
+        if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length == 0) {
+          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'none';
+        } else if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length > 0) {
+          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'block';
+        }
+      });
+    });
+  }
+
+  //#region DELETE
 
   deleteReport(report: Report): void {
     this.modal.confirm({
@@ -139,19 +171,6 @@ export class ReportComponentComponent {
     this.cdr.detectChanges();
   }
 
-  search(searchValue: string): void {
-    this.searchValue = searchValue;
+  //#endregion
 
-    this.TREE_DATA?.forEach(node => {
-      var filteredReports = node.currentReport?.filter(report => report.Name.toLowerCase().includes(this.searchValue.toLowerCase())) || [];
-
-      this.itemTrees.forEach((itemTree: any) => {
-        if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length == 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'none';
-        } else if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length > 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'block';
-        }
-      });
-    });
-  }
 }
