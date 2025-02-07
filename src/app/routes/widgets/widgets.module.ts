@@ -30,6 +30,8 @@ import { WidgetsRoutingModule } from './widgets-routing.module';
 import { ReportComponentComponent } from './report-component/report-component.component';
 import { ReportViewerComponent } from "./report-viewer/report-viewer.component";
 import { ReportFilterPipe } from './report-component/FilterPipe';
+import { ReportEditorComponent } from './report-editor/report-editor.component';
+
 
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
@@ -40,7 +42,8 @@ const COMPONENTS: Array<Type<void>> = [
   PendingVacationsComponent,
   ReportComponentComponent,
   ReportViewerComponent,
-  ReportFilterPipe
+  ReportFilterPipe,
+  ReportEditorComponent
 ];
 
 @NgModule({

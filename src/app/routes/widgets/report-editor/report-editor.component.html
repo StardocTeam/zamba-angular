@@ -1,97 +1,63 @@
-<div class="report-editor">
-    <h2>Report Editor - ID: {{report.ID}}</h2>
-    <form>
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="nameName" required>
-        </div>
-        <div class="form-group">
-            <label for="query">Query:</label>
-            <textarea id="query" name="queryQuery" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="aditional">Aditional:</label>
-            <input type="number" id="aditional" name="aditionalAditional" required>
-        </div>
-        <div class="form-group">
-            <label for="completar">Completar:</label>
-            <input type="text" id="completar" name="completarCompletar" required>
-        </div>
-        <div class="form-group">
-            <label for="groupExpression">Group Expression:</label>
-            <input type="text" id="groupExpression" name="groupExpressionGroupExpression" required>
-        </div>
-        <div class="form-group">
-            <label for="rightType">Right Type:</label>
-            <input type="number" id="rightType" name="rightTypeRIGHT_TYPE" required>
-        </div>
-        <div class="form-group">
-            <label for="userId">User ID:</label>
-            <input type="number" id="userId" name="userIdUSER_ID" required>
-        </div>
-        <div class="form-group">
-            <label for="userName">User Name:</label>
-            <input type="text" id="userName" name="userNameUSER_NAME" required>
-        </div>
-        <div class="form-group">
-            <label for="objectId">Object ID:</label>
-            <input type="number" id="objectId" name="objectIdOBJECTID" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Save Report</button>
-    </form>
-</div>
+<form nz-form [formGroup]="myGroup" (ngSubmit)="InsertReport()">
+    <div nz-row>
+        <div nz-col nzSpan="6"></div>
 
-<style>
-    .report-editor {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
+        <div nz-col nzSpan="12" style="text-align: center;">
+            <h1>EDITOR DE REPORTE</h1>
+            <span>En esta sección puedes crear un nuevo reporte.</span>
+        </div>
+        <div nz-col nzSpan="6"></div>
+    </div>
 
-    .report-editor h2 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+    <div style="padding: 20px;">
+        <div nz-row [nzGutter]="4">
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="10" nzLg="9" nzXl="16">
+                <span>Nombre del reporte:</span><br>
+                <input type="text" nz-input placeholder="Nombre..." />
+            </div>
 
-    .form-group {
-        margin-bottom: 15px;
-    }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="12" nzLg="13" nzXl="8">
+                <span>Categoria:</span><br>
+                <nz-select id="category" formControlName="category" style="width: 100%;"
+                    nzPlaceHolder="Selecciones una categoria">
+                    <nz-option nzValue="item.value" nzLabel="item.value"></nz-option>
+                </nz-select>
+                <!-- <input type="text" nz-input placeholder="Nombre..." /> -->
+            </div>
 
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
 
-    .form-group textarea {
-        resize: vertical;
-    }
 
-    .btn {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+        </div>
 
-    .btn:hover {
-        background-color: #0056b3;
-    }
-</style>
+        <br>
+
+        <div nz-row>
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
+                <span>Descripcion:</span>
+                <textarea rows="4" nz-input placeholder="Agregue una descripcion del reporte..."></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <div nz-row>
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
+                <span>Query:</span>
+                <textarea rows="4" nz-input placeholder="Inserte query..."></textarea>
+            </div>
+        </div>
+
+        <br>
+
+        <div nz-row>
+            <div nz-col nzFlex="auto"></div>
+
+            <div nz-col nzFlex="" class="right-align">
+                <button nz-button nzType="primary">Cancelar</button>
+                <button nz-button nzType="primary">Probar</button>
+                <button nz-button nzType="primary">Crear reporte</button>
+            </div>
+        </div>
+    </div>
+</form>
