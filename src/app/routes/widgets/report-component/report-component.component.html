@@ -3,18 +3,17 @@
 
 
         <nz-sider>
-            <div class="search-anchor" nz-row>
+            <div class="search-anchor" nz-row [nzGutter]="4">
+
                 <div nz-col nzXs="16" nzFlex="auto">
                     <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%;">
                         <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
                             (ngModelChange)="search($event)" />
                     </nz-input-group>
+
                     <ng-template #prefixTemplateUser>
                         <i nz-icon class="iconSetting" nzType="search"></i>
                     </ng-template>
-                </div>
-
-                <div nz-col nzXs="0">
                 </div>
 
                 <div nz-col nzXs="8" *ngIf="CreatePermission">
