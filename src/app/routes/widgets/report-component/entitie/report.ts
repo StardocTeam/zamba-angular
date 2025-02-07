@@ -1,11 +1,11 @@
 export class Report {
-    Aditional: number;
-    Completar: string;
     ID: number;
     Name: string;
-    Query: string;
     Category: string;
+    Query: string;
     Description: string
+    Aditional: number;
+    Completar: string;
 
     constructor(data: any) {
         this.Aditional = data.Aditional;
