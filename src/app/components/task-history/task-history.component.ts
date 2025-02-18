@@ -12,12 +12,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, } from '@angular/router';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-task-history',
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, HttpClientModule, CommonModule, MatCardModule, MatButtonModule, MatIconModule,
-    MatDividerModule, NzSpinModule],
+    MatDividerModule, NzSpinModule, MatSortModule],
   templateUrl: './task-history.component.html',
   styleUrls: ['./task-history.component.css'],
   providers: [TaskHistoryService, { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl }],
@@ -25,6 +26,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
   encapsulation: ViewEncapsulation.Emulated
 })
 export class TaskHistoryComponent implements AfterViewInit, OnInit {
+  @ViewChild(MatSort) sort: MatSort | undefined;
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   private taskHistoryService = inject(TaskHistoryService);
   private route = inject(ActivatedRoute);
   isLoading: boolean = false; // Estado de carga
@@ -36,7 +39,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   docId: number = 0;
 
   private fontLink: HTMLLinkElement | null = null;
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+
 
   constructor(private renderer: Renderer2, private cd: ChangeDetectorRef) {
   }
@@ -44,6 +47,9 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
+    }
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
     }
   }
 
@@ -74,7 +80,6 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
     this.isLoading = true; // Inicia el spinner
     this.showNoDataMessage = false;
 
-    this.dataSource = new MatTableDataSource<any>();
     this.displayedColumns = [];
 
     this.lastSelectedButton = 'taskHistory';
@@ -86,6 +91,9 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
             response = JSON.parse(response);
             this.dataSource.data = response.data;
             this.displayedColumns = response.columnNames;
+            if (this.paginator) {
+              this.dataSource.paginator = this.paginator;
+            }
             this.showNoDataMessage = response.data.length === 0;
           } else {
             this.showNoDataMessage = true;
@@ -106,7 +114,6 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
     this.isLoading = true; // Inicia el spinner
     this.showNoDataMessage = false;
 
-    this.dataSource = new MatTableDataSource<any>();
     this.displayedColumns = [];
 
     this.lastSelectedButton = 'indexesHistory';
