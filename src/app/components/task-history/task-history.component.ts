@@ -13,12 +13,14 @@ import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, } from '@angular/router';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-task-history',
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, HttpClientModule, CommonModule, MatCardModule, MatButtonModule, MatIconModule,
-    MatDividerModule, NzSpinModule, MatSortModule],
+    MatDividerModule, NzSpinModule, MatSortModule, MatFormFieldModule, MatInputModule],
   templateUrl: './task-history.component.html',
   styleUrls: ['./task-history.component.css'],
   providers: [TaskHistoryService, { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl }],
@@ -140,5 +142,13 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
           return of([]);
         }),
       ).subscribe();
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 }
