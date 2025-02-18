@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, ViewEncapsulation, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TaskHistoryService } from '../../services/task-history-service.service';
@@ -7,13 +7,17 @@ import { CommonModule } from '@angular/common';
 import { catchError, of, tap } from 'rxjs';
 import { SpanishPaginatorIntl } from './spanish-paginator';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, } from '@angular/router';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-task-history',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, HttpClientModule, CommonModule, MatCardModule, MatButtonModule],
+  imports: [MatTableModule, MatPaginatorModule, HttpClientModule, CommonModule, MatCardModule, MatButtonModule, MatIconModule,
+    MatDividerModule, NzSpinModule],
   templateUrl: './task-history.component.html',
   styleUrls: ['./task-history.component.css'],
   providers: [TaskHistoryService, { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl }],
@@ -23,7 +27,10 @@ import { ActivatedRoute, } from '@angular/router';
 export class TaskHistoryComponent implements AfterViewInit, OnInit {
   private taskHistoryService = inject(TaskHistoryService);
   private route = inject(ActivatedRoute);
+  isLoading: boolean = false; // Estado de carga
+  showNoDataMessage: boolean = false;
 
+  lastSelectedButton: string | null = null;
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>();
   docId: number = 0;
@@ -31,7 +38,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   private fontLink: HTMLLinkElement | null = null;
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
 
-  constructor(private renderer: Renderer2) {
+  constructor(private renderer: Renderer2, private cd: ChangeDetectorRef) {
   }
 
   ngAfterViewInit() {
@@ -64,24 +71,46 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   }
 
   taskHistoryOnClick(): void {
+    this.isLoading = true; // Inicia el spinner
+    this.showNoDataMessage = false;
+
+    this.dataSource = new MatTableDataSource<any>();
+    this.displayedColumns = [];
+
+    this.lastSelectedButton = 'taskHistory';
+
     this.taskHistoryService.getTaskHistory(this.docId)
       .pipe(
         tap(response => {
-          console.log(response);
           if (response != undefined) {
             response = JSON.parse(response);
             this.dataSource.data = response.data;
             this.displayedColumns = response.columnNames;
+            this.showNoDataMessage = response.data.length === 0;
+          } else {
+            this.showNoDataMessage = true;
           }
+          this.isLoading = false; // Detiene el spinner
+          this.cd.detectChanges();
         }),
         catchError(error => {
           console.error('Error fetching task history:', error);
+          this.isLoading = false; // Detiene el spinner
+          this.cd.detectChanges();
           return of([]);
         })
       ).subscribe();
   }
 
   indexesHistoryOnClick(): void {
+    this.isLoading = true; // Inicia el spinner
+    this.showNoDataMessage = false;
+
+    this.dataSource = new MatTableDataSource<any>();
+    this.displayedColumns = [];
+
+    this.lastSelectedButton = 'indexesHistory';
+
     this.taskHistoryService.getIndexesHistory(this.docId)
       .pipe(
         tap(response => {
@@ -90,12 +119,19 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
             response = JSON.parse(response);
             this.dataSource.data = response.data;
             this.displayedColumns = response.columnNames;
+            this.showNoDataMessage = response.data.length === 0;
+          } else {
+            this.showNoDataMessage = true;
           }
+          this.isLoading = false; // Detiene el spinner
+          this.cd.detectChanges();
         }),
         catchError(error => {
           console.error('Error fetching indexes history:', error);
+          this.isLoading = false; // Detiene el spinner
+          this.cd.detectChanges();
           return of([]);
-        })
+        }),
       ).subscribe();
   }
 }
