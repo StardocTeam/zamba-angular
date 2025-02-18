@@ -25,7 +25,9 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No hay datos para el valor "{{input.value}}"</td>
+          <ng-container *ngIf="!isLoading">
+            <td class="mat-cell" colspan="4">No hay datos para el valor "{{input.value}}"</td>
+          </ng-container>
         </tr>
       </table>
 
@@ -38,7 +40,6 @@
   <ng-template #noDataToDisplay>
     <mat-card-content>
       <p class="notRecordsToDisplay">No hay registros para mostrar.</p>
-      <mat-divider></mat-divider>
     </mat-card-content>
   </ng-template>
 </mat-card>
