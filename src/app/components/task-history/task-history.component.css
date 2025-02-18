@@ -1,0 +1,89 @@
+:host {
+
+    font-family: 'Roboto', sans-serif !important;
+
+    /* Aplica la fuente a todo el componente */
+    .task-history-container {
+        min-width: 350px;
+    }
+
+    mat-card-actions {
+        display: flex;
+        gap: 8px;
+        /* Espaciado entre los botones */
+    }
+
+    @media (max-width: 600px) {
+
+        /* Cuando el viewport es menor a 600px */
+        mat-card-actions {
+            flex-direction: column;
+            align-items: stretch;
+            /* Para que ocupen todo el ancho disponible */
+        }
+    }
+
+    .mat-mdc-header-cell {
+        background-color: #1890ff !important;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .mat-mdc-cell {
+        font-size: 14px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    tr.mat-mdc-row:hover {
+        background: #eff6fb;
+    }
+
+    table {
+        width: 100%;
+        min-width: 1200px;
+        /* Asegura que la tabla no se aplaste demasiado */
+    }
+
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        /* Permite scroll horizontal en pantallas pequeñas */
+    }
+
+    mat-paginator {
+        min-width: 1200px;
+        /* Fija el ancho del paginador */
+    }
+
+    @media (max-width: 1000px) {
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 1000px;
+            /* Fija el ancho de la tabla */
+        }
+    }
+
+    .mat-mdc-button,
+    .mat-mdc-raised-button,
+    .mat-mdc-outlined-button {
+        border-radius: 30px;
+        /* Bordes redondeados */
+        background-color: white;
+        /* Color azul */
+        color: #1976d2 !important;
+        /* Color del texto */
+        text-transform: none;
+        /* Evita mayúsculas forzadas */
+    }
+
+    .mat-mdc-button:hover {
+        background-color: rgb(240, 240, 240);
+        /* Color azul más oscuro al pasar el mouse */
+    }
+}

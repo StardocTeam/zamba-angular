@@ -4,6 +4,8 @@ import { authSimpleCanActivate, authSimpleCanActivateChild } from '@delon/auth';
 import { PreloadOptionalModules } from '@delon/theme';
 import { environment } from '@env/environment';
 
+
+import { TaskHistoryComponent } from '../components/task-history/task-history.component';
 // layout
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
@@ -32,6 +34,12 @@ const routes: Routes = [
         loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
         data: { title: 'Dashboard' }
       },
+      {
+        path: 'taskhistory',
+        component: TaskHistoryComponent,
+        data: { title: 'Task History' },
+        pathMatch: 'full'
+      },
       { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
       { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
       { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },
@@ -48,7 +56,8 @@ const routes: Routes = [
   // passport
   { path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
   { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
-  { path: '**', redirectTo: 'exception/404' }
+  { path: '**', redirectTo: 'exception/404' },
+
 ];
 
 @NgModule({
