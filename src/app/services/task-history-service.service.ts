@@ -24,10 +24,10 @@ export class TaskHistoryService {
     console.log('Service Base URL:', this.serviceBase); // Sacar por consola el valor de ZambaWebRestApiURL
   }
 
-  getTaskHistory(docId: any): Observable<any> {
+  getTaskHistory(docId: any, taskId: any): Observable<any> {
     const genericRequest = {
       UserId: 0,
-      Params: { docid: docId }
+      Params: { docid: docId, taskid: taskId }
     };
 
     const headers = new HttpHeaders({

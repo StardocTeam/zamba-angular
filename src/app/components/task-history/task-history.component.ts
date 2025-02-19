@@ -39,6 +39,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>();
   docId: number = 0;
+  taskId: number = 0;
 
   private fontLink: HTMLLinkElement | null = null;
 
@@ -65,10 +66,14 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       const docIdParam = params.get('docid');
+      const taskIdParam = params.get('taskid');
       if (docIdParam) {
         this.docId = +docIdParam;
-        this.taskHistoryOnClick();
       }
+      if (taskIdParam) {
+        this.taskId = +taskIdParam;
+      }
+      this.taskHistoryOnClick();
     });
     this.fontLink = this.renderer.createElement('link');
     if (this.fontLink) {
@@ -86,7 +91,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
 
     this.lastSelectedButton = 'taskHistory';
 
-    this.taskHistoryService.getTaskHistory(this.docId)
+    this.taskHistoryService.getTaskHistory(this.docId, this.taskId)
       .pipe(
         tap(response => {
           if (response != undefined) {
