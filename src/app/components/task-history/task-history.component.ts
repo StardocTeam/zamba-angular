@@ -41,6 +41,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   dataSource = new MatTableDataSource<any>();
   docId: number = 0;
   taskId: number = 0;
+  taskName: string = '';
 
   private fontLink: HTMLLinkElement | null = null;
 
@@ -65,6 +66,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
 
 
   ngOnInit(): void {
+
     this.route.queryParamMap.subscribe(params => {
       const docIdParam = params.get('docid');
       const taskIdParam = params.get('taskid');
@@ -75,7 +77,13 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
         this.taskId = +taskIdParam;
       }
       this.taskHistoryOnClick();
+      this.getTaskName();
+
     });
+
+
+
+
     this.fontLink = this.renderer.createElement('link');
     if (this.fontLink) {
       this.fontLink.rel = 'stylesheet';
@@ -84,6 +92,19 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
     }
   }
 
+  getTaskName(): void {
+    this.taskHistoryService.getTaskName(this.docId, this.taskId)
+      .pipe(
+        tap(response => {
+          this.taskName = response;
+          this.cd.detectChanges();
+        }),
+        catchError(error => {
+          console.error('Error fetching task name:', error);
+          return of([]);
+        })
+      ).subscribe();
+  }
   taskHistoryOnClick(): void {
     this.isLoading = true; // Inicia el spinner
     this.showNoDataMessage = false;

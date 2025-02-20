@@ -13,6 +13,7 @@ export class TaskHistoryService {
   private serviceBase: string;
   private apiUrl: string;
   private apiUrl2: string;
+  private apiUrl3: string;
 
   constructor(private http: HttpClient) {
     let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
@@ -20,10 +21,24 @@ export class TaskHistoryService {
     this.serviceBase = restAPIUrl;
     this.apiUrl = `${this.serviceBase}/GetTaskHistory`;
     this.apiUrl2 = `${this.serviceBase}/GetIndexesHistory`;
+    this.apiUrl3 = `${this.serviceBase}/GetTaskName`;
 
     console.log('Service Base URL:', this.serviceBase); // Sacar por consola el valor de ZambaWebRestApiURL
   }
 
+
+  getTaskName(docId: any, taskId: any): Observable<any> {
+    const genericRequest = {
+      UserId: 0,
+      Params: { docid: docId, taskid: taskId }
+    };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<any>(this.apiUrl3, genericRequest, { headers });
+  }
   getTaskHistory(docId: any, taskId: any): Observable<any> {
     const genericRequest = {
       UserId: 0,

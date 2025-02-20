@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService, User } from '@delon/theme';
 import { LayoutDefaultOptions } from '@delon/theme/layout-default';
-import { environment } from '@env/environment';
 import { MessageService } from 'src/app/services/message.service';
 
 
