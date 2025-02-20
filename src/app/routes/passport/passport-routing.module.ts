@@ -91,7 +91,7 @@ const routes: Routes = [
     data: { title: 'Bienvenido a Zamba HR', titleI18n: '' }
   },
   { path: 'passport/callback/:type', component: CallbackComponent },
-  { path: '**', redirectTo: 'passport/login' }
+  { path: '*', redirectTo: 'passport/login' }
 ];
 
 @NgModule({

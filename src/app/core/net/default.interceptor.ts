@@ -166,6 +166,8 @@ export class DefaultInterceptor implements HttpInterceptor {
     this.goTo(this.tokenSrv.login_url!);
   }
 
+
+
   private handleData(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     this.checkStatus(ev);
     // 业务处理：一些通用操作
@@ -204,7 +206,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         break;
       case 404:
       case 500:
-        // this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
+        this.goTo(`/exception/${ev.status}?url=${req.urlWithParams}`);
         break;
       default:
         if (ev instanceof HttpErrorResponse) {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TaskHistoryService } from '../../services/task-history-service.service';
@@ -10,7 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute, } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
@@ -46,7 +47,12 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   private fontLink: HTMLLinkElement | null = null;
 
 
-  constructor(private renderer: Renderer2, private cd: ChangeDetectorRef) {
+  constructor(
+    private renderer: Renderer2,
+    private cd: ChangeDetectorRef,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private router: Router) {
+
   }
 
   ngAfterViewInit() {
@@ -70,11 +76,15 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
     this.route.queryParamMap.subscribe(params => {
       const docIdParam = params.get('docid');
       const taskIdParam = params.get('taskid');
+      const tokenParam = params.get('t');
       if (docIdParam) {
         this.docId = +docIdParam;
       }
       if (taskIdParam) {
         this.taskId = +taskIdParam;
+      }
+      if (tokenParam) {
+        this.tokenService.set({ token: tokenParam });
       }
       this.taskHistoryOnClick();
       this.getTaskName();

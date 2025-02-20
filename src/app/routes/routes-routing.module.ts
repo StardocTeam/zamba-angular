@@ -68,7 +68,6 @@ const routes: Routes = [
   { path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
   { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
   { path: '**', redirectTo: 'exception/404' },
-
 ];
 
 @NgModule({
