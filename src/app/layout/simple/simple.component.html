@@ -1,0 +1,11 @@
+<layout-default [options]="options" [content]="contentTpl" [customError]="null">
+  <layout-default-header-item direction="middle" />
+  <ng-template #contentTpl>
+    <router-outlet />
+  </ng-template>
+</layout-default>
+
+<setting-drawer *ngIf="showSettingDrawer" />
+<!-- <theme-btn /> -->
+
+<!-- <iframe [src]="safeZambaUrl" frameborder="0" height="0" width="0"></iframe> -->

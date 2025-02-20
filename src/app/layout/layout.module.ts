@@ -26,6 +26,8 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { LayoutPassportComponent } from './passport/passport.component';
 
 import { LayoutBasicComponent } from './basic/basic.component';
+import { LayoutSimpleComponent } from './simple/simple.component';
+
 import { LayoutPendingTaskItemComponent } from '../routes/widgets/pending-tasks/layout-item/layout-pending-task-item/layout-pending-task-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -43,7 +45,8 @@ import { LayoutBlankComponent } from './blank/blank.component';
 
 import { WidgetsModule } from '../routes/widgets/widgets.module';
 
-const COMPONENTS = [LayoutBasicComponent, LayoutBlankComponent, LayoutPendingTaskItemComponent];
+
+const COMPONENTS = [LayoutBasicComponent, LayoutSimpleComponent, LayoutBlankComponent, LayoutPendingTaskItemComponent];
 
 const HEADERCOMPONENTS = [
   HeaderSearchComponent,

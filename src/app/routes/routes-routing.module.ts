@@ -9,6 +9,7 @@ import { TaskHistoryComponent } from '../components/task-history/task-history.co
 // layout
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
+import { LayoutSimpleComponent } from '../layout/simple/simple.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,16 @@ const routes: Routes = [
     path: 'data-v',
     component: LayoutBlankComponent,
     children: [{ path: '', loadChildren: () => import('./data-v/data-v.module').then(m => m.DataVModule) }]
+  },
+  {
+    path: 'tools',
+    component: LayoutSimpleComponent,
+    children: [{
+      path: 'taskhistory',
+      component: TaskHistoryComponent,
+      data: { title: 'Task History' },
+      pathMatch: 'full'
+    },]
   },
   // passport
   { path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },

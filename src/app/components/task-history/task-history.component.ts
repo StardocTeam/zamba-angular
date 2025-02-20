@@ -15,12 +15,13 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 
 @Component({
   selector: 'app-task-history',
   standalone: true,
   imports: [MatTableModule, MatPaginatorModule, HttpClientModule, CommonModule, MatCardModule, MatButtonModule, MatIconModule,
-    MatDividerModule, NzSpinModule, MatSortModule, MatFormFieldModule, MatInputModule],
+    MatDividerModule, NzSpinModule, MatSortModule, MatFormFieldModule, MatInputModule, NzBreadCrumbModule],
   templateUrl: './task-history.component.html',
   styleUrls: ['./task-history.component.css'],
   providers: [TaskHistoryService, { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl }],
