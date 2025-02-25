@@ -12,12 +12,44 @@
 }
 
 .alain-default__content {
-    height: 90vh !important;
+    //height: 90% !important;
+    //overflow: hidden !important;
+    margin-left: 63px !important;
+    margin-right: 0px !important;
+    margin-bottom: 0px;
 }
 
-/*
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-*/
-html, body { height: 100%; }
+/* Estilos para navegadores basados en WebKit (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 12px;
+    /* Ancho de la barra de desplazamiento vertical */
+    height: 12px;
+    /* Altura de la barra de desplazamiento horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Color de fondo de la pista de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Color de la barra de desplazamiento */
+    border-radius: 6px;
+    /* Bordes redondeados de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+    /* Color de la barra de desplazamiento al pasar el ratón por encima */
+}
+
+/* Estilos para Firefox */
+* {
+    scrollbar-width: thin;
+    /* Ancho de la barra de desplazamiento */
+    scrollbar-color: #1890ff #f1f1f1;
+    /* Color de la barra de desplazamiento y de la pista */
+}
+
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

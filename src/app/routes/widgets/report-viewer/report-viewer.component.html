@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="report-details">
+        <div style="font-size: 24px !important;">{{currentReport.Name}}</div>
+        <p>{{Description}}</p>
+    </div>
+
+    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: height }"
+        [nzShowPagination]="false" [nzPageIndex]="1" [nzTotal]="listOfData.length">
+
+        <thead>
+            <tr>
+                <ng-container *ngFor="let column of listOfColumns;">
+                    <th [nzSortOrder]="column.sortOrder" nzLoading="loading" [nzSortFn]="column.sortFn"
+                        [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
+                        [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
+                        {{ column.name }}
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let data of filterTable.data;">
+                <tr>
+                    <td *ngFor="let key of objectKeys(data)">
+                        {{ data[key] }}
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </nz-table>
+</div>

@@ -12,7 +12,7 @@ export class PassportService {
   constructor(
     private http: _HttpClient,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
-  ) {}
+  ) { }
 
   doLogin(
     data: Partial<{
@@ -38,6 +38,7 @@ export class PassportService {
         }),
         tap(res => {
           res = JSON.parse(res);
+
           console.log(res);
           res.user = {
             durationDays: 1,
