@@ -143,6 +143,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
         catchError(error => {
           console.error('Error fetching task history:', error);
           this.isLoading = false; // Detiene el spinner
+          this.showNoDataMessage = true;
           this.cd.detectChanges();
           return of([]);
         })
@@ -175,6 +176,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
         catchError(error => {
           console.error('Error fetching indexes history:', error);
           this.isLoading = false; // Detiene el spinner
+          this.showNoDataMessage = true;
           this.cd.detectChanges();
           return of([]);
         }),

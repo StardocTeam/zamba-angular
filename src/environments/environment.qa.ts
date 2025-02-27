@@ -7,9 +7,12 @@ import { Environment } from '@delon/theme';
 export const environment = {
   production: false,
   useHash: true,
-  apiRestBasePath: 'https://www.zamba.com.ar/zambaweb.restapi/api/Dashboard',
-  externalSearchApi: 'https://www.zamba.com.ar/zambaweb.restapi/api/ExternalSearch',
-  zambaWeb: 'https://www.zamba.com.ar/Zamba.Web',
+  //apiRestBasePath: 'https://www.zamba.com.ar/zambaweb.restapi/api/Dashboard',
+  apiRestBasePath: 'http://imageapt/ZambawebEDESA.Restapi/api/Dashboard',
+  //externalSearchApi: 'https://www.zamba.com.ar/zambaweb.restapi/api/ExternalSearch',
+  externalSearchApi: 'http://imageapt/ZambawebEDESA.Restapi/api/ExternalSearch',
+  //zambaWeb: 'https://www.zamba.com.ar/Zamba.Web',
+  zambaWeb: 'http://imageapt/zamba.webDESA',
   cliente: 'zamba',
   api: {
     baseUrl: './',

@@ -12,6 +12,7 @@ import { LayoutBlankComponent } from '../layout/blank/blank.component';
 import { LayoutSimpleComponent } from '../layout/simple/simple.component';
 
 const routes: Routes = [
+  /*
   {
     path: '',
     component: LayoutBasicComponent,
@@ -19,7 +20,7 @@ const routes: Routes = [
     canActivateChild: [authSimpleCanActivateChild],
     data: {},
     children: [
-      /*
+
      { path: '', redirectTo: 'dashboard/widgets', pathMatch: 'full' },
      {
        path: 'dashboard',
@@ -37,7 +38,7 @@ const routes: Routes = [
        loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
        data: { title: 'Dashboard' }
      },
-     */
+    
 
       //{ path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
       //{ path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
@@ -47,7 +48,6 @@ const routes: Routes = [
     ]
   },
   // Blak Layout 空白布局
-  /*
   {
     path: 'data-v',
     component: LayoutBlankComponent,
