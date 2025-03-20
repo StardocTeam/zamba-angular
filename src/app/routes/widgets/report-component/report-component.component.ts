@@ -6,6 +6,7 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "./entitie/report";
 import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 export interface TreeNode {
   name: string;
@@ -28,19 +29,25 @@ export class ReportComponentComponent {
   height: number = 400;
   XsReportListFlag: boolean = true;
   XsReportViewerFlag: boolean = false;
+  userId: number = 0;
 
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
-    private router: Router, private modal: NzModalService) {
+    private router: Router, private modal: NzModalService, private zambaService: ZambaService) {
 
   }
 
   ngOnInit(): void {
+    this.getUserId();
     this.adjustHeight();
     this.GetPermissions();
     this.GetReports();
     this.cdr.detectChanges();
+  }
+  getUserId() {
+    debugger;
+    this.userId = this.zambaService.getUserId();
   }
 
   @HostListener('window:resize', ['$event'])

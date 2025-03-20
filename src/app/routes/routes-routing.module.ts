@@ -10,6 +10,7 @@ import { TaskHistoryComponent } from '../components/task-history/task-history.co
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
 import { LayoutSimpleComponent } from '../layout/simple/simple.component';
+import { ReportComponentComponent } from "./widgets/report-component/report-component.component";
 
 const routes: Routes = [
   {
@@ -62,7 +63,14 @@ const routes: Routes = [
       component: TaskHistoryComponent,
       data: { title: 'Task History' },
       pathMatch: 'full'
-    },]
+    },
+    {
+      path: 'reports',
+      component: ReportComponentComponent,
+      data: { title: 'Reports' },
+      pathMatch: 'full'
+    },
+    ]
   },
   // passport
   //{ path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
