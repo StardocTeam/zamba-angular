@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, Inject, NgModule, QueryList, Renderer2, ViewChildren } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, Inject, NgModule, QueryList, Renderer2, ViewChildren } from '@angular/core';
+import { BehaviorSubject, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "./entitie/report";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
@@ -20,6 +20,7 @@ export interface TreeNode {
 })
 
 export class ReportComponentComponent {
+  private route = inject(ActivatedRoute);
   @ViewChildren('itemTree') itemTrees!: QueryList<ElementRef>;
   @ViewChildren('itemLeaf') itemLeafs!: QueryList<ElementRef>;
   ReportsList: Report[] = [];
@@ -38,16 +39,42 @@ export class ReportComponentComponent {
 
   }
 
-  ngOnInit(): void {
-    this.getUserId();
-    this.adjustHeight();
-    this.GetPermissions();
-    this.GetReports();
-    this.cdr.detectChanges();
-  }
-  getUserId() {
-    debugger;
-    this.userId = this.zambaService.getUserId();
+  ngOnInit() {
+    var tokenParam: string | null = "";
+
+    this.route.queryParamMap.subscribe(params => {
+      if (params) {
+        tokenParam = params.get('t');
+
+        if (tokenParam)
+          this.tokenService.set({ token: tokenParam });
+      }
+
+      let genericRequest = {};
+      genericRequest = {
+        UserId: 0,
+        token: tokenParam
+      };
+
+      this.zambaService.getUserId(genericRequest).pipe(
+        tap(response => {
+          response = JSON.parse(response);
+
+          this.userId = response;
+          this.tokenService.set({ token: tokenParam, userid: response });
+
+          this.cdr.detectChanges();
+          this.adjustHeight();
+          this.GetPermissions();
+          this.GetReports();
+          this.cdr.detectChanges();
+        }),
+        catchError(error => {
+          console.error('Error fetching task name:', error);
+          return of([]);
+        })
+      ).subscribe();
+    });
   }
 
   @HostListener('window:resize', ['$event'])
@@ -81,7 +108,8 @@ export class ReportComponentComponent {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid']
+        UserId: tokenData['userid'],
+        token: tokenData['token']
       };
 
       this.RService._GetPermissions(genericRequest).pipe(
@@ -91,8 +119,12 @@ export class ReportComponentComponent {
         })
       ).subscribe((data: any) => {
         var data = JSON.parse(data);
+        if (data) {
+          this.CreatePermission = data[0]["ADITIONAL"] == -1 ? true : false;
+        } else {
+          console.warn('No permissions found.');
+        }
 
-        this.CreatePermission = data[0]["ADITIONAL"] == -1 ? true : false;
       });
     }
 

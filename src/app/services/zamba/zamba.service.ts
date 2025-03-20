@@ -47,46 +47,14 @@ export class ZambaService {
     this.apiUrlGetUserId = restAPIUrl + "/getUserId";
   }
 
-  public getUserId(): any {
-    this.route.queryParamMap
-      .pipe(
-        catchError(error => {
-          console.error('Error fetching query parameters:', error);
-          return of(null);
-        })
-      )
-      .subscribe(params => {
-        if (params) {
-          const tokenParam = params.get('t');
+  public getUserId(genericRequest: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
 
-          if (tokenParam) {
-            this.tokenService.set({ token: tokenParam });
-          }
-
-          const genericRequest = {
-            UserId: 0,
-            token: tokenParam
-          };
-
-          const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type': 'application/json'
-            })
-          };
-
-          // Realiza la solicitud HTTP
-          this.httpClient.post(this.apiUrlGetUserId, genericRequest, httpOptions).subscribe(
-            response => {
-              return response;
-            },
-            error => {
-              console.error('Error in HTTP request:', error);
-            }
-          );
-        } else {
-          console.warn('No query parameters found.');
-        }
-      });
+    return this.httpClient.post<any>(this.apiUrlGetUserId, genericRequest, httpOptions);
   }
 
   public GetProfileImage() {
