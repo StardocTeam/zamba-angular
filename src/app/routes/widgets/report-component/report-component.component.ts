@@ -36,73 +36,54 @@ export class ReportComponentComponent {
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
     private router: Router, private modal: NzModalService, private zambaService: ZambaService) {
-
   }
 
   ngOnInit() {
-    var tokenParam: string | null = "";
+    debugger;
+    const tokenData = this.tokenService.get();
+    //Report
+    if (tokenData && tokenData['userid'] != null && tokenData['token'] != null) {
+      this.initializeReportComponents();
 
-    this.route.queryParamMap.subscribe(params => {
-      if (params) {
-        tokenParam = params.get('t');
+    } else {
+      this.route.queryParamMap.subscribe(params => {
+        if (params) {
+          var userIdParam: string | null;
+          var tokenParam: string | null;
 
-        if (tokenParam)
-          this.tokenService.set({ token: tokenParam });
-      }
+          if (params.get('userid') && params.get('t')) {
+            userIdParam = params.get('userid');
+            tokenParam = params.get('t');
 
-      let genericRequest = {};
-      genericRequest = {
-        UserId: 0,
-        token: tokenParam
-      };
+            this.tokenService.set({ token: tokenParam, userid: userIdParam });
 
-      this.zambaService.getUserId(genericRequest).pipe(
-        tap(response => {
-          response = JSON.parse(response);
+            this.initializeReportComponents();
 
-          this.userId = response;
-          this.tokenService.set({ token: tokenParam, userid: response });
+          } else if (params.get('t')) {
+            tokenParam = params.get('t');
 
-          this.cdr.detectChanges();
-          this.adjustHeight();
-          this.GetPermissions();
-          this.GetReports();
-          this.cdr.detectChanges();
-        }),
-        catchError(error => {
-          console.error('Error fetching task name:', error);
-          return of([]);
-        })
-      ).subscribe();
-    });
-  }
+            this.fetchUserIdWithToken(tokenParam, tokenData);
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.adjustHeight();
-  }
-
-  adjustHeight() {
-    const height = window.innerHeight;
-    const reportContainer = document.getElementById('firstDiv');
-
-    this.height = height - 64;
-  }
-
-  switchView(view: string) {
-    switch (view.toLowerCase()) {
-      case 'list':
-        this.XsReportListFlag = true;
-        this.XsReportViewerFlag = false;
-        break;
-      case 'viewer':
-        this.XsReportListFlag = false;
-        this.XsReportViewerFlag = true;
-        break;
+          }
+        } else {
+          //TODO: hacer un mensaje visual.
+          throw new Error('Token not found');
+        }
+      });
     }
   }
 
-  GetPermissions() {
+
+  private initializeReportComponents() {
+    this.GetPermissions();
+    this.GetReports();
+    this.adjustHeight();
+    this.cdr.detectChanges();
+  }
+
+
+  //#region Bussines Functions
+  private GetPermissions() {
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -124,7 +105,6 @@ export class ReportComponentComponent {
         } else {
           console.warn('No permissions found.');
         }
-
       });
     }
 
@@ -138,7 +118,8 @@ export class ReportComponentComponent {
 
     if (tokenData != null) {
       genericRequest = {
-        UserId: tokenData['userid']
+        UserId: tokenData['userid'],
+        token: tokenData['token']
       };
 
       this.RService._GetReports(genericRequest).pipe(
@@ -168,6 +149,60 @@ export class ReportComponentComponent {
       });
     }
   }
+  private fetchUserIdWithToken(tokenParam: string | null, tokenData: any) {
+    this.tokenService.set({ token: tokenParam });
+
+    let genericRequest = {
+      UserId: 0,
+      token: tokenData && tokenData['token']
+    };
+
+    this.zambaService.getUserId(genericRequest).pipe(
+      tap(response => {
+        response = JSON.parse(response);
+        this.tokenService.set({ token: tokenParam, userid: response });
+
+        this.initializeReportComponents();
+      }),
+      catchError(error => {
+        console.error('Error fetching task name:', error);
+        return of([]);
+      })
+    ).subscribe();
+  }
+  //#endregion
+
+
+
+  //#region Visual Management
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustHeight();
+  }
+
+  adjustHeight() {
+    const height = window.innerHeight;
+    const reportContainer = document.getElementById('firstDiv');
+
+    this.height = height - 64;
+  }
+
+  switchView(view: string) {
+    switch (view.toLowerCase()) {
+      case 'list':
+        this.XsReportListFlag = true;
+        this.XsReportViewerFlag = false;
+        break;
+      case 'viewer':
+        this.XsReportListFlag = false;
+        this.XsReportViewerFlag = true;
+        break;
+    }
+  }
+
+  //#endregion
+
+
   search(searchValue: string): void {
     this.searchValue = searchValue;
 
@@ -184,8 +219,11 @@ export class ReportComponentComponent {
     });
   }
 
-  //#region DELETE
+  navigate(url: string) {
+    this.router.navigate([url]);
+  }
 
+  //#region DELETE
   deleteReport(report: Report): void {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this task?',
@@ -209,7 +247,6 @@ export class ReportComponentComponent {
     this.ReportsList = this.ReportsList.filter(report => report.ID !== itemId);
     this.cdr.detectChanges();
   }
-
   //#endregion
 
 }

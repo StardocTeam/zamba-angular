@@ -11,6 +11,8 @@ import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
 import { LayoutSimpleComponent } from '../layout/simple/simple.component';
 import { ReportComponentComponent } from "./widgets/report-component/report-component.component";
+import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
+import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
 
 const routes: Routes = [
   {
@@ -20,41 +22,8 @@ const routes: Routes = [
     canActivateChild: [authSimpleCanActivateChild],
     data: {},
     children: [
-      /*
-     { path: '', redirectTo: 'dashboard/widgets', pathMatch: 'full' },
-     {
-       path: 'dashboard',
-       loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-       data: { preload: true, title: 'Dashboard' }
-     },
-     {
-       path: 'default',
-       loadChildren: () => import('./default/default.component').then(m => m.DefaultComponent),
-       data: { preload: true }
-     },
-
-     {
-       path: 'widgets',
-       loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
-       data: { title: 'Dashboard' }
-     },
-     */
-
-      //{ path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
-      //{ path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
-      //{ path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },
-      //{ path: 'ges', loadChildren: () => import('./ges/ges.module').then(r => r.GesModule) },
-      //{ path: 'zamba', loadChildren: () => import('./zamba/zamba.module').then(r => r.ZambaModule) }
     ]
   },
-  // Blak Layout 空白布局
-  /*
-  {
-    path: 'data-v',
-    component: LayoutBlankComponent,
-    children: [{ path: '', loadChildren: () => import('./data-v/data-v.module').then(m => m.DataVModule) }]
-  },
-  */
   {
     path: 'tools',
     component: LayoutSimpleComponent,
@@ -68,7 +37,26 @@ const routes: Routes = [
       path: 'reports',
       component: ReportComponentComponent,
       data: { title: 'Reports' },
-      pathMatch: 'full'
+      children: [
+        {
+          path: 'create',
+          component: ReportEditorComponent,
+          data: { title: 'Create' },
+          pathMatch: 'full'
+        },
+        {
+          path: 'edit/:id',
+          component: ReportEditorComponent,
+          data: { title: 'Edit' },
+          pathMatch: 'full'
+        },
+        {
+          path: ':id',
+          component: ReportViewerComponent,
+          data: { title: 'View' },
+          pathMatch: 'full'
+        }
+      ]
     },
     ]
   },
