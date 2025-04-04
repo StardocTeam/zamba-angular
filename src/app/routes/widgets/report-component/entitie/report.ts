@@ -6,6 +6,7 @@ export class Report {
     Description: string
     Aditional: number;
     Completar: string;
+    GroupExpression: any = null;
 
     constructor(data: any) {
         this.Aditional = data.Aditional;

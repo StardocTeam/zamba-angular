@@ -26,7 +26,8 @@ export class ReportEditorComponent {
     Query: '',
     Aditional: 0,
     Completar: '',
-    ID: 0
+    ID: 0,
+    GroupExpression: null
   };
   cdr: any;
   isButtonDisabled: boolean = false;
@@ -38,7 +39,7 @@ export class ReportEditorComponent {
   }
 
   ngOnInit() {
-    debugger;
+    //debugger;
     //Report - EDITOR
     const tokenData = this.tokenService.get();
 
@@ -47,12 +48,9 @@ export class ReportEditorComponent {
     if (tokenData) {
       genericRequest = {
         UserId: tokenData['userid'],
-        token: tokenData['okten'],
+        token: tokenData['token'],
       };
-    } else {
-      //throw new Error('Token not found');
     }
-
 
     if (tokenData != null) {
       this.zambaService.getUserId(genericRequest).pipe(
@@ -60,7 +58,7 @@ export class ReportEditorComponent {
           response = JSON.parse(response);
 
           this.userId = response;
-          this.tokenService.set({ token: tokenData['okten'], userid: response });
+          this.tokenService.set({ token: tokenData['token'], userid: response });
 
           this.getCategories(genericRequest);
           this.cdr.detectChanges();
@@ -106,6 +104,7 @@ export class ReportEditorComponent {
           query: this.report.Query,
           name: this.report.Name,
           description: this.report.Description,
+          groupExpression: this.report.GroupExpression,
           category: this.report.Category,
           completar: this.report.Completar,
           Aditional: this.report.Aditional

@@ -38,31 +38,37 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-    this.adjustHeight();
+    //debugger;
+    //report - viewer
     this.loading = false;
+    const tokenData = this.tokenService.get();
+
     this.route.params.subscribe(params => {
-      const tokenData = this.tokenService.get();
       let genericRequest = {};
 
-      if (tokenData != null) {
+      if (tokenData) {
         genericRequest = {
           UserId: tokenData['userid'],
+          token: tokenData['token'],
           Params: {
             Id: params['id']
           }
         };
-
-        this.RVService.GetReportById(genericRequest).pipe(
-          catchError(error => {
-            console.error('Error al obtener datos:', error);
-            throw error;
-          })
-        )
-          .subscribe((data: any) => {
-            var currentReport: Report = JSON.parse(data)[0];
-            this.OpenReport(new Report(currentReport));
-          });
       }
+
+      this.RVService.GetReportById(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      )
+        .subscribe((data: any) => {
+          var currentReport: Report = JSON.parse(data)[0];
+          this.OpenReport(new Report(currentReport));
+        });
+
+
+      this.adjustHeight();
     });
   }
   GetDescription(Id: string) {

@@ -39,7 +39,6 @@ export class ReportComponentComponent {
   }
 
   ngOnInit() {
-    debugger;
     const tokenData = this.tokenService.get();
     //Report
     if (tokenData && tokenData['userid'] != null && tokenData['token'] != null) {
@@ -170,6 +169,7 @@ export class ReportComponentComponent {
       })
     ).subscribe();
   }
+
   //#endregion
 
 
@@ -219,8 +219,21 @@ export class ReportComponentComponent {
     });
   }
 
-  navigate(url: string) {
-    this.router.navigate([url]);
+  navigateToCreate() {
+    //debugger;
+    this.router.navigate(['/tools/reports/create']);
+  }
+
+  navigateToEdit(reportId: number) {
+    //debugger;
+    // Navega dinámicamente a la ruta con el ID del reporte
+    this.router.navigate(['/tools/reports/edit/' + reportId]);
+  }
+
+  navigateToView(reportId: number) {
+    //debugger;
+    // Navega dinámicamente a la ruta con el ID del reporte
+    this.router.navigate(['/tools/reports/view', reportId]);
   }
 
   //#region DELETE

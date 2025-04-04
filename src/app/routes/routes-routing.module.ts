@@ -41,20 +41,17 @@ const routes: Routes = [
         {
           path: 'create',
           component: ReportEditorComponent,
-          data: { title: 'Create' },
-          pathMatch: 'full'
+          data: { title: 'Create' }
         },
         {
           path: 'edit/:id',
           component: ReportEditorComponent,
-          data: { title: 'Edit' },
-          pathMatch: 'full'
+          data: { title: 'Edit' }
         },
         {
-          path: ':id',
+          path: 'view/:id',
           component: ReportViewerComponent,
-          data: { title: 'View' },
-          pathMatch: 'full'
+          data: { title: 'View' }
         }
       ]
     },

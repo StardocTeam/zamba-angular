@@ -17,7 +17,7 @@
                         </div>
 
                         <div nz-col nzXs="8" *ngIf="CreatePermission">
-                            <button nz-button nzType="primary" nzBlock (click)="navigate('/tools/reports/create')"
+                            <button nz-button nzType="primary" nzBlock (click)="navigateToCreate()"
                                 routerLinkActive="active">
                                 <i nz-icon nzType="plus"></i> Crear
                             </button>
@@ -31,8 +31,8 @@
                                 <ul nz-menu nzMode="inline">
                                     <li #itemLeaf class="li-line-height move-up" nz-menu-item
                                         *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
-                                        routerLink="/tools/report/{{itemLeaf.ID}}" routerLinkActive="active"
-                                        (click)="switchView('viewer')">
+                                        routerLinkActive="active"
+                                        (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
 
 
 
@@ -59,17 +59,15 @@
 
                                         <nz-dropdown-menu #menu="nzDropdownMenu">
                                             <ul nz-menu>
-                                                <li nz-menu-item routerLink="/dashboard/report/edit/{{itemLeaf.ID}}">
+                                                <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)">
                                                     <i nz-icon nzType="edit"></i> Editar
                                                 </li>
-
                                                 <li nz-menu-divider></li>
                                                 <li nz-menu-item style="color: red;" (click)="deleteReport(itemLeaf)">
                                                     <i nz-icon nzType="delete"></i> Eliminar
                                                 </li>
                                             </ul>
                                         </nz-dropdown-menu>
-
                                     </li>
                                 </ul>
                             </li>
