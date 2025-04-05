@@ -32,14 +32,18 @@ export class ReportViewerComponent {
   height: string = "400px";
   PageIndex: number = 1;
 
+  nzShowPagination: boolean = true;
+
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute) {
 
   }
 
+  ShowPagination() {
+    this.nzShowPagination = !this.nzShowPagination;
+  }
+
   ngOnInit() {
-    //debugger;
-    //report - viewer
     this.loading = false;
     const tokenData = this.tokenService.get();
 
@@ -106,17 +110,20 @@ export class ReportViewerComponent {
   }
 
   adjustHeight() {
-    const height = window.innerHeight;
-    const RDContainer = document.getElementsByClassName('report-details')[0];
-    const heightRDContainer = RDContainer.clientHeight == 0 ? 60 : RDContainer.clientHeight;
+    // const height = window.innerHeight;
+    // const RDContainer = document.getElementsByClassName('report-details')[0];
+    // const heightRDContainer = RDContainer.clientHeight == 0 ? 60 : RDContainer.clientHeight;
 
-    this.height = (height - 40 - 150 - heightRDContainer - 14 + 88).toString() + "px";
+    // this.height = (height - 40 - 150 - heightRDContainer - 14 + 88).toString() + "px";
     this.cdr.detectChanges();
   }
 
   OpenReport(report: Report) {
-
+    this.listOfColumns = [];
+    this.listOfData = [];
     this.currentReport = report;
+    this.cdr.detectChanges();
+
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -137,17 +144,18 @@ export class ReportViewerComponent {
         .subscribe((data: any) => {
           var ObjectData = JSON.parse(data);
           this.Description = report.Description;
-          this.listOfColumns = [];
-          this.listOfData = [];
-          this.cdr.detectChanges();
 
+
+
+          this.cdr.detectChanges();
+          debugger;
           ObjectData.ListColumns.forEach((element: any) => {
             var columnWidth = "150px";
 
             //TODO: Hacer esto dinamico
-            if (element.ColumnName == "Descripcion") {
-              columnWidth = "600px";
-            }
+            // if (element.ColumnName == "Descripcion") {
+            //   columnWidth = "600px";
+            // }
 
             var newColumn = {
               name: element.ColumnName,
@@ -156,7 +164,6 @@ export class ReportViewerComponent {
               sortDirections: [null],
               filterMultiple: false,
               listOfFilter: [],
-              // filterFn: (list: string[], item: any) => list.some(name => item[element.ColumnName].indexOf(name) !== -1)
               filterFn: null,
               width: columnWidth
             }
@@ -164,9 +171,9 @@ export class ReportViewerComponent {
             this.listOfColumns.push(newColumn);
           });
 
-          var newRow: any = [];
 
           ObjectData.RowHashtable.forEach((element: any) => {
+            var newRow: any = [];
             ObjectData.ListColumns.forEach((column: any) => {
               newRow[column.ColumnName] = element[column.ColumnName];
             });
@@ -179,26 +186,18 @@ export class ReportViewerComponent {
 
     this.loading = true;
     this.cdr.detectChanges();
+
   }
 
   objectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
 
-  private sortFnByGrid(element: any) {
-    return (a: any, b: any) => {
-      const aValue = a[element.ColumnName];
-      const bValue = b[element.ColumnName];
+  // currentPageDataChange($event: readonly ItemData[]): void {
+  //   this.displayData = $event;
+  // }
 
-      if (aValue < bValue) {
-        return -1;
-      } else if (aValue > bValue) {
-        return 1;
-      } else {
-        return 0;
-      }
-    };
-  }
+  // displayData: readonly ItemData[] = [];
 }
 
 

@@ -4,8 +4,9 @@
         <p>{{Description}}</p>
     </div>
 
-    <nz-table #filterTable [nzData]="listOfData" nzTableLayout="fixed" nzSize="small" [nzScroll]="{y: height }"
-        [nzShowPagination]="false" [nzPageIndex]="1" [nzTotal]="listOfData.length">
+    <nz-table #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
+        [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"
+        [nzShowPagination]="nzShowPagination" [nzScroll]="{y: height }">
 
         <thead>
             <tr>
