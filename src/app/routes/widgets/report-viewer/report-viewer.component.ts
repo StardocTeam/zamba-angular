@@ -15,6 +15,7 @@ import { catchError } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { query } from '@angular/animations';
 import { Query } from '@delon/theme';
+import { GridService } from 'src/app/services/Grid/grid.service';
 
 @Component({
   selector: 'app-report-viewer',
@@ -35,8 +36,8 @@ export class ReportViewerComponent {
   nzShowPagination: boolean = true;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute) {
-
+    private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
+    private GService: GridService) {
   }
 
   ShowPagination() {
@@ -58,18 +59,18 @@ export class ReportViewerComponent {
             Id: params['id']
           }
         };
-      }
 
-      this.RVService.GetReportById(genericRequest).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      )
-        .subscribe((data: any) => {
-          var currentReport: Report = JSON.parse(data)[0];
-          this.OpenReport(new Report(currentReport));
-        });
+        this.RVService.GetReportById(genericRequest).pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+            throw error;
+          })
+        )
+          .subscribe((data: any) => {
+            var currentReport: Report = JSON.parse(data)[0];
+            this.OpenReport(new Report(currentReport));
+          });
+      }
 
 
       this.adjustHeight();
@@ -144,11 +145,8 @@ export class ReportViewerComponent {
         .subscribe((data: any) => {
           var ObjectData = JSON.parse(data);
           this.Description = report.Description;
-
-
-
           this.cdr.detectChanges();
-          debugger;
+
           ObjectData.ListColumns.forEach((element: any) => {
             var columnWidth = "150px";
 
@@ -193,11 +191,39 @@ export class ReportViewerComponent {
     return Object.keys(obj);
   }
 
-  // currentPageDataChange($event: readonly ItemData[]): void {
-  //   this.displayData = $event;
-  // }
+  exportToExcel(report: Report): void {
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+    debugger;
+    if (tokenData) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        token: tokenData['token'],
+        Params: {
+          "Query": report.Query
+        }
+      };
 
-  // displayData: readonly ItemData[] = [];
+      this.GService.ExportToExcel(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      ).subscribe((data: any) => {
+
+        var dataBase64 = 'data:application/octet-stream;base64,' + data;
+
+        debugger;
+        const url = dataBase64;
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Report.xlsx'; // Nombre del archivo a descargar;
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+
+  }
 }
 
 

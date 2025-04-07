@@ -22,19 +22,6 @@ export class ReportService {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
-
-  createReport(report: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/createReport`, report, null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
-    });
-  }
-
-  updateReport(report: any) {
-    return this.http.put(`${environment['apiRestBasePath']}/updateReport`, report, null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
-    });
-  }
-
   deleteReport(reportId: any) {
     return this.http.delete(`${environment['apiRestBasePath']}/deleteReport/${reportId}`, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
