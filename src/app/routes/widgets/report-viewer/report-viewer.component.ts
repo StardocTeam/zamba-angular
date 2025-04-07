@@ -153,9 +153,9 @@ export class ReportViewerComponent {
             var columnWidth = "150px";
 
             //TODO: Hacer esto dinamico
-            // if (element.ColumnName == "Descripcion") {
-            //   columnWidth = "600px";
-            // }
+            if (element.ColumnName == "Descripcion") {
+              columnWidth = "600px";
+            }
 
             var newColumn = {
               name: element.ColumnName,
