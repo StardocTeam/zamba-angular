@@ -4,8 +4,8 @@
         <p>{{Description}}</p>
     </div>
 
-    <input type="button" value="EXPORTAR A EXCEL" (click)="exportToExcel(currentReport)" class="btn btn-primary"
-        style="margin-bottom: 10px;" />
+    <button nz-button nzType="primary" (click)="exportToExcel(currentReport)" [disabled]=" isButtonDisabled">Crear
+        EXPORTAR A EXCEL</button>
 
     <nz-table #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
         [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"

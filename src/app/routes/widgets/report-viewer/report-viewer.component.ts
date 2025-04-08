@@ -34,6 +34,7 @@ export class ReportViewerComponent {
   PageIndex: number = 1;
 
   nzShowPagination: boolean = true;
+  isButtonDisabled: boolean = false;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -192,6 +193,8 @@ export class ReportViewerComponent {
   }
 
   exportToExcel(report: Report): void {
+    this.isButtonDisabled = true;
+    this.cdr.detectChanges();
     const tokenData = this.tokenService.get();
     let genericRequest = {};
     debugger;
@@ -204,6 +207,8 @@ export class ReportViewerComponent {
         }
       };
 
+      const FileName = report.Name.replace(/ /g, "_") + ".xlsx";
+
       this.GService.ExportToExcel(genericRequest).pipe(
         catchError(error => {
           console.error('Error al obtener datos:', error);
@@ -213,13 +218,22 @@ export class ReportViewerComponent {
 
         var dataBase64 = 'data:application/octet-stream;base64,' + data;
 
+        const now = new Date();
+        const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+        const formattedTime = (`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`).replace(':', '_');
+
         debugger;
         const url = dataBase64;
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'Report.xlsx'; // Nombre del archivo a descargar;
+        a.download = FileName + " " + formattedDate + " " + formattedTime + ".xlsx";
+        document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+
+
+        this.isButtonDisabled = false;
+        this.cdr.detectChanges();
       });
     }
 
