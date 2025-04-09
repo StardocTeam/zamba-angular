@@ -74,7 +74,7 @@ export class ReportViewerComponent {
       }
 
 
-      this.adjustHeight();
+      //this.adjustHeight();
     });
   }
   GetDescription(Id: string) {
@@ -108,7 +108,7 @@ export class ReportViewerComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.adjustHeight();
+    //this.adjustHeight();
   }
 
   adjustHeight() {
@@ -117,7 +117,7 @@ export class ReportViewerComponent {
     // const heightRDContainer = RDContainer.clientHeight == 0 ? 60 : RDContainer.clientHeight;
 
     // this.height = (height - 40 - 150 - heightRDContainer - 14 + 88).toString() + "px";
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
 
   OpenReport(report: Report) {

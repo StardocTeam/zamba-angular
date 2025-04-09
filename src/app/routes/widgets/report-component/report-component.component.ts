@@ -7,6 +7,7 @@ import { Report } from "./entitie/report";
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
+import { GridService } from 'src/app/services/Grid/grid.service';
 
 export interface TreeNode {
   name: string;
@@ -35,7 +36,8 @@ export class ReportComponentComponent {
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
-    private router: Router, private modal: NzModalService, private zambaService: ZambaService) {
+    private router: Router, private modal: NzModalService, private zambaService: ZambaService,
+    private GService: GridService) {
   }
 
   ngOnInit() {
@@ -100,7 +102,10 @@ export class ReportComponentComponent {
       ).subscribe((data: any) => {
         var data = JSON.parse(data);
         if (data) {
+
+          //TODO: revisar todos los permisos aca
           this.CreatePermission = data[0]["ADITIONAL"] == -1 ? true : false;
+
         } else {
           console.warn('No permissions found.');
         }
@@ -169,6 +174,51 @@ export class ReportComponentComponent {
       })
     ).subscribe();
   }
+
+
+  exportToExcel(report: Report): void {
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        token: tokenData['token'],
+        Params: {
+          "Query": report.Query
+        }
+      };
+
+      const FileName = report.Name.replace(/ /g, "_");
+
+      this.GService.ExportToExcel(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      ).subscribe((data: any) => {
+
+        var dataBase64 = 'data:application/octet-stream;base64,' + data;
+
+        const now = new Date();
+        const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+        const formattedTime = (`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`).replace(':', '_');
+
+        debugger;
+        const url = dataBase64;
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = FileName + "_" + formattedDate + "_" + formattedTime + ".xlsx";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        this.cdr.detectChanges();
+      });
+    }
+
+  }
+
 
   //#endregion
 

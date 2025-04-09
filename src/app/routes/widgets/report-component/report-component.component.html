@@ -61,6 +61,9 @@
                                                 <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)">
                                                     <i nz-icon nzType="edit"></i> Editar
                                                 </li>
+                                                <li nz-menu-item (click)="exportToExcel(itemLeaf)">
+                                                    <i nz-icon nzType="file-excel" nzTheme="fill"></i> Exportar excel
+                                                </li>
                                                 <li nz-menu-divider></li>
                                                 <li nz-menu-item style="color: red;" (click)="deleteReport(itemLeaf)">
                                                     <i nz-icon nzType="delete"></i> Eliminar

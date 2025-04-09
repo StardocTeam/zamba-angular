@@ -4,11 +4,14 @@
         <p>{{Description}}</p>
     </div>
 
-    <button nz-button nzType="primary" (click)="exportToExcel(currentReport)" [disabled]=" isButtonDisabled">Crear
-        EXPORTAR A EXCEL</button>
+    <button nz-button nzType="primary" (click)="exportToExcel(currentReport)" [disabled]=" isButtonDisabled"
+        style="margin-bottom: 5px;">
+        <i nz-tooltip nzTooltipTitle="Exportar a excel" nzTooltipPlacement="right" nz-icon nzType="file-excel"
+            nzTheme="fill"></i>
+    </button>
 
     <nz-table #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
-        [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"
+        [nzPaginationType]="'small'" [nzPaginationPosition]="'top'" [nzShowSizeChanger]="false"
         [nzShowPagination]="nzShowPagination" [nzScroll]="{y: height }">
 
         <thead>
