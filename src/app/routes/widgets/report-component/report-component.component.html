@@ -16,9 +16,9 @@
                             </ng-template>
                         </div>
 
-                        <div nz-col nzXs="8" *ngIf="CreatePermission">
-                            <button nz-button nzType="primary" nzBlock (click)="navigateToCreate()"
-                                routerLinkActive="active">
+                        <div nz-col nzXs="8">
+                            <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission"
+                                (click)="navigateToCreate()" routerLinkActive="active">
                                 <i nz-icon nzType="plus"></i> Crear
                             </button>
                         </div>
@@ -58,14 +58,17 @@
 
                                         <nz-dropdown-menu #menu="nzDropdownMenu">
                                             <ul nz-menu>
-                                                <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)">
+                                                <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)"
+                                                    [nzDisabled]="!UpdatePermission">
                                                     <i nz-icon nzType="edit"></i> Editar
                                                 </li>
-                                                <li nz-menu-item (click)="exportToExcel(itemLeaf)">
+                                                <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
                                                     <i nz-icon nzType="file-excel" nzTheme="fill"></i> Exportar excel
                                                 </li>
                                                 <li nz-menu-divider></li>
-                                                <li nz-menu-item style="color: red;" (click)="deleteReport(itemLeaf)">
+                                                <li nz-menu-item (click)="deleteReport(itemLeaf)"
+                                                    [nzDisabled]="!DeletePermission"
+                                                    [ngClass]="{'greycolor': !DeletePermission,'redcolor': DeletePermission }">
                                                     <i nz-icon nzType="delete"></i> Eliminar
                                                 </li>
                                             </ul>

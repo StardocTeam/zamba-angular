@@ -27,7 +27,13 @@ export class ReportComponentComponent {
   ReportsList: Report[] = [];
   searchValue = '';
   TREE_DATA?: TreeNode[];
+
+  ViewPermission: boolean = false;
+  UpdatePermission: boolean = false;
+  DeletePermission: boolean = false;
   CreatePermission: boolean = false;
+  ConsultPermission: boolean = false;
+
   height: number = 400;
   XsReportListFlag: boolean = true;
   XsReportViewerFlag: boolean = false;
@@ -102,10 +108,13 @@ export class ReportComponentComponent {
       ).subscribe((data: any) => {
         var data = JSON.parse(data);
         if (data) {
+          this.ViewPermission = true;
+          //this.UpdatePermission = true;
+          //this.DeletePermission = true;
+          //this.CreatePermission = true;
+          //this.ConsultPermission = true;
 
-          //TODO: revisar todos los permisos aca
-          this.CreatePermission = data[0]["ADITIONAL"] == -1 ? true : false;
-
+          this.cdr.detectChanges();
         } else {
           console.warn('No permissions found.');
         }
@@ -275,9 +284,9 @@ export class ReportComponentComponent {
   }
 
   navigateToEdit(reportId: number) {
-    //debugger;
-    // Navega dinámicamente a la ruta con el ID del reporte
-    this.router.navigate(['/tools/reports/edit/' + reportId]);
+    if (this.UpdatePermission == true) {
+      this.router.navigate(['/tools/reports/edit/' + reportId]);
+    }
   }
 
   navigateToView(reportId: number) {
@@ -288,24 +297,27 @@ export class ReportComponentComponent {
 
   //#region DELETE
   deleteReport(report: Report): void {
-    this.modal.confirm({
-      nzTitle: 'Are you sure delete this task?',
-      nzContent: '<b style="color: red;">Some descriptions</b>',
-      nzOkText: 'Yes',
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => console.log('OK'),
-      nzCancelText: 'No',
-      nzOnCancel: () => console.log('Cancel')
-    });
+    if (this.DeletePermission == true) {
+      this.modal.confirm({
+        nzTitle: 'Are you sure delete this task?',
+        nzContent: '<b style="color: red;">Some descriptions</b>',
+        nzOkText: 'Yes',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+        nzOnOk: () => console.log('OK'),
+        nzCancelText: 'No',
+        nzOnCancel: () => console.log('Cancel')
+      });
 
-    this.RService.deleteReport(report).pipe().subscribe((data: any) => {
-      var data = JSON.parse(data);
-      var itemId = data.ID;
+      this.RService.deleteReport(report).pipe().subscribe((data: any) => {
+        var data = JSON.parse(data);
+        var itemId = data.ID;
 
-      this.QuitarItemDeLaLista(itemId);
-    });
+        this.QuitarItemDeLaLista(itemId);
+      });
+    }
   }
+
   QuitarItemDeLaLista(itemId: any) {
     this.ReportsList = this.ReportsList.filter(report => report.ID !== itemId);
     this.cdr.detectChanges();
