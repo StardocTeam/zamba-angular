@@ -72,10 +72,8 @@ export class ReportViewerComponent {
             this.OpenReport(new Report(currentReport));
           });
       }
-
-
-      //this.adjustHeight();
     });
+    this.adjustHeight();
   }
   GetDescription(Id: string) {
 
@@ -108,16 +106,31 @@ export class ReportViewerComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    //this.adjustHeight();
+    this.adjustHeight();
   }
 
+  @HostListener('window:resize', ['$event'])
   adjustHeight() {
-    // const height = window.innerHeight;
-    // const RDContainer = document.getElementsByClassName('report-details')[0];
-    // const heightRDContainer = RDContainer.clientHeight == 0 ? 60 : RDContainer.clientHeight;
+    const mediaQueries = [
+      { maxHeight: 461, height: '213px' },
+      { maxHeight: 493, height: '245px' },
+      { maxHeight: 536, height: '288px' },
+      { maxHeight: 584, height: '341px' },
+      { maxHeight: 643, height: '395px' }
+    ];
 
-    // this.height = (height - 40 - 150 - heightRDContainer - 14 + 88).toString() + "px";
-    // this.cdr.detectChanges();
+    for (const query of mediaQueries) {
+      if (window.innerHeight <= query.maxHeight) {
+        this.height = query.height;
+        break;
+      }
+    }
+    this.cdr.detectChanges();
+  }
+
+
+  ngAfterViewInit() {
+    this.adjustHeight();
   }
 
   OpenReport(report: Report) {

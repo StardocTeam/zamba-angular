@@ -59,7 +59,19 @@ nz-submenu {
     transform: translateY(-50%);
 }
 
+.boldMenuTittle {
+    font-weight: bold !important;
+}
+
 .ant-layout-sider {
+    position: relative;
+    min-width: 0;
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+.ant-layout-content {
+
     position: relative;
     min-width: 0;
     background: #ffffff;
@@ -77,10 +89,8 @@ nz-layout:last-child {
 }
 
 nz-sider {
-    // flex: 0 0 33% !important;
     line-height: 10px !important;
-    min-width: 250px !important;
-    // max-width: 700px !important;
+    min-width: 300px !important;
     color: #fff !important;
     overflow-y: auto;
     overflow-x: hidden;

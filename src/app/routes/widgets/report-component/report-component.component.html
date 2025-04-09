@@ -1,96 +1,88 @@
 <div class="firstDiv" [style.height.px]="height">
     <nz-layout>
-        <div nz-row>
-            <div nz-col [nzXs]="XsReportListFlag ? 24 : 0" nzSm="12" nzMd="10" nzLg="9" nzXl="8">
-                <nz-sider>
-                    <div class="search-anchor" nz-row [nzGutter]="4">
+        <!-- <div nz-col [nzXs]="XsReportListFlag ? 24 : 0" nzSm="12" nzMd="10" nzLg="9" nzXl="8"></div> -->
+        <nz-sider [nzWidth]="400">
+            <div class="search-anchor" nz-row [nzGutter]="4">
 
-                        <div nz-col nzXs="16" nzFlex="auto">
-                            <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%;">
-                                <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
-                                    (ngModelChange)="search($event)" />
-                            </nz-input-group>
+                <div nz-col nzXs="16" nzFlex="auto">
+                    <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%;">
+                        <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
+                            (ngModelChange)="search($event)" />
+                    </nz-input-group>
 
-                            <ng-template #prefixTemplateUser>
-                                <i nz-icon class="iconSetting" nzType="search"></i>
-                            </ng-template>
-                        </div>
+                    <ng-template #prefixTemplateUser>
+                        <i nz-icon class="iconSetting" nzType="search"></i>
+                    </ng-template>
+                </div>
 
-                        <div nz-col nzXs="8">
-                            <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission"
-                                (click)="navigateToCreate()" routerLinkActive="active">
-                                <i nz-icon nzType="plus"></i> Crear
-                            </button>
-                        </div>
-                    </div>
+                <div nz-col nzXs="8">
+                    <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission"
+                        (click)="navigateToCreate()" routerLinkActive="active">
+                        <i nz-icon nzType="plus"></i> Crear
+                    </button>
+                </div>
+            </div>
 
-                    <div>
+            <div>
+                <ul nz-menu nzMode="inline">
+                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}"
+                        nzIcon="file">
                         <ul nz-menu nzMode="inline">
-                            <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen
-                                nzTitle="{{itemTree.name}}" nzIcon="file">
-                                <ul nz-menu nzMode="inline">
-                                    <li #itemLeaf class="li-line-height move-up" nz-menu-item
-                                        *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
-                                        routerLinkActive="active"
-                                        (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
+                            <li #itemLeaf class="li-line-height move-up " nz-menu-item
+                                *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
+                                routerLinkActive="active" (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
+
+                                <div nz-row>
+                                    <div nz-col [nzXs]="18" [nzSm]="18" [nzMd]="21" [nzLg]="21" [nzXl]="22">
+                                        <span class="ellipsis">{{ itemLeaf.Name }}</span>
+                                        <br>
+                                        <span nz-typography nzType="secondary" class="ellipsis">
+                                            {{itemLeaf.Description}}
+                                        </span>
+
+                                    </div>
+
+                                    <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="3" [nzLg]="3" [nzXl]="2">
+                                        <!-- <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="3" [nzLg]="3" [nzXl]="2"></div> -->
+                                        <button class="right-align btnSetting" nz-button nzShape="circle"
+                                            nzSize="small">
+                                            <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown
+                                                nzTrigger="click" [nzDropdownMenu]="menu"> </i>
+                                        </button>
+                                    </div>
+                                </div>
 
 
-
-                                        <div nz-row>
-                                            <div nz-col [nzXs]="18" [nzSm]="18" [nzMd]="21" [nzLg]="21" [nzXl]="22">
-                                                <span class="ellipsis">{{ itemLeaf.Name }}</span>
-                                                <br>
-                                                <span nz-typography nzType="secondary" class="ellipsis">
-                                                    {{itemLeaf.Description}}
-                                                </span>
-
-                                            </div>
-
-                                            <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="3" [nzLg]="3" [nzXl]="2">
-                                                <button class="right-align btnSetting" nz-button nzShape="circle"
-                                                    nzSize="small">
-                                                    <i nz-icon class="iconSetting" nzType="menu" nzSize="small"
-                                                        nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"> </i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-
-                                        <nz-dropdown-menu #menu="nzDropdownMenu">
-                                            <ul nz-menu>
-                                                <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)"
-                                                    [nzDisabled]="!UpdatePermission">
-                                                    <i nz-icon nzType="edit"></i> Editar
-                                                </li>
-                                                <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
-                                                    <i nz-icon nzType="file-excel" nzTheme="fill"></i> Exportar excel
-                                                </li>
-                                                <li nz-menu-divider></li>
-                                                <li nz-menu-item (click)="deleteReport(itemLeaf)"
-                                                    [nzDisabled]="!DeletePermission"
-                                                    [ngClass]="{'greycolor': !DeletePermission,'redcolor': DeletePermission }">
-                                                    <i nz-icon nzType="delete"></i> Eliminar
-                                                </li>
-                                            </ul>
-                                        </nz-dropdown-menu>
-                                    </li>
-                                </ul>
+                                <nz-dropdown-menu #menu="nzDropdownMenu">
+                                    <ul nz-menu>
+                                        <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)"
+                                            [nzDisabled]="!UpdatePermission">
+                                            <i nz-icon nzType="edit"></i> Editar
+                                        </li>
+                                        <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
+                                            <i nz-icon nzType="file-excel" nzTheme="fill"></i> Exportar excel
+                                        </li>
+                                        <li nz-menu-divider></li>
+                                        <li nz-menu-item (click)="deleteReport(itemLeaf)"
+                                            [nzDisabled]="!DeletePermission"
+                                            [ngClass]="{'greycolor': !DeletePermission,'redcolor': DeletePermission }">
+                                            <i nz-icon nzType="delete"></i> Eliminar
+                                        </li>
+                                    </ul>
+                                </nz-dropdown-menu>
                             </li>
                         </ul>
-                    </div>
-
-                </nz-sider>
+                    </li>
+                </ul>
             </div>
 
-            <div nz-col style="overflow-y: auto;" [nzXs]="XsReportListFlag ? 0 : 24" nzSm="12" nzMd="14" nzLg="15"
-                nzXl="16">
-                <router-outlet></router-outlet>
-            </div>
-            <!-- <ng-container nz-col [nzXs]="XsReportListFlag ? 0 : 24" nzSm="12" nzMd="14" nzLg="15" nzXl="16">
+        </nz-sider>
+
+        <nz-content [style.height.px]="height">
             <router-outlet></router-outlet>
-        </ng-container> -->
+        </nz-content>
 
-        </div>
+
 
     </nz-layout>
 </div>

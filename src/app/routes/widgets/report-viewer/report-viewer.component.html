@@ -4,7 +4,7 @@
         <p>{{Description}}</p>
     </div>
 
-    <button nz-button nzType="primary" (click)="exportToExcel(currentReport)" [disabled]=" isButtonDisabled"
+    <button nz-button btnExcel nzType="primary" (click)="exportToExcel(currentReport)" [disabled]=" isButtonDisabled"
         style="margin-bottom: 5px;">
         <i nz-tooltip nzTooltipTitle="Exportar a excel" nzTooltipPlacement="right" nz-icon nzType="file-excel"
             nzTheme="fill"></i>
@@ -12,8 +12,7 @@
 
     <nz-table #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
         [nzPaginationType]="'small'" [nzPaginationPosition]="'top'" [nzShowSizeChanger]="false"
-        [nzShowPagination]="nzShowPagination" [nzScroll]="{y: height }">
-
+        [nzShowPagination]="nzShowPagination" [nzScroll]="{y: height }" [nzPageSize]="10">
         <thead>
             <tr>
                 <ng-container *ngFor="let column of listOfColumns;">
