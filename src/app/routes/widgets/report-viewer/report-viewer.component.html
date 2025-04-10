@@ -4,8 +4,8 @@
         <p>{{Description}}</p>
     </div>
 
-    <button nz-button btnExcel nzType="primary" (click)="exportToExcel(currentReport)" [disabled]=" isButtonDisabled"
-        style="margin-bottom: 5px;">
+    <button nz-button btnExcel nzType="primary" (click)="exportToExcel(currentReport)"
+        [disabled]=" isButtonExcelDisabled" style="margin-bottom: 5px;">
         <i nz-tooltip nzTooltipTitle="Exportar a excel" nzTooltipPlacement="right" nz-icon nzType="file-excel"
             nzTheme="fill"></i>
     </button>

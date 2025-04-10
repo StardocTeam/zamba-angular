@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { query } from '@angular/animations';
 import { Query } from '@delon/theme';
 import { GridService } from 'src/app/services/Grid/grid.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-report-viewer',
@@ -33,12 +34,14 @@ export class ReportViewerComponent {
   height: string = "400px";
   PageIndex: number = 1;
 
+  DestructorFlag: boolean = false;
+
   nzShowPagination: boolean = true;
-  isButtonDisabled: boolean = false;
+  isButtonExcelDisabled: boolean = true;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
-    private GService: GridService) {
+    private GService: GridService, private modal: NzModalService) {
   }
 
   ShowPagination() {
@@ -149,14 +152,33 @@ export class ReportViewerComponent {
           Query: report.Query
         }
       };
-
+      //debugger;
       this.RVService.GetReportByQuery(genericRequest).pipe(
         catchError(error => {
           console.error('Error al obtener datos:', error);
+          //debugger;
           throw error;
         })
       )
         .subscribe((data: any) => {
+          if (!data) {
+            this.isButtonExcelDisabled = true;
+
+            console.error('Error: No data received for report.');
+            this.modal.info({
+              nzTitle: 'No hay datos disponibles',
+              nzContent: '<p>este reporte no muestra datos o hay un error en la sentencia.</p>',
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => console.log('OK'),
+            });
+            this.loading = false;
+            this.cdr.detectChanges();
+            return;
+          }
+
+          this.isButtonExcelDisabled = false;
+
           var ObjectData = JSON.parse(data);
           this.Description = report.Description;
           this.cdr.detectChanges();
@@ -185,7 +207,6 @@ export class ReportViewerComponent {
             this.listOfColumns.push(newColumn);
           });
 
-
           ObjectData.RowHashtable.forEach((element: any) => {
             var newRow: any = [];
             ObjectData.ListColumns.forEach((column: any) => {
@@ -193,7 +214,6 @@ export class ReportViewerComponent {
             });
 
             this.listOfData.push(newRow);
-
           });
         });
     }
@@ -208,11 +228,11 @@ export class ReportViewerComponent {
   }
 
   exportToExcel(report: Report): void {
-    this.isButtonDisabled = true;
+    this.isButtonExcelDisabled = true;
     this.cdr.detectChanges();
     const tokenData = this.tokenService.get();
     let genericRequest = {};
-    debugger;
+    //debugger;
     if (tokenData) {
       genericRequest = {
         UserId: tokenData['userid'],
@@ -230,6 +250,19 @@ export class ReportViewerComponent {
           throw error;
         })
       ).subscribe((data: any) => {
+        if (!data) {
+          console.error('Error: No data received for export.');
+
+          this.modal.info({
+            nzTitle: 'Ocurrio un error',
+            nzContent: '<p>No hay resultados</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+
+          return;
+        }
 
         var dataBase64 = 'data:application/octet-stream;base64,' + data;
 
@@ -237,7 +270,7 @@ export class ReportViewerComponent {
         const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
         const formattedTime = (`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`).replace(':', '_');
 
-        debugger;
+        //debugger;
         const url = dataBase64;
         const a = document.createElement('a');
         a.href = url;
@@ -246,8 +279,7 @@ export class ReportViewerComponent {
         a.click();
         document.body.removeChild(a);
 
-
-        this.isButtonDisabled = false;
+        this.isButtonExcelDisabled = false;
         this.cdr.detectChanges();
       });
     }
@@ -267,3 +299,5 @@ interface ColumnItem {
   sortDirections: NzTableSortOrder[];
   width: string;
 }
+
+

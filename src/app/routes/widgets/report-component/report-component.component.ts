@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, Inject, NgModule, QueryList, Renderer2, ViewChildren } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, Inject, NgModule, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
@@ -38,7 +38,6 @@ export class ReportComponentComponent {
   XsReportListFlag: boolean = true;
   XsReportViewerFlag: boolean = false;
   userId: number = 0;
-
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
@@ -206,6 +205,19 @@ export class ReportComponentComponent {
           throw error;
         })
       ).subscribe((data: any) => {
+        if (!data) {
+          console.error('Error: No data received for export.');
+
+          this.modal.info({
+            nzTitle: 'Ocurrio un error',
+            nzContent: '<p>No hay resultados</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+
+          return;
+        }
 
         var dataBase64 = 'data:application/octet-stream;base64,' + data;
 
@@ -213,11 +225,11 @@ export class ReportComponentComponent {
         const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
         const formattedTime = (`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`).replace(':', '_');
 
-        debugger;
+        //debugger;
         const url = dataBase64;
         const a = document.createElement('a');
         a.href = url;
-        a.download = FileName + "_" + formattedDate + "_" + formattedTime + ".xlsx";
+        a.download = FileName + " " + formattedDate + " " + formattedTime + ".xlsx";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -225,10 +237,7 @@ export class ReportComponentComponent {
         this.cdr.detectChanges();
       });
     }
-
   }
-
-
   //#endregion
 
 
@@ -279,7 +288,7 @@ export class ReportComponentComponent {
   }
 
   navigateToCreate() {
-    //debugger;
+    ////debugger;
     this.router.navigate(['/tools/reports/create']);
   }
 
@@ -290,7 +299,6 @@ export class ReportComponentComponent {
   }
 
   navigateToView(reportId: number) {
-    //debugger;
     // Navega dinámicamente a la ruta con el ID del reporte
     this.router.navigate(['/tools/reports/view', reportId]);
   }
@@ -309,12 +317,12 @@ export class ReportComponentComponent {
         nzOnCancel: () => console.log('Cancel')
       });
 
-      this.RService.deleteReport(report).pipe().subscribe((data: any) => {
-        var data = JSON.parse(data);
-        var itemId = data.ID;
+      // this.RService.deleteReport(report).pipe().subscribe((data: any) => {
+      //   var data = JSON.parse(data);
+      //   var itemId = data.ID;
 
-        this.QuitarItemDeLaLista(itemId);
-      });
+      //   this.QuitarItemDeLaLista(itemId);
+      // });
     }
   }
 

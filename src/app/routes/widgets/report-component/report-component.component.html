@@ -24,53 +24,61 @@
             </div>
 
             <div>
-                <ul nz-menu nzMode="inline">
+                <ul nzMode="inline">
                     <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}"
                         nzIcon="file">
                         <ul nz-menu nzMode="inline">
-                            <li #itemLeaf class="li-line-height move-up " nz-menu-item
-                                *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)"
-                                routerLinkActive="active" (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
 
+                            <div *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)">
                                 <div nz-row>
-                                    <div nz-col [nzXs]="18" [nzSm]="18" [nzMd]="21" [nzLg]="21" [nzXl]="22">
-                                        <span class="ellipsis">{{ itemLeaf.Name }}</span>
-                                        <br>
-                                        <span nz-typography nzType="secondary" class="ellipsis">
-                                            {{itemLeaf.Description}}
-                                        </span>
 
+                                    <div nz-col nzSpan="21">
+                                        <li #itemLeaf class="li-line-height move-up " nz-menu-item
+                                            routerLinkActive="active"
+                                            (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
+
+                                            <div nz-row>
+                                                <div nz-col>
+                                                    <span class="ellipsis">{{ itemLeaf.Name }}</span>
+                                                    <br>
+                                                    <span nz-typography nzType="secondary" class="ellipsis">
+                                                        {{itemLeaf.Description}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
                                     </div>
 
-                                    <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="3" [nzLg]="3" [nzXl]="2">
-                                        <!-- <div nz-col [nzXs]="6" [nzSm]="6" [nzMd]="3" [nzLg]="3" [nzXl]="2"></div> -->
-                                        <button class="right-align btnSetting" nz-button nzShape="circle"
-                                            nzSize="small">
-                                            <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown
-                                                nzTrigger="click" [nzDropdownMenu]="menu"> </i>
-                                        </button>
+                                    <div nz-col nzSpan="3">
+                                        <div>
+                                            <button class="right-align btnSetting" nz-button nzShape="circle"
+                                                nzSize="small">
+                                                <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown
+                                                    nzTrigger="click" [nzDropdownMenu]="menu"> </i>
+                                            </button>
+                                        </div>
+
+                                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                                            <ul nz-menu>
+                                                <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)"
+                                                    [nzDisabled]="!UpdatePermission">
+                                                    <i nz-icon nzType="edit"></i> Editar
+                                                </li>
+                                                <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
+                                                    <i nz-icon nzType="file-excel" nzTheme="fill"></i> Exportar excel
+                                                </li>
+                                                <li nz-menu-divider></li>
+                                                <li nz-menu-item (click)="deleteReport(itemLeaf)"
+                                                    [nzDisabled]="!DeletePermission"
+                                                    [ngClass]="{'greycolor': !DeletePermission,'redcolor': DeletePermission }">
+                                                    <i nz-icon nzType="delete"></i> Eliminar
+                                                </li>
+                                            </ul>
+                                        </nz-dropdown-menu>
                                     </div>
                                 </div>
 
-
-                                <nz-dropdown-menu #menu="nzDropdownMenu">
-                                    <ul nz-menu>
-                                        <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)"
-                                            [nzDisabled]="!UpdatePermission">
-                                            <i nz-icon nzType="edit"></i> Editar
-                                        </li>
-                                        <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
-                                            <i nz-icon nzType="file-excel" nzTheme="fill"></i> Exportar excel
-                                        </li>
-                                        <li nz-menu-divider></li>
-                                        <li nz-menu-item (click)="deleteReport(itemLeaf)"
-                                            [nzDisabled]="!DeletePermission"
-                                            [ngClass]="{'greycolor': !DeletePermission,'redcolor': DeletePermission }">
-                                            <i nz-icon nzType="delete"></i> Eliminar
-                                        </li>
-                                    </ul>
-                                </nz-dropdown-menu>
-                            </li>
+                            </div>
                         </ul>
                     </li>
                 </ul>
