@@ -4,6 +4,7 @@
         <nz-sider [nzWidth]="400">
             <div class="search-anchor" nz-row [nzGutter]="4">
 
+
                 <div nz-col nzXs="16" nzFlex="auto">
                     <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%;">
                         <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
@@ -24,10 +25,11 @@
             </div>
 
             <div>
-                <ul nzMode="inline">
-                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzOpen nzTitle="{{itemTree.name}}"
+                <ul class="ulContainer-menu" nz-menu nzMode="inline">
+                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzTitle="{{itemTree.name}}" nzOpen
                         nzIcon="file">
-                        <ul nz-menu nzMode="inline">
+
+                        <ul class="ulContainer-menu" nz-menu nzMode="inline">
 
                             <div *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)">
                                 <div nz-row>
