@@ -15,15 +15,48 @@ import { ReportEditorComponent } from './widgets/report-editor/report-editor.com
 import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LayoutBasicComponent,
-    canActivate: [authSimpleCanActivate],
-    canActivateChild: [authSimpleCanActivateChild],
-    data: {},
-    children: [
-    ]
-  },
+  /*
+{
+  path: '',
+  component: LayoutBasicComponent,
+  canActivate: [authSimpleCanActivate],
+  canActivateChild: [authSimpleCanActivateChild],
+  data: {},
+  children: [
+
+   { path: '', redirectTo: 'dashboard/widgets', pathMatch: 'full' },
+   {
+     path: 'dashboard',
+     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+     data: { preload: true, title: 'Dashboard' }
+   },
+   {
+     path: 'default',
+     loadChildren: () => import('./default/default.component').then(m => m.DefaultComponent),
+     data: { preload: true }
+   },
+
+   {
+     path: 'widgets',
+     loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
+     data: { title: 'Dashboard' }
+   },
+  
+
+    //{ path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
+    //{ path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
+    //{ path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },
+    //{ path: 'ges', loadChildren: () => import('./ges/ges.module').then(r => r.GesModule) },
+    //{ path: 'zamba', loadChildren: () => import('./zamba/zamba.module').then(r => r.ZambaModule) }
+  ]
+},
+// Blak Layout 空白布局
+{
+  path: 'data-v',
+  component: LayoutBlankComponent,
+  children: [{ path: '', loadChildren: () => import('./data-v/data-v.module').then(m => m.DataVModule) }]
+},
+*/
   {
     path: 'tools',
     component: LayoutSimpleComponent,
