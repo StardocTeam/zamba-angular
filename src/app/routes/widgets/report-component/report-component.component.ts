@@ -46,37 +46,32 @@ export class ReportComponentComponent {
   }
 
   ngOnInit() {
+
     const tokenData = this.tokenService.get();
-    //Report
-    if (tokenData && tokenData['userid'] != null && tokenData['token'] != null) {
-      this.initializeReportComponents();
+    this.route.queryParamMap.subscribe(params => {
+      if (params) {
+        var userIdParam: string | null;
+        var tokenParam: string | null;
 
-    } else {
-      this.route.queryParamMap.subscribe(params => {
-        if (params) {
-          var userIdParam: string | null;
-          var tokenParam: string | null;
+        if (params.get('userid') && params.get('t')) {
+          userIdParam = params.get('userid');
+          tokenParam = params.get('t');
 
-          if (params.get('userid') && params.get('t')) {
-            userIdParam = params.get('userid');
-            tokenParam = params.get('t');
+          this.tokenService.set({ token: tokenParam, userid: userIdParam });
 
-            this.tokenService.set({ token: tokenParam, userid: userIdParam });
+          this.initializeReportComponents();
 
-            this.initializeReportComponents();
+        } else if (params.get('t')) {
+          tokenParam = params.get('t');
 
-          } else if (params.get('t')) {
-            tokenParam = params.get('t');
+          this.fetchUserIdWithToken(tokenParam, tokenData);
 
-            this.fetchUserIdWithToken(tokenParam, tokenData);
-
-          }
-        } else {
-          //TODO: hacer un mensaje visual.
-          throw new Error('Token not found');
         }
-      });
-    }
+      } else {
+        //TODO: hacer un mensaje visual.
+        throw new Error('Token not found');
+      }
+    });
   }
 
 
@@ -225,7 +220,7 @@ export class ReportComponentComponent {
         const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
         const formattedTime = (`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`).replace(':', '_');
 
-        //debugger;
+        //
         const url = dataBase64;
         const a = document.createElement('a');
         a.href = url;
@@ -288,7 +283,7 @@ export class ReportComponentComponent {
   }
 
   navigateToCreate() {
-    ////debugger;
+    ////
     this.router.navigate(['/tools/reports/create']);
   }
 

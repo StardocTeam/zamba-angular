@@ -152,11 +152,11 @@ export class ReportViewerComponent {
           Query: report.Query
         }
       };
-      //debugger;
+      //
       this.RVService.GetReportByQuery(genericRequest).pipe(
         catchError(error => {
           console.error('Error al obtener datos:', error);
-          //debugger;
+          //
           throw error;
         })
       )
@@ -232,7 +232,7 @@ export class ReportViewerComponent {
     this.cdr.detectChanges();
     const tokenData = this.tokenService.get();
     let genericRequest = {};
-    //debugger;
+    //
     if (tokenData) {
       genericRequest = {
         UserId: tokenData['userid'],
@@ -270,7 +270,7 @@ export class ReportViewerComponent {
         const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
         const formattedTime = (`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`).replace(':', '_');
 
-        //debugger;
+        //
         const url = dataBase64;
         const a = document.createElement('a');
         a.href = url;

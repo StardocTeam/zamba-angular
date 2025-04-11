@@ -39,7 +39,7 @@ export class ReportEditorComponent {
   }
 
   ngOnInit() {
-    ////debugger;
+    ////
     //Report - EDITOR
     const tokenData = this.tokenService.get();
 
