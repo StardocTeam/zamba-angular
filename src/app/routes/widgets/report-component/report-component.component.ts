@@ -46,8 +46,6 @@ export class ReportComponentComponent {
   }
 
   ngOnInit() {
-
-    const tokenData = this.tokenService.get();
     this.route.queryParamMap.subscribe(params => {
       if (params) {
         var userIdParam: string | null;
@@ -64,7 +62,7 @@ export class ReportComponentComponent {
         } else if (params.get('t')) {
           tokenParam = params.get('t');
 
-          this.fetchUserIdWithToken(tokenParam, tokenData);
+          this.fetchUserIdWithToken(tokenParam);
 
         }
       } else {
@@ -156,12 +154,11 @@ export class ReportComponentComponent {
       });
     }
   }
-  private fetchUserIdWithToken(tokenParam: string | null, tokenData: any) {
-    this.tokenService.set({ token: tokenParam });
+  private fetchUserIdWithToken(tokenParam: string | null) {
 
     let genericRequest = {
       UserId: 0,
-      token: tokenData && tokenData['token']
+      token: tokenParam
     };
 
     this.zambaService.getUserId(genericRequest).pipe(
