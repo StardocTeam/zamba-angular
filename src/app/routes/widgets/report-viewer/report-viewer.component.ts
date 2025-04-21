@@ -118,7 +118,7 @@ export class ReportViewerComponent {
       { maxHeight: 461, height: '213px' },
       { maxHeight: 493, height: '245px' },
       { maxHeight: 536, height: '288px' },
-      { maxHeight: 584, height: '341px' },
+      { maxHeight: 589, height: '341px' },
       { maxHeight: 643, height: '395px' }
     ];
 
@@ -242,7 +242,7 @@ export class ReportViewerComponent {
         }
       };
 
-      const FileName = report.Name.replace(/ /g, "_") + ".xlsx";
+      const FileName = report.Name.replace(/ /g, "_") + " ";
 
       this.GService.ExportToExcel(genericRequest).pipe(
         catchError(error => {

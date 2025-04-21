@@ -51,11 +51,17 @@ export class ReportComponentComponent {
         var userIdParam: string | null;
         var tokenParam: string | null;
 
+        var tokenData = this.tokenService.get();
+
         if (params.get('userid') && params.get('t')) {
           userIdParam = params.get('userid');
           tokenParam = params.get('t');
 
           this.tokenService.set({ token: tokenParam, userid: userIdParam });
+
+          this.initializeReportComponents();
+
+        } else if (tokenData != null && tokenData['userid'] != null && tokenData['token'] != null) {
 
           this.initializeReportComponents();
 
@@ -141,7 +147,6 @@ export class ReportComponentComponent {
           acc[item.Category].push(item);
           return acc;
         }, {} as { [key: string]: Report[] })
-
 
         //TODO: hacer este proceso mas performante, solo pasando los datos deseados y no todo el objeto.
         this.TREE_DATA = Object.keys(Categories).map(category => ({
