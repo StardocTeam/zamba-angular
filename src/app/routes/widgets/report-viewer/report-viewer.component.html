@@ -1,7 +1,7 @@
 <div class="container">
     <div class="report-details">
         <div style="font-size: 24px !important;">{{currentReport.Name}}</div>
-        <p>{{Description}}</p>
+        <p>{{currentReport.Description}}</p>
     </div>
 
     <button nz-button btnExcel nzType="primary" (click)="exportToExcel(currentReport)"

@@ -1,11 +1,11 @@
 export class Report {
-    ID: number;
-    Name: string;
-    Category: string;
-    Query: string;
-    Description: string
-    Aditional: number;
-    Completar: string;
+    ID: number = 0;
+    Name: string = "";
+    Category: string = "";
+    Query: string = "";
+    Description: string = "";
+    Aditional: number = 0;
+    Completar: string = "";
     GroupExpression: any = null;
 
     constructor(data: any) {

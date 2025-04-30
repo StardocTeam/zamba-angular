@@ -74,36 +74,9 @@ export class ReportViewerComponent {
   }
 
   //#region Bussines Functions
-  GetDescription(Id: string) {
-
-    const tokenData = this.tokenService.get();
-    let genericRequest = {};
-
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userid'],
-        Params: {
-          reportId: Id
-        }
-      };
-
-      this.RVService.GetReportDescriptionByQuery(genericRequest).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      )
-        .subscribe((data: any) => {
-          this.Description = data;
-          this.cdr.detectChanges();
-        });
-    }
-
-    this.loading = true;
-    this.cdr.detectChanges();
-  }
 
   OpenReport(report: Report) {
+    this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
     this.listOfData = [];
     this.currentReport = report;
@@ -119,75 +92,104 @@ export class ReportViewerComponent {
           Query: report.Query
         }
       };
-      //
       this.RVService.GetReportByQuery(genericRequest).pipe(
         catchError(error => {
           console.error('Error al obtener datos:', error);
-          //
           throw error;
         })
       )
         .subscribe((data: any) => {
+
+
           if (!data) {
             this.isButtonExcelDisabled = true;
 
-            console.error('Error: No data received for report.');
-            this.modal.info({
-              nzTitle: 'No hay datos disponibles',
-              nzContent: '<p>este reporte no muestra datos o hay un error en la sentencia.</p>',
+            console.error('Error: Ocurrio un error al cargar el reporte');
+            this.modal.error({
+              nzTitle: 'Ocurrio un error al intentar cargar el reporte',
+              nzContent: '<p>Verifique que el reporte no contenga errores y que la base de datos este bien configurada.</p>',
               nzOkText: 'OK',
               nzOkType: 'primary',
               nzOnOk: () => console.log('OK'),
             });
+
+            this.loading = false;
+            this.cdr.detectChanges();
+            return;
+          } else if (typeof (JSON.parse(data)) == "object") {
+            this.isButtonExcelDisabled = false;
+            var ObjectData = JSON.parse(data);
+
+
+            if (ObjectData && ObjectData.ListColumns.length > 0 && ObjectData.RowHashtable.length > 0) {
+              this.cdr.detectChanges();
+
+              ObjectData.ListColumns.forEach((element: any) => {
+                var columnWidth = "150px";
+
+                //TODO: Hacer esto dinamico
+                if (element.ColumnName == "Descripcion") {
+                  columnWidth = "700px";
+                } else if (element.ColumnName == "Fecha") {
+                  columnWidth = "200px";
+                }
+
+                var newColumn = {
+                  name: element.ColumnName,
+                  sortOrder: null,
+                  sortFn: null,
+                  sortDirections: [null],
+                  filterMultiple: false,
+                  listOfFilter: [],
+                  filterFn: null,
+                  width: columnWidth
+                }
+
+                this.listOfColumns.push(newColumn);
+              });
+
+              ObjectData.RowHashtable.forEach((element: any) => {
+                var newRow: any = [];
+                ObjectData.ListColumns.forEach((column: any) => {
+                  newRow[column.ColumnName] = element[column.ColumnName];
+                });
+
+                this.listOfData.push(newRow);
+              });
+            } else {
+              this.isButtonExcelDisabled = true;
+              console.info('No se encontraron registros para mostrar');
+              this.modal.info({
+                nzTitle: 'No se encontraron registros para mostrar',
+                nzContent: '<p>Verifique que el reporte y la base de datos estan bien configurados.</p>',
+                nzOkText: 'OK',
+                nzOkType: 'primary',
+                nzOnOk: () => console.log('OK'),
+              });
+            }
+
+
+            this.loading = false;
+            this.cdr.detectChanges();
+            return;
+          } else if (typeof (JSON.parse(data)) == "string") {
+            this.isButtonExcelDisabled = true;
+
+            console.error('Error: Ocurrio un error al cargar el reporte');
+            this.modal.error({
+              nzTitle: 'Ocurrio un error al intentar cargar el reporte',
+              nzContent: '<p>' + data + '</p>',
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => console.log('OK'),
+            });
+
             this.loading = false;
             this.cdr.detectChanges();
             return;
           }
-
-          this.isButtonExcelDisabled = false;
-
-          var ObjectData = JSON.parse(data);
-          this.Description = report.Description;
-          this.cdr.detectChanges();
-
-          ObjectData.ListColumns.forEach((element: any) => {
-            var columnWidth = "150px";
-
-            //TODO: Hacer esto dinamico
-            if (element.ColumnName == "Descripcion") {
-              columnWidth = "700px";
-            } else if (element.ColumnName == "Fecha") {
-              columnWidth = "200px";
-            }
-
-            var newColumn = {
-              name: element.ColumnName,
-              sortOrder: null,
-              sortFn: null,
-              sortDirections: [null],
-              filterMultiple: false,
-              listOfFilter: [],
-              filterFn: null,
-              width: columnWidth
-            }
-
-            this.listOfColumns.push(newColumn);
-          });
-
-          ObjectData.RowHashtable.forEach((element: any) => {
-            var newRow: any = [];
-            ObjectData.ListColumns.forEach((column: any) => {
-              newRow[column.ColumnName] = element[column.ColumnName];
-            });
-
-            this.listOfData.push(newRow);
-          });
         });
     }
-
-    this.loading = true;
-    this.cdr.detectChanges();
-
   }
 
   exportToExcel(report: Report): void {
@@ -209,10 +211,12 @@ export class ReportViewerComponent {
 
       this.GService.ExportToExcel(genericRequest).pipe(
         catchError(error => {
+
           console.error('Error al obtener datos:', error);
           throw error;
         })
       ).subscribe((data: any) => {
+
         if (!data) {
           console.error('Error: No data received for export.');
 
