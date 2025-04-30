@@ -235,6 +235,36 @@ export class ReportComponentComponent {
       });
     }
   }
+
+
+  deleteReport(report: Report): void {
+    if (this.DeletePermission == true) {
+      this.modal.confirm({
+        nzTitle: 'Are you sure delete this task?',
+        nzContent: '<b style="color: red;">Some descriptions</b>',
+        nzOkText: 'Yes',
+        nzOkType: 'primary',
+        nzOkDanger: true,
+        nzOnOk: () => console.log('OK'),
+        nzCancelText: 'No',
+        nzOnCancel: () => console.log('Cancel')
+      });
+
+      // this.RService.deleteReport(report).pipe().subscribe((data: any) => {
+      //   var data = JSON.parse(data);
+      //   var itemId = data.ID;
+
+      //   this.QuitarItemDeLaLista(itemId);
+      // });
+    }
+  }
+
+  QuitarItemDeLaLista(itemId: any) {
+    this.ReportsList = this.ReportsList.filter(report => report.ID !== itemId);
+    this.cdr.detectChanges();
+  }
+
+
   //#endregion
 
 
@@ -299,34 +329,4 @@ export class ReportComponentComponent {
     // Navega dinámicamente a la ruta con el ID del reporte
     this.router.navigate(['/tools/reports/view', reportId]);
   }
-
-  //#region DELETE
-  deleteReport(report: Report): void {
-    if (this.DeletePermission == true) {
-      this.modal.confirm({
-        nzTitle: 'Are you sure delete this task?',
-        nzContent: '<b style="color: red;">Some descriptions</b>',
-        nzOkText: 'Yes',
-        nzOkType: 'primary',
-        nzOkDanger: true,
-        nzOnOk: () => console.log('OK'),
-        nzCancelText: 'No',
-        nzOnCancel: () => console.log('Cancel')
-      });
-
-      // this.RService.deleteReport(report).pipe().subscribe((data: any) => {
-      //   var data = JSON.parse(data);
-      //   var itemId = data.ID;
-
-      //   this.QuitarItemDeLaLista(itemId);
-      // });
-    }
-  }
-
-  QuitarItemDeLaLista(itemId: any) {
-    this.ReportsList = this.ReportsList.filter(report => report.ID !== itemId);
-    this.cdr.detectChanges();
-  }
-  //#endregion
-
 }

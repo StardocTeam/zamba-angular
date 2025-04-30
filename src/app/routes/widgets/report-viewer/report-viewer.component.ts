@@ -12,7 +12,7 @@ import {
 } from 'ng-zorro-antd/table';
 import { ReportViewerService } from './service/report-viewer.service';
 import { catchError } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { query } from '@angular/animations';
 import { Query } from '@delon/theme';
 import { GridService } from 'src/app/services/Grid/grid.service';
@@ -34,18 +34,12 @@ export class ReportViewerComponent {
   height: string = "400px";
   PageIndex: number = 1;
 
-  DestructorFlag: boolean = false;
-
   nzShowPagination: boolean = true;
   isButtonExcelDisabled: boolean = true;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
-    private GService: GridService, private modal: NzModalService) {
-  }
-
-  ShowPagination() {
-    this.nzShowPagination = !this.nzShowPagination;
+    private GService: GridService, private modal: NzModalService, private router: Router) {
   }
 
   ngOnInit() {
@@ -78,6 +72,8 @@ export class ReportViewerComponent {
     });
     this.adjustHeight();
   }
+
+  //#region Bussines Functions
   GetDescription(Id: string) {
 
     const tokenData = this.tokenService.get();
@@ -105,35 +101,6 @@ export class ReportViewerComponent {
 
     this.loading = true;
     this.cdr.detectChanges();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.adjustHeight();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  adjustHeight() {
-    const mediaQueries = [
-      { maxHeight: 461, height: '213px' },
-      { maxHeight: 493, height: '245px' },
-      { maxHeight: 536, height: '288px' },
-      { maxHeight: 589, height: '341px' },
-      { maxHeight: 643, height: '395px' }
-    ];
-
-    for (const query of mediaQueries) {
-      if (window.innerHeight <= query.maxHeight) {
-        this.height = query.height;
-        break;
-      }
-    }
-    this.cdr.detectChanges();
-  }
-
-
-  ngAfterViewInit() {
-    this.adjustHeight();
   }
 
   OpenReport(report: Report) {
@@ -223,10 +190,6 @@ export class ReportViewerComponent {
 
   }
 
-  objectKeys(obj: any): string[] {
-    return Object.keys(obj);
-  }
-
   exportToExcel(report: Report): void {
     this.isButtonExcelDisabled = true;
     this.cdr.detectChanges();
@@ -285,6 +248,43 @@ export class ReportViewerComponent {
     }
 
   }
+  //#endregion
+
+  //#region Visual Management
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.adjustHeight();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  adjustHeight() {
+    const mediaQueries = [
+      { maxHeight: 461, height: '213px' },
+      { maxHeight: 493, height: '245px' },
+      { maxHeight: 536, height: '288px' },
+      { maxHeight: 589, height: '341px' },
+      { maxHeight: 643, height: '395px' }
+    ];
+
+    for (const query of mediaQueries) {
+      if (window.innerHeight <= query.maxHeight) {
+        this.height = query.height;
+        break;
+      }
+    }
+    this.cdr.detectChanges();
+  }
+
+
+  ngAfterViewInit() {
+    this.adjustHeight();
+  }
+
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
+  //#endregion
+
 }
 
 
