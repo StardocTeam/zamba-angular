@@ -99,8 +99,6 @@ export class ReportViewerComponent {
         })
       )
         .subscribe((data: any) => {
-
-
           if (!data) {
             this.isButtonExcelDisabled = true;
 

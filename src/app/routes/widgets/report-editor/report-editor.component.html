@@ -20,7 +20,7 @@
                 <span>Categoria:</span><br>
                 <nz-select id="category" [(ngModel)]="report.Category" style="width: 100%;"
                     nzPlaceHolder="Selecciones una categoria">
-                    <nz-option *ngFor="let item of CategoryList" nzValue="{{item.Id}}"
+                    <nz-option *ngFor="let item of CategoryList" nzValue="{{item.ID}}"
                         nzLabel="{{item.Category}}"></nz-option>
                 </nz-select>
             </div>
