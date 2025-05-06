@@ -1,9 +1,9 @@
 export class Category {
-    Id: number;
+    ID: number;
     Category: string;
 
     constructor(id: number, category: string) {
-        this.Id = id;
+        this.ID = id;
         this.Category = category;
     }
 }
