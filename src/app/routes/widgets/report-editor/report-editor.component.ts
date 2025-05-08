@@ -19,6 +19,7 @@ import { ReportViewerService } from '../report-viewer/service/report-viewer.serv
   styleUrls: ['./report-editor.component.less']
 })
 export class ReportEditorComponent {
+  //@Output() CreateSuccess: EventEmitter<string> = new EventEmitter<string>();
   private route = inject(ActivatedRoute);
   CategoryList: Category[] = []
   inputValue?: string = "";
@@ -181,6 +182,7 @@ export class ReportEditorComponent {
     ).subscribe((data: any) => {
       var result = JSON.parse(data);
       debugger;
+
       if (data) {
         console.log('Insertado correctamente', this.report);
 
@@ -192,7 +194,10 @@ export class ReportEditorComponent {
           nzOnOk: () => console.log('OK'),
         });
 
-        this.navigateToListReport();
+        //this.CreateSuccess.emit();
+        //this.navigateToListReport();
+        this.clearForm();
+
       } else if (data == null) {
         console.log('No se ha insertado correctamente', data);
 
@@ -205,6 +210,7 @@ export class ReportEditorComponent {
           nzOnOk: () => console.log('OK'),
         });
       }
+
     });
 
     this.isButtonDisabled = false;
@@ -231,6 +237,14 @@ export class ReportEditorComponent {
       this.report.Category.trim() !== ''
     );
   }
+
+  _DebugForm() {
+    this.report.Name = 'TEST select: ';
+    this.report.Query = "select * from zopt where item like '%test%'";
+    this.report.Description = 'Prueba ';
+    this.report.Category = '1';
+  }
+
   navigateToListReport() {
     // Navega dinámicamente a la ruta con el ID del reporte
     this.router.navigate(['/tools/reports']);

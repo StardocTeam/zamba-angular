@@ -329,4 +329,10 @@ export class ReportComponentComponent {
     // Navega dinámicamente a la ruta con el ID del reporte
     this.router.navigate(['/tools/reports/view', reportId]);
   }
+
+  ReloadList() {
+    this.GetReports();
+    this.adjustHeight();
+    this.cdr.detectChanges();
+  }
 }
