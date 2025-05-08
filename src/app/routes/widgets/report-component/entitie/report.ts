@@ -1,12 +1,12 @@
 export class Report {
     ID: number = 0;
     Name: string = "";
-    Category: string = "";
+    Category: string = ""; //TODO: convertir esto de string a Category, y que esta el uso de esta variable sea Category.name en lugar de Category.id
     Query: string = "";
     Description: string = "";
     Aditional: number = 0;
     Completar: string = "";
-    GroupExpression: any = null;
+    GroupExpression: string = "";
 
     constructor(data: any) {
         this.Aditional = data.Aditional;

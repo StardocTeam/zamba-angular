@@ -8,6 +8,7 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class ReportService {
+
   InsertReport(genericRequest: {}) {
     return this.http.post(`${environment['apiRestBasePath']}/insertReport`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)

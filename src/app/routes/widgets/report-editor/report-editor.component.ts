@@ -7,7 +7,11 @@ import { ReportService } from './service/report.service';
 import { catchError, of, tap } from 'rxjs';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
+import { ReportViewerService } from '../report-viewer/service/report-viewer.service';
+
+
 
 @Component({
   selector: 'app-report-editor',
@@ -27,14 +31,15 @@ export class ReportEditorComponent {
     Aditional: 0,
     Completar: '',
     ID: 0,
-    GroupExpression: null
+    GroupExpression: ""
   };
   cdr: any;
   isButtonDisabled: boolean = false;
   userId: any;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private REService: ReportService, private zambaService: ZambaService) {
+    private REService: ReportService, private zambaService: ZambaService,
+    private router: Router, private modal: NzModalService, private RVService: ReportViewerService) {
 
   }
 
@@ -90,6 +95,60 @@ export class ReportEditorComponent {
     console.log('ReportEditorComponent onNgDestroy');
   }
 
+  TestQuery() {
+    this.isButtonDisabled = true;
+    var result: boolean = false;
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        Params: {
+          Query: this.report.Query
+        }
+      };
+    }
+
+    this.RVService.GetReportByQuery(genericRequest).pipe(
+      catchError(error => {
+        console.error('Error al obtener datos:', error);
+        throw error;
+      })
+    ).subscribe((data: any) => {
+      this.isButtonDisabled = false;
+
+      if (data == null) {
+        console.log('No se ha insertado correctamente', data);
+
+        console.error('Error: Ocurrio un error al ejecutar la sentencia');
+        this.modal.error({
+          nzTitle: 'Ocurrio un error al ejecutar la sentencia',
+          nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+
+        result = true;
+      } else {
+        var ObjectData = JSON.parse(data);
+
+        this.modal.success({
+          nzTitle: 'Ejecucion de sentencia exitosa',
+          nzContent: '<p>Cantidad de registros obtenidos: ' + ObjectData.RowHashtable.length + '</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+      }
+
+      result = false;
+    });
+
+    this.isButtonDisabled = false;
+  }
+
   InsertReport() {
     this.isButtonDisabled = true;
 
@@ -111,6 +170,8 @@ export class ReportEditorComponent {
       };
     }
 
+    //TODO: TestQuery o sobrecarga del mismo para validar que no se inserte una query erronea
+
     this.REService.InsertReport(genericRequest).pipe(
       catchError(error => {
         console.error('Error al obtener datos:', error);
@@ -118,10 +179,61 @@ export class ReportEditorComponent {
         throw error;
       })
     ).subscribe((data: any) => {
-      this.CategoryList = JSON.parse(data);
+      var result = JSON.parse(data);
+      debugger;
+      if (data) {
+        console.log('Insertado correctamente', this.report);
+
+        this.modal.success({
+          nzTitle: 'Insertado correctamente',
+          nzContent: '<p>Reporte: ' + this.report.Name + '<br> ID: ' + data + '<br> Categoria: ' + this.report.Category + ' </p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+
+        this.navigateToListReport();
+      } else if (data == null) {
+        console.log('No se ha insertado correctamente', data);
+
+        console.error('Error: Ocurrio un error al insertar el reporte');
+        this.modal.error({
+          nzTitle: 'Ocurrio un error al insertar el reporte',
+          nzContent: '<p>Verifique los datos ingresados.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+      }
     });
 
     this.isButtonDisabled = false;
-    this.cdr.detectChanges();
   }
+
+  clearForm() {
+    this.report = {
+      Category: '',
+      Description: '',
+      Name: '',
+      Query: '',
+      Aditional: 0,
+      Completar: '',
+      ID: 0,
+      GroupExpression: ""
+    };
+  }
+
+  isFormValid(): boolean {
+    return (
+      this.report.Name.trim() !== '' &&
+      this.report.Query.trim() !== '' &&
+      this.report.Description.trim() !== '' &&
+      this.report.Category.trim() !== ''
+    );
+  }
+  navigateToListReport() {
+    // Navega dinámicamente a la ruta con el ID del reporte
+    this.router.navigate(['/tools/reports']);
+  }
+
 }

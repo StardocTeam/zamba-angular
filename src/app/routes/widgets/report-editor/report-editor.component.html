@@ -41,27 +41,34 @@
 
         <div nz-row>
             <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
-                <span>Query:</span>
-                <textarea rows="4" [(ngModel)]="report.Query" nz-input placeholder="Inserte query..."></textarea>
-            </div>
-        </div>
-
-        <div nz-row>
-            <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
                 <span>Descripcion:</span>
                 <textarea rows="4" [(ngModel)]="report.Description" nz-input
                     placeholder="Agregue una descripcion del reporte..."></textarea>
             </div>
         </div>
 
+        <div nz-row>
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
+                <span>Query:</span>
+                <textarea rows="4" [(ngModel)]="report.Query" nz-input placeholder="Inserte query..."></textarea>
+            </div>
+        </div>
 
         <div nz-row style="padding-top: 8px; text-align: right;">
             <div nz-col>
-                <button nz-button nzType="primary" nzDanger>Cancelar</button>
-                <button nz-button nzType="default">Probar</button>
-                <button nz-button nzType="primary" (click)="InsertReport()" [disabled]="isButtonDisabled">Crear
-                    reporte</button>
+                <button nz-button nzType="primary" nzDanger (click)="navigateToListReport()">Cancelar</button>
+                <button nz-button nzType="default" (click)="TestQuery()"
+                    [disabled]="report.Query == '' || isButtonDisabled">Probar</button>
+                <button nz-button nzType="primary" (click)="InsertReport()"
+                    [disabled]="!isFormValid() || isButtonDisabled">
+                    Crear reporte
+                </button>
             </div>
         </div>
+
+        <div nz-row>
+            <nz-divider nzPlain nzText="Grilla de resultados"></nz-divider>
+        </div>
+
     </div>
 </div>

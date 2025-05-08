@@ -31,7 +31,7 @@ export class ReportComponentComponent {
   ViewPermission: boolean = false;
   UpdatePermission: boolean = false;
   DeletePermission: boolean = false;
-  CreatePermission: boolean = false;
+  CreatePermission: boolean = true;
   ConsultPermission: boolean = false;
 
   height: number = 400;
