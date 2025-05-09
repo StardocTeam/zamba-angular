@@ -87,10 +87,12 @@
 
         </nz-sider>
 
-        <nz-content [style.height.px]="height">
-            <router-outlet></router-outlet>
-        </nz-content>
-
+        <nz-layout>
+            <nz-content [style.height.px]="height">
+                <router-outlet></router-outlet>
+            </nz-content>
+            <nz-footer>ejemplo </nz-footer>
+        </nz-layout>
 
 
     </nz-layout>

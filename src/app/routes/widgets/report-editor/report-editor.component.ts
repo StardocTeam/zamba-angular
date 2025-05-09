@@ -181,7 +181,7 @@ export class ReportEditorComponent {
       })
     ).subscribe((data: any) => {
       var result = JSON.parse(data);
-      debugger;
+
 
       if (data) {
         console.log('Insertado correctamente', this.report);

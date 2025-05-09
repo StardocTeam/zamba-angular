@@ -123,14 +123,27 @@ export class ReportViewerComponent {
               this.cdr.detectChanges();
 
               ObjectData.ListColumns.forEach((element: any) => {
-                var columnWidth = "150px";
+                var baseWidth = 10; // Factor base para el ancho (puedes ajustarlo según el diseño)
+                const maxWidth = 800; // Ancho máximo permitido para una columna
 
-                //TODO: Hacer esto dinamico
-                if (element.ColumnName == "Descripcion") {
-                  columnWidth = "700px";
-                } else if (element.ColumnName == "Fecha") {
-                  columnWidth = "200px";
-                }
+                // Calcular el ancho basado en el nombre de la columna
+                let columnWidth = element.ColumnName.length * baseWidth;
+                columnWidth -= Math.floor(element.ColumnName.length / 10) * baseWidth;
+
+                // Calcular el ancho basado en el valor más largo de los datos
+                ObjectData.RowHashtable.forEach((row: any) => {
+                  const cellValue = row[element.ColumnName] ? row[element.ColumnName].toString() : '';
+                  var cellWidth = cellValue.length * baseWidth;
+
+                  cellWidth -= Math.floor(cellValue.length / 10) * baseWidth;
+
+                  if (cellWidth > columnWidth) {
+                    columnWidth = cellWidth;
+                  }
+                });
+
+                // Limitar el ancho al máximo permitido
+                columnWidth = Math.min(columnWidth, maxWidth);
 
                 var newColumn = {
                   name: element.ColumnName,
@@ -140,8 +153,8 @@ export class ReportViewerComponent {
                   filterMultiple: false,
                   listOfFilter: [],
                   filterFn: null,
-                  width: columnWidth
-                }
+                  width: `${columnWidth}px`
+                };
 
                 this.listOfColumns.push(newColumn);
               });
@@ -260,21 +273,21 @@ export class ReportViewerComponent {
 
   @HostListener('window:resize', ['$event'])
   adjustHeight() {
-    const mediaQueries = [
-      { maxHeight: 461, height: '213px' },
-      { maxHeight: 493, height: '245px' },
-      { maxHeight: 536, height: '288px' },
-      { maxHeight: 589, height: '341px' },
-      { maxHeight: 643, height: '395px' }
-    ];
+    // const mediaQueries = [
+    //   { maxHeight: 461, height: '213px' },
+    //   { maxHeight: 493, height: '245px' },
+    //   { maxHeight: 536, height: '288px' },
+    //   { maxHeight: 589, height: '341px' },
+    //   { maxHeight: 643, height: '395px' }
+    // ];
 
-    for (const query of mediaQueries) {
-      if (window.innerHeight <= query.maxHeight) {
-        this.height = query.height;
-        break;
-      }
-    }
-    this.cdr.detectChanges();
+    // for (const query of mediaQueries) {
+    //   if (window.innerHeight <= query.maxHeight) {
+    //     this.height = query.height;
+    //     break;
+    //   }
+    // }
+    // this.cdr.detectChanges();
   }
 
 
