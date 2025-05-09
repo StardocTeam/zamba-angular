@@ -70,7 +70,6 @@ export class ReportViewerComponent {
           });
       }
     });
-    this.adjustHeight();
   }
 
   //#region Bussines Functions
@@ -113,7 +112,7 @@ export class ReportViewerComponent {
 
             this.loading = false;
             this.cdr.detectChanges();
-            return;
+            //return;
           } else if (typeof (JSON.parse(data)) == "object") {
             this.isButtonExcelDisabled = false;
             var ObjectData = JSON.parse(data);
@@ -181,8 +180,9 @@ export class ReportViewerComponent {
 
 
             this.loading = false;
+
             this.cdr.detectChanges();
-            return;
+            //return;
           } else if (typeof (JSON.parse(data)) == "string") {
             this.isButtonExcelDisabled = true;
 
@@ -196,9 +196,14 @@ export class ReportViewerComponent {
             });
 
             this.loading = false;
+
             this.cdr.detectChanges();
-            return;
+            //return;
           }
+
+          this.executeRepeatedly(2); // Llama a la función cada 5 segundos
+          return
+
         });
     }
   }
@@ -261,33 +266,62 @@ export class ReportViewerComponent {
         this.cdr.detectChanges();
       });
     }
-
   }
+
+  executeRepeatedly(maxTimeInSeconds: number) {
+    const intervalTime = 250; // 500 ms (medio segundo)
+    const maxIterations = (maxTimeInSeconds * 1000) / intervalTime; // Número máximo de iteraciones
+    let iterationCount = 0;
+
+    const intervalId = setInterval(() => {
+      console.log('Ejecutando código cada medio segundo');
+      this.adjustHeight();
+      this.cdr.detectChanges();
+
+      iterationCount++;
+      if (iterationCount >= maxIterations) {
+        clearInterval(intervalId); // Detiene la ejecución después del tiempo máximo
+        console.log('Ejecución detenida');
+      }
+    }, intervalTime);
+  }
+
   //#endregion
 
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
+    debugger;
     this.adjustHeight();
   }
 
-  @HostListener('window:resize', ['$event'])
-  adjustHeight() {
-    // const mediaQueries = [
-    //   { maxHeight: 461, height: '213px' },
-    //   { maxHeight: 493, height: '245px' },
-    //   { maxHeight: 536, height: '288px' },
-    //   { maxHeight: 589, height: '341px' },
-    //   { maxHeight: 643, height: '395px' }
-    // ];
 
-    // for (const query of mediaQueries) {
-    //   if (window.innerHeight <= query.maxHeight) {
-    //     this.height = query.height;
-    //     break;
-    //   }
-    // }
-    // this.cdr.detectChanges();
+  adjustHeight() {
+    const getElementHeightWithMargins = (selector: string): number => {
+      const element = document.querySelector(selector) as HTMLElement;
+      if (!element) return 0;
+
+      const style = window.getComputedStyle(element);
+      const marginTop = parseInt(style.marginTop, 10) || 0;
+      const marginBottom = parseInt(style.marginBottom, 10) || 0;
+
+      return element.getBoundingClientRect().height + marginTop + marginBottom;
+    };
+
+    // Obtener alturas y márgenes de los elementos
+    const reportNameHeight = getElementHeightWithMargins('#report-name');
+    const reportDescriptionHeight = getElementHeightWithMargins('#report-description');
+    const exportToExcelBtnHeight = getElementHeightWithMargins('#exportToExcelBtn');
+    const paginationHeight = getElementHeightWithMargins('.ant-table-pagination');
+    const alainDefaultHeader = getElementHeightWithMargins('.alain-default__header');
+    const antTableHeader = getElementHeightWithMargins('.ant-table-header');
+
+    // Calcular la altura disponible
+    const totalOccupiedHeight = reportNameHeight + reportDescriptionHeight + exportToExcelBtnHeight + paginationHeight + alainDefaultHeader + antTableHeader;
+    const availableHeight = window.innerHeight - totalOccupiedHeight;
+
+    this.height = `${availableHeight}px`;
+    this.cdr.detectChanges();
   }
 
 
