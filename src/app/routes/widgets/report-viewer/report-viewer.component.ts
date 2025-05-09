@@ -291,7 +291,7 @@ export class ReportViewerComponent {
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    debugger;
+
     this.adjustHeight();
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, EventEmitter, inject, Inject, Output } from '@angular/core';
 import { Report } from '../report-component/entitie/report';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -19,7 +19,7 @@ import { ReportViewerService } from '../report-viewer/service/report-viewer.serv
   styleUrls: ['./report-editor.component.less']
 })
 export class ReportEditorComponent {
-  //@Output() CreateSuccess: EventEmitter<string> = new EventEmitter<string>();
+  @Output() createTerminated: EventEmitter<string> = new EventEmitter<string>();
   private route = inject(ActivatedRoute);
   CategoryList: Category[] = []
   inputValue?: string = "";
@@ -45,7 +45,6 @@ export class ReportEditorComponent {
   }
 
   ngOnInit() {
-    //Report - EDITOR
     const tokenData = this.tokenService.get();
 
     let genericRequest = {};
@@ -194,7 +193,7 @@ export class ReportEditorComponent {
           nzOnOk: () => console.log('OK'),
         });
 
-        //this.CreateSuccess.emit();
+        this.createTerminated.emit();
         //this.navigateToListReport();
         this.clearForm();
 

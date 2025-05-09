@@ -4,7 +4,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "./entitie/report";
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { GridService } from 'src/app/services/Grid/grid.service';
@@ -22,6 +22,7 @@ export interface TreeNode {
 
 export class ReportComponentComponent {
   private route = inject(ActivatedRoute);
+  @ViewChild('outlet') outlet!: RouterOutlet;
   @ViewChildren('itemTree') itemTrees!: QueryList<ElementRef>;
   @ViewChildren('itemLeaf') itemLeafs!: QueryList<ElementRef>;
   ReportsList: Report[] = [];
@@ -53,7 +54,7 @@ export class ReportComponentComponent {
 
         var tokenData = this.tokenService.get();
 
-        if (params.get('userid') && params.get('t')) {
+        if (params.get('userid') && params.get('userid')?.toString() != "0" && params.get('t')) {
           userIdParam = params.get('userid');
           tokenParam = params.get('t');
 
@@ -61,7 +62,7 @@ export class ReportComponentComponent {
 
           this.initializeReportComponents();
 
-        } else if (tokenData != null && tokenData['userid'] != null && tokenData['token'] != null) {
+        } else if (tokenData != null && tokenData['userid'] != null && tokenData['userid'] != 0 && tokenData['token'] != null) {
 
           this.initializeReportComponents();
 
@@ -69,7 +70,10 @@ export class ReportComponentComponent {
           tokenParam = params.get('t');
 
           this.fetchUserIdWithToken(tokenParam);
+        } else if (tokenData && tokenData['token']) {
+          tokenParam = tokenData['token'];
 
+          this.fetchUserIdWithToken(tokenParam);
         }
       } else {
         //TODO: hacer un mensaje visual.
@@ -78,6 +82,17 @@ export class ReportComponentComponent {
     });
   }
 
+  ngAfterViewInit() {
+    const childComponent = this.outlet.component as { createTerminated?: any };
+    if (childComponent && childComponent.createTerminated) {
+      childComponent.createTerminated.subscribe((data: any) => {
+
+        console.log('Evento recibido del hijo:', data);
+        this.GetReports();
+
+      });
+    }
+  }
 
   private initializeReportComponents() {
     this.GetPermissions();
