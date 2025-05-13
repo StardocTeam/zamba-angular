@@ -7,13 +7,24 @@ import { Environment } from '@delon/theme';
 export const environment = {
   production: false,
   useHash: true,
+  //#region Ambiente Obsoleto (don widgets)
   //apiRestBasePath: 'https://www.zamba.com.ar/zambaweb.restapi/api/Dashboard',
-  apiRestBasePath: 'http://imageapt/Zamba.Api/api/Dashboard',
   //externalSearchApi: 'https://www.zamba.com.ar/zambaweb.restapi/api/ExternalSearch',
-  externalSearchApi: 'http://imageapt/Zamba.Api/api/ExternalSearch',
   //zambaWeb: 'https://www.zamba.com.ar/Zamba.Web',
-  searchApi: 'http://imageapt/Zamba.Api/api/search',
+  //#endregion
+
+  //#region Ambiente de TEST
+  apiRestBasePath: 'http://imageapt/ZambaAngularTEST.Restapi/api/Dashboard',
+  externalSearchApi: 'http://imageapt/ZambaAngularTEST.Restapi/api/ExternalSearch',
+  searchApi: 'http://imageapt/ZambaAngularTEST.Restapi/api/search',
+  //#endregion
+
+  //#region Ambiente de DESA
+  // apiRestBasePath: 'http://imageapt/Zamba.Api/api/Dashboard',
+  // externalSearchApi: 'http://imageapt/Zamba.Api/api/ExternalSearch',
+  // searchApi: 'http://imageapt/Zamba.Api/api/search',
   zambaWeb: 'http://imageapt/zamba.webDESA',
+  //#endregion
   cliente: 'zamba',
   api: {
     baseUrl: './',
