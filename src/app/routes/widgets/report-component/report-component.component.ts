@@ -47,34 +47,19 @@ export class ReportComponentComponent {
   }
 
   ngOnInit() {
+    debugger;
     this.route.queryParamMap.subscribe(params => {
       if (params) {
-        var userIdParam: string | null;
+        // var userIdParam: string | null;
         var tokenParam: string | null;
 
-        var tokenData = this.tokenService.get();
+        this.tokenService.set({ token: params.get('t') });
 
-        if (params.get('userid') && params.get('userid')?.toString() != "0" && params.get('t')) {
-          userIdParam = params.get('userid');
+        if (params.get('t')) {
           tokenParam = params.get('t');
-
-          this.tokenService.set({ token: tokenParam, userid: userIdParam });
-
-          this.initializeReportComponents();
-
-        } else if (tokenData != null && tokenData['userid'] != null && tokenData['userid'] != 0 && tokenData['token'] != null) {
-
-          this.initializeReportComponents();
-
-        } else if (params.get('t')) {
-          tokenParam = params.get('t');
-
-          this.fetchUserIdWithToken(tokenParam);
-        } else if (tokenData && tokenData['token']) {
-          tokenParam = tokenData['token'];
-
           this.fetchUserIdWithToken(tokenParam);
         }
+
       } else {
         //TODO: hacer un mensaje visual.
         throw new Error('Token not found');
@@ -330,19 +315,39 @@ export class ReportComponentComponent {
   }
 
   navigateToCreate() {
-    ////
-    this.router.navigate(['/tools/reports/create']);
+    const tokenData = this.tokenService.get();
+    const queryParams: any = {};
+
+    if (tokenData && tokenData['token']) {
+      queryParams.t = tokenData['token'];
+    }
+
+    this.router.navigate(['/tools/reports/create'], { queryParams });
   }
 
   navigateToEdit(reportId: number) {
     if (this.UpdatePermission == true) {
-      this.router.navigate(['/tools/reports/edit/' + reportId]);
+      const tokenData = this.tokenService.get();
+      const queryParams: any = {};
+
+      if (tokenData && tokenData['token']) {
+        queryParams.t = tokenData['token'];
+      }
+
+      this.router.navigate(['/tools/reports/edit/' + reportId], { queryParams });
     }
   }
 
   navigateToView(reportId: number) {
     // Navega dinámicamente a la ruta con el ID del reporte
-    this.router.navigate(['/tools/reports/view', reportId]);
+    const tokenData = this.tokenService.get();
+    const queryParams: any = {};
+
+    if (tokenData && tokenData['token']) {
+      queryParams.t = tokenData['token'];
+    }
+
+    this.router.navigate(['/tools/reports/view', reportId], { queryParams });
   }
 
   ReloadList() {

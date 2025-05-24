@@ -141,6 +141,11 @@ export class ReportViewerComponent {
                   }
                 });
 
+                //Umbral de tamaño (0 a 150)
+                if (columnWidth < 150) {
+                  columnWidth += columnWidth * 0.20;
+                }
+
                 // Limitar el ancho al máximo permitido
                 columnWidth = Math.min(columnWidth, maxWidth);
 
