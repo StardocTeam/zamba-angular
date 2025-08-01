@@ -13,6 +13,7 @@ import { LayoutSimpleComponent } from '../layout/simple/simple.component';
 import { ReportComponentComponent } from "./widgets/report-component/report-component.component";
 import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
 import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
+import { ChartComponent } from '../components/chart/chart.component';
 
 const routes: Routes = [
   /*
@@ -60,34 +61,41 @@ const routes: Routes = [
   {
     path: 'tools',
     component: LayoutSimpleComponent,
-    children: [{
-      path: 'taskhistory',
-      component: TaskHistoryComponent,
-      data: { title: 'Task History' },
-      pathMatch: 'full'
-    },
-    {
-      path: 'reports',
-      component: ReportComponentComponent,
-      data: { title: 'Reports' },
-      children: [
-        {
-          path: 'create',
-          component: ReportEditorComponent,
-          data: { title: 'Create' }
-        },
-        {
-          path: 'edit/:id',
-          component: ReportEditorComponent,
-          data: { title: 'Edit' }
-        },
-        {
-          path: 'view/:id',
-          component: ReportViewerComponent,
-          data: { title: 'View' }
-        }
-      ]
-    },
+    children: [
+      {
+        path: 'taskhistory',
+        component: TaskHistoryComponent,
+        data: { title: 'Task History' },
+        pathMatch: 'full'
+      },
+      {
+        path: 'charts',
+        component: ChartComponent,
+        data: { title: 'charts' },
+        pathMatch: 'full'
+      },
+      {
+        path: 'reports',
+        component: ReportComponentComponent,
+        data: { title: 'Reports' },
+        children: [
+          {
+            path: 'create',
+            component: ReportEditorComponent,
+            data: { title: 'Create' }
+          },
+          {
+            path: 'edit/:id',
+            component: ReportEditorComponent,
+            data: { title: 'Edit' }
+          },
+          {
+            path: 'view/:id',
+            component: ReportViewerComponent,
+            data: { title: 'View' }
+          }
+        ]
+      },
     ]
   },
   // passport

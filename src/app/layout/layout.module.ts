@@ -44,7 +44,7 @@ import { HeaderUserComponent } from './basic/widgets/user.component';
 import { LayoutBlankComponent } from './blank/blank.component';
 
 import { WidgetsModule } from '../routes/widgets/widgets.module';
-
+import { G2BarModule } from '@delon/chart/bar';
 
 const COMPONENTS = [LayoutBasicComponent, LayoutSimpleComponent, LayoutBlankComponent, LayoutPendingTaskItemComponent];
 
@@ -66,6 +66,7 @@ const PASSPORT = [LayoutPassportComponent];
 const icons: IconDefinition[] = Object.values(AllIcons);
 @NgModule({
   imports: [
+    G2BarModule,
     CommonModule,
     FormsModule,
     RouterModule,
