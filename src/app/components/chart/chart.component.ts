@@ -20,30 +20,10 @@ import { ChartService } from './service/chart.service';
 })
 export class ChartComponent {
   private readonly msg = inject(NzMessageService);
-
   private route = inject(ActivatedRoute);
-  salesData = this.genData();
   ListValues: G2BarData[] = [];
   currentReport: Report = {} as Report;
 
-  refresh(): void {
-  }
-
-  private genData(): G2BarData[] {
-    return new Array(12).fill({}).map((_i, idx) => ({
-      x: (idx + 1).toString() + "° MES",
-      y: Math.floor(Math.random() * 1000) + 200,
-      color: idx > 5 ? '#f50' : undefined
-    }));
-  }
-
-  private setData(list: Array<any>): G2BarData[] {
-    return list.fill({}).map((_i, idx) => ({
-      x: list[idx].x,
-      y: list[idx].y,
-      color: idx > 2 ? '#f50' : undefined
-    }));
-  }
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService,
     private zambaService: ZambaService,
@@ -53,8 +33,44 @@ export class ChartComponent {
 
   }
 
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      if (params) {
 
+        var tokenParam: string | null;
 
+        if (params.get('t') && params.get('ChartConfigId')) {
+          this.tokenService.set({ token: params.get('t') });
+          tokenParam = params.get('t');
+          const chartConfigId = Number(params.get('ChartConfigId'));
+
+          this.fetchUserIdWithToken(tokenParam, chartConfigId);
+        } else {
+          throw new Error('Token not found');
+        }
+
+      } else {
+        //TODO: hacer un mensaje visual.
+        throw new Error('Token not found');
+      }
+    });
+
+  }
+
+  private setData(list: Array<any>): G2BarData[] {
+    debugger;
+    const result: G2BarData[] = [];
+
+    list.forEach((item, idx) => {
+      result.push({
+        x: item.x,
+        y: item.y,
+        color: idx > (list.length / 2) ? '#f50' : undefined
+      });
+    });
+
+    return result;
+  }
 
   private fetchUserIdWithToken(tokenParam: string | null, ChartConfigId: number) {
 
@@ -82,7 +98,6 @@ export class ChartComponent {
       })
     ).subscribe();
   }
-
 
   initializeChartComponent(ChartConfigId: number) {
     let GRequest = {};
@@ -147,7 +162,6 @@ export class ChartComponent {
               case "Bars":
                 this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Accion"));
 
-
                 break;
               case "Barras-timeLine": // Tipo timeLine
                 this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
@@ -166,7 +180,6 @@ export class ChartComponent {
                 break;
             }
 
-            this.setData(datos.RowHashtable);
             console.log('Configuración obtenida:', config);
           });
         });
@@ -176,77 +189,6 @@ export class ChartComponent {
 
     }
   }
-
-
-
-
-
-
-  ngOnInit() {
-    this.route.queryParamMap.subscribe(params => {
-      if (params) {
-
-        var tokenParam: string | null;
-
-        if (params.get('t') && params.get('ChartConfigId')) {
-          this.tokenService.set({ token: params.get('t') });
-          tokenParam = params.get('t');
-          const chartConfigId = Number(params.get('ChartConfigId'));
-
-          this.fetchUserIdWithToken(tokenParam, chartConfigId);
-        } else {
-          throw new Error('Token not found');
-        }
-
-
-      } else {
-        //TODO: hacer un mensaje visual.
-        throw new Error('Token not found');
-      }
-    });
-
-    /*----------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
-    /*----------------------ESTO NO VAA------------------------*/
-
-    let genericRequest = {};
-    const tokenData = this.tokenService.get();
-
-    if (tokenData != null) {
-      genericRequest = {
-        UserId: tokenData['userid'],
-        token: tokenData['token']
-      };
-
-      this.RService._GetReports(genericRequest).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      ).subscribe((data: any) => {
-        var datos: Report[] = JSON.parse(data);
-        console.log(datos)
-
-        var ArrayResult: Array<{ x: string, y: number }> = this.getDistinctCount(datos, "Category");
-        this.salesData = ArrayResult;
-      });
-    }
-  }
-
-  /**
-   * Array(12) = a un distinc de alguna propiedad de los resultados de reportes
-   * x: iteraciones del resultado del distinc de un campo
-   * y: es la cantidad de veces que se repite el campo 
-   */
 
   getDistinctCount(datos: any[], campo: string): Array<{ x: string, y: number }> {
     const resultado: { [key: string]: number } = {};
