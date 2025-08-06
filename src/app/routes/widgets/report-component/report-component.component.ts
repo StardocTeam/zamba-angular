@@ -47,7 +47,7 @@ export class ReportComponentComponent {
   }
 
   ngOnInit() {
-    debugger;
+
     this.route.queryParamMap.subscribe(params => {
       if (params) {
         // var userIdParam: string | null;

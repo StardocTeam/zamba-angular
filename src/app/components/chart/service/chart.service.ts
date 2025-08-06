@@ -7,14 +7,13 @@ import { environment } from '@env/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class chartService {
+export class ChartService {
 
   constructor(private http: _HttpClient) { }
 
-  _GetConfig(genericRequest: {}) {
-    return this.http.post(`${environment['apiRestBasePath']}/getConfig`, genericRequest, null, {
+  _GetConfig(genericRequest: any) {
+    return this.http.post(`${environment['charts']}/getConfig`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
-
 }

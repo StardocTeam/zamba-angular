@@ -9,6 +9,7 @@ import { catchError, of, tap } from 'rxjs';
 import { ReportService } from 'src/app/routes/widgets/report-component/service/report.service';
 import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
+import { ChartService } from './service/chart.service';
 
 @Component({
   selector: 'chart-bar-basic',
@@ -26,7 +27,6 @@ export class ChartComponent {
   currentReport: Report = {} as Report;
 
   refresh(): void {
-    this.salesData = this.genData();
   }
 
   private genData(): G2BarData[] {
@@ -47,14 +47,16 @@ export class ChartComponent {
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService,
     private zambaService: ZambaService,
-    private RVService: ReportViewerService) {
+    private RVService: ReportViewerService,
+    private CService: ChartService
+  ) {
 
   }
 
 
 
 
-  private fetchUserIdWithToken(tokenParam: string | null, ReportId: number) {
+  private fetchUserIdWithToken(tokenParam: string | null, ChartConfigId: number) {
 
     let genericRequest = {
       UserId: 0,
@@ -63,13 +65,14 @@ export class ChartComponent {
 
     this.zambaService.getUserId(genericRequest).pipe(
       tap(response => {
+
         response = JSON.parse(response);
         this.tokenService.set({ token: tokenParam, userid: response });
 
         if (response) {
-          this.initializeChartComponent(ReportId);
+          this.initializeChartComponent(ChartConfigId);
         } else {
-          throw new Error('Report ID not found');
+          throw new Error('Chart ID not found');
         }
 
       }),
@@ -81,7 +84,7 @@ export class ChartComponent {
   }
 
 
-  initializeChartComponent(ReportId: number) {
+  initializeChartComponent(ChartConfigId: number) {
     let GRequest = {};
     const tokenData = this.tokenService.get();
 
@@ -90,75 +93,87 @@ export class ChartComponent {
         UserId: tokenData['userid'],
         token: tokenData['token'],
         Params: {
-          Id: ReportId
+          ChartConfigId: ChartConfigId
         }
       };
 
-      // Primero obtenemos el reporte por ID
-      this.RVService.GetReportById(GRequest).pipe(
+      this.CService._GetConfig(GRequest).pipe(
         catchError(error => {
-          console.error('Error al obtener datos:', error);
+          console.error('Error al obtener configuración:', error);
           throw error;
         })
-      ).subscribe((data: any) => {
-        this.currentReport = JSON.parse(data)[0];
-        console.log(this.currentReport);
+      ).subscribe((config: any) => {
+        var datosDeChart = JSON.parse(config)[0];
+        var ChartType = datosDeChart.ChartType;
 
-        // Solo después de obtener el reporte, hacemos la segunda petición
-        const GRequestWithReportQuery = {
+        const GRequestReport = {
           UserId: tokenData['userid'],
           token: tokenData['token'],
           Params: {
-            Query: this.currentReport.Query
+            Id: datosDeChart.ReportId
           }
         };
 
-        this.RVService.GetReportByQuery(GRequestWithReportQuery).pipe(
+        this.RVService.GetReportById(GRequestReport).pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
           })
         ).subscribe((data: any) => {
-          var datos: Report[] = JSON.parse(data);
 
-          //Si el grafico es de barras
-          //Es Tipo TimeLine: es decir, usa una columna de un solo registro con flujo de tiempo? cual es el intervalo?
-          //Las Barras cuentan las iteraciones de una columna XXX?  
+          this.currentReport = JSON.parse(data)[0];
+          console.log(this.currentReport);
 
-
-          var num = "Barras-iteradoras";
-          switch (num) {
-            case "Barras-iteradoras": // Tipo Count
-              this.salesData = this.setData(this.getDistinctCount(datos, "Completar"));
-              break;
-            case "Barras-timeLine": // Tipo timeLine
-              this.salesData = this.setData(this.getDistinctCount(datos, "Category"));
-              break;
-            case "Torta": // Tipo Count
-              this.salesData = this.setData(this.getDistinctCount(datos, "Category"));
-              break;
-            case "MiniArea(TimeLine B)": // Tipo timeLine
-              this.salesData = this.setData(this.getDistinctCount(datos, "Category"));
-              break;
-            case "MiniArea(TimeLine A, el posta)": // Tipo timeLine con mas lineas (iteraciones de columnas)
-              this.salesData = this.setData(this.getDistinctCount(datos, "Category"));
-              break;
+          // Solo después de obtener el reporte, hacemos la segunda petición
+          const GRequestWithReportQuery = {
+            UserId: tokenData['userid'],
+            token: tokenData['token'],
+            Params: {
+              Query: this.currentReport.Query
+            }
+          };
 
 
-            default:
-              this.salesData = this.setData(this.getDistinctCount(datos, "Category"));
-              break;
-          }
+          this.RVService.GetReportByQuery(GRequestWithReportQuery).pipe(
+            catchError(error => {
+              console.error('Error al obtener datos:', error);
+              throw error;
+            })
+          ).subscribe((data: any) => {
 
-          // Finalmente, actualizamos los datos del gráfico
+            var datos = JSON.parse(data);
+
+            switch (ChartType) {
+              case "Bars":
+                this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Accion"));
 
 
-          this.setData(datos);
+                break;
+              case "Barras-timeLine": // Tipo timeLine
+                this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
+                break;
+              case "Torta": // Tipo Count
+                this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
+                break;
+              case "MiniArea(TimeLine B)": // Tipo timeLine
+                this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
+                break;
+              case "MiniArea(TimeLine A, el posta)": // Tipo timeLine con mas lineas (iteraciones de columnas)
+                this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
+                break;
+              default:
+                this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
+                break;
+            }
 
-
-
+            this.setData(datos.RowHashtable);
+            console.log('Configuración obtenida:', config);
+          });
         });
+
+        console.log('Configuración obtenida:', config);
       });
+
     }
   }
 
@@ -170,15 +185,15 @@ export class ChartComponent {
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
       if (params) {
-        // Si el token existe, lo guardamos en el servicio de token
+
         var tokenParam: string | null;
 
-        if (params.get('t') && params.get('reportId')) {
+        if (params.get('t') && params.get('ChartConfigId')) {
           this.tokenService.set({ token: params.get('t') });
           tokenParam = params.get('t');
-          const reportId = Number(params.get('reportId'));
+          const chartConfigId = Number(params.get('ChartConfigId'));
 
-          this.fetchUserIdWithToken(tokenParam, reportId);
+          this.fetchUserIdWithToken(tokenParam, chartConfigId);
         } else {
           throw new Error('Token not found');
         }
