@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Inject, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Inject, Output } from '@angular/core';
 import { Report } from '../report-component/entitie/report';
 import { FormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -34,11 +34,12 @@ export class ReportEditorComponent {
     ID: 0,
     GroupExpression: ""
   };
-  cdr: any;
+
   isButtonDisabled: boolean = false;
   userId: any;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private cdr: ChangeDetectorRef,
     private REService: ReportService, private zambaService: ZambaService,
     private router: Router, private modal: NzModalService, private RVService: ReportViewerService) {
 

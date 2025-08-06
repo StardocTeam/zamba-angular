@@ -23,6 +23,7 @@ export class ChartComponent {
   private route = inject(ActivatedRoute);
   ListValues: G2BarData[] = [];
   currentReport: Report = {} as Report;
+  title: string = 'Grafico';
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService,
@@ -57,21 +58,7 @@ export class ChartComponent {
 
   }
 
-  private setData(list: Array<any>): G2BarData[] {
-    debugger;
-    const result: G2BarData[] = [];
-
-    list.forEach((item, idx) => {
-      result.push({
-        x: item.x,
-        y: item.y,
-        color: idx > (list.length / 2) ? '#f50' : undefined
-      });
-    });
-
-    return result;
-  }
-
+  //#region Bussiness Logic
   private fetchUserIdWithToken(tokenParam: string | null, ChartConfigId: number) {
 
     let genericRequest = {
@@ -158,15 +145,17 @@ export class ChartComponent {
 
             var datos = JSON.parse(data);
 
+            debugger;
+            this.title = datosDeChart.title || 'Tipo de grafico: ' + ChartType;
+
             switch (ChartType) {
               case "Bars":
                 this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Accion"));
-
                 break;
-              case "Barras-timeLine": // Tipo timeLine
+              case "Bars-timeLine": // Tipo timeLine
                 this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
                 break;
-              case "Torta": // Tipo Count
+              case "Cake": // Tipo Count
                 this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Category"));
                 break;
               case "MiniArea(TimeLine B)": // Tipo timeLine
@@ -205,8 +194,27 @@ export class ChartComponent {
       y: value
     }));
   }
+  //#endregion
 
+
+  //#region Visualización 
   handleClick(data: G2BarClickItem): void {
     this.msg.info(`${data.item.x} - ${data.item.y}`);
   }
+
+  private setData(list: Array<any>): G2BarData[] {
+    debugger;
+    const result: G2BarData[] = [];
+
+    list.forEach((item, idx) => {
+      result.push({
+        x: item.x,
+        y: item.y,
+        color: idx > (list.length / 2) ? '#f50' : undefined
+      });
+    });
+
+    return result;
+  }
+  //#endregion Visualización
 }

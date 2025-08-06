@@ -1,2 +1,3 @@
-<!-- <button nz-button (click)="refresh()" nzType="primary">Refresh</button> -->
-<g2-bar height="300" [title]="'Grafico grafiquero'" [data]="ListValues" (clickItem)="handleClick($event)" />
+<div style="width: 100%;">
+    <g2-bar height="300" [autoLabel]="false" [title]="title" [data]="ListValues" (clickItem)="handleClick($event)" />
+</div>
