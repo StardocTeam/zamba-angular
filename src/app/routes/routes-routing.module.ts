@@ -14,6 +14,7 @@ import { ReportComponentComponent } from "./widgets/report-component/report-comp
 import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
 import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
 import { ChartComponent } from '../components/chart/chart.component';
+import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
 
 const routes: Routes = [
   /*
@@ -96,6 +97,10 @@ const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'gestion',
+        component: QuickActionsComponent,
+      }
     ]
   },
   // passport
