@@ -89,28 +89,178 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Buscar RAJ',
             description: 'Descripción de Buscar RAJ',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 1013372
           },
           {
-            name: 'Reporte Doc Siniestros Ingresados',
+            name: 'Reporte Doc Siniestros Ingresados X Dia',
             description: 'Descripción de Reporte Doc Siniestros Ingresados',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 11544483
           },
           {
             name: 'Ing Doc Siniestros',
             description: 'Descripción de Ing Doc Siniestros',
+            isFavorite: false,
+            ruleid: 1282
+          },
+          {
+            name: 'Ing Documentacion y/o Notificacion',
+            description: 'Descripción Ing Documentacion y/o Notificacion',
+            isFavorite: false,
+            ruleid: 1012891
+          }
+        ]
+      },
+      {
+        name: 'Reporte Pagos',
+        icon: 'bar-chart',
+        actions: [
+          {
+            name: 'Facturas y pagos pendientes',
+            description: 'Descripción de Facturas y pagos pendientes',
+            isFavorite: false
+          },
+          {
+            name: 'Lotes aprobados entre fechas',
+            description: 'Descripción de Lotes aprobados entre fechas',
+            isFavorite: false
+          },
+          {
+            name: 'Lotes',
+            description: 'Descripción de Lotes',
             isFavorite: false
           }
         ]
       },
-      { name: 'Category 3', icon: 'bar-chart' },
-      { name: 'Category 4', icon: 'setting' },
-      { name: 'Category 5', icon: 'mail' },
-      { name: 'Category 6', icon: 'calendar' },
-      { name: 'Category 7', icon: 'cloud' },
-      { name: 'Category 8', icon: 'team' },
-      { name: 'Category 9', icon: 'file' },
-      { name: 'Category 10', icon: 'star' },
+      {
+        name: 'Pruebas Apro y Conf X Mail',
+        icon: 'setting',
+        actions: [
+          {
+            name: 'Envio de mail para Aprobar/Conformar pagos y facturas',
+            description: 'Descripción de Envio de mail para Aprobar/Conformar pagos y facturas',
+            isFavorite: false
+          }
+        ]
+      },
+      {
+        name: 'Designaciones', icon: 'mail',
+        actions: [
+          {
+            name: 'Reporte Designaciones',
+            description: 'Descripción de Reporte Designaciones',
+            isFavorite: false
+          }
+        ]
+      },
+      {
+        name: 'Reporte',
+        icon: 'calendar',
+        actions: [
+          {
+            name: 'Prueba Emiliano',
+            description: 'Descripción de Prueba Emiliano',
+            isFavorite: false
+          },
+          {
+            name: 'Casos sin fecha acuse',
+            description: 'Descripción de Casos sin fecha acuse',
+            isFavorite: false
+          },
+          {
+            name: 'Reclamos sinrivar',
+            description: 'Descripción de Reclamos sinrivar',
+            isFavorite: false
+          },
+          {
+            name: 'Notificacion Mediacion (AK) sin RAJ',
+            description: 'Descripción de Notificacion Mediacion (AK) sin RAJ',
+            isFavorite: false
+          },
+          {
+            name: 'Reporte de ARJ activos en zamba',
+            description: 'Descripción de Reporte de ARJ activos en zamba',
+            isFavorite: false
+          },
+          {
+            name: 'Notificacion Mediacion (AJ) sin RAJ',
+            description: 'Descripción de Notificacion Mediacion (AJ) sin RAJ',
+            isFavorite: false
+          },
+          {
+            name: 'Notificacion Mediacion(AJ) sin informe asociado(AK)',
+            description: 'Descripción de Notificacion Mediacion(AJ) sin informe asociado(AK)',
+            isFavorite: false
+          }
+        ]
+      },
+      {
+        name: 'Facturas y Pagos',
+        icon: 'cloud',
+        actions: [
+          {
+            name: 'Ingreso Solicitud de Pago',
+            description: 'Descripción de Ingreso Solicitud de Pago',
+            isFavorite: false
+          }
+        ]
+      },
+      {
+        name: 'Pruebas',
+        icon: 'team',
+        actions: [
+          {
+            name: 'Ingresar Datos',
+            description: 'Descripción de Ingreso de Datos',
+            isFavorite: false
+          }
+        ]
+      },
+      {
+        name: 'Carta Documento',
+        icon: 'file',
+        actions: [
+          {
+            name: 'Ingreso Cartas Documento Siniestros',
+            description: 'Descripción de Ingreso Cartas Documento Siniestros',
+            isFavorite: false
+          },
+          {
+            name: 'Reporte Ingreso Carta Documento Siniestros',
+            description: 'Descripción de Reporte Ingreso Carta Documento Siniestros',
+            isFavorite: false
+          }
+        ]
+      },
+      {
+        name: 'Acciones',
+        icon: 'star',
+        actions: [
+          {
+            name: 'Ver Formulario',
+            description: 'Descripción de Ver Formulario',
+            isFavorite: false
+          },
+          {
+            name: 'Informe mediacion y Documentacion a portada por terceros',
+            description: 'Descripción de Informe mediacion y Documentacion a portada por terceros',
+            isFavorite: false
+          }
+        ]
+      },
+      {
+        name: 'Facturas _(T-T)_ Pagos',
+        icon: 'star',
+        actions: [
+          {
+            name: 'Ingreso Factura',
+            description: 'Descripción de Ingreso Factura',
+            isFavorite: true,
+            ruleid: 11532770
+          }
+        ]
+      }
     ];
     this.updateFavouriteCategory();
     this.selectedCategories = ['Favoritos'];
