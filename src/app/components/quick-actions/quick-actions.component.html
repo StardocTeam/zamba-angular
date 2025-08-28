@@ -29,9 +29,11 @@
                 <h3 class="selected-category-title">{{ cat.name }}</h3>
                 <div class="actions-card-container">
                     <nz-card *ngFor="let action of getVisibleActions(cat)"
-                        style="width: 300px; margin: 16px; display: inline-block; vertical-align: top;">
+                        style="width: 300px; margin: 16px; display: inline-block; vertical-align: top;"
+                        (click)="onActionCardClick(action.ruleid)">
                         <!-- Botón de favoritos arriba a la derecha -->
-                        <button nz-button nzType="text" class="favorite-btn" (click)="toggleFavorite(action)"
+                        <button nz-button nzType="text" class="favorite-btn"
+                            (click)="toggleFavorite(action); $event.stopPropagation()"
                             [attr.aria-label]="action.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
                             style="position: absolute; top: 8px; right: 8px; z-index: 2;">
                             <span nz-icon nzType="star" [nzTheme]="action.isFavorite ? 'twotone' : 'outline'"

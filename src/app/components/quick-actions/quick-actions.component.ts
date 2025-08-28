@@ -24,6 +24,8 @@ import { FormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { is } from 'date-fns/locale';
+import { TaskService } from '../../services/task.service';
+
 @Component({
   selector: 'app-quick-actions',
   standalone: true,
@@ -57,7 +59,25 @@ export class QuickActionsComponent implements OnInit {
   selectedCategories: string[] = [];
 
   favouriteActions: any[] = [];
+
+  private route = inject(ActivatedRoute);
+  constructor(
+    private router: Router,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private taskService: TaskService
+  ) {
+  }
   ngOnInit(): void {
+
+    this.route.queryParamMap.subscribe(params => {
+
+      const tokenParam = params.get('t');
+
+      if (tokenParam) {
+        this.tokenService.set({ token: tokenParam });
+      }
+
+    });
 
     this.categories = [
       {
@@ -73,12 +93,14 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Ingreso Designacion Beneficiarios',
             description: 'Descripción de Ingreso Designacion Beneficiarios, pero es demasiado larga entonces la voy a mostrar en este tooltip',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Ingreso Carta Documento',
             description: 'Descripción de Ingreso Carta Documento',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -119,17 +141,20 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Facturas y pagos pendientes',
             description: 'Descripción de Facturas y pagos pendientes',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Lotes aprobados entre fechas',
             description: 'Descripción de Lotes aprobados entre fechas',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Lotes',
             description: 'Descripción de Lotes',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -140,7 +165,8 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Envio de mail para Aprobar/Conformar pagos y facturas',
             description: 'Descripción de Envio de mail para Aprobar/Conformar pagos y facturas',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -150,7 +176,8 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Reporte Designaciones',
             description: 'Descripción de Reporte Designaciones',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -161,37 +188,44 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Prueba Emiliano',
             description: 'Descripción de Prueba Emiliano',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Casos sin fecha acuse',
             description: 'Descripción de Casos sin fecha acuse',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Reclamos sinrivar',
             description: 'Descripción de Reclamos sinrivar',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Notificacion Mediacion (AK) sin RAJ',
             description: 'Descripción de Notificacion Mediacion (AK) sin RAJ',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Reporte de ARJ activos en zamba',
             description: 'Descripción de Reporte de ARJ activos en zamba',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Notificacion Mediacion (AJ) sin RAJ',
             description: 'Descripción de Notificacion Mediacion (AJ) sin RAJ',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Notificacion Mediacion(AJ) sin informe asociado(AK)',
             description: 'Descripción de Notificacion Mediacion(AJ) sin informe asociado(AK)',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -202,7 +236,8 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Ingreso Solicitud de Pago',
             description: 'Descripción de Ingreso Solicitud de Pago',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -213,7 +248,8 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Ingresar Datos',
             description: 'Descripción de Ingreso de Datos',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -224,12 +260,14 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Ingreso Cartas Documento Siniestros',
             description: 'Descripción de Ingreso Cartas Documento Siniestros',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Reporte Ingreso Carta Documento Siniestros',
             description: 'Descripción de Reporte Ingreso Carta Documento Siniestros',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -240,12 +278,14 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Ver Formulario',
             description: 'Descripción de Ver Formulario',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           },
           {
             name: 'Informe mediacion y Documentacion a portada por terceros',
             description: 'Descripción de Informe mediacion y Documentacion a portada por terceros',
-            isFavorite: false
+            isFavorite: false,
+            ruleid: 0
           }
         ]
       },
@@ -266,7 +306,14 @@ export class QuickActionsComponent implements OnInit {
     this.selectedCategories = ['Favoritos'];
   }
 
+  onActionCardClick(ruleid: number) {
 
+    this.taskService.executeTaskRule(ruleid, null, null)
+      .subscribe((response: any) => {
+        console.log(response);
+      });
+    // Ejemplo: llamar a un servicio, navegar, etc.
+  }
   onSearch() {
     this.appliedSearchText = this.searchText;
     this.selectCategoriesBySearch();
