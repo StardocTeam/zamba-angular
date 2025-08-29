@@ -11,8 +11,14 @@ export class ChartService {
 
   constructor(private http: _HttpClient) { }
 
-  _GetConfig(genericRequest: any) {
-    return this.http.post(`${environment['charts']}/getConfig`, genericRequest, null, {
+  _GetChart(genericRequest: any) {
+    return this.http.post(`${environment['charts']}/GetChart`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
+
+  _AddChart(genericRequest: any) {
+    return this.http.post(`${environment['charts']}/AddChart`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }

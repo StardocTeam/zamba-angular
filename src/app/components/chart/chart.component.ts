@@ -24,6 +24,7 @@ export class ChartComponent {
   ListValues: G2BarData[] = [];
   currentReport: Report = {} as Report;
   title: string = 'Grafico';
+  DebugMode: boolean = true;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService,
@@ -99,15 +100,15 @@ export class ChartComponent {
         }
       };
 
-      this.CService._GetConfig(GRequest).pipe(
+      this.CService._GetChart(GRequest).pipe(
         catchError(error => {
           console.error('Error al obtener configuración:', error);
           throw error;
         })
       ).subscribe((config: any) => {
         var datosDeChart = JSON.parse(config)[0];
-        var ChartType = datosDeChart.ChartType;
-
+        var ChartType = datosDeChart.ChartTypeDescripcion;
+        debugger;
         const GRequestReport = {
           UserId: tokenData['userid'],
           token: tokenData['token'],
@@ -146,7 +147,7 @@ export class ChartComponent {
             var datos = JSON.parse(data);
 
             debugger;
-            this.title = datosDeChart.title || 'Tipo de grafico: ' + ChartType;
+            this.title = datosDeChart.ChartTitle || 'Tipo de grafico: ' + ChartType;
 
             switch (ChartType) {
               case "Bars":
@@ -217,4 +218,11 @@ export class ChartComponent {
     return result;
   }
   //#endregion Visualización
+
+  //#region DEBUG MODE
+  addChart(): void {
+
+  }
+  //#endregion
+
 }
