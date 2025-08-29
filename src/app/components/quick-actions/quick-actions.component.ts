@@ -297,7 +297,7 @@ export class QuickActionsComponent implements OnInit {
             name: 'Ingreso Factura',
             description: 'Descripción de Ingreso Factura',
             isFavorite: true,
-            ruleid: 11532770
+            ruleid: 1431
           }
         ]
       }
@@ -310,9 +310,15 @@ export class QuickActionsComponent implements OnInit {
 
     this.taskService.executeTaskRule(ruleid, null, null)
       .subscribe((response: any) => {
-        console.log(response);
+        const accion: string = this.taskService.checkAccion(JSON.parse(response));
+        if (accion != '') {
+          switch (accion) {
+            case 'doshowform':
+              // Lógica para mostrar el componente doShowForm
+              break;
+          }
+        }
       });
-    // Ejemplo: llamar a un servicio, navegar, etc.
   }
   onSearch() {
     this.appliedSearchText = this.searchText;

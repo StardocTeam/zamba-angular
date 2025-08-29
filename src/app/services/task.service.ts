@@ -17,9 +17,9 @@ export class TaskService {
   executeTaskRule(ruleId: number | string, resultIds: any, formVars?: any): Observable<any> {
     let resultIdsForRequest: string = '';
     const genericRequest: any = {
-      UserId: 0,
-      token: "",
-      Params: {
+      "UserId": 0,
+      "token": "",
+      "Params": {
         "ruleId": ruleId.toString(),
         "resultIds": resultIdsForRequest,
         "userid": "0"
@@ -33,6 +33,16 @@ export class TaskService {
       genericRequest,
       { headers }
     );
+
+
+  }
+
+  checkAccion(obj: any): string {
+    if (obj && obj.Vars && obj.Vars.hasOwnProperty('accion')) {
+      return obj.Vars.accion;
+    } else {
+      return "";
+    }
   }
 
 }
