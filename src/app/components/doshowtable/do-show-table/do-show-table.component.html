@@ -1,0 +1,27 @@
+<div class="header-panel">
+    <span class="header-title">Listado de Usuarios</span>
+</div>
+<input nz-input placeholder="Buscar..." [(ngModel)]="searchText" (ngModelChange)="applyFilter($event)" />
+<nz-table #rowSelectionTable nzSize="middle" nzShowSizeChanger [nzData]="listOfData"
+    (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
+    <thead>
+        <tr>
+            <!-- Selección múltiple eliminada 
+            <th [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                (nzCheckedChange)="onAllChecked($event)"></th>
+            -->
+            <th></th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of rowSelectionTable.data">
+            <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.age }}</td>
+            <td>{{ data.address }}</td>
+        </tr>
+    </tbody>
+</nz-table>
