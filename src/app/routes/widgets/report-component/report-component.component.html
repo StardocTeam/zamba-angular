@@ -89,7 +89,22 @@
 
         <nz-layout>
             <nz-content [style.height.px]="height" class="content-container">
-                <router-outlet #outlet="outlet"></router-outlet>
+
+
+
+                <div *ngShow="!isDashboardVisible">
+                    <router-outlet #outlet="outlet"></router-outlet>
+                </div>
+
+
+
+                <div *ngIf="isDashboardVisible">
+                    <app-chart-container></app-chart-container>
+                </div>
+
+
+
+
             </nz-content>
         </nz-layout>
 

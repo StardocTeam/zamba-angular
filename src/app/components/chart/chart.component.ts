@@ -12,9 +12,9 @@ import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { ChartService } from './service/chart.service';
 
 @Component({
-  selector: 'chart-bar-basic',
+  selector: 'chart',
   templateUrl: './chart.component.html',
-  imports: [NzButtonModule, G2BarModule],
+
 
   standalone: true,
 })

@@ -14,6 +14,7 @@ import { ReportComponentComponent } from "./widgets/report-component/report-comp
 import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
 import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
 import { ChartComponent } from '../components/chart/chart.component';
+import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
 
 const routes: Routes = [
   /*
@@ -72,6 +73,12 @@ const routes: Routes = [
         path: 'charts',
         component: ChartComponent,
         data: { title: 'charts' },
+        pathMatch: 'full'
+      },
+      {
+        path: 'chartscontainer',
+        component: ChartContainerComponent,
+        data: { title: 'charts Container' },
         pathMatch: 'full'
       },
       {

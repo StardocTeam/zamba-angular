@@ -33,7 +33,6 @@ import { ReportViewerComponent } from "./report-viewer/report-viewer.component";
 import { ReportFilterPipe } from './report-component/FilterPipe';
 import { ReportEditorComponent } from './report-editor/report-editor.component';
 
-
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
   CalendarComponent,

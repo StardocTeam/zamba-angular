@@ -28,6 +28,7 @@ export class ReportComponentComponent {
   ReportsList: Report[] = [];
   searchValue = '';
   TREE_DATA?: TreeNode[];
+  isDashboardVisible: boolean = true;
 
   ViewPermission: boolean = false;
   UpdatePermission: boolean = false;
