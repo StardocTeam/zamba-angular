@@ -1,0 +1,59 @@
+<div class="quick-actions-main-container">
+    <!-- Sidebar -->
+    <ul nz-menu nzMode="inline" id="custom-multiselect-menu" style="min-width: 260px;">
+        <li nz-menu-item *ngFor="let cat of categories" (click)="toggleCategory(cat)" [nzSelected]="isSelected(cat)"
+            [class.custom-selected]="isSelected(cat)">
+            <span class="ant-menu-title-content">
+                <span nz-icon [nzType]="cat.icon" class="icon-list-item"></span>
+                <span class="menu-text">{{ cat.name }}</span>
+            </span>
+        </li>
+    </ul>
+
+    <!-- Panel de seleccionados -->
+    <div class="panel-item-selected">
+        <!--Busqueda-->
+        <div class="search-container">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" nzSize="large">
+                <input type="text" nz-input placeholder="Buscar" autocomplete="off" [(ngModel)]="searchText"
+                    (keydown.enter)="onSearch()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch nzSize="large"><span nz-icon nzType="search"
+                        (click)="onSearch()"></span></button>
+            </ng-template>
+        </div>
+
+        <ng-container *ngFor="let cat of categories">
+            <ng-container *ngIf="isSelected(cat)">
+                <h3 class="selected-category-title">{{ cat.name }}</h3>
+                <div class="actions-card-container">
+                    <nz-card *ngFor="let action of getVisibleActions(cat)"
+                        style="width: 300px; margin: 16px; display: inline-block; vertical-align: top;"
+                        (click)="onActionCardClick(action.ruleid)">
+                        <!-- Botón de favoritos arriba a la derecha -->
+                        <button nz-button nzType="text" class="favorite-btn"
+                            (click)="toggleFavorite(action); $event.stopPropagation()"
+                            [attr.aria-label]="action.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+                            style="position: absolute; top: 8px; right: 8px; z-index: 2;">
+                            <span nz-icon nzType="star" [nzTheme]="action.isFavorite ? 'twotone' : 'outline'"
+                                [nzTwotoneColor]="action.isFavorite ? '#faad14' : ''" style="font-size: 18px;"></span>
+                        </button>
+                        <nz-card-meta [nzTitle]="action.name" [nzDescription]="descTpl" [nzAvatar]="starAvatar">
+                        </nz-card-meta>
+                        <ng-template #descTpl>
+                            <span nz-tooltip [nzTooltipTitle]="action.description" [nzTooltipMouseEnterDelay]="0.7"
+                                [nzTooltipMouseLeaveDelay]="0.1">
+                                {{ action.description | slice:0:40 }}<ng-container
+                                    *ngIf="action.description.length > 40">...</ng-container>
+                            </span>
+                        </ng-template>
+                    </nz-card>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+<ng-template #starAvatar>
+    <span nz-icon nzType="bar-chart" style="font-size: 10px; color: #000000;"></span>
+</ng-template>
