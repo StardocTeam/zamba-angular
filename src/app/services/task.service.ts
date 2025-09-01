@@ -16,7 +16,8 @@ export class TaskService {
   }
   executeTaskRule(ruleId: number | string, resultIds: any, formVars?: any): Observable<any> {
     let resultIdsForRequest: string = '';
-    const genericRequest: any = {
+
+    var genericRequest: any = {
       "UserId": 0,
       "token": "",
       "Params": {
@@ -25,7 +26,9 @@ export class TaskService {
         "userid": "0"
       }
     };
-
+    if (formVars !== undefined) {
+      genericRequest.Params["FormVariables"] = formVars;
+    }
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     return this.http.post(

@@ -1,7 +1,6 @@
-<div class="header-panel">
-    <span class="header-title">Listado de Usuarios</span>
-</div>
-<input nz-input placeholder="Buscar..." [(ngModel)]="searchText" (ngModelChange)="applyFilter($event)" />
+<input nz-input placeholder="Buscar..." [(ngModel)]="searchText" (ngModelChange)="applyFilter($event)"
+    class="search-doshowtable" />
+<span class="header-title">{{ title }}</span><br>
 <nz-table #rowSelectionTable nzSize="middle" nzShowSizeChanger [nzData]="listOfData"
     (nzCurrentPageDataChange)="onCurrentPageDataChange($event)">
     <thead>
@@ -11,17 +10,20 @@
                 (nzCheckedChange)="onAllChecked($event)"></th>
             -->
             <th></th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Address</th>
+            <th *ngFor="let col of columns">{{ col }}</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
-            <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.age }}</td>
-            <td>{{ data.address }}</td>
+        <tr *ngFor="let data of rowSelectionTable.data; let i = index">
+            <td [nzChecked]="setOfCheckedId.has(i)" (nzCheckedChange)="onItemChecked(i, $event)"></td>
+            <td *ngFor="let col of columns">{{ data[col] }}</td>
         </tr>
     </tbody>
 </nz-table>
+<div class="center-btn">
+    <button nz-button nzType="primary" nzSize="large" (click)="logSelected()"
+        [disabled]="setOfCheckedId.size === 0">Aceptar</button>
+</div>
+<div *ngIf="isLoading" class="spinner-overlay">
+    <nz-spin [nzSize]="'large'" nzTip="Cargando..."></nz-spin>
+</div>

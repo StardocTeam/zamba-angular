@@ -1,13 +1,9 @@
 import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
-import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TaskHistoryService } from '../../services/task-history-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { catchError, of, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
@@ -16,14 +12,9 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
 import { FormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { is } from 'date-fns/locale';
 import { TaskService } from '../../services/task.service';
 
 @Component({
@@ -40,7 +31,8 @@ import { TaskService } from '../../services/task.service';
     NzButtonModule,
     NzInputModule,
     NzCardModule,
-    NzToolTipModule
+    NzToolTipModule,
+    NzSpinModule
   ],
   templateUrl: './quick-actions.component.html',
   styleUrls: ['./quick-actions.component.css'],
@@ -52,6 +44,7 @@ export class QuickActionsComponent implements OnInit {
   searchText: string = '';
   appliedSearchText: string = '';
   searchMatchedCategories: string[] = [];
+  isLoadingAction = false;
 
   categories: any[] = [];
   greeting: string = 'Hola, bienvenido a Quick Actions';
@@ -307,16 +300,24 @@ export class QuickActionsComponent implements OnInit {
   }
 
   onActionCardClick(ruleid: number) {
-
+    this.isLoadingAction = true;
     this.taskService.executeTaskRule(ruleid, null, null)
-      .subscribe((response: any) => {
-        const accion: string = this.taskService.checkAccion(JSON.parse(response));
-        if (accion != '') {
-          switch (accion) {
-            case 'doshowform':
-              // Lógica para mostrar el componente doShowForm
-              break;
+      .subscribe({
+        next: (response: any) => {
+          const responseObject = JSON.parse(response);
+          const accion: string = this.taskService.checkAccion(responseObject);
+          console.log(responseObject);
+          if (accion != '') {
+            switch (accion) {
+              case 'doshowtable':
+                this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
+                break;
+            }
           }
+          this.isLoadingAction = false;
+        },
+        error: () => {
+          this.isLoadingAction = false;
         }
       });
   }

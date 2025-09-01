@@ -1,3 +1,6 @@
+<div *ngIf="isLoadingAction" class="spinner-overlay">
+    <nz-spin [nzSize]="'large'" nzTip="Cargando..."></nz-spin>
+</div>
 <div class="quick-actions-main-container">
     <!-- Sidebar -->
     <ul nz-menu nzMode="inline" id="custom-multiselect-menu" style="min-width: 260px;">

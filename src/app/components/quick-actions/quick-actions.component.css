@@ -272,4 +272,27 @@
         cursor: pointer;
     }
 
+    .spinner-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(30, 30, 30, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    .spinner-overlay .ant-spin-dot i {
+        background-color: #fff !important;
+    }
+
+    .spinner-overlay .ant-spin-text {
+        color: #fff !important;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
 }
