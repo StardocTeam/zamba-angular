@@ -17,6 +17,12 @@ export class ChartService {
     });
   }
 
+  _GetChartByReportId(genericRequest: any) {
+    return this.http.post(`${environment['charts']}/GetChartsByReportId`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
+
   _AddChart(genericRequest: any) {
     return this.http.post(`${environment['charts']}/AddChart`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)

@@ -31,16 +31,16 @@ C: {{cols}} -->
                 <td class="cell" *ngIf="getBlockAt(row+1, col+1) as block" [attr.rowspan]="block.rowSpan"
                     [attr.colspan]="block.colSpan" [ngStyle]="{
                         height: (block.rowSpan * baseCellHeight) + 'px',
-                        width: (block.colSpan * baseCellWidth) + 'px'}">
+                        width: (block.colSpan * baseCellHeight) + 'px'}">
                     <!-- acá podés rutear por tipo -->
                     <ng-container [ngSwitch]="block.type">
-                        <!-- <app-chart-component></app-chart-component> -->
-                        OCUPADO ({{row+1}}, {{col+1}})
+                        <app-chart-component [chartType]="block.type"></app-chart-component>
+
                     </ng-container>
                 </td>
 
                 <td class="cell" *ngIf="!getBlockAt(row+1, col+1)" [style.height.px]="baseCellHeight"
-                    [style.width.px]="baseCellWidth">
+                    [style.width.px]="baseCellHeight">
                     Libre ({{row+1}}, {{col+1}})
                 </td>
             </ng-container>

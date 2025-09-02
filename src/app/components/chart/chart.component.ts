@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from 'src/app/routes/widgets/report-component/entitie/report';
@@ -20,6 +20,7 @@ import { ChartService } from './service/chart.service';
 export class ChartComponent {
   private readonly msg = inject(NzMessageService);
   private route = inject(ActivatedRoute);
+  @Input() chartType: string = 'grafico';
   ListValues: G2BarData[] = [];
   currentReport: Report = {} as Report;
   title: string = 'Grafico';
@@ -106,7 +107,7 @@ export class ChartComponent {
         })
       ).subscribe((config: any) => {
         var datosDeChart = JSON.parse(config)[0];
-        var ChartType = datosDeChart.ChartTypeDescripcion;
+        this.chartType = datosDeChart.ChartTypeDescripcion;
         debugger;
         const GRequestReport = {
           UserId: tokenData['userid'],
@@ -146,9 +147,9 @@ export class ChartComponent {
             var datos = JSON.parse(data);
 
             debugger;
-            this.title = datosDeChart.ChartTitle || 'Tipo de grafico: ' + ChartType;
+            this.title = datosDeChart.ChartTitle || 'Tipo de grafico: ' + this.chartType;
 
-            switch (ChartType) {
+            switch (this.chartType) {
               case "Bars":
                 this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Accion"));
                 break;
