@@ -1,6 +1,44 @@
-<p>chart-container works!</p>
-
-<div class="dashboard-container" [style.gridTemplateColumns]="'repeat(' + cols + ', 1fr)'"
-    [style.gridTemplateRows]="'repeat(' + rows + ', 1fr)'">
-    <ng-content></ng-content>
+<div class="slider-container">
+    <span>Column Count</span>
+    <div class="slider">
+        <nz-slider [nzMarks]="marksCount" [nzStep]="null" [nzMin]="2" [nzMax]="12" [(ngModel)]="count"
+            (ngModelChange)="reGenerateArray($event)"></nz-slider>
+    </div>
 </div>
+<!-- 
+<div style="display: flex; flex-wrap: wrap; margin-top: 32px;" class="grid">
+    <div class="cell" *ngFor="let item of array; let i = index">
+        Caja {{item}} ({{getCoordinates(i).x}}, {{getCoordinates(i).y}})
+    </div>
+</div> -->
+
+<!-- <div *ngFor="let r of [].constructor(rows); let row = index">
+        <div *ngFor="let c of [].constructor(cols); let col = index">
+        </div>
+</div> -->
+
+R: {{rows}}
+C: {{cols}}
+
+<table style="border: 1px solid #000000;">
+    <tr *ngFor="let r of [].constructor(rows); let row = index">
+        <ng-container *ngFor="let c of [].constructor(cols); let col = index">
+
+            <!-- si la celda está cubierta por un bloque, no la renderizo -->
+            <ng-container *ngIf="!isCellCovered(row+1, col+1)">
+                <td *ngIf="getBlockAt(row+1, col+1) as block" [attr.rowspan]="block.rowSpan"
+                    [attr.colspan]="block.colSpan">
+                    <!-- acá podés rutear por tipo -->
+                    <ng-container [ngSwitch]="block.type">
+                        <app-chart-component></app-chart-component> ({{row+1}}, {{col+1}})
+                    </ng-container>
+                </td>
+
+                <td *ngIf="!getBlockAt(row+1, col+1)">
+                    Libre ({{row+1}}, {{col+1}})
+                </td>
+            </ng-container>
+
+        </ng-container>
+    </tr>
+</table>

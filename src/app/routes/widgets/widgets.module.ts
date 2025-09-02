@@ -32,6 +32,8 @@ import { ReportComponentComponent } from './report-component/report-component.co
 import { ReportViewerComponent } from "./report-viewer/report-viewer.component";
 import { ReportFilterPipe } from './report-component/FilterPipe';
 import { ReportEditorComponent } from './report-editor/report-editor.component';
+import { ChartContainerComponent } from 'src/app/components/chart-container/chart-container.component';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
@@ -43,7 +45,7 @@ const COMPONENTS: Array<Type<void>> = [
   ReportComponentComponent,
   ReportViewerComponent,
   ReportFilterPipe,
-  ReportEditorComponent
+  ReportEditorComponent,
 ];
 
 @NgModule({
@@ -65,6 +67,7 @@ const COMPONENTS: Array<Type<void>> = [
       useFactory: adapterFactory
     }),
     NzLayoutModule,
+    NzSliderModule,
     ContextMenuModule,
     NzSkeletonModule,
     ScrollingModule,

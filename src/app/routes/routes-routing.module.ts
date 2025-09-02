@@ -70,18 +70,6 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'charts',
-        component: ChartComponent,
-        data: { title: 'charts' },
-        pathMatch: 'full'
-      },
-      {
-        path: 'chartscontainer',
-        component: ChartContainerComponent,
-        data: { title: 'charts Container' },
-        pathMatch: 'full'
-      },
-      {
         path: 'reports',
         component: ReportComponentComponent,
         data: { title: 'Reports' },
@@ -100,7 +88,13 @@ const routes: Routes = [
             path: 'view/:id',
             component: ReportViewerComponent,
             data: { title: 'View' }
-          }
+          },
+          {
+            path: 'charts',
+            component: ChartContainerComponent,
+            data: { title: 'charts Container' },
+            pathMatch: 'full'
+          },
         ]
       },
     ]

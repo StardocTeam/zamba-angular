@@ -33,6 +33,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 export const SHARED_ZORRO_MODULES = [
   NzButtonModule,

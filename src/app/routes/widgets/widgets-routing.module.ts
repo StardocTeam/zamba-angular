@@ -15,13 +15,13 @@ const routes: Routes = [
   { path: 'carousel', component: CarouselComponent },
   { path: 'pending-tasks', component: PendingTasksComponent },
   { path: 'pending-vacations', component: PendingVacationsComponent },
-  {
-    path: 'report', component: ReportComponentComponent, children: [
-      { path: 'create', component: ReportEditorComponent },
-      { path: 'edit/:id', component: ReportEditorComponent },
-      { path: ':id', component: ReportViewerComponent },
-    ]
-  },
+  // {
+  //   path: 'report', component: ReportComponentComponent, children: [
+  //     { path: 'create', component: ReportEditorComponent },
+  //     { path: 'edit/:id', component: ReportEditorComponent },
+  //     { path: ':id', component: ReportViewerComponent },
+  //   ]
+  // },
   //{ path: "create", component: ReportEditorComponent }
 ];
 
