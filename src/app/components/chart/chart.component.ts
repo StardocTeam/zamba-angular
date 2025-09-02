@@ -113,7 +113,7 @@ export class ChartComponent {
           UserId: tokenData['userid'],
           token: tokenData['token'],
           Params: {
-            Id: datosDeChart.ReportId
+            Id: datosDeChart.ReportIdsdasdasdasd
           }
         };
 

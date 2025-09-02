@@ -82,7 +82,7 @@ export class ChartContainerComponent {
         UserId: tokenData['userid'],
         token: tokenData['token'],
         Params: {
-          ReportId: 10012
+          ReportId: 10012 //TEST -
         }
       };
 
