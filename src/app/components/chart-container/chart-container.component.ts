@@ -6,12 +6,6 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzMarks, NzSliderModule } from 'ng-zorro-antd/slider';
 import { ChartComponent } from '../chart/chart.component';
 
-// @NgModule({
-//   declarations: [ChartComponent],
-//   imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf],
-//   exports: [ChartComponent]
-// })
-
 @Component({
   selector: 'app-chart-container',
   templateUrl: './chart-container.component.html',
@@ -21,8 +15,8 @@ import { ChartComponent } from '../chart/chart.component';
 })
 export class ChartContainerComponent {
   //a
-  rows: number = 5;
-  cols: number = 5;
+  rows: number = 2;
+  cols: number = 4;
 
   //b
   hGutter = 16;
@@ -55,11 +49,14 @@ export class ChartContainerComponent {
   };
 
   //#region C
+  baseCellHeight = 250;
+  baseCellWidth = 100;
   //5 x 5
   // Definís los "bloques"
   blocks = [
-    { row: 1, col: 1, rowSpan: 2, colSpan: 2, type: 'grafico' },
-    { row: 3, col: 1, rowSpan: 1, colSpan: 2, type: 'grafico' }
+    { row: 1, col: 1, rowSpan: 1, colSpan: 4, type: 'grafico' },
+    { row: 2, col: 1, rowSpan: 1, colSpan: 2, type: 'grafico' },
+    { row: 2, col: 3, rowSpan: 1, colSpan: 2, type: 'grafico' },
   ];
 
   getBlockAt(row: number, col: number) {
