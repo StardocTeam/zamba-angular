@@ -2,22 +2,32 @@
     <nz-spin [nzSize]="'large'" nzTip="Cargando..."></nz-spin>
 </div>
 <div class="quick-actions-main-container">
-    <!-- Sidebar -->
-    <ul nz-menu nzMode="inline" id="custom-multiselect-menu" style="min-width: 260px;">
-        <li nz-menu-item *ngFor="let cat of categories" (click)="toggleCategory(cat)" [nzSelected]="isSelected(cat)"
-            [class.custom-selected]="isSelected(cat)">
-            <span class="ant-menu-title-content">
-                <span nz-icon [nzType]="cat.icon" class="icon-list-item"></span>
-                <span class="menu-text">{{ cat.name }}</span>
-            </span>
-        </li>
-    </ul>
+    <div class="categories-container">
+        <div class="categories-header">
+            <button nz-button class="categories-clear-button" (click)="clearSelectedCategories()">
+                <span nz-icon nz-icon nzType="clear" nzTheme="outline"> </span>
+                Deseleccionar todo
+            </button>
+        </div>
+        <!-- Sidebar -->
+        <ul nz-menu nzMode="inline" id="custom-multiselect-menu" style="min-width: 260px;">
+            <li nz-menu-item *ngFor="let cat of categories" (click)="toggleCategory(cat)"
+                [nzSelected]="!showAllCategoriesPanel && isSelected(cat)"
+                [class.custom-selected]="!showAllCategoriesPanel && isSelected(cat)">
+                <span class="ant-menu-title-content">
+                    <span nz-icon [nzType]="cat.icon" class="icon-list-item"></span>
+                    <span class="menu-text">{{ cat.name }}</span>
+                </span>
+            </li>
+        </ul>
+    </div>
+
 
     <!-- Panel de seleccionados -->
     <div class="panel-item-selected">
         <!--Busqueda-->
         <div class="search-container">
-            <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton" nzSize="large">
+            <nz-input-group nzSearch [nzSuffix]="clearIcon" [nzAddOnAfter]="suffixIconButton" nzSize="large">
                 <input type="text" nz-input placeholder="Buscar" autocomplete="off" [(ngModel)]="searchText"
                     (keydown.enter)="onSearch()" />
             </nz-input-group>
@@ -59,4 +69,9 @@
 </div>
 <ng-template #starAvatar>
     <span nz-icon nzType="bar-chart" style="font-size: 10px; color: #000000;"></span>
+</ng-template>
+
+<ng-template #clearIcon>
+    <span *ngIf="searchText" nz-icon nzType="close-circle" class="input-clear-icon" (click)="clearOnSearch()"
+        style="cursor: pointer; color: #bfbfbf;"></span>
 </ng-template>

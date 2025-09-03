@@ -41,6 +41,7 @@ import { TaskService } from '../../services/task.service';
   encapsulation: ViewEncapsulation.Emulated
 })
 export class QuickActionsComponent implements OnInit {
+  showAllCategoriesPanel: boolean = false;
   searchText: string = '';
   appliedSearchText: string = '';
   searchMatchedCategories: string[] = [];
@@ -325,11 +326,27 @@ export class QuickActionsComponent implements OnInit {
     this.appliedSearchText = this.searchText;
     this.selectCategoriesBySearch();
   }
+
+  clearSelectedCategories() {
+    this.selectedCategories = [];
+    this.showAllCategoriesPanel = this.selectedCategories.length === 0;
+    if (this.showAllCategoriesPanel) {
+      this.selectedCategories = [...this.categories.map(cat => cat.name)];
+    }
+  }
+  clearOnSearch() {
+    this.searchText = '';
+    this.onSearch();
+  }
   selectCategoriesBySearch() {
     if (!this.appliedSearchText.trim()) {
       // No hacer nada si la búsqueda está vacía
       return;
     }
+    if (this.showAllCategoriesPanel) {
+      this.selectedCategories = [];
+    }
+
     const search = this.appliedSearchText.trim().toLowerCase();
     this.searchMatchedCategories = this.categories
       .filter(cat =>
@@ -344,9 +361,13 @@ export class QuickActionsComponent implements OnInit {
 
     // Selecciona solo las categorías que matchean la búsqueda
     this.selectedCategories = [...this.searchMatchedCategories];
+    if (this.selectedCategories.length > 0) {
+      this.showAllCategoriesPanel = false;
+    }
   }
 
   getVisibleActions(cat: any) {
+
     if (!this.appliedSearchText.trim()) {
       return cat.actions || [];
     }
@@ -365,11 +386,23 @@ export class QuickActionsComponent implements OnInit {
     );
   }
   toggleCategory(cat: any) {
+
+    if (this.showAllCategoriesPanel) {
+      this.selectedCategories = [];
+    }
     const idx = this.selectedCategories.indexOf(cat.name);
+
+
     if (idx > -1) {
       this.selectedCategories.splice(idx, 1);
+
     } else {
       this.selectedCategories.push(cat.name);
+    }
+    // Si ya no hay ninguna categoría seleccionada, resetea la búsqueda y muestra todo
+    this.showAllCategoriesPanel = this.selectedCategories.length === 0;
+    if (this.showAllCategoriesPanel) {
+      this.selectedCategories = [...this.categories.map(cat => cat.name)];
     }
   }
 
