@@ -9,7 +9,14 @@ import { environment } from '@env/environment';
 })
 export class ChartService {
 
+
+
   constructor(private http: _HttpClient) { }
+  _GetChartContainer(genericRequest: any) {
+    return this.http.post(`${environment['charts']}/getChartContainer`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
 
   _GetChart(genericRequest: any) {
     return this.http.post(`${environment['charts']}/GetChart`, genericRequest, null, {

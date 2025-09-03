@@ -351,6 +351,18 @@ export class ReportComponentComponent {
     this.router.navigate(['/tools/reports/view', reportId], { queryParams });
   }
 
+  viewCharts(reportId: number) {
+    debugger;
+    const tokenData = this.tokenService.get();
+    const queryParams: any = {};
+
+    if (tokenData && tokenData['token']) {
+      queryParams.t = tokenData['token'];
+    }
+
+    this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
+  }
+
   ReloadList() {
     this.GetReports();
     this.adjustHeight();

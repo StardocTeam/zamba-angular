@@ -7,6 +7,8 @@ import { NzMarks, NzSliderModule } from 'ng-zorro-antd/slider';
 import { ChartComponent } from '../chart/chart.component';
 import { ChartService } from '../chart/service/chart.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { catchError } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chart-container',
@@ -17,12 +19,10 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 })
 export class ChartContainerComponent {
   //a
-  rows: number = 2;
-  cols: number = 4;
+  DimY: number = 1;
+  DimX: number = 1;
 
   //b
-  hGutter = 16;
-  vGutter = 16;
   count = 2;
   array = new Array(this.count);
   marksHGutter: NzMarks = {
@@ -61,20 +61,70 @@ export class ChartContainerComponent {
     { row: 2, col: 3, rowSpan: 1, colSpan: 2, type: 'grafico' },
   ];
 
+  chartList = [
+    { posY: 1, posX: 1, dimYSpan: 1, dimXSpan: 4, type: 'bars' },
+    { posY: 2, posX: 1, dimYSpan: 1, dimXSpan: 2, type: 'bars' },
+    { posY: 2, posX: 3, dimYSpan: 1, dimXSpan: 2, type: 'bars' },
+  ];
 
   /**
    *
    */
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private CService: ChartService) {
+    private CService: ChartService, private route: ActivatedRoute) {
 
   }
 
 
 
   ngOnInit() {
-    //TEST 10012
+    debugger;
     const tokenData = this.tokenService.get();
+
+
+
+
+
+
+
+    this.route.params.subscribe(params => {
+      let genericRequest = {};
+      debugger;
+      if (tokenData) {
+        genericRequest = {
+          UserId: 183,
+          token: tokenData['token'],
+          Params: {
+            ReportId: params['id']
+          }
+        };
+
+
+
+        this.CService._GetChartContainer(genericRequest).pipe(
+          catchError(error => {
+            console.error('Error al obtener configuración:', error);
+            throw error;
+          })
+        ).subscribe((data: any) => {
+          debugger;
+          console.log(data);
+          this.DimY = JSON.parse(data)[0].DimY;
+          this.DimX = JSON.parse(data)[0].DimX;
+        });
+
+      }
+    });
+
+
+
+
+
+
+
+
+
+
 
     if (tokenData != null) {
 
@@ -86,23 +136,31 @@ export class ChartContainerComponent {
         }
       };
 
-      this.CService._GetChartByReportId(GRequest).subscribe(data => {
+      this.CService._GetChartByReportId(GRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener configuración:', error);
+          throw error;
+        })
+      ).subscribe((data: any) => {
         console.log(data);
+
+        this.chartList = JSON.parse(data);
+        //CDR
       });
     }
   }
 
-  getBlockAt(row: number, col: number) {
-    return this.blocks.find(b => b.row === row && b.col === col);
+  getChartAt(posY: number, posX: number) {
+    return this.chartList.find(b => b.posY === posY && b.posX === posX);
   }
 
-  isCellCovered(row: number, col: number) {
-    return this.blocks.some(b =>
-      row >= b.row &&
-      row < b.row + b.rowSpan &&
-      col >= b.col &&
-      col < b.col + b.colSpan &&
-      !(row === b.row && col === b.col) // no es la celda inicial
+  isCellCovered(rowY: number, colX: number) {
+    return this.chartList.some(b =>
+      rowY >= b.posY &&
+      rowY < b.posY + b.dimYSpan &&
+      colX >= b.posX &&
+      colX < b.posX + b.dimXSpan &&
+      !(rowY === b.posY && colX === b.posX) // no es la celda inicial
     );
   }
   //#endregion

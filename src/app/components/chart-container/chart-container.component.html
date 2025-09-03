@@ -1,47 +1,25 @@
-<!-- <div class="slider-container">
-    <span>Column Count</span>
-    <div class="slider">
-        <nz-slider [nzMarks]="marksCount" [nzStep]="null" [nzMin]="2" [nzMax]="12" [(ngModel)]="count"
-            (ngModelChange)="reGenerateArray($event)"></nz-slider>
-    </div>
-</div> -->
-<!-- 
-<div style="display: flex; flex-wrap: wrap; margin-top: 32px;" class="grid">
-    <div class="cell" *ngFor="let item of array; let i = index">
-        Caja {{item}} ({{getCoordinates(i).x}}, {{getCoordinates(i).y}})
-    </div>
-</div> -->
-
-<!-- <div *ngFor="let r of [].constructor(rows); let row = index">
-        <div *ngFor="let c of [].constructor(cols); let col = index">
-        </div>
-</div> -->
-<!-- 
-R: {{rows}}
-C: {{cols}} -->
-
-<h1>GRAFICOS DEL REPORTE NNNNNNNN</h1>
+<h1>tittle</h1>
 
 <table style="border: 1px solid #000000;" width="100%">
-    <tr *ngFor="let r of [].constructor(rows); let row = index">
-        <ng-container *ngFor="let c of [].constructor(cols); let col = index">
+    <tr *ngFor="let r of [].constructor(DimY); let rowY = index">
+        <ng-container *ngFor="let c of [].constructor(DimX); let colX = index">
 
             <!-- si la celda está cubierta por un bloque, no la renderizo -->
-            <ng-container *ngIf="!isCellCovered(row+1, col+1)">
-                <td class="cell" *ngIf="getBlockAt(row+1, col+1) as block" [attr.rowspan]="block.rowSpan"
-                    [attr.colspan]="block.colSpan" [ngStyle]="{
-                        height: (block.rowSpan * baseCellHeight) + 'px',
-                        width: (block.colSpan * baseCellHeight) + 'px'}">
+            <ng-container *ngIf="!isCellCovered(rowY+1, colX+1)">
+                <td class="cell" *ngIf="getChartAt(rowY+1, colX+1) as chart" [attr.rowspan]="chart.dimYSpan"
+                    [attr.colspan]="chart.dimXSpan" [ngStyle]="{
+                        height: (chart.dimYSpan * baseCellHeight) + 'px',
+                        width: (chart.dimXSpan * baseCellHeight) + 'px'}">
                     <!-- acá podés rutear por tipo -->
-                    <ng-container [ngSwitch]="block.type">
-                        <app-chart-component [chartType]="block.type"></app-chart-component>
+                    <ng-container [ngSwitch]="chart.type">
+                        <app-chart-component [chartType]="chart.type"></app-chart-component>
 
                     </ng-container>
                 </td>
 
-                <td class="cell" *ngIf="!getBlockAt(row+1, col+1)" [style.height.px]="baseCellHeight"
+                <td class="cell" *ngIf="!getChartAt(rowY+1, colX+1)" [style.height.px]="baseCellHeight"
                     [style.width.px]="baseCellHeight">
-                    Libre ({{row+1}}, {{col+1}})
+                    Libre ({{rowY+1}}, {{colX+1}})
                 </td>
             </ng-container>
 
