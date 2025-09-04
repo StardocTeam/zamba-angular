@@ -58,7 +58,8 @@ export class QuickActionsComponent implements OnInit {
   constructor(
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private cdr: ChangeDetectorRef
   ) {
   }
   ngOnInit(): void {
@@ -72,7 +73,29 @@ export class QuickActionsComponent implements OnInit {
       }
 
     });
-
+    this.taskService.getDynamicButtons().subscribe({
+      next: (response: any) => {
+        const responseObject = JSON.parse(response);
+        console.log(responseObject);
+        let categories = responseObject || [];
+        categories = [
+          {
+            name: 'Favoritos',
+            icon: 'star',
+            actions: []
+          },
+          ...categories
+        ];
+        this.categories = categories;
+        this.updateFavouriteCategory();
+        this.clearSelectedCategories()
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error fetching dynamic buttons:', error);
+      }
+    });
+    /*
     this.categories = [
       {
         name: 'Favoritos',
@@ -296,8 +319,8 @@ export class QuickActionsComponent implements OnInit {
         ]
       }
     ];
-    this.updateFavouriteCategory();
-    this.selectedCategories = ['Favoritos'];
+    */
+
   }
 
   onActionCardClick(ruleid: number) {
