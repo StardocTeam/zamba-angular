@@ -352,12 +352,16 @@ export class ReportComponentComponent {
   }
 
   viewCharts(reportId: number) {
-    debugger;
+
     const tokenData = this.tokenService.get();
     const queryParams: any = {};
 
     if (tokenData && tokenData['token']) {
       queryParams.t = tokenData['token'];
+    }
+
+    if (reportId && reportId != 0) {
+      queryParams.reportId = reportId.toString();
     }
 
     this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });

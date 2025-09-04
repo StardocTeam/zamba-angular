@@ -24,7 +24,7 @@ export class ChartService {
     });
   }
 
-  _GetChartByReportId(genericRequest: any) {
+  _GetChartsByReportId(genericRequest: any) {
     return this.http.post(`${environment['charts']}/GetChartsByReportId`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });

@@ -1,28 +1,31 @@
-<h1>tittle</h1>
+<h1>tittle</h1> {{chartList.length}} {{DimY}} x {{DimX}}
+
+<input type="button" (click)="cambiar()" value="Cambiar Dimensiones">
 
 <table style="border: 1px solid #000000;" width="100%">
     <tr *ngFor="let r of [].constructor(DimY); let rowY = index">
         <ng-container *ngFor="let c of [].constructor(DimX); let colX = index">
 
-            <!-- si la celda está cubierta por un bloque, no la renderizo -->
             <ng-container *ngIf="!isCellCovered(rowY+1, colX+1)">
-                <td class="cell" *ngIf="getChartAt(rowY+1, colX+1) as chart" [attr.rowspan]="chart.dimYSpan"
-                    [attr.colspan]="chart.dimXSpan" [ngStyle]="{
-                        height: (chart.dimYSpan * baseCellHeight) + 'px',
-                        width: (chart.dimXSpan * baseCellHeight) + 'px'}">
-                    <!-- acá podés rutear por tipo -->
-                    <ng-container [ngSwitch]="chart.type">
-                        <app-chart-component [chartType]="chart.type"></app-chart-component>
 
+                <td class="cell" *ngIf="getChartAt(rowY+1, colX+1) as chart" [attr.rowspan]="chart.DimYSpan"
+                    [attr.colspan]="chart.DimXSpan" [ngStyle]="{
+                        height: (chart.DimYSpan * baseCellHeight) + 'px',
+                        width: (chart.DimXSpan * baseCellHeight) + 'px'}">
+
+                    <ng-container [ngSwitch]="chart.ChartTypeDescripcion">
+                        <app-chart-component [ReportData]="ReportData" [chartType]="chart.ChartTypeDescripcion"
+                            [AttrSelected]="chart.AttrSelected"></app-chart-component>OCUPADO
                     </ng-container>
                 </td>
 
+                <!-- TODO: VACIAR DE CONTENIDO -->
                 <td class="cell" *ngIf="!getChartAt(rowY+1, colX+1)" [style.height.px]="baseCellHeight"
                     [style.width.px]="baseCellHeight">
                     Libre ({{rowY+1}}, {{colX+1}})
                 </td>
-            </ng-container>
 
+            </ng-container>
         </ng-container>
     </tr>
 </table>

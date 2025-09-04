@@ -50,12 +50,6 @@ const routes: Routes = [
             data: { title: 'View' }
           },
           {
-            path: 'charts',
-            component: ChartContainerComponent,
-            data: { title: 'charts Container' },
-            pathMatch: 'full'
-          },
-          {
             path: 'chartcontainer/:id',
             component: ChartContainerComponent,
             data: { title: 'charts Container' },
