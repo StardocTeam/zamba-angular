@@ -4,9 +4,11 @@ export class ChartItem {
         public Id: number,
         public PosY: number,
         public PosX: number,
-        public DimYSpan: number,
-        public DimXSpan: number,
         public ChartTypeDescripcion: string,
-        public AttrSelected: string
+        public AttrSelected: string,
+        public ChartTypeId: number,
+        public ChartTitle: string,
+        public DimX: number,
+        public DimY: number,
     ) { }
 }

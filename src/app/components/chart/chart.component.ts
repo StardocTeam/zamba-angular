@@ -23,9 +23,9 @@ export class ChartComponent {
   @Input() chartConfigId: number = 0;
   ListValues: G2BarData[] = [];
   currentReport: Report = {} as Report;
-  title: string = 'Grafico';
   DebugMode: boolean = true;
 
+  @Input() title: string = 'Grafico';
   @Input() AttrSelected: string = 'Id';
   @Input() chartType: string = 'Grafico';
   @Input() ReportData: any;
@@ -48,7 +48,6 @@ export class ChartComponent {
 
   ngOnInit() {
     this.ReportData;
-    this.title = 'Tipo de grafico: ' + this.chartType;
 
     switch (this.chartType) {
       case "Bars":

@@ -58,7 +58,7 @@ export class ChartContainerComponent {
       let genericRequest = {};
       if (tokenData) {
         genericRequest = {
-          UserId: 183, //TODO USER ID
+          UserId: tokenData['userid'],
           token: tokenData['token'],
           Params: {
             Id: params['id']
@@ -126,39 +126,20 @@ export class ChartContainerComponent {
   }
 
   getChartAt(PosY: number, PosX: number) {
-    return this.chartList.find(b => b.PosY === PosY && b.PosX === PosX);
+    var result = this.chartList.find(b => b.PosY === PosY && b.PosX === PosX);
+    return result;
   }
 
   isCellCovered(rowY: number, colX: number): boolean {
     return this.chartList.some(b =>
       rowY >= b.PosY &&
-      rowY <= b.PosY + b.DimYSpan - 1 &&
+      rowY <= b.PosY + b.DimY - 1 &&
       colX >= b.PosX &&
-      colX <= b.PosX + b.DimXSpan - 1 &&
+      colX <= b.PosX + b.DimX - 1 &&
       !(rowY === b.PosY && colX === b.PosX) // excluir celda inicial
     );
   }
   //#endregion
-
-
-  cambiar() {
-    this.DimX = Number(5);
-    this.DimY = Number(5);
-  }
-
-  reGenerateArray(count: number): void {
-    this.array = new Array(count);
-    console.log(this.count);
-  }
-
-
-
-
-
-
-
-  // array de cajas simuladas
-  items = Array.from({ length: 12 }, (_, i) => i + 1);
 
   getCoordinates(index: number) {
     const x = (index % this.count) + 1;          // columna
