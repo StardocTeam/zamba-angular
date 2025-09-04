@@ -143,7 +143,12 @@ export class DoShowTableComponent implements OnInit {
                     console.log(nuevoMensaje);
                     this.modal.info({
                       nzTitle: nuevoMensaje,
-                      nzWidth: 500
+                      nzWidth: 500,
+                      nzOnOk: () => {
+                        if (respObj.PendingChildRules && respObj.PendingChildRules.length === 0) {
+                          window.history.back();
+                        }
+                      }
                     });
                   }
                   break;
