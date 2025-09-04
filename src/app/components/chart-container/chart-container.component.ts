@@ -33,7 +33,7 @@ export class ChartContainerComponent {
 
   //#region C
   baseCellHeight = 250;
-  //baseCellWidth = 250;
+  baseCellWidth = 150;
   //5 x 5
   // Definís los "bloques"
 
@@ -117,44 +117,12 @@ export class ChartContainerComponent {
                   })
                 ).subscribe((data: any) => {
                   console.log(JSON.parse(data));
-
-                  debugger;
                   this.chartList = JSON.parse(data);
                 });
               });
           });
       }
     });
-
-
-    // if (tokenData != null) {
-
-    //   var GRequest = {
-    //     UserId: tokenData['userid'],
-    //     token: tokenData['token'],
-    //     Params: {
-    //       ReportId: 10012 //TEST -
-    //     }
-    //   };
-
-    //   // this.CService._GetChart(GRequest).pipe(
-    //   //   catchError(error => {
-    //   //     console.error('Error al obtener configuración:', error);
-    //   //     throw error;
-    //   //   })
-    //   // ).subscribe((data: any) => {
-    //   //   
-    //   //   console.log(data);
-
-    //   //   this.chartList = JSON.parse(data);
-    //   //   //CDR
-    //   // });
-    // }
-  }
-
-  openReport(genericRequest: any) {
-
-
   }
 
   getChartAt(PosY: number, PosX: number) {

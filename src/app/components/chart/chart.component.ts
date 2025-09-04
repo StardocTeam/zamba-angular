@@ -29,6 +29,7 @@ export class ChartComponent {
   @Input() AttrSelected: string = 'Id';
   @Input() chartType: string = 'Grafico';
   @Input() ReportData: any;
+  dataIsEmpty: boolean = true;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService,
@@ -42,41 +43,17 @@ export class ChartComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ReportData']) {
       console.log('ReportData changed:', changes['ReportData'].currentValue);
-      // Lógica para manejar cambios en las propiedades de entrada
     }
-    // Lógica para manejar cambios en las propiedades de entrada
   }
 
   ngOnInit() {
-    // this.route.queryParamMap.subscribe(params => {
-    //   if (params) {
-
-    //     var tokenParam: string | null;
-
-    //     if (params.get('t') && params.get('reportId')) {
-    //       this.tokenService.set({ token: params.get('t') });
-    //       tokenParam = params.get('t');
-    //       const reportId = Number(params.get('reportId'));
-
-    //       this.fetchUserIdWithToken(tokenParam, reportId);
-    //     } else {
-    //       throw new Error('Token not found');
-    //     }
-
-    //   } else {
-    //     //TODO: hacer un mensaje visual.
-    //     throw new Error('Token not found');
-    //   }
-    // });
-
-
-    debugger;
     this.ReportData;
     this.title = 'Tipo de grafico: ' + this.chartType;
 
     switch (this.chartType) {
       case "Bars":
         this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, this.AttrSelected));
+        this.dataIsEmpty = false;
         break;
       case "Bars-timeLine": // Tipo timeLine
         this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
