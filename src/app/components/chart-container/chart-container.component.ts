@@ -129,13 +129,13 @@ export class ChartContainerComponent {
     return this.chartList.find(b => b.PosY === PosY && b.PosX === PosX);
   }
 
-  isCellCovered(rowY: number, colX: number) {
+  isCellCovered(rowY: number, colX: number): boolean {
     return this.chartList.some(b =>
       rowY >= b.PosY &&
-      rowY < b.PosY + b.DimYSpan &&
+      rowY <= b.PosY + b.DimYSpan - 1 &&
       colX >= b.PosX &&
-      colX < b.PosX + b.DimXSpan &&
-      !(rowY === b.PosY && colX === b.PosX) // no es la celda inicial
+      colX <= b.PosX + b.DimXSpan - 1 &&
+      !(rowY === b.PosY && colX === b.PosX) // excluir celda inicial
     );
   }
   //#endregion

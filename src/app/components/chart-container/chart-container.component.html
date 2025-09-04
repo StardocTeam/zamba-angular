@@ -1,23 +1,21 @@
-<table style="border: 1px solid #000000;" width="100%">
+<table class="grid-table">
     <tr *ngFor="let r of [].constructor(DimY); let rowY = index">
         <ng-container *ngFor="let c of [].constructor(DimX); let colX = index">
 
+            <!-- solo dibujar si no está cubierta -->
             <ng-container *ngIf="!isCellCovered(rowY+1, colX+1)">
 
+                <!-- ocupado -->
                 <td class="cell" *ngIf="getChartAt(rowY+1, colX+1) as chart" [attr.rowspan]="chart.DimYSpan"
-                    [attr.colspan]="chart.DimXSpan" [ngStyle]="{
-                        height: (chart.DimYSpan * baseCellHeight) + 'px',
-                        width: (chart.DimXSpan * baseCellWidth) + 'px'}">
+                    [attr.colspan]="chart.DimXSpan">
 
-                    <ng-container>
-                        <app-chart-component [ReportData]="ReportData" [chartType]="chart.ChartTypeDescripcion"
-                            [AttrSelected]="chart.AttrSelected"></app-chart-component>
-                    </ng-container>
+                    <app-chart-component [ReportData]="ReportData" [chartType]="chart.ChartTypeDescripcion"
+                        [AttrSelected]="chart.AttrSelected">
+                    </app-chart-component>
                 </td>
 
-                <!-- TODO: VACIAR DE CONTENIDO -->
-                <td class="cell" *ngIf="!getChartAt(rowY+1, colX+1)" [style.height.px]="baseCellHeight"
-                    [style.width.px]="baseCellHeight">
+                <!-- libre -->
+                <td class="cell" *ngIf="!getChartAt(rowY+1, colX+1)">
                 </td>
 
             </ng-container>
