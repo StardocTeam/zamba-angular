@@ -47,8 +47,16 @@ export class ReportComponentComponent {
     private GService: GridService) {
   }
 
-  ngOnInit() {
+  private initialized = false;
 
+
+
+  ngOnInit() {
+    if (!this.initialized) {
+      this.initializeReportComponents();
+      this.initialized = true;
+    }
+    // ...resto del código...
     this.route.queryParamMap.subscribe(params => {
       if (params) {
         // var userIdParam: string | null;
@@ -124,7 +132,7 @@ export class ReportComponentComponent {
   }
 
   private GetReports() {
-    this.TREE_DATA = [];
+    //this.TREE_DATA = [];
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -149,13 +157,16 @@ export class ReportComponentComponent {
           return acc;
         }, {} as { [key: string]: Report[] })
 
-        //TODO: hacer este proceso mas performante, solo pasando los datos deseados y no todo el objeto.
+        // Solo agrega los nuevos items que no existen en ReportsList
+        const existingIds = new Set(this.ReportsList.map(r => r.ID));
+        const nuevos = datos.filter((item: any) => !existingIds.has(item.ID)).map(item => new Report(item));
+        this.ReportsList.push(...nuevos);
+
+        // Actualiza TREE_DATA con los nuevos datos
         this.TREE_DATA = Object.keys(Categories).map(category => ({
           name: category,
           currentReport: Categories[category].map(item => new Report(item))
         }));
-
-        this.ReportsList = datos.map((item: any) => new Report(item));
 
       });
     }

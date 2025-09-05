@@ -1,9 +1,9 @@
 <div class="firstDiv" [style.height.px]="height">
     <nz-layout>
-        <nz-sider [nzWidth]="400">
+        <nz-sider [nzWidth]="260">
             <div class="search-anchor" nz-row [nzGutter]="4">
 
-                <div nz-col nzXs="16" nzFlex="auto">
+                <div nz-col nzXs="20" nzFlex="auto">
                     <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%;">
                         <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
                             (ngModelChange)="search($event)" />
@@ -14,10 +14,10 @@
                     </ng-template>
                 </div>
 
-                <div nz-col nzXs="8">
+                <div nz-col nzXs="4">
                     <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission"
                         (click)="navigateToCreate()" routerLinkActive="active">
-                        <i nz-icon nzType="plus"></i> Crear
+                        <i nz-icon nzType="plus"></i>
                     </button>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                             <div *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)">
                                 <div nz-row>
 
-                                    <div nz-col nzSpan="21">
+                                    <div nz-col nzSpan="22">
                                         <li #itemLeaf class="li-line-height move-up " nz-menu-item
                                             routerLinkActive="active"
                                             (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
@@ -49,7 +49,7 @@
                                         </li>
                                     </div>
 
-                                    <div nz-col nzSpan="3">
+                                    <div nz-col nzSpan="2">
                                         <div>
                                             <button class="right-align btnSetting" nz-button nzShape="circle"
                                                 nzSize="small">

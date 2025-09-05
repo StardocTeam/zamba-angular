@@ -8,19 +8,21 @@ import { ChartComponent } from '../chart/chart.component';
 import { ChartService } from '../chart/service/chart.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { catchError } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChartItem } from './ChartItem';
 import { ReportService } from 'src/app/routes/widgets/report-component/service/report.service';
 import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
 
 import { Report } from "../../routes/widgets/report-component/entitie/report";
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-chart-container',
   templateUrl: './chart-container.component.html',
   styleUrls: ['./chart-container.component.less'],
   standalone: true,
-  imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf, ChartComponent, CommonModule]
+  imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf, ChartComponent, CommonModule, NzIconModule, NzButtonModule]
 })
 export class ChartContainerComponent {
   //a
@@ -40,12 +42,15 @@ export class ChartContainerComponent {
   chartList: ChartItem[] = [];
   currentReport: Report = new Report({});
   ReportData: any;
+  // Estado para deshabilitar botones hasta que termine la carga (igual que en report-viewer)
+  isButtonExcelDisabled: boolean = true;
 
   /**
    *
    */
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private CService: ChartService, private route: ActivatedRoute, private RViewService: ReportViewerService) {
+    private CService: ChartService, private route: ActivatedRoute, private RViewService: ReportViewerService,
+    private router: Router) {
 
   }
 
@@ -118,6 +123,11 @@ export class ChartContainerComponent {
                 ).subscribe((data: any) => {
                   console.log(JSON.parse(data));
                   this.chartList = JSON.parse(data);
+                  // Habilitar botones cuando ya tenemos charts y datos del reporte
+                  this.isButtonExcelDisabled = false;
+                }, error => {
+                  // Mantener deshabilitado si falla
+                  this.isButtonExcelDisabled = true;
                 });
               });
           });
@@ -145,5 +155,22 @@ export class ChartContainerComponent {
     const x = (index % this.count) + 1;          // columna
     const y = Math.floor(index / this.count) + 1; // fila
     return { x, y };
+  }
+
+  // Navegar a la vista del reporte manteniendo los query params (token, etc.)
+  goToReportViewer(): void {
+    if (!this.currentReport) return;
+    const anyReport: any = this.currentReport as any;
+    const reportId = anyReport.ID || anyReport.Id || anyReport.id;
+    if (!reportId) return;
+
+    // Copiar query params actuales
+    const currentQueryParams = { ...this.route.snapshot.queryParams };
+    const tokenData = this.tokenService.get();
+    if (tokenData?.token && !currentQueryParams['t']) {
+      currentQueryParams['t'] = tokenData.token;
+    }
+
+    this.router.navigate(['/tools/reports/view', reportId], { queryParams: currentQueryParams });
   }
 }

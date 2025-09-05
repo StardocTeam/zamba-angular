@@ -7,13 +7,18 @@
         <div nz-row [nzGutter]="4">
             <div nz-col nzXs="20" nzFlex="auto">
                 <div id="report-name" style="font-size: 24px !important;">{{currentReport.Name}}</div>
-
             </div>
 
-            <div nz-col nzXs="4">
-                <button id="exportToExcelBtn" nz-button btnExcel nzType="default" (click)="exportToExcel(currentReport)"
-                    [disabled]=" isButtonExcelDisabled" style="margin-bottom: 5px;">
-                    <i nz-icon nzTooltipPlacement="right" nzType="arrow-down" nzTheme="outline"></i>
+            <div nz-col nzXs="4" style="margin-top: 5px;">
+                <button id="returnToReportBtn" nz-button anchorBtn nzType="default"
+                    (click)="returnToReportBtn(currentReport)" [disabled]=" isButtonExcelDisabled"
+                    style="margin-bottom: 5px;">
+                    <i nz-icon nzTooltipPlacement="right" nzType="arrow-left" nzTheme="outline"></i>
+                </button>
+                <button id="exportToExcelBtn" nz-button anchorBtn nzType="default"
+                    (click)="exportToExcel(currentReport)" [disabled]=" isButtonExcelDisabled"
+                    style="margin-bottom: 5px;">
+                    <i nz-icon nzTooltipPlacement="right" nzType="download" nzTheme="outline"></i>
                 </button>
             </div>
         </div>
