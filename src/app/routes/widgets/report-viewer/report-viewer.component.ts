@@ -314,7 +314,7 @@ export class ReportViewerComponent {
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-
+    debugger;
     this.adjustHeight();
   }
 
@@ -328,7 +328,7 @@ export class ReportViewerComponent {
       const marginTop = parseInt(style.marginTop, 10) || 0;
       const marginBottom = parseInt(style.marginBottom, 10) || 0;
 
-      return element.getBoundingClientRect().height + marginTop + marginBottom;
+      return element.getBoundingClientRect().height + marginTop + marginBottom - 5;
     };
 
     // Obtener alturas y márgenes de los elementos
