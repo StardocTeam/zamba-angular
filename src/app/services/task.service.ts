@@ -40,6 +40,19 @@ export class TaskService {
 
   }
 
+  getDynamicButtons(): Observable<any> {
+
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(
+      `${this.serviceBase}DynamicButtons/GetButtons`,
+      {},
+      { headers }
+    );
+
+  }
+
+
   checkAccion(obj: any): string {
     if (obj && obj.Vars && obj.Vars.hasOwnProperty('accion')) {
       return obj.Vars.accion;

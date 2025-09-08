@@ -189,6 +189,18 @@
         padding-top: 20px;
     }
 
+    .categories-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .categories-clear-button {
+
+        width: 300px;
+        margin: 14px 0 20px 0;
+    }
+
     .panel-item-selected {
         flex: 1;
         padding-left: 24px;
@@ -202,7 +214,7 @@
     }
 
     .search-container nz-input-group {
-        width: 50%;
+        width: 40%;
         min-width: 300px;
     }
 
@@ -294,5 +306,4 @@
         font-size: 18px;
         font-weight: 500;
     }
-
 }
