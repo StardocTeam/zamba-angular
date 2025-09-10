@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { TaskService } from '../../services/task.service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-quick-actions',
@@ -95,232 +96,6 @@ export class QuickActionsComponent implements OnInit {
         console.error('Error fetching dynamic buttons:', error);
       }
     });
-    /*
-    this.categories = [
-      {
-        name: 'Favoritos',
-        icon: 'star',
-        actions: [
-        ]
-      },
-      {
-        name: 'Emision',
-        icon: 'dashboard',
-        actions: [
-          {
-            name: 'Ingreso Designacion Beneficiarios',
-            description: 'Descripción de Ingreso Designacion Beneficiarios, pero es demasiado larga entonces la voy a mostrar en este tooltip',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Ingreso Carta Documento',
-            description: 'Descripción de Ingreso Carta Documento',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Siniestros',
-        icon: 'user',
-        actions: [
-          {
-            name: 'Buscar RAJ',
-            description: 'Descripción de Buscar RAJ',
-            isFavorite: false,
-            ruleid: 1013372
-          },
-          {
-            name: 'Reporte Doc Siniestros Ingresados X Dia',
-            description: 'Descripción de Reporte Doc Siniestros Ingresados',
-            isFavorite: false,
-            ruleid: 11544483
-          },
-          {
-            name: 'Ing Doc Siniestros',
-            description: 'Descripción de Ing Doc Siniestros',
-            isFavorite: false,
-            ruleid: 1282
-          },
-          {
-            name: 'Ing Documentacion y/o Notificacion',
-            description: 'Descripción Ing Documentacion y/o Notificacion',
-            isFavorite: false,
-            ruleid: 1012891
-          }
-        ]
-      },
-      {
-        name: 'Reporte Pagos',
-        icon: 'bar-chart',
-        actions: [
-          {
-            name: 'Facturas y pagos pendientes',
-            description: 'Descripción de Facturas y pagos pendientes',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Lotes aprobados entre fechas',
-            description: 'Descripción de Lotes aprobados entre fechas',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Lotes',
-            description: 'Descripción de Lotes',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Pruebas Apro y Conf X Mail',
-        icon: 'setting',
-        actions: [
-          {
-            name: 'Envio de mail para Aprobar/Conformar pagos y facturas',
-            description: 'Descripción de Envio de mail para Aprobar/Conformar pagos y facturas',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Designaciones', icon: 'mail',
-        actions: [
-          {
-            name: 'Reporte Designaciones',
-            description: 'Descripción de Reporte Designaciones',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Reporte',
-        icon: 'calendar',
-        actions: [
-          {
-            name: 'Prueba Emiliano',
-            description: 'Descripción de Prueba Emiliano',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Casos sin fecha acuse',
-            description: 'Descripción de Casos sin fecha acuse',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Reclamos sinrivar',
-            description: 'Descripción de Reclamos sinrivar',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Notificacion Mediacion (AK) sin RAJ',
-            description: 'Descripción de Notificacion Mediacion (AK) sin RAJ',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Reporte de ARJ activos en zamba',
-            description: 'Descripción de Reporte de ARJ activos en zamba',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Notificacion Mediacion (AJ) sin RAJ',
-            description: 'Descripción de Notificacion Mediacion (AJ) sin RAJ',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Notificacion Mediacion(AJ) sin informe asociado(AK)',
-            description: 'Descripción de Notificacion Mediacion(AJ) sin informe asociado(AK)',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Facturas y Pagos',
-        icon: 'cloud',
-        actions: [
-          {
-            name: 'Ingreso Solicitud de Pago',
-            description: 'Descripción de Ingreso Solicitud de Pago',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Pruebas',
-        icon: 'team',
-        actions: [
-          {
-            name: 'Ingresar Datos',
-            description: 'Descripción de Ingreso de Datos',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Carta Documento',
-        icon: 'file',
-        actions: [
-          {
-            name: 'Ingreso Cartas Documento Siniestros',
-            description: 'Descripción de Ingreso Cartas Documento Siniestros',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Reporte Ingreso Carta Documento Siniestros',
-            description: 'Descripción de Reporte Ingreso Carta Documento Siniestros',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Acciones',
-        icon: 'star',
-        actions: [
-          {
-            name: 'Ver Formulario',
-            description: 'Descripción de Ver Formulario',
-            isFavorite: false,
-            ruleid: 0
-          },
-          {
-            name: 'Informe mediacion y Documentacion a portada por terceros',
-            description: 'Descripción de Informe mediacion y Documentacion a portada por terceros',
-            isFavorite: false,
-            ruleid: 0
-          }
-        ]
-      },
-      {
-        name: 'Facturas _(T-T)_ Pagos',
-        icon: 'star',
-        actions: [
-          {
-            name: 'Ingreso Factura',
-            description: 'Descripción de Ingreso Factura',
-            isFavorite: true,
-            ruleid: 1431
-          }
-        ]
-      }
-    ];
-    */
-
   }
 
   onActionCardClick(ruleid: number) {
@@ -335,6 +110,13 @@ export class QuickActionsComponent implements OnInit {
             switch (accion) {
               case 'doshowtable':
                 this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
+                break;
+              case 'executescript':
+                if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
+                  this.OpenTask(responseObject.Vars, responseObject.Params);
+                }
+                this.isLoadingAction = false;
+                this.cdr.markForCheck();
                 break;
             }
           }
@@ -451,6 +233,40 @@ export class QuickActionsComponent implements OnInit {
   toggleFavorite(action: any) {
     action.isFavorite = !action.isFavorite;
     this.updateFavouriteCategory();
+  }
+
+  OpenTask(Vars: any, Params: any) {
+    try {
+      const taskId = Vars["nuevatarea.taskid"];
+      const generateddocid = Vars["generateddocid"];
+      const entityId = Vars["nuevatarea.entityid"];
+      const asDoc = false;
+      const name = Vars["nuevatarea.name"];
+      const userid = Vars["nuevatarea.currentuserid"];
+      const taskurl = "../WF/TaskViewer.aspx?doctype=" + entityId + "&docid=" + generateddocid + "&taskid=" + taskId + "&userid=" + userid;
+      const idnotificacionaasociar = Vars["idnotificacionaasociar"];
+      const openMode = Params?.openMode || '0';
+      const tareaId = Vars["nuevatarea.id"];
+      const wfstepid = Vars["nuevatarea.stepid"];
+      const scriptToExecute = Vars["scripttoexecute"];
+
+      console.log(`${environment['zambaWeb']}`.toLocaleLowerCase());
+
+      let Url = (
+        `${environment['zambaWeb']}/views/WF/TaskViewer.aspx?` +
+        `DocTypeId=${entityId}` +
+        `&docid=${generateddocid}` +
+        `&taskid=${taskId}` +
+        `&wfstepid=${wfstepid}` +
+        `&user=${userid}`
+      );
+      window.open(Url, '_blank');
+
+
+    } catch (error) {
+      console.error('Error opening task:', error);
+    }
+
   }
 
 }
