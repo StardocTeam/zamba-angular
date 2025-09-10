@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, Input, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from 'src/app/routes/widgets/report-component/entitie/report';
@@ -12,19 +12,24 @@ import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { ChartService } from './service/chart.service';
 
 @Component({
-  selector: 'chart-bar-basic',
+  selector: 'app-chart-component',
   templateUrl: './chart.component.html',
-  imports: [NzButtonModule, G2BarModule],
-
+  imports: [G2BarModule, NzButtonModule],
   standalone: true,
 })
 export class ChartComponent {
   private readonly msg = inject(NzMessageService);
   private route = inject(ActivatedRoute);
+  @Input() chartConfigId: number = 0;
   ListValues: G2BarData[] = [];
   currentReport: Report = {} as Report;
-  title: string = 'Grafico';
   DebugMode: boolean = true;
+
+  @Input() title: string = 'Grafico';
+  @Input() AttrSelected: string = 'Id';
+  @Input() chartType: string = 'Grafico';
+  @Input() ReportData: any;
+  dataIsEmpty: boolean = true;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService,
@@ -35,32 +40,40 @@ export class ChartComponent {
 
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['ReportData']) {
+      console.log('ReportData changed:', changes['ReportData'].currentValue);
+    }
+  }
+
   ngOnInit() {
-    this.route.queryParamMap.subscribe(params => {
-      if (params) {
+    this.ReportData;
 
-        var tokenParam: string | null;
-
-        if (params.get('t') && params.get('ChartConfigId')) {
-          this.tokenService.set({ token: params.get('t') });
-          tokenParam = params.get('t');
-          const chartConfigId = Number(params.get('ChartConfigId'));
-
-          this.fetchUserIdWithToken(tokenParam, chartConfigId);
-        } else {
-          throw new Error('Token not found');
-        }
-
-      } else {
-        //TODO: hacer un mensaje visual.
-        throw new Error('Token not found');
-      }
-    });
-
+    switch (this.chartType) {
+      case "Bars":
+        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, this.AttrSelected));
+        this.dataIsEmpty = false;
+        break;
+      case "Bars-timeLine": // Tipo timeLine
+        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        break;
+      case "Cake": // Tipo Count
+        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        break;
+      case "MiniArea(TimeLine B)": // Tipo timeLine
+        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        break;
+      case "MiniArea(TimeLine A, el posta)": // Tipo timeLine con mas lineas (iteraciones de columnas)
+        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        break;
+      default:
+        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        break;
+    }
   }
 
   //#region Bussiness Logic
-  private fetchUserIdWithToken(tokenParam: string | null, ChartConfigId: number) {
+  private fetchUserIdWithToken(tokenParam: string | null, reportId: number) {
 
     let genericRequest = {
       UserId: 0,
@@ -74,9 +87,9 @@ export class ChartComponent {
         this.tokenService.set({ token: tokenParam, userid: response });
 
         if (response) {
-          this.initializeChartComponent(ChartConfigId);
+          this.initializeChartComponent(reportId);
         } else {
-          throw new Error('Chart ID not found');
+          throw new Error('Report ID not found');
         }
 
       }),
@@ -87,7 +100,7 @@ export class ChartComponent {
     ).subscribe();
   }
 
-  initializeChartComponent(ChartConfigId: number) {
+  initializeChartComponent(reportId: number) {
     let GRequest = {};
     const tokenData = this.tokenService.get();
 
@@ -96,7 +109,7 @@ export class ChartComponent {
         UserId: tokenData['userid'],
         token: tokenData['token'],
         Params: {
-          ChartConfigId: ChartConfigId
+          ReportId: reportId
         }
       };
 
@@ -107,8 +120,8 @@ export class ChartComponent {
         })
       ).subscribe((config: any) => {
         var datosDeChart = JSON.parse(config)[0];
-        var ChartType = datosDeChart.ChartTypeDescripcion;
-        debugger;
+        this.chartType = datosDeChart.ChartTypeDescripcion;
+
         const GRequestReport = {
           UserId: tokenData['userid'],
           token: tokenData['token'],
@@ -146,10 +159,10 @@ export class ChartComponent {
 
             var datos = JSON.parse(data);
 
-            debugger;
-            this.title = datosDeChart.ChartTitle || 'Tipo de grafico: ' + ChartType;
 
-            switch (ChartType) {
+            this.title = datosDeChart.ChartTitle || 'Tipo de grafico: ' + this.chartType;
+
+            switch (this.chartType) {
               case "Bars":
                 this.ListValues = this.setData(this.getDistinctCount(datos.RowHashtable, "Accion"));
                 break;
@@ -204,7 +217,7 @@ export class ChartComponent {
   }
 
   private setData(list: Array<any>): G2BarData[] {
-    debugger;
+
     const result: G2BarData[] = [];
 
     list.forEach((item, idx) => {

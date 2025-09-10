@@ -45,6 +45,7 @@ import { LayoutBlankComponent } from './blank/blank.component';
 
 import { WidgetsModule } from '../routes/widgets/widgets.module';
 import { G2BarModule } from '@delon/chart/bar';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 const COMPONENTS = [LayoutBasicComponent, LayoutSimpleComponent, LayoutBlankComponent, LayoutPendingTaskItemComponent];
 

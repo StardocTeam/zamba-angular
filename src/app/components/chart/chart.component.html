@@ -1,7 +1,3 @@
-<div style="width: 100%;">
-    <g2-bar height="300" [autoLabel]="false" [title]="title" [data]="ListValues" (clickItem)="handleClick($event)" />
-</div>
-
-<div *ngIf="DebugMode == true">
-    <input type="button" value="AddChart" (click)="addChart()">
+<div style="width: 100%; height: 100%;padding-top: 15px;">
+    <g2-bar height="250" [autoLabel]="false" [title]="title" [data]="ListValues" (clickItem)="handleClick($event)" />
 </div>

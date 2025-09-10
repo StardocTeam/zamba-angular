@@ -273,6 +273,24 @@ export class ReportViewerComponent {
     }
   }
 
+  // Navega al contenedor de gráficos del mismo reporte (botón "volver")
+  returnToReportBtn(report: Report): void {
+    if (!report) return;
+    // Intento de usar un identificador; si el objeto ya trae ID lo usamos
+    const anyReport: any = report as any;
+    const reportId = anyReport.ID || anyReport.Id || anyReport.id; // tolerante a distintas propiedades
+    if (!reportId) {
+      console.warn('returnToReportBtn: No se encontró el ID del reporte.');
+      return;
+    }
+    const tokenData = this.tokenService.get();
+    const queryParams: any = {};
+    if (tokenData && tokenData['token']) {
+      queryParams.t = tokenData['token'];
+    }
+    this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
+  }
+
   executeRepeatedly(maxTimeInSeconds: number) {
     const intervalTime = 250; // 500 ms (medio segundo)
     const maxIterations = (maxTimeInSeconds * 1000) / intervalTime; // Número máximo de iteraciones
@@ -296,7 +314,7 @@ export class ReportViewerComponent {
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-
+    debugger;
     this.adjustHeight();
   }
 
@@ -310,7 +328,7 @@ export class ReportViewerComponent {
       const marginTop = parseInt(style.marginTop, 10) || 0;
       const marginBottom = parseInt(style.marginBottom, 10) || 0;
 
-      return element.getBoundingClientRect().height + marginTop + marginBottom;
+      return element.getBoundingClientRect().height + marginTop + marginBottom - 5;
     };
 
     // Obtener alturas y márgenes de los elementos
