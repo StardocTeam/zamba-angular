@@ -16,6 +16,7 @@ import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/servic
 import { Report } from "../../routes/widgets/report-component/entitie/report";
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-chart-container',
@@ -33,7 +34,7 @@ export class ChartContainerComponent {
   count = 2;
   array = new Array(this.count);
 
-  //#region C
+  //#region Configuración grilla
   baseCellHeight = 250;
   baseCellWidth = 150;
   //5 x 5
@@ -50,7 +51,7 @@ export class ChartContainerComponent {
    */
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private CService: ChartService, private route: ActivatedRoute, private RViewService: ReportViewerService,
-    private router: Router) {
+    private router: Router, private modal: NzModalService) {
 
   }
 
@@ -121,8 +122,23 @@ export class ChartContainerComponent {
                     throw error;
                   })
                 ).subscribe((data: any) => {
-                  console.log(JSON.parse(data));
+                  //console.log(JSON.parse(data));
                   this.chartList = JSON.parse(data);
+
+                  if (this.chartList.length == 0) {
+                    this.modal.success({
+                      nzTitle: 'No se han encontrado graficos asociados.',
+                      nzContent: '<p>Verifique que el reporte este asociado a algun grafico.</p>',
+                      nzOkText: 'OK',
+                      nzOkType: 'primary',
+                      nzOnOk: () => {
+                        this.goToReportViewer();
+                      },
+                    });
+
+
+                  }
+
                   // Habilitar botones cuando ya tenemos charts y datos del reporte
                   this.isButtonExcelDisabled = false;
                 }, error => {

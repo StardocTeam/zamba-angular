@@ -36,7 +36,7 @@ export class ReportViewerComponent {
 
   nzShowPagination: boolean = true;
   isButtonExcelDisabled: boolean = true;
-  CanGoToCharts: boolean = false;
+  CanGoToCharts: boolean = true;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -67,6 +67,7 @@ export class ReportViewerComponent {
         )
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
+
             this.OpenReport(new Report(currentReport));
           });
       }

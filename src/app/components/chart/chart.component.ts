@@ -47,8 +47,6 @@ export class ChartComponent {
   }
 
   ngOnInit() {
-    this.ReportData;
-
     switch (this.chartType) {
       case "Bars":
         this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, this.AttrSelected));

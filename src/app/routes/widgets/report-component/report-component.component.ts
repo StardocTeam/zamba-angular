@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, Inject, NgModule, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, take } from 'rxjs/operators';
 import { ReportService } from './service/report.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "./entitie/report";
@@ -42,7 +42,7 @@ export class ReportComponentComponent {
   XsReportViewerFlag: boolean = false;
   userId: number = 0;
 
-  chartsDisabled: boolean = true;
+  chartsDisabled: boolean = false;
   //#endregion
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -56,8 +56,9 @@ export class ReportComponentComponent {
 
 
   ngOnInit() {
+
     // ...resto del código...
-    this.route.queryParamMap.subscribe(params => {
+    this.route.queryParamMap.pipe(take(1)).subscribe(params => {
       if (params) {
 
         // var userIdParam: string | null;
@@ -148,6 +149,7 @@ export class ReportComponentComponent {
   }
 
   private GetReports() {
+
     //this.TREE_DATA = [];
     const tokenData = this.tokenService.get();
     let genericRequest = {};
