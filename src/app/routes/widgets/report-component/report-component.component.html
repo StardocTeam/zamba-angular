@@ -68,7 +68,8 @@
                                                     <i nz-icon nzType="arrow-down" nzTheme="outline"></i> Exportar excel
                                                 </li>
 
-                                                <li nz-menu-item (click)="viewCharts(itemLeaf.ID)" [nzDisabled]="">
+                                                <li nz-menu-item (click)="viewCharts(itemLeaf.ID)"
+                                                    [nzDisabled]="chartsDisabled">
                                                     <i nz-icon nzType="bar-chart" nzTheme="outline"></i> Ver gráficos
                                                 </li>
 
@@ -93,7 +94,7 @@
 
         <nz-layout>
             <nz-content [style.height.px]="height" class="content-container">
-                <router-outlet #outlet="outlet"></router-outlet>
+                <router-outlet #outlet="outlet" (activate)="onChildActivate($event)"></router-outlet>
             </nz-content>
         </nz-layout>
 

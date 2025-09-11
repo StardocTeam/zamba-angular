@@ -21,6 +21,7 @@ export interface TreeNode {
 })
 
 export class ReportComponentComponent {
+  //#region Properties
   private route = inject(ActivatedRoute);
   @ViewChild('outlet') outlet!: RouterOutlet;
   @ViewChildren('itemTree') itemTrees!: QueryList<ElementRef>;
@@ -41,6 +42,9 @@ export class ReportComponentComponent {
   XsReportViewerFlag: boolean = false;
   userId: number = 0;
 
+  chartsDisabled: boolean = true;
+  //#endregion
+
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
     private router: Router, private modal: NzModalService, private zambaService: ZambaService,
@@ -52,13 +56,10 @@ export class ReportComponentComponent {
 
 
   ngOnInit() {
-    if (!this.initialized) {
-      this.initializeReportComponents();
-      this.initialized = true;
-    }
     // ...resto del código...
     this.route.queryParamMap.subscribe(params => {
       if (params) {
+
         // var userIdParam: string | null;
         var tokenParam: string | null;
 
@@ -77,6 +78,7 @@ export class ReportComponentComponent {
   }
 
   ngAfterViewInit() {
+
     const childComponent = this.outlet.component as { createTerminated?: any };
     if (childComponent && childComponent.createTerminated) {
       childComponent.createTerminated.subscribe((data: any) => {
@@ -85,6 +87,20 @@ export class ReportComponentComponent {
         this.GetReports();
 
       });
+    } else {
+      console.log('Evento - NO - recibido del hijo:');
+    }
+  }
+
+  onChildActivate(componentRef: any) {
+
+    if (componentRef && componentRef.createTerminated) {
+      componentRef.createTerminated.subscribe(() => {
+        console.log('Evento recibido del hermano:');
+        this.GetReports();
+      });
+    } else {
+      console.log('Evento - NO - recibido del hermano:');
     }
   }
 
@@ -174,7 +190,7 @@ export class ReportComponentComponent {
   private fetchUserIdWithToken(tokenParam: string | null) {
 
     let genericRequest = {
-      UserId: 0,
+      UserId: 0, //No es necesario enviar el userId por queryparams.
       token: tokenParam
     };
 
@@ -364,18 +380,20 @@ export class ReportComponentComponent {
 
   viewCharts(reportId: number) {
 
-    const tokenData = this.tokenService.get();
-    const queryParams: any = {};
+    if (!this.chartsDisabled) {
+      const tokenData = this.tokenService.get();
+      const queryParams: any = {};
 
-    if (tokenData && tokenData['token']) {
-      queryParams.t = tokenData['token'];
+      if (tokenData && tokenData['token']) {
+        queryParams.t = tokenData['token'];
+      }
+
+      if (reportId && reportId != 0) {
+        queryParams.reportId = reportId.toString();
+      }
+
+      this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
     }
-
-    if (reportId && reportId != 0) {
-      queryParams.reportId = reportId.toString();
-    }
-
-    this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
   }
 
   ReloadList() {

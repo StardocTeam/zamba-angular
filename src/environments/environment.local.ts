@@ -11,7 +11,7 @@ export const environment = {
   apiRestBasePath: 'http://imageapt/Zamba.Api/api/Dashboard',
   externalSearchApi: 'http://imageapt/Zamba.Api/api/ExternalSearch',
   searchApi: 'http://imageapt/Zamba.Api/api/search',
-  zambaWeb: 'http://imageapt/Zamba.Web',
+  zambaWeb: 'http://imageapt/Zamba.WebDesa',
 
   cliente: 'zamba',
   api: {
