@@ -225,6 +225,17 @@ export class QuickActionsComponent implements OnInit {
         }
       });
     }
+    // Supón que tienes un array de acciones seleccionadas
+    const selectedActions = favCategory.actions.filter((action: any) => action.isFavorite);
+
+    // Construye el string con los ruleid
+    const ruleIdsString = `[${selectedActions.map((a: any) => a.ruleid).join(',')}]`;
+    console.log(ruleIdsString);
+    this.taskService.updateUserFavoriteActions(ruleIdsString).subscribe({
+      next: (response: any) => {
+        console.log('Favorite actions updated successfully');
+      }
+    });
   }
 
   isSelected(cat: any): boolean {

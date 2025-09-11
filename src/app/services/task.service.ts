@@ -8,6 +8,23 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class TaskService {
+  updateUserFavoriteActions(FavoriteActionsButtons: string) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "FavoriteActionsButtons": FavoriteActionsButtons,
+      }
+    };
+    return this.http.post(
+      `${this.serviceBase}DynamicButtons/UpdateFavoritesButtons`,
+      genericRequest,
+      { headers }
+    );
+  }
+
   private serviceBase: string = '';
   constructor(private http: HttpClient) {
     let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
