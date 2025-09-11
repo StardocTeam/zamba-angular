@@ -1,14 +1,12 @@
 <div class="container">
     <div nz-row [nzGutter]="4">
         <div nz-col nzXs="20" nzFlex="auto">
-            <div id="report-name" style="font-size: 24px !important;">{{currentReport.Name}}</div>
-
         </div>
 
         <div nz-col nzXs="4" style="margin-top: 5px;">
             <button id="returnToReportBtn" nz-button anchorBtn nzType="default" style="margin-bottom: 5px;"
                 (click)="goToReportViewer()" [disabled]="isButtonExcelDisabled">
-                <i nz-icon nzTooltipPlacement="right" nzType="arrow-left" nzTheme="outline"></i>
+                <i nz-icon nzTooltipPlacement="right" nzType="audit" nzTheme="outline"></i>
             </button>
             <button id="exportToExcelBtn" nz-button anchorBtn nzType="default"
                 style="margin-bottom: 5px; margin-left: 8px;" [disabled]="isButtonExcelDisabled">
