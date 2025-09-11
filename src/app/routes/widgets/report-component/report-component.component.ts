@@ -52,13 +52,10 @@ export class ReportComponentComponent {
 
 
   ngOnInit() {
-    if (!this.initialized) {
-      this.initializeReportComponents();
-      this.initialized = true;
-    }
     // ...resto del código...
     this.route.queryParamMap.subscribe(params => {
       if (params) {
+
         // var userIdParam: string | null;
         var tokenParam: string | null;
 
@@ -174,7 +171,7 @@ export class ReportComponentComponent {
   private fetchUserIdWithToken(tokenParam: string | null) {
 
     let genericRequest = {
-      UserId: 0,
+      UserId: 0, //No es necesario enviar el userId por queryparams.
       token: tokenParam
     };
 
