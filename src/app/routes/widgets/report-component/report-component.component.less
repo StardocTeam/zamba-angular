@@ -187,3 +187,19 @@ nz-divider {
 .iconSetting {
     font-size: 18px;
 }
+
+
+// Quita la línea azul vertical del ítem seleccionado en nz-menu
+::ng-deep .ant-menu-item-selected,
+::ng-deep .ant-menu-submenu-selected {
+    border-left: none !important;
+
+    &::after {
+        border-right: none !important;
+    }
+}
+
+// Opcional: Quita el pseudo-elemento que genera la línea
+::ng-deep .ant-menu-item::after {
+    border-right: none !important;
+}
