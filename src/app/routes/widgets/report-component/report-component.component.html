@@ -68,7 +68,8 @@
                                                     <i nz-icon nzType="arrow-down" nzTheme="outline"></i> Exportar excel
                                                 </li>
 
-                                                <li nz-menu-item (click)="viewCharts(itemLeaf.ID)" [nzDisabled]="">
+                                                <li nz-menu-item (click)="viewCharts(itemLeaf.ID)"
+                                                    [nzDisabled]="chartsDisabled">
                                                     <i nz-icon nzType="bar-chart" nzTheme="outline"></i> Ver gráficos
                                                 </li>
 

@@ -36,6 +36,7 @@ export class ReportViewerComponent {
 
   nzShowPagination: boolean = true;
   isButtonExcelDisabled: boolean = true;
+  CanGoToCharts: boolean = false;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -274,13 +275,13 @@ export class ReportViewerComponent {
   }
 
   // Navega al contenedor de gráficos del mismo reporte (botón "volver")
-  returnToReportBtn(report: Report): void {
+  returnToCharts(report: Report): void {
     if (!report) return;
     // Intento de usar un identificador; si el objeto ya trae ID lo usamos
     const anyReport: any = report as any;
     const reportId = anyReport.ID || anyReport.Id || anyReport.id; // tolerante a distintas propiedades
     if (!reportId) {
-      console.warn('returnToReportBtn: No se encontró el ID del reporte.');
+      console.warn('returnToCharts: No se encontró el ID del reporte.');
       return;
     }
     const tokenData = this.tokenService.get();

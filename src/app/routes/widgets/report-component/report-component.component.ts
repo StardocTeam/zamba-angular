@@ -21,6 +21,7 @@ export interface TreeNode {
 })
 
 export class ReportComponentComponent {
+  //#region Properties
   private route = inject(ActivatedRoute);
   @ViewChild('outlet') outlet!: RouterOutlet;
   @ViewChildren('itemTree') itemTrees!: QueryList<ElementRef>;
@@ -40,6 +41,9 @@ export class ReportComponentComponent {
   XsReportListFlag: boolean = true;
   XsReportViewerFlag: boolean = false;
   userId: number = 0;
+
+  chartsDisabled: boolean = true;
+  //#endregion
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private RService: ReportService, private cdr: ChangeDetectorRef,
@@ -361,18 +365,20 @@ export class ReportComponentComponent {
 
   viewCharts(reportId: number) {
 
-    const tokenData = this.tokenService.get();
-    const queryParams: any = {};
+    if (!this.chartsDisabled) {
+      const tokenData = this.tokenService.get();
+      const queryParams: any = {};
 
-    if (tokenData && tokenData['token']) {
-      queryParams.t = tokenData['token'];
+      if (tokenData && tokenData['token']) {
+        queryParams.t = tokenData['token'];
+      }
+
+      if (reportId && reportId != 0) {
+        queryParams.reportId = reportId.toString();
+      }
+
+      this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
     }
-
-    if (reportId && reportId != 0) {
-      queryParams.reportId = reportId.toString();
-    }
-
-    this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
   }
 
   ReloadList() {
