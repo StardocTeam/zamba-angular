@@ -78,7 +78,7 @@ export class ReportComponentComponent {
   }
 
   ngAfterViewInit() {
-    debugger;
+
     const childComponent = this.outlet.component as { createTerminated?: any };
     if (childComponent && childComponent.createTerminated) {
       childComponent.createTerminated.subscribe((data: any) => {
@@ -93,7 +93,7 @@ export class ReportComponentComponent {
   }
 
   onChildActivate(componentRef: any) {
-    debugger;
+
     if (componentRef && componentRef.createTerminated) {
       componentRef.createTerminated.subscribe(() => {
         console.log('Evento recibido del hermano:');
