@@ -16,6 +16,10 @@ import { FormsModule } from '@angular/forms';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { TaskService } from '../../services/task.service';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzListModule } from 'ng-zorro-antd/list';
+
 import { environment } from '@env/environment';
 
 @Component({
@@ -33,7 +37,10 @@ import { environment } from '@env/environment';
     NzInputModule,
     NzCardModule,
     NzToolTipModule,
-    NzSpinModule
+    NzSpinModule,
+    NzSkeletonModule,
+    NzSpaceModule,
+    NzListModule
   ],
   templateUrl: './quick-actions.component.html',
   styleUrls: ['./quick-actions.component.css'],
@@ -42,6 +49,7 @@ import { environment } from '@env/environment';
   encapsulation: ViewEncapsulation.Emulated
 })
 export class QuickActionsComponent implements OnInit {
+  isLoading: boolean = true;
   showAllCategoriesPanel: boolean = false;
   searchText: string = '';
   appliedSearchText: string = '';
@@ -90,10 +98,13 @@ export class QuickActionsComponent implements OnInit {
         this.categories = categories;
         this.updateFavouriteCategory();
         this.clearSelectedCategories()
+        this.isLoading = false;
         this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Error fetching dynamic buttons:', error);
+        this.isLoading = false;
+        this.cdr.markForCheck();
       }
     });
   }
