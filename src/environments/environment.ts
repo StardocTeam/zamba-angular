@@ -7,6 +7,8 @@ import { Environment } from '@delon/theme';
 export const environment = {
   production: false,
   useHash: true,
+
+  restApi: 'http://localhost:44301/ZambaWeb.RestApi/api',
   apiRestBasePath: 'http://localhost:44301/ZambaWeb.RestApi/api/Dashboard',
   charts: 'http://localhost:44301/ZambaWeb.RestApi/api/charts',
   externalSearchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/ExternalSearch',

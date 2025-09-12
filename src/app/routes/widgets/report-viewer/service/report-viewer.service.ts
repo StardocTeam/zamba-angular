@@ -8,8 +8,13 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class ReportViewerService {
+  GetResultsByReportId(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetResultsByReportId`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
   GetReportDescriptionByQuery(genericRequest: {}) {
-    return this.http.post(`${environment['apiRestBasePath']}/GetReportDescriptionByQuery`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/GetReportDescriptionByQuery`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
@@ -17,13 +22,13 @@ export class ReportViewerService {
   constructor(private http: _HttpClient) { }
 
   GetReportByQuery(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/GetReportByQuery`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/GetReportByQuery`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
 
   GetReportById(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/GetReportById`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/GetReportById`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }

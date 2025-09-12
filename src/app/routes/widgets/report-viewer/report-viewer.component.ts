@@ -89,16 +89,19 @@ export class ReportViewerComponent {
       genericRequest = {
         UserId: tokenData['userid'],
         Params: {
-          Query: report.Query
+          Query: report.Query,
+          Id: report.ID
         }
       };
-      this.RVService.GetReportByQuery(genericRequest).pipe(
+      this.RVService.GetResultsByReportId(genericRequest).pipe(
+        //this.RVService.GetReportByQuery(genericRequest).pipe(
         catchError(error => {
           console.error('Error al obtener datos:', error);
           throw error;
         })
       )
         .subscribe((data: any) => {
+          debugger;
           if (!data) {
             this.isButtonExcelDisabled = true;
 

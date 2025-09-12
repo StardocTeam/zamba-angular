@@ -10,14 +10,14 @@ import { environment } from '@env/environment';
 export class ReportService {
 
   InsertReport(genericRequest: {}) {
-    return this.http.post(`${environment['apiRestBasePath']}/insertReport`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/insertReport`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
   constructor(private http: _HttpClient) { }
 
   getCategories(genericRequest: {}) {
-    return this.http.post(`${environment['apiRestBasePath']}/getReportCategories`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/getReportCategories`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }

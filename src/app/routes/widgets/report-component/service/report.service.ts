@@ -12,18 +12,18 @@ export class ReportService {
   constructor(private http: _HttpClient) { }
 
   _GetPermissions(genericRequest: {}) {
-    return this.http.post(`${environment['apiRestBasePath']}/getPermissions`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/getPermissions`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
 
   _GetReports(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/getReports`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/getReports`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
   deleteReport(reportId: any) {
-    return this.http.delete(`${environment['apiRestBasePath']}/deleteReport/${reportId}`, null, {
+    return this.http.delete(`${environment['restApi']}/reports/deleteReport/${reportId}`, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
