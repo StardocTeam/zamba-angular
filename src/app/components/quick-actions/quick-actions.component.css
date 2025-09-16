@@ -306,4 +306,37 @@
         font-size: 18px;
         font-weight: 500;
     }
+
+    .skeleton-row {
+        display: flex;
+        gap: 16px;
+        /* Espacio entre los skeletons */
+    }
+
+    .skeleton-row-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .skeleton-row-right-left {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        width: 100%;
+    }
+
+
+    .sidebar-skeleton {
+        width: 300px;
+        padding-top: 20px;
+    }
+
+    .search-skeleton {
+        width: 30% !important;
+        padding-top: 20px !important;
+        margin: 16px auto !important;
+
+    }
 }

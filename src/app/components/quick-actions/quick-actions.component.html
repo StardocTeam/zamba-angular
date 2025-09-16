@@ -1,7 +1,7 @@
 <div *ngIf="isLoadingAction" class="spinner-overlay">
     <nz-spin [nzSize]="'large'" nzTip="Cargando..."></nz-spin>
 </div>
-<div class="quick-actions-main-container">
+<div class="quick-actions-main-container" *ngIf="!isLoading; else sidebarSkeleton">
     <div class="categories-container">
         <div class="categories-header">
             <button nz-button class="categories-clear-button" (click)="clearSelectedCategories()">
@@ -74,4 +74,32 @@
 <ng-template #clearIcon>
     <span *ngIf="searchText" nz-icon nzType="close-circle" class="input-clear-icon" (click)="clearOnSearch()"
         style="cursor: pointer; color: #bfbfbf;"></span>
+</ng-template>
+
+<ng-template #sidebarSkeleton>
+    <div class="skeleton-row">
+        <nz-skeleton class="sidebar-skeleton" [nzActive]="true" [nzTitle]="false"
+            [nzParagraph]="{ rows: 25, width: '100%' }" [nzLoading]="isLoading" [nzAvatar]="false"
+            style="min-width: 260px; margin: 16px 0;">
+        </nz-skeleton>
+        <div class="skeleton-row-right">
+            <nz-space nzSize="middle">
+                <nz-skeleton-element class="search-skeleton" *nzSpaceItem nzType="input" [nzActive]="true"
+                    style="width:200px"></nz-skeleton-element>
+            </nz-space>
+            <div class="skeleton-row-right-left">
+                <nz-list nzItemLayout="vertical">
+                    <nz-list-item *ngFor="let i of [1,2,3,4]">
+                        <nz-skeleton [nzLoading]="true" [nzActive]="true" [nzAvatar]="true"
+                            [nzParagraph]="{ rows: 2, width: '100%' }">
+                            <nz-list-item-meta nzAvatar="https://api.dicebear.com/7.x/miniavs/svg?seed={{i}}"
+                                nzTitle="Cargando título..." nzDescription="Cargando descripción...">
+                            </nz-list-item-meta>
+                            <div>Cargando contenido...</div>
+                        </nz-skeleton>
+                    </nz-list-item>
+                </nz-list>
+            </div>
+        </div>
+    </div>
 </ng-template>
