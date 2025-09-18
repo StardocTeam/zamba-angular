@@ -38,6 +38,9 @@ export class ReportViewerComponent {
   isButtonExcelDisabled: boolean = true;
   CanGoToCharts: boolean = false;
 
+  ZVARstartDate: Date = new Date();
+  ZVARendDate: Date = new Date();
+
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
     private GService: GridService, private modal: NzModalService, private router: Router) {
@@ -67,6 +70,8 @@ export class ReportViewerComponent {
         )
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
+            this.ZVARstartDate = new Date();
+            this.ZVARendDate = new Date();
             this.OpenReport(new Report(currentReport));
           });
       }
@@ -89,6 +94,10 @@ export class ReportViewerComponent {
       genericRequest = {
         UserId: tokenData['userid'],
         Params: {
+          Zvars: JSON.stringify({
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate
+          }),
           Query: report.Query,
           Id: report.ID
         }
@@ -101,7 +110,6 @@ export class ReportViewerComponent {
         })
       )
         .subscribe((data: any) => {
-          debugger;
           if (!data) {
             this.isButtonExcelDisabled = true;
 
@@ -342,10 +350,13 @@ export class ReportViewerComponent {
     const paginationHeight = getElementHeightWithMargins('.ant-table-pagination');
     const alainDefaultHeader = getElementHeightWithMargins('.alain-default__header');
     const antTableHeader = getElementHeightWithMargins('.ant-table-header');
+    const ZVarsPanel = getElementHeightWithMargins('#ZVarsPanel');
 
-    // Calcular la altura disponible
-    const totalOccupiedHeight = reportNameHeight + reportDescriptionHeight + exportToExcelBtnHeight + paginationHeight + alainDefaultHeader + antTableHeader;
+    // Calcular la altura disponible}
+    // Se aplica un -16 por que hay unos margin-bottom que no se detectan
+    const totalOccupiedHeight = ZVarsPanel + reportNameHeight + reportDescriptionHeight + exportToExcelBtnHeight + paginationHeight + alainDefaultHeader + antTableHeader;
     const availableHeight = window.innerHeight - totalOccupiedHeight;
+
 
     this.height = `${availableHeight}px`;
     this.cdr.detectChanges();
