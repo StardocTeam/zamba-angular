@@ -121,10 +121,24 @@ export class QuickActionsComponent implements OnInit {
             switch (accion) {
               case 'doshowtable':
                 this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
+                this.isLoadingAction = false;
+                this.cdr.markForCheck();
+
                 break;
               case 'executescript':
+                if (responseObject.Params.RuleClass.toLowerCase().includes("doopentask")) {
+                  this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
+                  this.isLoadingAction = false;
+                  this.cdr.markForCheck();
+                  break;
+
+                }
                 if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
                   this.OpenTask(responseObject.Vars, responseObject.Params);
+                  this.isLoadingAction = false;
+                  this.cdr.markForCheck();
+                  break;
+
                 }
                 this.isLoadingAction = false;
                 this.cdr.markForCheck();
@@ -138,6 +152,7 @@ export class QuickActionsComponent implements OnInit {
         }
       });
   }
+
   onSearch() {
     this.appliedSearchText = this.searchText;
     this.selectCategoriesBySearch();
@@ -290,5 +305,17 @@ export class QuickActionsComponent implements OnInit {
     }
 
   }
-
+  DoOpenTaskHandler(Vars: any, Params: any) {
+    const resultId = Params["DocID"] || 0;
+    const docTyopeId = Params["DocTypeId"] || 0;
+    const openMode = Params["OpenMode"] || 0;
+    const userid = Params["CurrentUser"] || 0;
+    let Url = (
+      `${environment['zambaWeb']}/views/WF/TaskViewer.aspx?` +
+      `DocTypeId=${docTyopeId}` +
+      `&docid=${resultId}` +
+      `&user=${userid}`
+    );
+    window.open(Url, '_blank');
+  }
 }
