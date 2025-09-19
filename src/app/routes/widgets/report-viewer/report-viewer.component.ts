@@ -70,7 +70,7 @@ export class ReportViewerComponent {
         )
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
-            this.ZVARstartDate = new Date();
+            this.ZVARstartDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
             this.ZVARendDate = new Date();
             this.OpenReport(new Report(currentReport));
           });
