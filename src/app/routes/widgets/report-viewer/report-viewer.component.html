@@ -19,32 +19,63 @@
                 </button>
             </div>
         </div>
-
-        <div id="ZVarsPanel">
-            <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
-                <div nz-col nzSpan="8">
-                    <label for="startDate">Fecha de inicio:</label>
-                    <input id="startDate" nz-input type="date" [(ngModel)]="ZVARstartDate">
-                </div>
-                <div nz-col nzSpan="8">
-                    <label for="endDate">Fecha hasta:</label>
-                    <input id="endDate" nz-input type="date" [(ngModel)]="ZVARendDate">
-                </div>
-            </div>
-
-            <div nz-row [nzGutter]="8">
-                <div nz-col nzSpan="8">
-                    <button nz-button nzType="primary" (click)="OpenReport(currentReport)">Aplicar filtros</button>
-                </div>
-            </div>
-        </div>
-
-
         <p id="report-description">{{currentReport.Description}}</p>
 
+        <div id="ZVarsPanel">
+            <!-- Contenedor único para que todo quede en la misma fila -->
+            <div nz-row [nzGutter]="8" style="margin-bottom:8px; align-items:end;">
+                <div nz-col nzXs="20" nzMd="20">
+                    <div nz-row [nzGutter]="8">
+
+                        <!-- TODO:Aca van los inputs dinamicos por ZVARs -->
+
+                        <div nz-col nzXs="24" nzSm="6">
+                            <label for="startDate">Fecha de inicio:</label>
+                            <input id="startDate" nz-input type="date" [(ngModel)]="ZVARstartDate">
+                        </div>
+
+                        <div nz-col nzXs="24" nzSm="6">
+                            <label for="endDate">Fecha hasta:</label>
+                            <input id="endDate" nz-input type="date" [(ngModel)]="ZVARendDate">
+                        </div>
+
+                        <!-- <div *ngFor="let zvar of ListZVARsFromRule" nz-col nzXs="24" nzSm="6">
+                            <label>{{zvar.Name}}:</label>
+                            <input nz-input type="text">
+                        </div> -->
+
+                    </div>
+                </div>
+                <!-- Botón separado pero en la misma fila -->
+                <!-- <div nz-col nzXs="4" nzMd="4" style="display:flex; align-items:end;">
+                    <button nz-button nzType="primary" (click)="OpenReport(currentReport)">Aplicar filtros</button>
+                </div> -->
+
+            </div>
+
+            <div nz-col nzXs="4" nzMd="4" style="display:flex; align-items:end;">
+                <button nz-button nzType="primary" (click)="OpenReport(currentReport)">Aplicar filtros</button>
+            </div>
+
+
+
+
+            <!-- <div class="segment-wrapper">
+                <span>Select wrap:</span>
+            </div>
+
+            <div class="btn-wrapper">
+                <button *ngFor="let item of array" nz-button nzType="primary">
+                    Button {{ item }}
+                </button>
+            </div> -->
+
+
+
+
+
+        </div>
     </div>
-
-
 
     <nz-table #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
         [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"

@@ -1,23 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "../report-component/entitie/report";
-
 
 import {
   NzTableFilterFn,
   NzTableFilterList,
   NzTableSortFn,
-  NzTableSortOrder,
-  NzTableModule
+  NzTableSortOrder
 } from 'ng-zorro-antd/table';
+
 import { ReportViewerService } from './service/report-viewer.service';
 import { catchError } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { query } from '@angular/animations';
-import { Query } from '@delon/theme';
 import { GridService } from 'src/app/services/Grid/grid.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -28,6 +24,9 @@ import { TaskService } from 'src/app/services/task.service';
 
 
 export class ReportViewerComponent {
+  array = Array.from({ length: 20 }, (_, index) => index + 1);
+
+
   loading: Boolean = true;
   currentReport: Report = new Report({});
   listOfData: any[] = [];
@@ -42,6 +41,7 @@ export class ReportViewerComponent {
 
   ZVARstartDate: Date = new Date();
   ZVARendDate: Date = new Date();
+  ListZVARsFromRule: any[] = [];
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -130,24 +130,26 @@ export class ReportViewerComponent {
           })
         ).subscribe((ZvarsData: any) => {
 
-          const Zvars = JSON.parse(ZvarsData).Vars;
-          debugger;
+          const parsed = JSON.parse(ZvarsData);
+          this.ListZVARsFromRule = Array.isArray(parsed?.Vars) ? parsed.Vars : [];
 
-          if (Zvars && Object.prototype.hasOwnProperty.call(Zvars, 'tasks')) {
-            delete Zvars.tasks;
-          }
+          // Construir objeto Zvars a partir de la lista (esperando items con Key/Value o Name/Value)
+          const zvarsObj: any = {
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate
+          };
 
-
-
+          this.ListZVARsFromRule.forEach((item: any) => {
+            if (!item) return;
+            const key = item.Key || item.key || item.Name || item.name;
+            const value = item.Value ?? item.value ?? item.Val ?? item.val;
+            if (key) zvarsObj[key] = value;
+          });
 
           genericRequest = {
             UserId: tokenData['userid'],
             Params: {
-              Zvars: JSON.stringify({
-                FechaDesde: this.ZVARstartDate,
-                FechaHasta: this.ZVARendDate,
-                ...Zvars
-              }),
+              Zvars: JSON.stringify(zvarsObj),
               Query: this.currentReport.Query,
               Id: this.currentReport.ID
             }
