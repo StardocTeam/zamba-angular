@@ -96,10 +96,6 @@ export class ReportViewerComponent {
       genericRequest = {
         UserId: tokenData['userid'],
         Params: {
-          Zvars: JSON.stringify({
-            FechaDesde: this.ZVARstartDate,
-            FechaHasta: this.ZVARendDate
-          }),
           Query: report.Query,
           Id: report.ID
         }
@@ -118,175 +114,150 @@ export class ReportViewerComponent {
               console.error('Error al obtener datos:', error);
               throw error;
             })
-          )
-            .subscribe((ZvarsData: any) => {
+          ).subscribe((ZvarsData: any) => {
+            if (ZvarsData) {
 
-              if (ZvarsData) {
+              // Agrega Zvars al genericRequest.Params
+              genericRequest = {
+                UserId: tokenData['userid'],
+                Params: {
+                  Zvars: JSON.stringify({
+                    FechaDesde: this.ZVARstartDate,
+                    FechaHasta: this.ZVARendDate
+                    //TODO: Poner aca las Zvars que vengan de ejecutar la regla previamente...
+                  }),
+                  Query: report.Query,
+                  Id: report.ID
+                }
+              };
 
-                //TODO: Obtengo las variables 
+              //TODO: Obtengo las variables 
 
-                this.RVService.GetResultsByReportId(genericRequest).pipe(
-                  catchError(error => {
-                    console.error('Error al obtener datos:', error);
-                    throw error;
-                  })
-                )
-                  .subscribe((data: any) => {
-                    if (!data) {
-                      this.isButtonExcelDisabled = true;
+              this.RVService.GetResultsByReportId(genericRequest).pipe(
+                catchError(error => {
+                  console.error('Error al obtener datos:', error);
+                  throw error;
+                })
+              )
+                .subscribe((data: any) => {
+                  if (!data) {
+                    this.isButtonExcelDisabled = true;
 
-                      console.error('Error: Ocurrio un error al cargar el reporte');
-                      this.modal.error({
-                        nzTitle: 'Ocurrio un error al intentar cargar el reporte',
-                        nzContent: '<p>Verifique que el reporte no contenga errores y que la base de datos este bien configurada.</p>',
-                        nzOkText: 'OK',
-                        nzOkType: 'primary',
-                        nzOnOk: () => console.log('OK'),
-                      });
+                    console.error('Error: Ocurrio un error al cargar el reporte');
+                    this.modal.error({
+                      nzTitle: 'Ocurrio un error al intentar cargar el reporte',
+                      nzContent: '<p>Verifique que el reporte no contenga errores y que la base de datos este bien configurada.</p>',
+                      nzOkText: 'OK',
+                      nzOkType: 'primary',
+                      nzOnOk: () => console.log('OK'),
+                    });
 
-                      this.loading = false;
+                    this.loading = false;
+                    this.cdr.detectChanges();
+
+                  } else if (typeof (JSON.parse(data)) == "object") {
+                    this.isButtonExcelDisabled = false;
+                    var ObjectData = JSON.parse(data);
+
+
+                    if (ObjectData && ObjectData.ListColumns.length > 0 && ObjectData.RowHashtable.length > 0) {
                       this.cdr.detectChanges();
 
-                    } else if (typeof (JSON.parse(data)) == "object") {
-                      this.isButtonExcelDisabled = false;
-                      var ObjectData = JSON.parse(data);
+                      ObjectData.ListColumns.forEach((element: any) => {
+                        var baseWidth = 10; // Factor base para el ancho (puedes ajustarlo según el diseño)
+                        const maxWidth = 800; // Ancho máximo permitido para una columna
 
+                        // Calcular el ancho basado en el nombre de la columna
+                        let columnWidth = element.ColumnName.length * baseWidth;
+                        columnWidth -= Math.floor(element.ColumnName.length / 10) * baseWidth;
 
-                      if (ObjectData && ObjectData.ListColumns.length > 0 && ObjectData.RowHashtable.length > 0) {
-                        this.cdr.detectChanges();
+                        // Calcular el ancho basado en el valor más largo de los datos
+                        ObjectData.RowHashtable.forEach((row: any) => {
+                          const cellValue = row[element.ColumnName] ? row[element.ColumnName].toString() : '';
+                          var cellWidth = cellValue.length * baseWidth;
 
-                        ObjectData.ListColumns.forEach((element: any) => {
-                          var baseWidth = 10; // Factor base para el ancho (puedes ajustarlo según el diseño)
-                          const maxWidth = 800; // Ancho máximo permitido para una columna
+                          cellWidth -= Math.floor(cellValue.length / 10) * baseWidth;
 
-                          // Calcular el ancho basado en el nombre de la columna
-                          let columnWidth = element.ColumnName.length * baseWidth;
-                          columnWidth -= Math.floor(element.ColumnName.length / 10) * baseWidth;
-
-                          // Calcular el ancho basado en el valor más largo de los datos
-                          ObjectData.RowHashtable.forEach((row: any) => {
-                            const cellValue = row[element.ColumnName] ? row[element.ColumnName].toString() : '';
-                            var cellWidth = cellValue.length * baseWidth;
-
-                            cellWidth -= Math.floor(cellValue.length / 10) * baseWidth;
-
-                            if (cellWidth > columnWidth) {
-                              columnWidth = cellWidth;
-                            }
-                          });
-
-                          //Umbral de tamaño (0 a 150)
-                          if (columnWidth < 150) {
-                            columnWidth += columnWidth * 0.20;
+                          if (cellWidth > columnWidth) {
+                            columnWidth = cellWidth;
                           }
-
-                          // Limitar el ancho al máximo permitido
-                          columnWidth = Math.min(columnWidth, maxWidth);
-
-                          var newColumn = {
-                            name: element.ColumnName,
-                            sortOrder: null,
-                            sortFn: null,
-                            sortDirections: [null],
-                            filterMultiple: false,
-                            listOfFilter: [],
-                            filterFn: null,
-                            width: `${columnWidth}px`
-                          };
-
-                          this.listOfColumns.push(newColumn);
                         });
 
-                        ObjectData.RowHashtable.forEach((element: any) => {
-                          var newRow: any = [];
-                          ObjectData.ListColumns.forEach((column: any) => {
-                            newRow[column.ColumnName] = element[column.ColumnName];
-                          });
+                        //Umbral de tamaño (0 a 150)
+                        if (columnWidth < 150) {
+                          columnWidth += columnWidth * 0.20;
+                        }
 
-                          this.listOfData.push(newRow);
+                        // Limitar el ancho al máximo permitido
+                        columnWidth = Math.min(columnWidth, maxWidth);
+
+                        var newColumn = {
+                          name: element.ColumnName,
+                          sortOrder: null,
+                          sortFn: null,
+                          sortDirections: [null],
+                          filterMultiple: false,
+                          listOfFilter: [],
+                          filterFn: null,
+                          width: `${columnWidth}px`
+                        };
+
+                        this.listOfColumns.push(newColumn);
+                      });
+
+                      ObjectData.RowHashtable.forEach((element: any) => {
+                        var newRow: any = [];
+                        ObjectData.ListColumns.forEach((column: any) => {
+                          newRow[column.ColumnName] = element[column.ColumnName];
                         });
-                      } else {
-                        this.isButtonExcelDisabled = true;
-                        console.info('No se encontraron registros para mostrar');
-                        this.modal.info({
-                          nzTitle: 'No se encontraron registros para mostrar',
-                          nzContent: '<p>Verifique que el reporte y la base de datos estan bien configurados.</p>',
-                          nzOkText: 'OK',
-                          nzOkType: 'primary',
-                          nzOnOk: () => console.log('OK'),
-                        });
-                      }
 
-
-                      this.loading = false;
-
-                      this.cdr.detectChanges();
-                      //return;
-                    } else if (typeof (JSON.parse(data)) == "string") {
+                        this.listOfData.push(newRow);
+                      });
+                    } else {
                       this.isButtonExcelDisabled = true;
-
-                      console.error('Error: Ocurrio un error al cargar el reporte');
-                      this.modal.error({
-                        nzTitle: 'Ocurrio un error al intentar cargar el reporte',
-                        nzContent: '<p>' + data + '</p>',
+                      console.info('No se encontraron registros para mostrar');
+                      this.modal.info({
+                        nzTitle: 'No se encontraron registros para mostrar',
+                        nzContent: '<p>Verifique que el reporte y la base de datos estan bien configurados.</p>',
                         nzOkText: 'OK',
                         nzOkType: 'primary',
                         nzOnOk: () => console.log('OK'),
                       });
-
-                      this.loading = false;
-
-                      this.cdr.detectChanges();
-                      //return;
                     }
 
-                    this.executeRepeatedly(2); // Llama a la función cada 5 segundos
-                    return
 
-                  });
+                    this.loading = false;
 
+                    this.cdr.detectChanges();
+                    //return;
+                  } else if (typeof (JSON.parse(data)) == "string") {
+                    this.isButtonExcelDisabled = true;
 
-              } else {
-                //ERROR NO SE PUEDE VER LOS DATOS
-              }
+                    console.error('Error: Ocurrio un error al cargar el reporte');
+                    this.modal.error({
+                      nzTitle: 'Ocurrio un error al intentar cargar el reporte',
+                      nzContent: '<p>' + data + '</p>',
+                      nzOkText: 'OK',
+                      nzOkType: 'primary',
+                      nzOnOk: () => console.log('OK'),
+                    });
 
+                    this.loading = false;
 
+                    this.cdr.detectChanges();
+                  }
 
-            });
-
-
-
-
+                  this.executeRepeatedly(2); // Llama a la función cada 5 segundos
+                  return
+                });
+            } else {
+              //ERROR NO SE PUEDE VER LOS DATOS
+            }
+          });
         } else {
           //Sigo ejecutando ZVARS normales
         }
       });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
   }
 
