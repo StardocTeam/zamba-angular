@@ -125,7 +125,7 @@ export class ReportViewerComponent {
 
                 //TODO: Obtengo las variables 
 
-                this.RVService.GetReportByQuery(genericRequest).pipe(
+                this.RVService.GetResultsByReportId(genericRequest).pipe(
                   catchError(error => {
                     console.error('Error al obtener datos:', error);
                     throw error;
