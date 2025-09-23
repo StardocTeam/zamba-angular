@@ -112,31 +112,41 @@ export class ReportViewerComponent {
         throw error;
       })
     ).subscribe((Rule: any) => {
-
-
+      Rule = JSON.parse(Rule)[0].RuleId;
 
       //TODO: COMO COMPLETO DE LA MANERA MAS EFICAS ESTE CAMINO?
-      //conseguir rugla y ejecutar para obtener ZVARS
-      //y al mismo tiempo obtener ZVARS insertadas en la DB, y todo eso en la misma secuencia.
+      //conseguir regla y ejecutar para obtener ZVARS
+      //y al mismo tiempo o posterio,r obtener ZVARS insertadas en la DB, y todo eso en la misma secuencia.
 
 
 
+      debugger;
       //this.RVService.GetZVarsInserted(genericRequest).pipe(
-      if (Rule) {
+      if (Rule && Rule > 0) {
         this.TService.executeTaskRule(Rule, "").pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
           })
         ).subscribe((ZvarsData: any) => {
+
+          const Zvars = JSON.parse(ZvarsData).Vars;
+          debugger;
+
+          if (Zvars && Object.prototype.hasOwnProperty.call(Zvars, 'tasks')) {
+            delete Zvars.tasks;
+          }
+
+
+
+
           genericRequest = {
             UserId: tokenData['userid'],
             Params: {
               Zvars: JSON.stringify({
                 FechaDesde: this.ZVARstartDate,
-                FechaHasta: this.ZVARendDate
-                //TODO: Poner aca las Zvars que vengan de ejecutar la regla previamente...
-                //(validar ZvarsData con ternario?)
+                FechaHasta: this.ZVARendDate,
+                ...Zvars
               }),
               Query: this.currentReport.Query,
               Id: this.currentReport.ID

@@ -19,7 +19,7 @@ export class ReportViewerService {
     });
   }
   GetRuleIdToReport(genericRequest: any) {
-    return this.http.post(`${environment['restApi']}/GetRuleIdsToReport`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/GetRuleIdsToReport`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
