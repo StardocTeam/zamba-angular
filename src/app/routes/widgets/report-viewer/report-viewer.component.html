@@ -20,8 +20,28 @@
             </div>
         </div>
 
+        <div id="ZVarsPanel">
+            <div nz-row [nzGutter]="8" style="margin-bottom: 8px;">
+                <div nz-col nzSpan="8">
+                    <label for="startDate">Fecha de inicio:</label>
+                    <input id="startDate" nz-input type="date" [(ngModel)]="ZVARstartDate">
+                </div>
+                <div nz-col nzSpan="8">
+                    <label for="endDate">Fecha hasta:</label>
+                    <input id="endDate" nz-input type="date" [(ngModel)]="ZVARendDate">
+                </div>
+            </div>
+
+            <div nz-row [nzGutter]="8">
+                <div nz-col nzSpan="8">
+                    <button nz-button nzType="primary" (click)="OpenReport(currentReport)">Aplicar filtros</button>
+                </div>
+            </div>
+        </div>
+
 
         <p id="report-description">{{currentReport.Description}}</p>
+
     </div>
 
 

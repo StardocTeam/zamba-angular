@@ -13,25 +13,25 @@ export class ChartService {
 
   constructor(private http: _HttpClient) { }
   _GetChartContainer(genericRequest: any) {
-    return this.http.post(`${environment['charts']}/getChartContainer`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/charts/getChartContainer`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
 
   _GetChart(genericRequest: any) {
-    return this.http.post(`${environment['charts']}/GetChart`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/charts/GetChart`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
 
   _GetChartsByReportId(genericRequest: any) {
-    return this.http.post(`${environment['charts']}/GetChartsByReportId`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/charts/GetChartsByReportId`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
 
   _AddChart(genericRequest: any) {
-    return this.http.post(`${environment['charts']}/AddChart`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/charts/AddChart`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }

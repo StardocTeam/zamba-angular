@@ -8,6 +8,7 @@ export const environment = {
   production: false,
   useHash: true,
 
+  restApi: 'http://imageapt/Zamba.Api/api',
   apiRestBasePath: 'http://imageapt/Zamba.Api/api/Dashboard',
   externalSearchApi: 'http://imageapt/Zamba.Api/api/ExternalSearch',
   searchApi: 'http://imageapt/Zamba.Api/api/search',

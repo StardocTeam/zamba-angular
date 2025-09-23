@@ -40,6 +40,9 @@ export class ReportViewerComponent {
   isButtonExcelDisabled: boolean = true;
   CanGoToCharts: boolean = false;
 
+  ZVARstartDate: Date = new Date();
+  ZVARendDate: Date = new Date();
+
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
     private GService: GridService, private modal: NzModalService, private router: Router, private TService: TaskService) {
@@ -69,6 +72,8 @@ export class ReportViewerComponent {
         )
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
+            this.ZVARstartDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            this.ZVARendDate = new Date();
             this.OpenReport(new Report(currentReport));
           });
       }
@@ -91,8 +96,12 @@ export class ReportViewerComponent {
       genericRequest = {
         UserId: tokenData['userid'],
         Params: {
+          Zvars: JSON.stringify({
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate
+          }),
           Query: report.Query,
-          ReportId: report.ID
+          Id: report.ID
         }
       };
 
@@ -406,10 +415,13 @@ export class ReportViewerComponent {
     const paginationHeight = getElementHeightWithMargins('.ant-table-pagination');
     const alainDefaultHeader = getElementHeightWithMargins('.alain-default__header');
     const antTableHeader = getElementHeightWithMargins('.ant-table-header');
+    const ZVarsPanel = getElementHeightWithMargins('#ZVarsPanel');
 
-    // Calcular la altura disponible
-    const totalOccupiedHeight = reportNameHeight + reportDescriptionHeight + exportToExcelBtnHeight + paginationHeight + alainDefaultHeader + antTableHeader;
+    // Calcular la altura disponible}
+    // Se aplica un -16 por que hay unos margin-bottom que no se detectan
+    const totalOccupiedHeight = ZVarsPanel + reportNameHeight + reportDescriptionHeight + exportToExcelBtnHeight + paginationHeight + alainDefaultHeader + antTableHeader;
     const availableHeight = window.innerHeight - totalOccupiedHeight;
+
 
     this.height = `${availableHeight}px`;
     this.cdr.detectChanges();
