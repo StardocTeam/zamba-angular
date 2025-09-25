@@ -37,6 +37,7 @@ export class ReportEditorComponent {
 
   isButtonDisabled: boolean = false;
   userId: any;
+  ruleId: any;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef,
@@ -166,7 +167,8 @@ export class ReportEditorComponent {
           groupExpression: this.report.GroupExpression,
           category: this.report.Category,
           completar: this.report.Completar,
-          Aditional: this.report.Aditional
+          Aditional: this.report.Aditional,
+          ruleId: this.ruleId
         }
       };
     }

@@ -43,11 +43,14 @@ export class ReportViewerComponent {
   ZVARstartDate: Date = new Date();
   ZVARendDate: Date = new Date();
   ListZVARsFromRule: any[] = [];
-  ZvarList: any;
+  ZvarList: Zvars[] = [];
+
+
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
     private GService: GridService, private modal: NzModalService, private router: Router, private TService: TaskService) {
+
   }
 
   ngOnInit() {
@@ -116,15 +119,13 @@ export class ReportViewerComponent {
     ).subscribe((Rule: any) => {
       Rule = JSON.parse(Rule)[0].RuleId;
 
-      //TODO: COMO COMPLETO DE LA MANERA MAS EFICAS ESTE CAMINO?
-      //conseguir regla y ejecutar para obtener ZVARS
-      //y al mismo tiempo o posterio,r obtener ZVARS insertadas en la DB, y todo eso en la misma secuencia.
-
-
-
-      debugger;
       //this.RVService.GetZVarsInserted(genericRequest).pipe(
       if (Rule && Rule > 0) {
+
+
+
+
+
         this.TService.executeTaskRule(Rule, "").pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
@@ -146,6 +147,19 @@ export class ReportViewerComponent {
             this.ListZVARsFromRule.push(z);
           });
 
+          genericRequest = {
+            UserId: tokenData['userid'],
+            Params: {
+              Zvars: JSON.stringify({
+                ...this.buildZvarsObject(),
+                FechaDesde: this.ZVARstartDate,
+                FechaHasta: this.ZVARendDate
+              }),
+              Query: this.currentReport.Query,
+              Id: this.currentReport.ID
+            }
+          };
+
           this.GetResultsByReportId(genericRequest);
         });
 
@@ -166,6 +180,42 @@ export class ReportViewerComponent {
         this.GetResultsByReportId(genericRequest);
       }
     });
+  }
+
+  private buildZvarsObject(): any {
+    const obj: any = {};
+    this.ListZVARsFromRule.forEach(v => {
+      if (v?.KeyZVar) {
+        obj[v.KeyZVar] = v.ValueZVar;
+      }
+    });
+    return obj;
+  }
+
+  rechargeReport() {
+    this.isButtonExcelDisabled = true;
+    this.listOfColumns = [];
+    this.listOfData = [];
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    const tokenData = this.tokenService.get();
+    if (tokenData != null) {
+      let genericRequest = {
+        UserId: tokenData['userid'],
+        Params: {
+          Zvars: JSON.stringify({
+            ...this.buildZvarsObject(),
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate
+          }),
+          Query: this.currentReport.Query,
+          Id: this.currentReport.ID
+        }
+      };
+
+      this.GetResultsByReportId(genericRequest);
+    }
   }
 
   normalizeZvars(item: any): Zvars | null {
