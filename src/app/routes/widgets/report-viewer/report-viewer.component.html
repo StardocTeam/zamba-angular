@@ -39,10 +39,11 @@
                             <input id="endDate" nz-input type="date" [(ngModel)]="ZVARendDate">
                         </div>
 
-                        <!-- <div *ngFor="let zvar of ListZVARsFromRule" nz-col nzXs="24" nzSm="6">
-                            <label>{{zvar.Name}}:</label>
-                            <input nz-input type="text">
-                        </div> -->
+
+                        <div *ngFor="let zvar of ListZVARsFromRule" nz-col nzXs="24" nzSm="6">
+                            <label>{{zvar.KeyZVar}}:</label>
+                            <input nz-input type="text" [(ngModel)]="zvar.ValueZVar">
+                        </div>
 
                     </div>
                 </div>

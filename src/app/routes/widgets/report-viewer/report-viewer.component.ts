@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GridService } from 'src/app/services/Grid/grid.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TaskService } from 'src/app/services/task.service';
+import { Zvars } from './entitie/ZVar';
 
 @Component({
   selector: 'app-report-viewer',
@@ -42,6 +43,7 @@ export class ReportViewerComponent {
   ZVARstartDate: Date = new Date();
   ZVARendDate: Date = new Date();
   ListZVARsFromRule: any[] = [];
+  ZvarList: any;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -130,30 +132,19 @@ export class ReportViewerComponent {
           })
         ).subscribe((ZvarsData: any) => {
 
-          const parsed = JSON.parse(ZvarsData);
-          this.ListZVARsFromRule = Array.isArray(parsed?.Vars) ? parsed.Vars : [];
+          const ZvarsDataParsed = JSON.parse(ZvarsData).Vars;
 
-          // Construir objeto Zvars a partir de la lista (esperando items con Key/Value o Name/Value)
-          const zvarsObj: any = {
-            FechaDesde: this.ZVARstartDate,
-            FechaHasta: this.ZVARendDate
-          };
+          if (ZvarsDataParsed && Object.prototype.hasOwnProperty.call(ZvarsDataParsed, 'tasks'))
+            delete ZvarsDataParsed.tasks;
 
-          this.ListZVARsFromRule.forEach((item: any) => {
-            if (!item) return;
-            const key = item.Key || item.key || item.Name || item.name;
-            const value = item.Value ?? item.value ?? item.Val ?? item.val;
-            if (key) zvarsObj[key] = value;
+          var ZvarsDataArray = Object.entries(ZvarsDataParsed);
+
+          ZvarsDataArray.forEach(item => {
+            const z = new Zvars();
+            z.KeyZVar = String(item[0]);
+            z.ValueZVar = String(item[1] ?? '');
+            this.ListZVARsFromRule.push(z);
           });
-
-          genericRequest = {
-            UserId: tokenData['userid'],
-            Params: {
-              Zvars: JSON.stringify(zvarsObj),
-              Query: this.currentReport.Query,
-              Id: this.currentReport.ID
-            }
-          };
 
           this.GetResultsByReportId(genericRequest);
         });
@@ -175,6 +166,30 @@ export class ReportViewerComponent {
         this.GetResultsByReportId(genericRequest);
       }
     });
+  }
+
+  normalizeZvars(item: any): Zvars | null {
+    if (item == null) return null;
+
+    // Caso: { NombreVar: valor }
+    if (typeof item === 'object' && !Array.isArray(item)) {
+      const [propName, propValue] = Object.entries(item)[0] || [null, null];
+      if (propName == null) return null;
+      const z = new Zvars();
+      z.KeyZVar = propName as any;
+      if (propValue && typeof propValue === 'object' && !Array.isArray(propValue)) {
+        z.ValueZVar = (propValue as any).Value ?? (propValue as any).value ?? (propValue as any).Val ?? (propValue as any).val ?? propValue;
+      } else {
+        z.ValueZVar = propValue as any;
+      }
+      return z;
+    }
+
+    // Valor primitivo
+    const z = new Zvars();
+    z.KeyZVar = item;
+    z.ValueZVar = null as any;
+    return z;
   }
 
   private GetResultsByReportId(genericRequest: {}) {
