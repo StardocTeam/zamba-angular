@@ -23,10 +23,8 @@ import { Zvars } from './entitie/ZVar';
   styleUrls: ['./report-viewer.component.less']
 })
 
-
 export class ReportViewerComponent {
   array = Array.from({ length: 20 }, (_, index) => index + 1);
-
 
   loading: Boolean = true;
   currentReport: Report = new Report({});
@@ -44,13 +42,12 @@ export class ReportViewerComponent {
   ZVARendDate: Date = new Date();
   ListZVARsFromRule: any[] = [];
   ZvarList: Zvars[] = [];
-
-
+  endDateVisible: boolean = false;
+  startDateVisible: boolean = false;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
     private GService: GridService, private modal: NzModalService, private router: Router, private TService: TaskService) {
-
   }
 
   ngOnInit() {
@@ -77,7 +74,9 @@ export class ReportViewerComponent {
         )
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
-            this.ZVARstartDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            this.ZVARstartDate = oneMonthAgo;
             this.ZVARendDate = new Date();
             this.OpenReport(new Report(currentReport));
           });
@@ -88,6 +87,10 @@ export class ReportViewerComponent {
   //#region Bussines Functions
 
   OpenReport(report: Report) {
+    //TODO: Recordar quitar esto al hacer el ABM
+    this.endDateVisible = false;
+    this.startDateVisible = false;
+
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
     this.listOfData = [];
@@ -98,6 +101,19 @@ export class ReportViewerComponent {
 
     const tokenData = this.tokenService.get();
     let genericRequest = {};
+
+    //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
+    //Este codigo detecta y arma una lista de zVars encontradas
+    var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
+
+    if (zVarsFound.includes("FechaDesde")) {
+      this.startDateVisible = true;
+    }
+
+    if (zVarsFound.includes("FechaHasta")) {
+      this.endDateVisible = true;
+    }
+    //--------------------------------
 
     if (tokenData != null) {
       genericRequest = {
@@ -334,7 +350,7 @@ export class ReportViewerComponent {
         console.info('No se encontraron registros para mostrar');
         this.modal.info({
           nzTitle: 'No se encontraron registros para mostrar',
-          nzContent: '<p>Verifique que el reporte y la base de datos estan bien configurados.</p>',
+          nzContent: '<p>Verifique los filtros, que el reporte tenga datos y/o la base de datos estén bien configurados.</p>',
           nzOkText: 'OK',
           nzOkType: 'primary',
           nzOnOk: () => console.log('OK'),
@@ -363,6 +379,7 @@ export class ReportViewerComponent {
       this.cdr.detectChanges();
     }
   }
+
 
   exportToExcel(report: Report): void {
     this.isButtonExcelDisabled = true;
@@ -460,15 +477,26 @@ export class ReportViewerComponent {
     }, intervalTime);
   }
 
+  extractZvarVariables(sql: string): string[] {
+    // regex: busca zvar(contenido)
+    const regex = /zvar\(([^)]+)\)/gi;
+    const variables: string[] = [];
+    let match;
+
+    while ((match = regex.exec(sql)) !== null) {
+      variables.push(match[1]);
+    }
+
+    return variables;
+  }
+
   //#endregion
 
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-
     this.adjustHeight();
   }
-
 
   adjustHeight() {
     const getElementHeightWithMargins = (selector: string): number => {
@@ -501,7 +529,6 @@ export class ReportViewerComponent {
     this.cdr.detectChanges();
   }
 
-
   ngAfterViewInit() {
     this.adjustHeight();
   }
@@ -510,10 +537,7 @@ export class ReportViewerComponent {
     return Object.keys(obj);
   }
   //#endregion
-
 }
-
-
 
 interface ColumnItem {
   name: string;
@@ -525,5 +549,3 @@ interface ColumnItem {
   sortDirections: NzTableSortOrder[];
   width: string;
 }
-
-
