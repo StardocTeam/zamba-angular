@@ -26,33 +26,33 @@ const routes: Routes = [
       {
         path: 'taskhistory',
         component: TaskHistoryComponent,
-        data: { title: 'Task History' },
+        data: { title: 'Historial de Tareas' },
         pathMatch: 'full'
       },
       {
         path: 'reports',
         component: ReportComponentComponent,
-        data: { title: 'Reports' },
+        data: { title: 'Listado de reportes' },
         children: [
           {
             path: 'create',
             component: ReportEditorComponent,
-            data: { title: 'Create' }
+            data: { title: 'Crear reporte' }
           },
           {
             path: 'edit/:id',
             component: ReportEditorComponent,
-            data: { title: 'Edit' }
+            data: { title: 'Editar reporte' }
           },
           {
             path: 'view/:id',
             component: ReportViewerComponent,
-            data: { title: 'View' }
+            data: { title: 'Vista general del reporte' }
           },
           {
             path: 'chartcontainer/:id',
             component: ChartContainerComponent,
-            data: { title: 'charts Container' },
+            data: { title: 'Vista de graficos' },
             pathMatch: 'full'
           },
         ]

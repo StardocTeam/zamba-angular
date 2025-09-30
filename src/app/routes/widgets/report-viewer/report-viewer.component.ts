@@ -482,8 +482,6 @@ export class ReportViewerComponent {
       return element.getBoundingClientRect().height + marginTop + marginBottom - 3;
     };
 
-    debugger;
-
     // Obtener alturas y márgenes de los elementos
     const reportNameHeight = getElementHeightWithMargins('#report-name');
     const reportDescriptionHeight = getElementHeightWithMargins('#report-description');
