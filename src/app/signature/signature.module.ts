@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SignatureComponent } from './signature.component';
+//import { SignatureComponent } from './signature.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { SignatureContainerComponent } from '../signature-container/signature-container.component';
@@ -19,7 +19,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [SignatureComponent, SignatureV2Component, SignatureContainerComponent, SignatureFABComponent],
+  declarations: [SignatureContainerComponent, SignatureFABComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -30,8 +30,10 @@ const routes: Routes = [
     NzRadioModule,
     FormsModule,
     NzTabsModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    //SignatureComponent,
+    SignatureV2Component
   ],
-  exports: [SignatureComponent, SignatureV2Component, SignatureContainerComponent, SignatureFABComponent]
+  exports: [SignatureV2Component, SignatureContainerComponent, SignatureFABComponent]
 })
 export class SignatureModule { }
