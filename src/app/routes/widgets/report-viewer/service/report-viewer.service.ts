@@ -8,8 +8,18 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class ReportViewerService {
+  GetZVarsInserted(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/GetZVarsInserted`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
   GetResultsByReportId(genericRequest: {}) {
     return this.http.post(`${environment['restApi']}/reports/GetResultsByReportId`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
+  GetRuleIdToReport(genericRequest: any) {
+    return this.http.post(`${environment['restApi']}/reports/GetRuleIdsToReport`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }
