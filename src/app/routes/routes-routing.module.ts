@@ -36,7 +36,7 @@ const routes: Routes = [
       { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
       { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },
       { path: 'ges', loadChildren: () => import('./ges/ges.module').then(r => r.GesModule) },
-      { path: 'zamba', loadChildren: () => import('./zamba/zamba.module').then(r => r.ZambaModule) }
+      // { path: 'zamba', loadChildren: () => import('./zamba/zamba.module').then(r => r.ZambaModule) }
     ]
   },
   // Blak Layout 空白布局

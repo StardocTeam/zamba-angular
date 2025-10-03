@@ -4,11 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 
 import { environment } from '../../../../environments/environment';
+import { ZambaModule } from '../../zamba/zamba.module';
 
 @Component({
   selector: 'app-view-form',
   templateUrl: './view-form.component.html',
-  styleUrls: ['./view-form.component.less']
+  styleUrls: ['./view-form.component.less'],
+  standalone: true,
+  imports: [ZambaModule]
 })
 export class ViewFormComponent implements OnInit {
   navigateUrl: SafeResourceUrl = '';
