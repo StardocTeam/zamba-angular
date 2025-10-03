@@ -36,7 +36,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
     private startupSrv: StartupService,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.loadingSrv.open(this.LoadingType);
     this.token = this.route.snapshot.queryParams['token'] || '';
@@ -67,7 +67,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
         this.validatingToken = false;
         this.loadingSrv.close();
         this.cdr.detectChanges();
-        res = JSON.parse(res);
+        //res = JSON.parse(res);
         console.log(res);
         if (res != 'ok') {
           this.router.navigateByUrl('/passport/changepasswordexpired');
@@ -139,7 +139,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
         })
       )
       .subscribe(res => {
-        res = JSON.parse(res);
+        //
         this.cdr.detectChanges();
         this.router.navigateByUrl(`/passport/changepasswordresult?rv=${res}`);
       });

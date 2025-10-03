@@ -118,7 +118,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
           })
         )
         .subscribe(res => {
-          res = JSON.parse(res);
+          //res = JSON.parse(res);
           console.log(res);
           if (res.msg == 'Invalid username or password') {
             this.error = true;

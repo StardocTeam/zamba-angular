@@ -56,7 +56,7 @@ export class InitialPasswordWizardComponent implements OnInit, OnDestroy {
     private startupSrv: StartupService,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   passwordMatchValidator(g: FormGroup) {
     let password = g.get('password')?.value;
@@ -103,7 +103,7 @@ export class InitialPasswordWizardComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(res => {
-        res = JSON.parse(res);
+        //res = JSON.parse(res);
         this.cdr.detectChanges();
         this.router.navigateByUrl(`/passport/changepasswordresult?rv=${res}`);
       });
