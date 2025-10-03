@@ -8,12 +8,12 @@ import { SharedModule } from '@shared';
 import { RuleComponent } from './rule/rule.component';
 import { ZambaRoutingModule } from './zamba-routing.module';
 import { ViewFormComponent } from '../widgets/view-form/view-form.component';
-import { SignatureModule } from 'src/app/signature/signature.module';
+//import { SignatureModule } from 'src/app/signature/signature.module';
 
-const COMPONENTS = [RuleComponent, ViewFormComponent];
+const COMPONENTS = [RuleComponent];
 
 @NgModule({
-  imports: [SharedModule, ZambaRoutingModule, DownFileModule, FullContentModule, QRModule, G2MiniBarModule, SignatureModule],
+  imports: [SharedModule, ZambaRoutingModule, DownFileModule, FullContentModule, QRModule, G2MiniBarModule, ViewFormComponent],
   declarations: COMPONENTS
 })
 export class ZambaModule { }

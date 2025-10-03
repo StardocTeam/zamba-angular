@@ -13,13 +13,14 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SignatureFABComponent } from '../signature-container-v2/signature-container-v2.component';
 import { SignatureV2Component } from '../signature-v2/signature-v2.component';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { SignatureComponent } from './signature.component';
 
 const routes: Routes = [
   { path: '', component: SignatureContainerComponent }
 ];
 
 @NgModule({
-  declarations: [SignatureContainerComponent, SignatureFABComponent],
+  declarations: [],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -31,8 +32,10 @@ const routes: Routes = [
     FormsModule,
     NzTabsModule,
     NzCheckboxModule,
-    //SignatureComponent,
-    SignatureV2Component
+    SignatureComponent,
+    SignatureV2Component,
+    SignatureContainerComponent,
+    SignatureFABComponent
   ],
   exports: [SignatureV2Component, SignatureContainerComponent, SignatureFABComponent]
 })

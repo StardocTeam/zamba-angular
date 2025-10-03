@@ -4,11 +4,17 @@ import { SignatureService } from './signature.service';
 import { catchError, finalize } from 'rxjs';
 import { TokenService } from '@delon/auth';
 import { SFStringWidgetSchema } from '@delon/form';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signature',
   templateUrl: './signature.component.html',
   styleUrls: ['./signature.component.less'],
+  standalone: true,
+  imports: [NzSpinModule, NzTabsModule, CommonModule, FormsModule],
 })
 export class SignatureComponent {
   signatureColor: string = 'black';
