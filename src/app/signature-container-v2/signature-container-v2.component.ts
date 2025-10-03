@@ -8,11 +8,17 @@ import { SignatureService } from '../signature/signature.service';
 import { catchError, finalize } from 'rxjs';
 import { ZambaService } from '../services/zamba/zamba.service';
 import { SignatureV2Component } from '../signature-v2/signature-v2.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'signature-fab',
   templateUrl: './signature-container-v2.component.html',
-  styleUrls: ['./signature-container-v2.component.less']
+  styleUrls: ['./signature-container-v2.component.less'],
+  standalone: true,
+  imports: [
+    SignatureV2Component,
+    CommonModule
+  ]
 })
 export class SignatureFABComponent implements OnInit {
 

@@ -2,13 +2,27 @@ import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
-
+import { DELON_LOCALE, zh_CN as delonZhCn } from '@delon/theme';
 import { environment } from '../../../../environments/environment';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { SignatureFABComponent } from 'src/app/signature-container-v2/signature-container-v2.component';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { AlainThemeModule } from '@delon/theme';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-view-form',
   templateUrl: './view-form.component.html',
-  styleUrls: ['./view-form.component.less']
+  styleUrls: ['./view-form.component.less'],
+  standalone: true,
+  imports: [
+    NzSpinModule,
+    NzResultModule, // <-- agrega esto
+    SignatureFABComponent,
+    AlainThemeModule,
+    CommonModule,
+  ],
+  providers: [{ provide: DELON_LOCALE, useValue: delonZhCn }],
 })
 export class ViewFormComponent implements OnInit {
   navigateUrl: SafeResourceUrl = '';

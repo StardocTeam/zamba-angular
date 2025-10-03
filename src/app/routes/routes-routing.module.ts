@@ -17,6 +17,8 @@ import { ChartComponent } from '../components/chart/chart.component';
 import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
 import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
 import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
+import { SignatureContainerComponent } from '../signature-container/signature-container.component';
+import { ViewFormComponent } from './widgets/view-form/view-form.component';
 
 const routes: Routes = [
   {
@@ -64,6 +66,14 @@ const routes: Routes = [
       {
         path: 'doshowtable',
         component: DoShowTableComponent,
+      },
+      {
+        path: 'signature',
+        component: SignatureContainerComponent,
+      },
+      {
+        path: 'form',
+        component: ViewFormComponent,
       }
     ]
   },

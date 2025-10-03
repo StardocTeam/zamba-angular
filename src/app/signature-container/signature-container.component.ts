@@ -1,6 +1,8 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
-import { SignatureComponent } from '../signature/signature.component';
 
 import { ModalHelper } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -12,6 +14,12 @@ import { catchError, finalize } from 'rxjs';
 @Component({
   selector: 'app-signature-container',
   templateUrl: './signature-container.component.html',
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzIconModule,
+    NzSpinModule,
+  ],
   styleUrls: ['./signature-container.component.less']
 })
 export class SignatureContainerComponent {
@@ -43,17 +51,21 @@ export class SignatureContainerComponent {
   }
   open(): void {
     console.log('click');
+    /*
     this.modalHelper.create(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'md' }).subscribe(res => {
 
     });
+    */
   }
 
   static(): void {
+    /*
     this.modalHelper.createStatic(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'lg' }).subscribe(res => {
       if (res != '') {
         this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + res);
         this.cdr.detectChanges();
       }
     });
+    */
   }
 }
