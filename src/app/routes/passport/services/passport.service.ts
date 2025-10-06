@@ -37,7 +37,7 @@ export class PassportService {
           return throwError(() => error);
         }),
         tap(res => {
-          //res = JSON.parse(res);
+          res = JSON.parse(res);
 
           console.log(res);
           res.user = {
