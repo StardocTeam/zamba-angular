@@ -58,16 +58,6 @@ const routes: Routes = [
       { path: 'zamba', loadChildren: () => import('./zamba/zamba.module').then(r => r.ZambaModule) }
     ]
   },
-  // Blak Layout 空白布局
-  {
-    path: 'data-v',
-    component: LayoutBlankComponent,
-    children: [{ path: '', loadChildren: () => import('./data-v/data-v.module').then(m => m.DataVModule) }]
-  },
-  // passport
-  { path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
-  { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
-  { path: '**', redirectTo: 'exception/404' },
   {
     path: 'tools',
     component: LayoutSimpleComponent,
@@ -120,10 +110,16 @@ const routes: Routes = [
       }
     ]
   },
+  // Blak Layout 空白布局
+  {
+    path: 'data-v',
+    component: LayoutBlankComponent,
+    children: [{ path: '', loadChildren: () => import('./data-v/data-v.module').then(m => m.DataVModule) }]
+  },
   // passport
-  //{ path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
+  { path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
   { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
-  { path: '**', redirectTo: 'exception/404' },
+  { path: '**', redirectTo: 'exception/404' }
 ];
 
 @NgModule({
