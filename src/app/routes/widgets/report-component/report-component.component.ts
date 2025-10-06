@@ -1,13 +1,26 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, Inject, NgModule, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  Inject,
+  NgModule,
+  QueryList,
+  Renderer2,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ReportService } from './service/report.service';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { Report } from "./entitie/report";
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { GridService } from 'src/app/services/Grid/grid.service';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
+
+import { Report } from './entitie/report';
+import { ReportService } from './service/report.service';
 
 export interface TreeNode {
   name: string;
@@ -17,9 +30,8 @@ export interface TreeNode {
 @Component({
   selector: 'app-report-component',
   templateUrl: './report-component.component.html',
-  styleUrls: ['./report-component.component.less'],
+  styleUrls: ['./report-component.component.less']
 })
-
 export class ReportComponentComponent {
   //#region Properties
   private route = inject(ActivatedRoute);
@@ -45,21 +57,22 @@ export class ReportComponentComponent {
   chartsDisabled: boolean = true;
   //#endregion
 
-  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private RService: ReportService, private cdr: ChangeDetectorRef,
-    private router: Router, private modal: NzModalService, private zambaService: ZambaService,
-    private GService: GridService) {
-  }
+  constructor(
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private RService: ReportService,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private modal: NzModalService,
+    private zambaService: ZambaService,
+    private GService: GridService
+  ) { }
 
   private initialized = false;
-
-
 
   ngOnInit() {
     // ...resto del código...
     this.route.queryParamMap.subscribe(params => {
       if (params) {
-
         // var userIdParam: string | null;
         var tokenParam: string | null;
 
@@ -69,7 +82,6 @@ export class ReportComponentComponent {
           tokenParam = params.get('t');
           this.fetchUserIdWithToken(tokenParam);
         }
-
       } else {
         //TODO: hacer un mensaje visual.
         throw new Error('Token not found');
@@ -78,14 +90,11 @@ export class ReportComponentComponent {
   }
 
   ngAfterViewInit() {
-
     const childComponent = this.outlet.component as { createTerminated?: any };
     if (childComponent && childComponent.createTerminated) {
       childComponent.createTerminated.subscribe((data: any) => {
-
         console.log('Evento recibido del hijo:', data);
         this.GetReports();
-
       });
     } else {
       console.log('Evento - NO - recibido del hijo:');
@@ -93,7 +102,6 @@ export class ReportComponentComponent {
   }
 
   onChildActivate(componentRef: any) {
-
     if (componentRef && componentRef.createTerminated) {
       componentRef.createTerminated.subscribe(() => {
         console.log('Evento recibido del hermano:');
@@ -111,7 +119,6 @@ export class ReportComponentComponent {
     this.cdr.detectChanges();
   }
 
-
   //#region Bussines Functions
   private GetPermissions() {
     const tokenData = this.tokenService.get();
@@ -123,25 +130,27 @@ export class ReportComponentComponent {
         token: tokenData['token']
       };
 
-      this.RService._GetPermissions(genericRequest).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      ).subscribe((data: any) => {
-        var data = JSON.parse(data);
-        if (data) {
-          this.ViewPermission = true;
-          //this.UpdatePermission = true;
-          //this.DeletePermission = true;
-          //this.CreatePermission = true;
-          //this.ConsultPermission = true;
+      this.RService._GetPermissions(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+            throw error;
+          })
+        )
+        .subscribe((data: any) => {
+          var data = JSON.parse(data);
+          if (data) {
+            this.ViewPermission = true;
+            //this.UpdatePermission = true;
+            //this.DeletePermission = true;
+            //this.CreatePermission = true;
+            //this.ConsultPermission = true;
 
-          this.cdr.detectChanges();
-        } else {
-          console.warn('No permissions found.');
-        }
-      });
+            this.cdr.detectChanges();
+          } else {
+            console.warn('No permissions found.');
+          }
+        });
     }
 
     this.cdr.detectChanges();
@@ -158,56 +167,61 @@ export class ReportComponentComponent {
         token: tokenData['token']
       };
 
-      this.RService._GetReports(genericRequest).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      ).subscribe((data: any) => {
-        var datos: Report[] = JSON.parse(data);
-        var Categories = datos.reduce((acc, item) => {
-          if (!acc[item.Category]) {
-            acc[item.Category] = [];
-          }
-          acc[item.Category].push(item);
-          return acc;
-        }, {} as { [key: string]: Report[] })
+      this.RService._GetReports(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+            throw error;
+          })
+        )
+        .subscribe((data: any) => {
+          var datos: Report[] = JSON.parse(data);
+          var Categories = datos.reduce(
+            (acc, item) => {
+              if (!acc[item.Category]) {
+                acc[item.Category] = [];
+              }
+              acc[item.Category].push(item);
+              return acc;
+            },
+            {} as { [key: string]: Report[] }
+          );
 
-        // Solo agrega los nuevos items que no existen en ReportsList
-        const existingIds = new Set(this.ReportsList.map(r => r.ID));
-        const nuevos = datos.filter((item: any) => !existingIds.has(item.ID)).map(item => new Report(item));
-        this.ReportsList.push(...nuevos);
+          // Solo agrega los nuevos items que no existen en ReportsList
+          const existingIds = new Set(this.ReportsList.map(r => r.ID));
+          const nuevos = datos.filter((item: any) => !existingIds.has(item.ID)).map(item => new Report(item));
+          this.ReportsList.push(...nuevos);
 
-        // Actualiza TREE_DATA con los nuevos datos
-        this.TREE_DATA = Object.keys(Categories).map(category => ({
-          name: category,
-          currentReport: Categories[category].map(item => new Report(item))
-        }));
-
-      });
+          // Actualiza TREE_DATA con los nuevos datos
+          this.TREE_DATA = Object.keys(Categories).map(category => ({
+            name: category,
+            currentReport: Categories[category].map(item => new Report(item))
+          }));
+        });
     }
   }
   private fetchUserIdWithToken(tokenParam: string | null) {
-
     let genericRequest = {
       UserId: 0, //No es necesario enviar el userId por queryparams.
       token: tokenParam
     };
 
-    this.zambaService.getUserId(genericRequest).pipe(
-      tap(response => {
-        response = JSON.parse(response);
-        this.tokenService.set({ token: tokenParam, userid: response });
+    this.zambaService
+      .getUserId(genericRequest)
+      .pipe(
+        tap(response => {
+          response = JSON.parse(response);
+          this.tokenService.set({ token: tokenParam, userid: response });
 
-        this.initializeReportComponents();
-      }),
-      catchError(error => {
-        console.error('Error fetching task name:', error);
-        return of([]);
-      })
-    ).subscribe();
+          this.initializeReportComponents();
+        }),
+        catchError(error => {
+          console.error('Error fetching task name:', error);
+          return of([]);
+        })
+      )
+      .subscribe();
   }
-
 
   exportToExcel(report: Report): void {
     const tokenData = this.tokenService.get();
@@ -218,52 +232,59 @@ export class ReportComponentComponent {
         UserId: tokenData['userid'],
         token: tokenData['token'],
         Params: {
-          "Query": report.Query
+          Query: report.Query
         }
       };
 
-      const FileName = report.Name.replace(/ /g, "_");
+      const FileName = report.Name.replace(/ /g, '_');
 
-      this.GService.ExportToExcel(genericRequest).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      ).subscribe((data: any) => {
-        if (!data) {
-          console.error('Error: No data received for export.');
+      this.GService.ExportToExcel(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+            throw error;
+          })
+        )
+        .subscribe((data: any) => {
+          if (!data) {
+            console.error('Error: No data received for export.');
 
-          this.modal.info({
-            nzTitle: 'Ocurrio un error',
-            nzContent: '<p>No hay resultados</p>',
-            nzOkText: 'OK',
-            nzOkType: 'primary',
-            nzOnOk: () => console.log('OK'),
-          });
+            this.modal.info({
+              nzTitle: 'Ocurrio un error',
+              nzContent: '<p>No hay resultados</p>',
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => console.log('OK')
+            });
 
-          return;
-        }
+            return;
+          }
 
-        var dataBase64 = 'data:application/octet-stream;base64,' + data;
+          var dataBase64 = `data:application/octet-stream;base64,${data}`;
 
-        const now = new Date();
-        const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
-        const formattedTime = (`${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`).replace(':', '_');
+          const now = new Date();
+          const formattedDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now
+            .getDate()
+            .toString()
+            .padStart(2, '0')}`;
+          const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now
+            .getSeconds()
+            .toString()
+            .padStart(2, '0')}`.replace(':', '_');
 
-        //
-        const url = dataBase64;
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = FileName + " " + formattedDate + " " + formattedTime + ".xlsx";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+          //
+          const url = dataBase64;
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${FileName} ${formattedDate} ${formattedTime}.xlsx`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
 
-        this.cdr.detectChanges();
-      });
+          this.cdr.detectChanges();
+        });
     }
   }
-
 
   deleteReport(report: Report): void {
     if (this.DeletePermission == true) {
@@ -292,10 +313,7 @@ export class ReportComponentComponent {
     this.cdr.detectChanges();
   }
 
-
   //#endregion
-
-
 
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
@@ -324,7 +342,6 @@ export class ReportComponentComponent {
   }
 
   //#endregion
-
 
   search(searchValue: string): void {
     this.searchValue = searchValue;
@@ -362,7 +379,7 @@ export class ReportComponentComponent {
         queryParams.t = tokenData['token'];
       }
 
-      this.router.navigate(['/tools/reports/edit/' + reportId], { queryParams });
+      this.router.navigate([`/tools/reports/edit/${reportId}`], { queryParams });
     }
   }
 
@@ -379,7 +396,6 @@ export class ReportComponentComponent {
   }
 
   viewCharts(reportId: number) {
-
     if (!this.chartsDisabled) {
       const tokenData = this.tokenService.get();
       const queryParams: any = {};

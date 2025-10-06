@@ -1,17 +1,16 @@
 import { ChangeDetectorRef, Component, EventEmitter, inject, Inject, Output } from '@angular/core';
-import { Report } from '../report-component/entitie/report';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
+import { catchError, of, tap } from 'rxjs';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
+
 import { Category } from './entity/Category';
 import { ReportService } from './service/report.service';
-import { catchError, of, tap } from 'rxjs';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { ZambaService } from 'src/app/services/zamba/zamba.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
+import { Report } from '../report-component/entitie/report';
 import { ReportViewerService } from '../report-viewer/service/report-viewer.service';
-
-
 
 @Component({
   selector: 'app-report-editor',
@@ -21,8 +20,8 @@ import { ReportViewerService } from '../report-viewer/service/report-viewer.serv
 export class ReportEditorComponent {
   @Output() createTerminated: EventEmitter<string> = new EventEmitter<string>();
   private route = inject(ActivatedRoute);
-  CategoryList: Category[] = []
-  inputValue?: string = "";
+  CategoryList: Category[] = [];
+  inputValue?: string = '';
 
   report: Report = {
     Category: '',
@@ -32,19 +31,22 @@ export class ReportEditorComponent {
     Aditional: 0,
     Completar: '',
     ID: 0,
-    GroupExpression: ""
+    GroupExpression: ''
   };
 
   isButtonDisabled: boolean = false;
   userId: any;
   ruleId: any;
 
-  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  constructor(
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef,
-    private REService: ReportService, private zambaService: ZambaService,
-    private router: Router, private modal: NzModalService, private RVService: ReportViewerService) {
-
-  }
+    private REService: ReportService,
+    private zambaService: ZambaService,
+    private router: Router,
+    private modal: NzModalService,
+    private RVService: ReportViewerService
+  ) {}
 
   ngOnInit() {
     const tokenData = this.tokenService.get();
@@ -54,28 +56,29 @@ export class ReportEditorComponent {
     if (tokenData) {
       genericRequest = {
         UserId: tokenData['userid'],
-        token: tokenData['token'],
+        token: tokenData['token']
       };
     }
 
     if (tokenData != null) {
-      this.zambaService.getUserId(genericRequest).pipe(
-        tap(response => {
-          response = JSON.parse(response);
+      this.zambaService
+        .getUserId(genericRequest)
+        .pipe(
+          tap(response => {
+            response = JSON.parse(response);
 
-          this.userId = response;
-          this.tokenService.set({ token: tokenData['token'], userid: response });
+            this.userId = response;
+            this.tokenService.set({ token: tokenData['token'], userid: response });
 
-          this.getCategories(genericRequest);
-          this.cdr.detectChanges();
-
-        }),
-        catchError(error => {
-          console.error('Error fetching task name:', error);
-          return of([]);
-        })
-      ).subscribe();
-
+            this.getCategories(genericRequest);
+            this.cdr.detectChanges();
+          }),
+          catchError(error => {
+            console.error('Error fetching task name:', error);
+            return of([]);
+          })
+        )
+        .subscribe();
     } else {
       this.getCategories(genericRequest);
       this.cdr.detectChanges();
@@ -83,14 +86,16 @@ export class ReportEditorComponent {
   }
 
   private getCategories(genericRequest: {}) {
-    this.REService.getCategories(genericRequest).pipe(
-      catchError(error => {
-        console.error('Error al obtener datos:', error);
-        throw error;
-      })
-    ).subscribe((data: any) => {
-      this.CategoryList = JSON.parse(data);
-    });
+    this.REService.getCategories(genericRequest)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      )
+      .subscribe((data: any) => {
+        this.CategoryList = JSON.parse(data);
+      });
   }
 
   onNgDestroy() {
@@ -112,40 +117,52 @@ export class ReportEditorComponent {
       };
     }
 
-    this.RVService.GetReportByQuery(genericRequest).pipe(
-      catchError(error => {
-        console.error('Error al obtener datos:', error);
-        throw error;
-      })
-    ).subscribe((data: any) => {
-      this.isButtonDisabled = false;
+    if (false) {
+      this.RVService.GetReportByQuery(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+            throw error;
+          })
+        )
+        .subscribe((data: any) => {
+          this.isButtonDisabled = false;
 
-      if (data == null) {
-        console.log('No se ha insertado correctamente', data);
+          if (data == null) {
+            console.log('No se ha insertado correctamente', data);
 
-        console.error('Error: Ocurrio un error al ejecutar la sentencia');
-        this.modal.error({
-          nzTitle: 'Ocurrio un error al ejecutar la sentencia',
-          nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
-          nzOkText: 'OK',
-          nzOkType: 'primary',
-          nzOnOk: () => console.log('OK'),
+            console.error('Error: Ocurrio un error al ejecutar la sentencia');
+            this.modal.error({
+              nzTitle: 'Ocurrio un error al ejecutar la sentencia',
+              nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => console.log('OK')
+            });
+
+            result = true;
+          } else {
+            var ObjectData = JSON.parse(data);
+
+            this.modal.success({
+              nzTitle: 'Ejecucion de sentencia exitosa',
+              nzContent: `<p>Cantidad de registros obtenidos: ${ObjectData.RowHashtable.length}</p>`,
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => console.log('OK')
+            });
+          }
+
+          result = false;
         });
+    }
 
-        result = true;
-      } else {
-        var ObjectData = JSON.parse(data);
-
-        this.modal.success({
-          nzTitle: 'Ejecucion de sentencia exitosa',
-          nzContent: '<p>Cantidad de registros obtenidos: ' + ObjectData.RowHashtable.length + '</p>',
-          nzOkText: 'OK',
-          nzOkType: 'primary',
-          nzOnOk: () => console.log('OK'),
-        });
-      }
-
-      result = false;
+    this.modal.success({
+      nzTitle: 'PRUEBA DE SENTENCIA DESHABILITADA',
+      nzContent: '<p> Puede insertar cualquier sentencia sin validar la ejecucion segura.</p>',
+      nzOkText: 'OK',
+      nzOkType: 'primary',
+      nzOnOk: () => console.log('OK')
     });
 
     this.isButtonDisabled = false;
@@ -175,45 +192,44 @@ export class ReportEditorComponent {
 
     //TODO: TestQuery o sobrecarga del mismo para validar que no se inserte una query erronea
 
-    this.REService.InsertReport(genericRequest).pipe(
-      catchError(error => {
-        console.error('Error al obtener datos:', error);
-        this.isButtonDisabled = false;
-        throw error;
-      })
-    ).subscribe((data: any) => {
-      var result = JSON.parse(data);
+    this.REService.InsertReport(genericRequest)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          this.isButtonDisabled = false;
+          throw error;
+        })
+      )
+      .subscribe((data: any) => {
+        var result = JSON.parse(data);
 
+        if (data) {
+          console.log('Insertado correctamente', this.report);
 
-      if (data) {
-        console.log('Insertado correctamente', this.report);
+          this.modal.success({
+            nzTitle: 'Insertado correctamente',
+            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category} </p>`,
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK')
+          });
 
-        this.modal.success({
-          nzTitle: 'Insertado correctamente',
-          nzContent: '<p>Reporte: ' + this.report.Name + '<br> ID: ' + data + '<br> Categoria: ' + this.report.Category + ' </p>',
-          nzOkText: 'OK',
-          nzOkType: 'primary',
-          nzOnOk: () => console.log('OK'),
-        });
+          this.createTerminated.emit();
+          //this.navigateToListReport();
+          this.clearForm();
+        } else if (data == null) {
+          console.log('No se ha insertado correctamente', data);
 
-        this.createTerminated.emit();
-        //this.navigateToListReport();
-        this.clearForm();
-
-      } else if (data == null) {
-        console.log('No se ha insertado correctamente', data);
-
-        console.error('Error: Ocurrio un error al insertar el reporte');
-        this.modal.error({
-          nzTitle: 'Ocurrio un error al insertar el reporte',
-          nzContent: '<p>Verifique los datos ingresados.</p>',
-          nzOkText: 'OK',
-          nzOkType: 'primary',
-          nzOnOk: () => console.log('OK'),
-        });
-      }
-
-    });
+          console.error('Error: Ocurrio un error al insertar el reporte');
+          this.modal.error({
+            nzTitle: 'Ocurrio un error al insertar el reporte',
+            nzContent: '<p>Verifique los datos ingresados.</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK')
+          });
+        }
+      });
 
     this.isButtonDisabled = false;
   }
@@ -227,7 +243,7 @@ export class ReportEditorComponent {
       Aditional: 0,
       Completar: '',
       ID: 0,
-      GroupExpression: ""
+      GroupExpression: ''
     };
   }
 
@@ -257,5 +273,4 @@ export class ReportEditorComponent {
 
     this.router.navigate(['/tools/reports'], { queryParams });
   }
-
 }
