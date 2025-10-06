@@ -91,6 +91,8 @@ export class ReportViewerComponent {
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
     this.listOfData = [];
+
+    this.ListZVARsFromRule = [];
     this.currentReport = report;
     this.cdr.detectChanges();
 
@@ -117,15 +119,9 @@ export class ReportViewerComponent {
         throw error;
       })
     ).subscribe((Rule: any) => {
-      Rule = JSON.parse(Rule)[0].RuleId;
+      Rule = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
 
-      //this.RVService.GetZVarsInserted(genericRequest).pipe(
       if (Rule && Rule > 0) {
-
-
-
-
-
         this.TService.executeTaskRule(Rule, "").pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
@@ -140,6 +136,7 @@ export class ReportViewerComponent {
 
           var ZvarsDataArray = Object.entries(ZvarsDataParsed);
 
+          this.ListZVARsFromRule = [];
           ZvarsDataArray.forEach(item => {
             const z = new Zvars();
             z.KeyZVar = String(item[0]);
@@ -159,6 +156,7 @@ export class ReportViewerComponent {
               Id: this.currentReport.ID
             }
           };
+          this.cdr.detectChanges();
 
           this.GetResultsByReportId(genericRequest);
         });
@@ -481,7 +479,7 @@ export class ReportViewerComponent {
       const marginTop = parseInt(style.marginTop, 10) || 0;
       const marginBottom = parseInt(style.marginBottom, 10) || 0;
 
-      return element.getBoundingClientRect().height + marginTop + marginBottom - 5;
+      return element.getBoundingClientRect().height + marginTop + marginBottom - 3;
     };
 
     // Obtener alturas y márgenes de los elementos
