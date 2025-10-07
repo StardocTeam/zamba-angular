@@ -24,6 +24,7 @@ import { Zvars } from './entitie/ZVar';
 })
 
 export class ReportViewerComponent {
+  executingRule: boolean = false;
   array = Array.from({ length: 20 }, (_, index) => index + 1);
 
   loading: Boolean = true;
