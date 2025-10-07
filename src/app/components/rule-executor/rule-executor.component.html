@@ -1,0 +1,7 @@
+<div *ngIf="isLoadingAction" class="spinner-overlay-rule-executor">
+    <div class="custom-spinner"></div>
+    <p>Cargando...</p>
+</div>
+<ng-template #iframeModal>
+    <iframe [src]="safeIframeUrl" width="100%" height="500" frameborder="0"></iframe>
+</ng-template>
