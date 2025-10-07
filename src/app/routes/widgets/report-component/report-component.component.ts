@@ -56,26 +56,43 @@ export class ReportComponentComponent {
 
 
   ngOnInit() {
-    // ...resto del código...
     this.route.queryParamMap.subscribe(params => {
-      if (params) {
-
-        // var userIdParam: string | null;
-        var tokenParam: string | null;
-
-        this.tokenService.set({ token: params.get('t') });
-
+      if (params && params.keys.length > 0) {
         if (params.get('t')) {
-          tokenParam = params.get('t');
-          this.fetchUserIdWithToken(tokenParam);
+          this.tokenService.set({ token: params.get('t') });
+          this.fetchUserIdWithToken();
+
+        } else {
+          console.error('Error: Token no encontrado en los parámetros');
+          this.modal.error({
+            nzTitle: 'Token no encontrado',
+            nzContent: '<p>No se pudo encontrar el token de autenticación. Por favor, inicie sesión nuevamente.</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+
+          throw new Error('Token not found');
         }
+      } else if (this.tokenService && this.tokenService.get()?.token) {
+        this.fetchUserIdWithToken();
 
       } else {
-        //TODO: hacer un mensaje visual.
+        console.error('Error: Token no encontrado en los parámetros ni en el servicio');
+        this.modal.error({
+          nzTitle: 'Token no encontrado',
+          nzContent: '<p>No se pudo encontrar el token de autenticación. Por favor, inicie sesión nuevamente.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+
         throw new Error('Token not found');
       }
     });
   }
+
+
 
   ngAfterViewInit() {
 
@@ -187,17 +204,17 @@ export class ReportComponentComponent {
       });
     }
   }
-  private fetchUserIdWithToken(tokenParam: string | null) {
+  private fetchUserIdWithToken() {
 
     let genericRequest = {
-      UserId: 0, //No es necesario enviar el userId por queryparams.
-      token: tokenParam
+      UserId: 0,
+      token: this.tokenService.get()?.token
     };
 
     this.zambaService.getUserId(genericRequest).pipe(
       tap(response => {
         response = JSON.parse(response);
-        this.tokenService.set({ token: tokenParam, userid: response });
+        this.tokenService.set({ token: genericRequest.token, userid: response });
 
         this.initializeReportComponents();
       }),
