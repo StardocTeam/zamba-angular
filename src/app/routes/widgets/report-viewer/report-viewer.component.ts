@@ -90,6 +90,7 @@ export class ReportViewerComponent {
     //TODO: Recordar quitar esto al hacer el ABM
     this.endDateVisible = false;
     this.startDateVisible = false;
+    //TODO: Recordar quitar esto al hacer el ABM
 
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
