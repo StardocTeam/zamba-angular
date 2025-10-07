@@ -22,6 +22,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@env/environment';
+import { RuleExecutorComponent } from '../rule-executor/rule-executor.component';
 
 @Component({
   selector: 'app-quick-actions',
@@ -41,7 +42,8 @@ import { environment } from '@env/environment';
     NzSpinModule,
     NzSkeletonModule,
     NzSpaceModule,
-    NzListModule
+    NzListModule,
+    RuleExecutorComponent
   ],
   templateUrl: './quick-actions.component.html',
   styleUrls: ['./quick-actions.component.css'],
@@ -50,6 +52,8 @@ import { environment } from '@env/environment';
   encapsulation: ViewEncapsulation.Emulated
 })
 export class QuickActionsComponent implements OnInit {
+
+  @ViewChild(RuleExecutorComponent, { static: false }) ruleExecutor!: RuleExecutorComponent;
 
   @ViewChild('iframeModal', { static: true }) iframeModal!: TemplateRef<any>;
   iframeUrl: string = '';
@@ -67,6 +71,8 @@ export class QuickActionsComponent implements OnInit {
   selectedCategories: string[] = [];
 
   favouriteActions: any[] = [];
+  ruleExecutorWorking: boolean = false;
+  pendingRuleId: number = 0;
 
   private route = inject(ActivatedRoute);
   constructor(
@@ -116,6 +122,12 @@ export class QuickActionsComponent implements OnInit {
     });
   }
 
+
+  executeRule(ruleid: number) {
+    this.pendingRuleId = ruleid;
+    this.ruleExecutorWorking = true;
+    this.cdr.markForCheck();
+  }
   onActionCardClick(ruleid: number) {
     this.isLoadingAction = true;
     this.taskService.executeTaskRule(ruleid, null, null)
@@ -288,6 +300,15 @@ export class QuickActionsComponent implements OnInit {
     this.updateFavouriteCategory();
   }
 
+
+  onRuleCompleted(event: any) {
+
+    console.log("Rule completed event received:", event);
+    this.ruleExecutorWorking = false;
+    this.pendingRuleId = 0;
+    this.isLoadingAction = false;
+    this.cdr.markForCheck();
+  }
   OpenTask(Vars: any, Params: any) {
     try {
       const taskId = Vars["nuevatarea.taskid"];

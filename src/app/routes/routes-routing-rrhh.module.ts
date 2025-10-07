@@ -51,6 +51,10 @@ const routes: Routes = [
         data: { title: 'Task History' },
         pathMatch: 'full'
       },
+      {
+        path: 'dashboard/gestion',
+        component: QuickActionsComponent,
+      },
       { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
       { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
       { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },
