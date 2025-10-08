@@ -1,6 +1,6 @@
 <div class="container">
 
-    <ng-container *ngIf="!loading && !executingRule">
+    <ng-container *ngIf="!executingRule">
         <div class="report-details">
             <div nz-row [nzGutter]="4">
                 <div nz-col nzXs="20" nzFlex="auto">
@@ -61,12 +61,12 @@
         </div>
         <nz-table #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
             [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"
-            [nzShowPagination]="nzShowPagination" [nzShowSizeChanger]="true" [nzScroll]="{y: height }"
-            [nzPageSize]="20">
+            [nzShowPagination]="nzShowPagination" [nzShowSizeChanger]="true" [nzScroll]="{y: height }" [nzPageSize]="20"
+            [nzLoading]="loading ? 'true' : 'false'">
             <thead>
                 <tr>
                     <ng-container *ngFor="let column of listOfColumns;">
-                        <th [nzSortOrder]="column.sortOrder" nzLoading="loading" [nzSortFn]="column.sortFn"
+                        <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                             [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
                             [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
                             {{ column.name }}
@@ -86,11 +86,11 @@
         </nz-table>
     </ng-container>
 
-    <ng-container *ngIf="loading">
+    <!-- <ng-container *ngIf="loading">
         <div class="loading-overlay">
             <nz-spin nzTip="Cargando..." [nzSize]="'large'"></nz-spin>
         </div>
-    </ng-container>
+    </ng-container> -->
 
     <ng-container *ngIf="executingRule">
         <app-rule-executor [ruleId]="ruleId" (ruleExecuted)="executeRule($event)">
