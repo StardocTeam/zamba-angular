@@ -113,15 +113,38 @@ export class ReportEditorComponent {
     }
 
     this.RVService.GetReportByQuery(genericRequest).pipe(
+      tap((data: any) => {
+        this.isButtonDisabled = false;
+
+        if (data == null) {
+          console.log('No se ha insertado correctamente', data);
+
+          console.error('Error: Ocurrio un error al ejecutar la sentencia');
+          this.modal.error({
+            nzTitle: 'Ocurrio un error al ejecutar la sentencia',
+            nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+
+          result = true;
+        } else {
+          var ObjectData = JSON.parse(data);
+
+          this.modal.success({
+            nzTitle: 'Ejecucion de sentencia exitosa',
+            nzContent: '<p>Cantidad de registros obtenidos: ' + ObjectData.RowHashtable.length + '</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+        }
+
+        result = false;
+      }),
       catchError(error => {
         console.error('Error al obtener datos:', error);
-        throw error;
-      })
-    ).subscribe((data: any) => {
-      this.isButtonDisabled = false;
-
-      if (data == null) {
-        console.log('No se ha insertado correctamente', data);
 
         console.error('Error: Ocurrio un error al ejecutar la sentencia');
         this.modal.error({
@@ -132,21 +155,10 @@ export class ReportEditorComponent {
           nzOnOk: () => console.log('OK'),
         });
 
-        result = true;
-      } else {
-        var ObjectData = JSON.parse(data);
-
-        this.modal.success({
-          nzTitle: 'Ejecucion de sentencia exitosa',
-          nzContent: '<p>Cantidad de registros obtenidos: ' + ObjectData.RowHashtable.length + '</p>',
-          nzOkText: 'OK',
-          nzOkType: 'primary',
-          nzOnOk: () => console.log('OK'),
-        });
-      }
-
-      result = false;
-    });
+        result = false;
+        return of([]); // Return an observable to satisfy catchError's contract
+      })
+    ).subscribe();
 
     this.isButtonDisabled = false;
   }
@@ -255,7 +267,19 @@ export class ReportEditorComponent {
       queryParams.t = tokenData['token'];
     }
 
-    this.router.navigate(['/tools/reports'], { queryParams });
+    // Usa router.createUrlTree para obtener la ruta base sin fragmentos ni parámetros
+    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+    debugger;
+    // Si la ruta base termina con 'view' o un id, elimínalos
+    const cleanedBaseUrl = baseUrl
+      .replace(/\/view(\/\d+)?$/, '')
+      .replace(/\/create(\/\d+)?$/, '')
+      .replace(/\/edit(\/\d+)?$/, '')
+      .replace(/\/chartContainer(\/\d+)?$/, '');
+
+    this.router.navigate([cleanedBaseUrl], { queryParams });
+
+    //this.router.navigate(['/tools/reports'], { queryParams });
   }
 
 }

@@ -55,6 +55,16 @@ const routes: Routes = [
         path: 'dashboard/gestion',
         component: QuickActionsComponent,
       },
+      {
+        path: 'dashboard/reports',
+        component: ReportComponentComponent,
+        children: [
+          { path: 'create', component: ReportEditorComponent },
+          { path: 'edit/:id', component: ReportEditorComponent },
+          { path: 'view/:id', component: ReportViewerComponent },
+          { path: 'chartcontainer/:id', component: ChartContainerComponent },
+        ]
+      },
       { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
       { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
       { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },

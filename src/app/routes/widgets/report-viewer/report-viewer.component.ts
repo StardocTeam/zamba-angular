@@ -16,6 +16,7 @@ import { GridService } from 'src/app/services/Grid/grid.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TaskService } from 'src/app/services/task.service';
 import { Zvars } from './entitie/ZVar';
+import { RuleExecutorComponent } from 'src/app/components/rule-executor/rule-executor.component';
 
 @Component({
   selector: 'app-report-viewer',
@@ -45,6 +46,7 @@ export class ReportViewerComponent {
   ZvarList: Zvars[] = [];
   endDateVisible: boolean = false;
   startDateVisible: boolean = false;
+  ruleId: any;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -93,6 +95,7 @@ export class ReportViewerComponent {
     this.startDateVisible = false;
     //TODO: Recordar quitar esto al hacer el ABM
 
+    this.ruleId = 0;
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
     this.listOfData = [];
@@ -137,10 +140,10 @@ export class ReportViewerComponent {
         throw error;
       })
     ).subscribe((Rule: any) => {
-      Rule = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
+      this.ruleId = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
 
-      if (Rule && Rule > 0) {
-        this.TService.executeTaskRule(Rule, "").pipe(
+      if (this.ruleId && this.ruleId > 0) {
+        this.TService.executeTaskRule(this.ruleId, "").pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
@@ -458,7 +461,16 @@ export class ReportViewerComponent {
     if (tokenData && tokenData['token']) {
       queryParams.t = tokenData['token'];
     }
-    this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
+
+    // Alinear con el patrón de navigateTo... para que funcione desde raíz o desde report-component
+    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+    const cleanedBaseUrl = baseUrl
+      .replace(/\/view(\/\d+)?$/, '')
+      .replace(/\/create(\/\d+)?$/, '')
+      .replace(/\/edit(\/\d+)?$/, '')
+      .replace(/\/chartContainer(\/\d+)?$/, '');
+
+    this.router.navigate([cleanedBaseUrl, 'chartcontainer', reportId], { queryParams });
   }
 
   executeRepeatedly(maxTimeInSeconds: number) {
@@ -490,6 +502,15 @@ export class ReportViewerComponent {
     }
 
     return variables;
+  }
+
+  executeRule(event: any): void {
+    console.log("Rule completed event received:", event);
+
+    this.executingRule = false;
+    this.ruleId = 0;
+    this.loading = false;
+    this.cdr.markForCheck();
   }
 
   //#endregion
