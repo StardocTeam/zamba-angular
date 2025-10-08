@@ -23,6 +23,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@env/environment';
 import { EventEmitter } from '@angular/core';
+import { DoShowTableComponent } from '../doshowtable/do-show-table/do-show-table.component';
 
 @Component({
   selector: 'app-rule-executor',
@@ -42,7 +43,8 @@ import { EventEmitter } from '@angular/core';
     NzSpinModule,
     NzSkeletonModule,
     NzSpaceModule,
-    NzListModule
+    NzListModule,
+    DoShowTableComponent
   ],
   templateUrl: './rule-executor.component.html',
   styleUrls: ['./rule-executor.component.css'],
@@ -59,6 +61,11 @@ export class RuleExecutorComponent implements OnInit {
   @Input() ruleId!: number;
 
   isLoadingAction = false;
+
+  hiddenDoShowTable = true;
+
+  doShowTableParams: any = [];
+  doShowTablePendingChildRules: any = [];
 
   @Output() ruleExecuted = new EventEmitter<any>();
   //@Output() ruleCompleted = new EventEmitter();
@@ -91,7 +98,10 @@ export class RuleExecutorComponent implements OnInit {
           if (accion != '') {
             switch (accion) {
               case 'doshowtable':
-                this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
+                this.doShowTableParams = responseObject.Params || [];
+                this.doShowTablePendingChildRules = responseObject.PendingChildRules || [];
+                this.hiddenDoShowTable = false;
+                //this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
                 //this.SendExecutedEvent(responseObject, true);
 
                 break;
@@ -125,6 +135,10 @@ export class RuleExecutorComponent implements OnInit {
           this.SendExecutedEvent({}, false);
         }
       });
+  }
+  onDoShowTableHasFinished(event: any) {
+    this.hiddenDoShowTable = true;
+    this.SendExecutedEvent(event, event.success);
   }
 
   SendExecutedEvent(responseObject: any, ExecutedSuccessfully: boolean) {

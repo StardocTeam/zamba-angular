@@ -66,7 +66,7 @@
             </ng-container>
         </ng-container>
     </div>
-    <div class="panel-item-selected" *ngIf="ruleExecutorWorking" style="margin-left: 10px;">
+    <div class="rule-executor-container" *ngIf="ruleExecutorWorking" style="margin-left: 10px;">
         <app-rule-executor [ruleId]="pendingRuleId" (ruleExecuted)="onRuleCompleted($event)"
             #ruleExecutor></app-rule-executor>
     </div>
