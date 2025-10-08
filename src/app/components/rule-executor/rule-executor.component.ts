@@ -88,46 +88,52 @@ export class RuleExecutorComponent implements OnInit {
   }
 
   executeRule(ruleid: number) {
+    debugger;
     this.isLoadingAction = true;
     this.taskService.executeTaskRule(ruleid, null, null)
       .subscribe({
         next: (response: any) => {
+          debugger;
           const responseObject = JSON.parse(response);
           const accion: string = this.taskService.checkAccion(responseObject);
           console.log(responseObject);
-          if (accion != '') {
-            switch (accion) {
-              case 'doshowtable':
-                this.doShowTableParams = responseObject.Params || [];
-                this.doShowTablePendingChildRules = responseObject.PendingChildRules || [];
-                this.hiddenDoShowTable = false;
-                //this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
-                //this.SendExecutedEvent(responseObject, true);
 
+          switch (accion) {
+            case 'doshowtable':
+              this.doShowTableParams = responseObject.Params || [];
+              this.doShowTablePendingChildRules = responseObject.PendingChildRules || [];
+              this.hiddenDoShowTable = false;
+              //this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
+              //this.SendExecutedEvent(responseObject, true);
+
+              break;
+            case 'executescript':
+              if (responseObject.Params.RuleClass.toLowerCase().includes("doopentask")) {
+                this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
+                this.SendExecutedEvent(responseObject, true);
                 break;
-              case 'executescript':
-                if (responseObject.Params.RuleClass.toLowerCase().includes("doopentask")) {
-                  this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
-                  this.SendExecutedEvent(responseObject, true);
-                  break;
-                }
+              }
 
-                if (responseObject.Params.RuleClass.toLowerCase().includes("doopenurl")) {
-                  this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
-                  this.SendExecutedEvent(responseObject, true);
-                  break;
-
-                }
-                if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
-                  this.OpenTask(responseObject.Vars, responseObject.Params);
-                  this.SendExecutedEvent(responseObject, true);
-                  break;
-                }
+              if (responseObject.Params.RuleClass.toLowerCase().includes("doopenurl")) {
+                this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
                 this.SendExecutedEvent(responseObject, true);
                 break;
 
-            }
+              }
+              if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
+                this.OpenTask(responseObject.Vars, responseObject.Params);
+                this.SendExecutedEvent(responseObject, true);
+                break;
+              }
+              this.SendExecutedEvent(responseObject, true);
+              break;
+
+            default:
+              this.SendExecutedEvent(responseObject, true);
+              break;
+
           }
+
           this.isLoadingAction = false;
           this.cdr.markForCheck();
         },

@@ -54,7 +54,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-
+    this.executingRule = false;
     this.listOfColumns = [];
     this.listOfData = [];
     this.ListZVARsFromRule = [];
@@ -95,7 +95,10 @@ export class ReportViewerComponent {
   //#region Bussines Functions
 
   OpenReport(report: Report) {
+    debugger;
+    this.executingRule = false;
     this.loading = true;
+
     //TODO: Recordar quitar esto al hacer el ABM
     this.endDateVisible = false;
     this.startDateVisible = false;
@@ -152,17 +155,21 @@ export class ReportViewerComponent {
 
       //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
       //Este codigo detecta y arma una lista de zVars encontradas
-
       this.SetRangeOfDatesVisible();
+
       this.ListZVARsFromRule = [];
       if (this.ruleId && this.ruleId > 0) {
+
+        this.executingRule = true;
+        this.cdr.detectChanges();
+
         this.TService.executeTaskRule(this.ruleId, "").pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
           })
         ).subscribe((ZvarsData: any) => {
-
+          debugger;
           const ZvarsDataParsed = JSON.parse(ZvarsData).Vars;
 
           if (ZvarsDataParsed && Object.prototype.hasOwnProperty.call(ZvarsDataParsed, 'tasks'))
@@ -519,6 +526,7 @@ export class ReportViewerComponent {
   }
 
   executeRule(event: any): void {
+    debugger;
     console.log("Rule completed event received:", event);
 
     this.executingRule = false;
