@@ -54,7 +54,12 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-    this.loading = false;
+
+    this.listOfColumns = [];
+    this.listOfData = [];
+    this.ListZVARsFromRule = [];
+
+    this.loading = true;
     const tokenData = this.tokenService.get();
 
     this.route.params.subscribe(params => {
@@ -90,6 +95,7 @@ export class ReportViewerComponent {
   //#region Bussines Functions
 
   OpenReport(report: Report) {
+    this.loading = true;
     //TODO: Recordar quitar esto al hacer el ABM
     this.endDateVisible = false;
     this.startDateVisible = false;
@@ -97,27 +103,17 @@ export class ReportViewerComponent {
 
     this.ruleId = 0;
     this.isButtonExcelDisabled = true;
-    this.listOfColumns = [];
-    this.listOfData = [];
 
-    this.ListZVARsFromRule = [];
+    // this.listOfColumns = [];
+    // this.listOfData = [];
+    // this.ListZVARsFromRule = [];
+
     this.currentReport = report;
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
-    //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
-    //Este codigo detecta y arma una lista de zVars encontradas
-    var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
-
-    if (zVarsFound.includes("FechaDesde")) {
-      this.startDateVisible = true;
-    }
-
-    if (zVarsFound.includes("FechaHasta")) {
-      this.endDateVisible = true;
-    }
     //--------------------------------
 
     if (tokenData != null) {
@@ -133,6 +129,18 @@ export class ReportViewerComponent {
     }
   }
 
+  private SetRangeOfDatesVisible() {
+    var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
+
+    if (zVarsFound.includes("FechaDesde")) {
+      this.startDateVisible = true;
+    }
+
+    if (zVarsFound.includes("FechaHasta")) {
+      this.endDateVisible = true;
+    }
+  }
+
   private GetRuleIdToReport(genericRequest: any, tokenData: any) {
     this.RVService.GetRuleIdToReport(genericRequest).pipe(
       catchError(error => {
@@ -142,6 +150,11 @@ export class ReportViewerComponent {
     ).subscribe((Rule: any) => {
       this.ruleId = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
 
+      //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
+      //Este codigo detecta y arma una lista de zVars encontradas
+
+      this.SetRangeOfDatesVisible();
+      this.ListZVARsFromRule = [];
       if (this.ruleId && this.ruleId > 0) {
         this.TService.executeTaskRule(this.ruleId, "").pipe(
           catchError(error => {
@@ -157,7 +170,6 @@ export class ReportViewerComponent {
 
           var ZvarsDataArray = Object.entries(ZvarsDataParsed);
 
-          this.ListZVARsFromRule = [];
           ZvarsDataArray.forEach(item => {
             const z = new Zvars();
             z.KeyZVar = String(item[0]);
@@ -276,6 +288,9 @@ export class ReportViewerComponent {
   }
 
   private SetFinalResultOnGrid(data: any) {
+    this.listOfColumns = [];
+    this.listOfData = [];
+    this.cdr.detectChanges();
     if (!data) {
       this.isButtonExcelDisabled = true;
 
@@ -297,7 +312,6 @@ export class ReportViewerComponent {
 
 
       if (ObjectData && ObjectData.ListColumns.length > 0 && ObjectData.RowHashtable.length > 0) {
-        this.cdr.detectChanges();
 
         ObjectData.ListColumns.forEach((element: any) => {
           var baseWidth = 10; // Factor base para el ancho (puedes ajustarlo según el diseño)
