@@ -88,12 +88,12 @@ export class RuleExecutorComponent implements OnInit {
   }
 
   executeRule(ruleid: number) {
-    debugger;
+
     this.isLoadingAction = true;
     this.taskService.executeTaskRule(ruleid, null, null)
       .subscribe({
         next: (response: any) => {
-          debugger;
+
           const responseObject = JSON.parse(response);
           const accion: string = this.taskService.checkAccion(responseObject);
           console.log(responseObject);

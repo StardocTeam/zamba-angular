@@ -117,7 +117,7 @@ export class ReportEditorComponent {
         this.isButtonDisabled = false;
 
         if (data == null) {
-          console.log('No se ha insertado correctamente', data);
+          console.log('Error: Ocurrio un error al ejecutar la sentencia', data);
 
           console.error('Error: Ocurrio un error al ejecutar la sentencia');
           this.modal.error({
@@ -202,7 +202,7 @@ export class ReportEditorComponent {
 
         this.modal.success({
           nzTitle: 'Insertado correctamente',
-          nzContent: '<p>Reporte: ' + this.report.Name + '<br> ID: ' + data + '<br> Categoria: ' + this.report.Category + ' </p>',
+          nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.ruleId != null ? this.ruleId : 'ninguna'} </p>`,
           nzOkText: 'OK',
           nzOkType: 'primary',
           nzOnOk: () => console.log('OK'),
@@ -269,7 +269,7 @@ export class ReportEditorComponent {
 
     // Usa router.createUrlTree para obtener la ruta base sin fragmentos ni parámetros
     const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
-    debugger;
+
     // Si la ruta base termina con 'view' o un id, elimínalos
     const cleanedBaseUrl = baseUrl
       .replace(/\/view(\/\d+)?$/, '')

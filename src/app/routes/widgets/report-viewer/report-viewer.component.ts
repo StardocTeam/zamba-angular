@@ -97,7 +97,7 @@ export class ReportViewerComponent {
   //#region Bussines Functions
 
   OpenReport(report: Report) {
-    debugger;
+
     this.executingRule = false;
     this.loading = true;
 
@@ -174,7 +174,7 @@ export class ReportViewerComponent {
         //     throw error;
         //   })
         // ).subscribe((ZvarsData: any) => {
-        //   debugger;
+        //   
         // const ZvarsDataParsed = JSON.parse(ZvarsData).Vars;
 
         // if (ZvarsDataParsed && Object.prototype.hasOwnProperty.call(ZvarsDataParsed, 'tasks'))
