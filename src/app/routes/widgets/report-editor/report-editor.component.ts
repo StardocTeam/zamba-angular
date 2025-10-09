@@ -113,52 +113,58 @@ export class ReportEditorComponent {
     }
 
     this.RVService.GetReportByQuery(genericRequest).pipe(
-      tap((data: any) => {
-        this.isButtonDisabled = false;
-
-        if (data == null) {
-          console.log('Error: Ocurrio un error al ejecutar la sentencia', data);
-
-          console.error('Error: Ocurrio un error al ejecutar la sentencia');
-          this.modal.error({
-            nzTitle: 'Ocurrio un error al ejecutar la sentencia',
-            nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
-            nzOkText: 'OK',
-            nzOkType: 'primary',
-            nzOnOk: () => console.log('OK'),
-          });
-
-          result = true;
-        } else {
-          var ObjectData = JSON.parse(data);
-
-          this.modal.success({
-            nzTitle: 'Ejecucion de sentencia exitosa',
-            nzContent: '<p>Cantidad de registros obtenidos: ' + ObjectData.RowHashtable.length + '</p>',
-            nzOkText: 'OK',
-            nzOkType: 'primary',
-            nzOnOk: () => console.log('OK'),
-          });
-        }
-
-        result = false;
-      }),
       catchError(error => {
         console.error('Error al obtener datos:', error);
+        this.isButtonDisabled = false;
+        throw error;
+      })
+    ).subscribe((data: any) => {
+      this.isButtonDisabled = false;
 
-        console.error('Error: Ocurrio un error al ejecutar la sentencia');
+      if (data == null) {
+        console.log('Error: Ocurrio un error al ejecutar la sentencia', data);
+
+        console.error('Error: La sentencia presenta errores');
         this.modal.error({
-          nzTitle: 'Ocurrio un error al ejecutar la sentencia',
+          nzTitle: 'Se ejecuto la sentencia pero presento errores',
           nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
           nzOkText: 'OK',
           nzOkType: 'primary',
           nzOnOk: () => console.log('OK'),
         });
 
-        result = false;
-        return of([]); // Return an observable to satisfy catchError's contract
-      })
-    ).subscribe();
+        result = true;
+      } else {
+        var ObjectData = JSON.parse(data);
+
+        this.modal.success({
+          nzTitle: 'Ejecucion de sentencia exitosa',
+          nzContent: '<p>Cantidad de registros obtenidos: ' + ObjectData.RowHashtable.length + '</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+      }
+
+      result = false;
+    })
+    //   ,
+    //   catchError(error => {
+    //     console.error('Error al obtener datos:', error);
+
+    //     console.error('Error: Ocurrio un error al ejecutar la sentencia');
+    //     this.modal.error({
+    //       nzTitle: 'Ocurrio un error al ejecutar la sentencia',
+    //       nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
+    //       nzOkText: 'OK',
+    //       nzOkType: 'primary',
+    //       nzOnOk: () => console.log('OK'),
+    //     });
+
+    //     result = false;
+    //     throw error;
+    //   })
+    // ).subscribe();
 
     this.isButtonDisabled = false;
   }
@@ -241,6 +247,7 @@ export class ReportEditorComponent {
       ID: 0,
       GroupExpression: ""
     };
+    this.ruleId = "";
   }
 
   isFormValid(): boolean {
