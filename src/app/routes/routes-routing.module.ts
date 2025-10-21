@@ -1,30 +1,49 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authSimpleCanActivate, authSimpleCanActivateChild } from '@delon/auth';
-import { PreloadOptionalModules } from '@delon/theme';
-import { environment } from '@env/environment';
 
-
-import { TaskHistoryComponent } from '../components/task-history/task-history.component';
-// layout
+import { ChartComponent } from '../components/chart/chart.component';
+import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
+import { ChecklistComponent } from '../components/checklist/checklist.component';
+import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
 import { LayoutSimpleComponent } from '../layout/simple/simple.component';
+import { NgModule } from '@angular/core';
+import { PreloadOptionalModules } from '@delon/theme';
+import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
 import { ReportComponentComponent } from "./widgets/report-component/report-component.component";
 import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
 import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
-import { ChartComponent } from '../components/chart/chart.component';
-import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
-import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
-import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
 import { SignatureContainerComponent } from '../signature-container/signature-container.component';
+import { TaskHistoryComponent } from '../components/task-history/task-history.component';
 import { ViewFormComponent } from './widgets/view-form/view-form.component';
+import { environment } from '@env/environment';
+
+// layout
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const routes: Routes = [
   {
     path: 'tools',
     component: LayoutSimpleComponent,
     children: [
+      {
+        path: 'checklist',
+        component: ChecklistComponent,
+        data: { title: 'Checklist' }
+      },
       {
         path: 'taskhistory',
         component: TaskHistoryComponent,
