@@ -367,7 +367,16 @@ export class ReportComponentComponent {
       queryParams.t = tokenData['token'];
     }
 
-    this.router.navigate(['/tools/reports/create'], { queryParams });
+    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+
+    // Si la ruta base termina con 'view' o un id, elimínalos
+    const cleanedBaseUrl = baseUrl
+      .replace(/\/view(\/\d+)?$/, '')
+      .replace(/\/create(\/\d+)?$/, '')
+      .replace(/\/edit(\/\d+)?$/, '')
+      .replace(/\/chartContainer(\/\d+)?$/, '');
+
+    this.router.navigate([cleanedBaseUrl, 'create'], { queryParams });
   }
 
   navigateToEdit(reportId: number) {
@@ -379,7 +388,16 @@ export class ReportComponentComponent {
         queryParams.t = tokenData['token'];
       }
 
-      this.router.navigate(['/tools/reports/edit/' + reportId], { queryParams });
+      const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+
+      // Si la ruta base termina con 'view' o un id, elimínalos
+      const cleanedBaseUrl = baseUrl
+        .replace(/\/view(\/\d+)?$/, '')
+        .replace(/\/create(\/\d+)?$/, '')
+        .replace(/\/edit(\/\d+)?$/, '')
+        .replace(/\/chartContainer(\/\d+)?$/, '');
+
+      this.router.navigate([cleanedBaseUrl, 'edit', reportId], { queryParams });
     }
   }
 
@@ -392,7 +410,17 @@ export class ReportComponentComponent {
       queryParams.t = tokenData['token'];
     }
 
-    this.router.navigate(['/tools/reports/view', reportId], { queryParams });
+    // Usa router.createUrlTree para obtener la ruta base sin fragmentos ni parámetros
+    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+
+    // Si la ruta base termina con 'view' o un id, elimínalos
+    const cleanedBaseUrl = baseUrl
+      .replace(/\/view(\/\d+)?$/, '')
+      .replace(/\/create(\/\d+)?$/, '')
+      .replace(/\/edit(\/\d+)?$/, '')
+      .replace(/\/chartContainer(\/\d+)?$/, '');
+
+    this.router.navigate([cleanedBaseUrl, 'view', reportId], { queryParams });
   }
 
   viewCharts(reportId: number) {

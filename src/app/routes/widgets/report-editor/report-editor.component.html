@@ -31,7 +31,7 @@
         </div>
 
 
-        <div nz-row>
+        <div nz-row [nzGutter]="4">
             <div nz-col [nzXs]="12" nzSm="12" nzMd="10" nzLg="9" nzXl="16">
                 <span>Completar:</span><br>
                 <input type="text" [(ngModel)]="report.Completar" nz-input
@@ -40,7 +40,7 @@
 
             <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="13" nzXl="8">
                 <span>Regla:</span><br>
-                <input type="text" [(ngModel)]="ruleId" nz-input placeholder="Agregue el valor de 'Regla'..." />
+                <input type="text" [(ngModel)]="ruleId" nz-input placeholder="Insert ID de 'Regla'..." />
             </div>
 
 
@@ -50,14 +50,15 @@
             <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
                 <span>Descripcion:</span>
                 <textarea rows="4" [(ngModel)]="report.Description" nz-input
-                    placeholder="Agregue una descripcion del reporte..."></textarea>
+                    placeholder="Agregue una descripcion al reporte..."></textarea>
             </div>
         </div>
 
         <div nz-row>
             <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
                 <span>Query:</span>
-                <textarea rows="4" [(ngModel)]="report.Query" nz-input placeholder="Inserte query..."></textarea>
+                <textarea rows="4" [(ngModel)]="report.Query" nz-input
+                    placeholder="Inserte la query que el reporte ejecutara..."></textarea>
             </div>
         </div>
 

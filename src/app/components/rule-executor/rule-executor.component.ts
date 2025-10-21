@@ -23,6 +23,9 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@env/environment';
 import { EventEmitter } from '@angular/core';
+import { DoShowTableComponent } from '../doshowtable/do-show-table/do-show-table.component';
+import 'sweetalert';
+declare var swal: any;
 
 @Component({
   selector: 'app-rule-executor',
@@ -42,7 +45,8 @@ import { EventEmitter } from '@angular/core';
     NzSpinModule,
     NzSkeletonModule,
     NzSpaceModule,
-    NzListModule
+    NzListModule,
+    DoShowTableComponent
   ],
   templateUrl: './rule-executor.component.html',
   styleUrls: ['./rule-executor.component.css'],
@@ -59,6 +63,11 @@ export class RuleExecutorComponent implements OnInit {
   @Input() ruleId!: number;
 
   isLoadingAction = false;
+
+  hiddenDoShowTable = true;
+
+  doShowTableParams: any = [];
+  doShowTablePendingChildRules: any = [];
 
   @Output() ruleExecuted = new EventEmitter<any>();
   //@Output() ruleCompleted = new EventEmitter();
@@ -81,43 +90,67 @@ export class RuleExecutorComponent implements OnInit {
   }
 
   executeRule(ruleid: number) {
+
     this.isLoadingAction = true;
     this.taskService.executeTaskRule(ruleid, null, null)
       .subscribe({
         next: (response: any) => {
+
           const responseObject = JSON.parse(response);
           const accion: string = this.taskService.checkAccion(responseObject);
           console.log(responseObject);
-          if (accion != '') {
-            switch (accion) {
-              case 'doshowtable':
-                this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
-                //this.SendExecutedEvent(responseObject, true);
 
-                break;
-              case 'executescript':
-                if (responseObject.Params.RuleClass.toLowerCase().includes("doopentask")) {
-                  this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
-                  this.SendExecutedEvent(responseObject, true);
-                  break;
-                }
+          switch (accion) {
+            case 'doshowtable':
+              this.doShowTableParams = responseObject.Params || [];
+              this.doShowTablePendingChildRules = responseObject.PendingChildRules || [];
+              this.hiddenDoShowTable = false;
+              //this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
+              //this.SendExecutedEvent(responseObject, true);
 
-                if (responseObject.Params.RuleClass.toLowerCase().includes("doopenurl")) {
-                  this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
-                  this.SendExecutedEvent(responseObject, true);
-                  break;
-
-                }
-                if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
-                  this.OpenTask(responseObject.Vars, responseObject.Params);
-                  this.SendExecutedEvent(responseObject, true);
-                  break;
-                }
+              break;
+            case 'executescript':
+              if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopentask")) {
+                this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
                 this.SendExecutedEvent(responseObject, true);
                 break;
+              }
 
-            }
+              if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopenurl")) {
+                this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
+                this.SendExecutedEvent(responseObject, true);
+                break;
+              }
+
+              if (responseObject.Vars?.scripttoexecute?.toLowerCase().includes("opendoc")) {
+                this.OpenTask(responseObject.Vars, responseObject.Params);
+                this.SendExecutedEvent(responseObject, true);
+                break;
+              }
+
+              if (responseObject.Vars?.ruleclass?.toLowerCase() === "doexecutescript") {
+                const script = responseObject.Vars?.scripttoexecute;
+                if (script) {
+                  try {
+                    // Hacer disponibles variables comunes en el contexto del script
+                    (window as any).swal = swal;
+                    eval(script);
+                  } catch (e) {
+                    console.error('Error ejecutando script:', e);
+                  }
+                }
+                this.SendExecutedEvent(responseObject, true);
+              }
+
+              this.SendExecutedEvent(responseObject, true);
+              break;
+
+            default:
+              this.SendExecutedEvent(responseObject, true);
+              break;
+
           }
+
           this.isLoadingAction = false;
           this.cdr.markForCheck();
         },
@@ -125,6 +158,10 @@ export class RuleExecutorComponent implements OnInit {
           this.SendExecutedEvent({}, false);
         }
       });
+  }
+  onDoShowTableHasFinished(event: any) {
+    this.hiddenDoShowTable = true;
+    this.SendExecutedEvent(event, event.success);
   }
 
   SendExecutedEvent(responseObject: any, ExecutedSuccessfully: boolean) {

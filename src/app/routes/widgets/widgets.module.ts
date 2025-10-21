@@ -34,6 +34,7 @@ import { ReportFilterPipe } from './report-component/FilterPipe';
 import { ReportEditorComponent } from './report-editor/report-editor.component';
 import { ChartContainerComponent } from 'src/app/components/chart-container/chart-container.component';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
+import { RuleExecutorComponent } from 'src/app/components/rule-executor/rule-executor.component';
 
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
@@ -72,7 +73,8 @@ const COMPONENTS: Array<Type<void>> = [
     NzSkeletonModule,
     ScrollingModule,
     NzTreeViewModule,
-    NzTableModule
+    NzTableModule,
+    RuleExecutorComponent
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS
