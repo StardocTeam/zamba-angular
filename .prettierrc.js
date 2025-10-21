@@ -8,6 +8,6 @@ module.exports = {
   arrowParens: 'avoid',
   bracketSpacing: true,
   proseWrap: 'preserve',
-  trailingComma: 'none',
-  endOfLine: 'lf'
+  trailingComma: 'all',
+  endOfLine: 'lf' // changed from 'auto' to 'lf'
 };
