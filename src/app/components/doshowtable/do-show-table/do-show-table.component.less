@@ -1,0 +1,56 @@
+.send-request {
+    margin-bottom: 16px;
+}
+
+.send-request span {
+    margin-left: 8px;
+}
+
+.header-panel {
+    background: white;
+    /* mismo color que la cabecera */
+    padding: 12px 24px;
+    text-align: left;
+}
+
+.header-title {
+    color: #858585;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.center-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.search-doshowtable {
+    width: 300px;
+    margin-bottom: 16px;
+    margin-right: 16px;
+    margin-top: 16px;
+}
+
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30, 30, 30, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+:host ::ng-deep .spinner-overlay .ant-spin-dot i {
+    background-color: #fff !important;
+}
+
+:host ::ng-deep .spinner-overlay .ant-spin-text {
+    color: #fff !important;
+    font-size: 18px;
+    font-weight: 500;
+}

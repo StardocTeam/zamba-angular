@@ -10,7 +10,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NzCarouselModule } from 'ng-zorro-antd/carousel';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -18,6 +17,9 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzTreeViewModule } from 'ng-zorro-antd/tree-view';
+
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { CalendarComponent } from './calendar/calendar.component';
 import { CarouselComponent } from './carousel/carousel.component';
@@ -26,6 +28,12 @@ import { PendingVacationsComponent } from './pending-vacations/pending-vacations
 import { VideoplayerComponent } from './videoplayer/videoplayer.component';
 import { WidgetsComponent } from './widgets/widgets.component';
 import { WidgetsRoutingModule } from './widgets-routing.module';
+import { ReportComponentComponent } from './report-component/report-component.component';
+import { ReportViewerComponent } from "./report-viewer/report-viewer.component";
+import { ReportFilterPipe } from './report-component/FilterPipe';
+import { ReportEditorComponent } from './report-editor/report-editor.component';
+import { ChartContainerComponent } from 'src/app/components/chart-container/chart-container.component';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 const COMPONENTS: Array<Type<void>> = [
   WidgetsComponent,
@@ -33,7 +41,11 @@ const COMPONENTS: Array<Type<void>> = [
   CarouselComponent,
   VideoplayerComponent,
   PendingTasksComponent,
-  PendingVacationsComponent
+  PendingVacationsComponent,
+  ReportComponentComponent,
+  ReportViewerComponent,
+  ReportFilterPipe,
+  ReportEditorComponent,
 ];
 
 @NgModule({
@@ -46,7 +58,6 @@ const COMPONENTS: Array<Type<void>> = [
     FlatpickrModule.forRoot(),
     NzModalModule,
     NzInputModule,
-    NzIconModule,
     NzGridModule,
     NzTypographyModule,
     NzSelectModule,
@@ -56,10 +67,12 @@ const COMPONENTS: Array<Type<void>> = [
       useFactory: adapterFactory
     }),
     NzLayoutModule,
+    NzSliderModule,
     ContextMenuModule,
     NzSkeletonModule,
     ScrollingModule,
-    NzResultModule
+    NzTreeViewModule,
+    NzTableModule
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS

@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders, HttpContext } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { inject, Inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
 import { DA_SERVICE_TOKEN, ITokenService, ALLOW_ANONYMOUS } from '@delon/auth';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService, _HttpClient } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzIconService } from 'ng-zorro-antd/icon';
-import { Observable, catchError, map, of } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 
 import { SharedService } from './shared.service';
 import { environment } from '../../../environments/environment';
@@ -20,10 +20,12 @@ import { I18NService } from '../../core/i18n/i18n.service';
 })
 export class ZambaService {
   LOGIN_URL = environment['apiRestBasePath'];
-
+  private apiUrlGetUserId: string = "";
+  private route = inject(ActivatedRoute);
   serverError = false;
   type = 0;
   loading = false;
+  token: string = "";
 
   constructor(
     iconSrv: NzIconService,
@@ -40,6 +42,19 @@ export class ZambaService {
     private sanitizer: DomSanitizer
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
+
+    let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
+    this.apiUrlGetUserId = restAPIUrl + "/getUserId";
+  }
+
+  public getUserId(genericRequest: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.httpClient.post<any>(this.apiUrlGetUserId, genericRequest, httpOptions);
   }
 
   public GetProfileImage() {

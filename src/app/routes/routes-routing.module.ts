@@ -10,62 +10,75 @@ import { TaskHistoryComponent } from '../components/task-history/task-history.co
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
 import { LayoutSimpleComponent } from '../layout/simple/simple.component';
+import { ReportComponentComponent } from "./widgets/report-component/report-component.component";
+import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
+import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
+import { ChartComponent } from '../components/chart/chart.component';
+import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
+import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
+import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
+import { SignatureContainerComponent } from '../signature-container/signature-container.component';
+import { ViewFormComponent } from './widgets/view-form/view-form.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: LayoutBasicComponent,
-    canActivate: [authSimpleCanActivate],
-    canActivateChild: [authSimpleCanActivateChild],
-    data: {},
+    path: 'tools',
+    component: LayoutSimpleComponent,
     children: [
-      { path: '', redirectTo: 'dashboard/widgets', pathMatch: 'full' },
-      {
-        path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-        data: { preload: true, title: 'Dashboard' }
-      },
-      {
-        path: 'default',
-        loadChildren: () => import('./default/default.component').then(m => m.DefaultComponent),
-        data: { preload: true }
-      },
-      {
-        path: 'widgets',
-        loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
-        data: { title: 'Dashboard' }
-      },
       {
         path: 'taskhistory',
         component: TaskHistoryComponent,
-        data: { title: 'Task History' },
+        data: { title: 'Historial de Tareas' },
         pathMatch: 'full'
       },
-      { path: 'style', loadChildren: () => import('./style/style.module').then(m => m.StyleModule) },
-      { path: 'delon', loadChildren: () => import('./delon/delon.module').then(m => m.DelonModule) },
-      { path: 'pro', loadChildren: () => import('./pro/pro.module').then(m => m.ProModule) },
-      { path: 'ges', loadChildren: () => import('./ges/ges.module').then(r => r.GesModule) },
-      { path: 'zamba', loadChildren: () => import('./zamba/zamba.module').then(r => r.ZambaModule) }
+      {
+        path: 'reports',
+        component: ReportComponentComponent,
+        data: { title: 'Listado de reportes' },
+        children: [
+          {
+            path: 'create',
+            component: ReportEditorComponent,
+            data: { title: 'Crear reporte' }
+          },
+          {
+            path: 'edit/:id',
+            component: ReportEditorComponent,
+            data: { title: 'Editar reporte' }
+          },
+          {
+            path: 'view/:id',
+            component: ReportViewerComponent,
+            data: { title: 'Vista general del reporte' }
+          },
+          {
+            path: 'chartcontainer/:id',
+            component: ChartContainerComponent,
+            data: { title: 'Vista de graficos' },
+            pathMatch: 'full'
+          },
+        ]
+      },
+      {
+        path: 'gestion',
+        component: QuickActionsComponent,
+      },
+      {
+        path: 'doshowtable',
+        component: DoShowTableComponent,
+      },
+      {
+        path: 'signature',
+        component: SignatureContainerComponent,
+      },
+      {
+        path: 'form',
+        component: ViewFormComponent,
+      }
     ]
   },
-  // Blak Layout 空白布局
-  {
-    path: 'data-v',
-    component: LayoutBlankComponent,
-    children: [{ path: '', loadChildren: () => import('./data-v/data-v.module').then(m => m.DataVModule) }]
-  },
-  {
-    path: 'tools',
-    component: LayoutSimpleComponent,
-    children: [{
-      path: 'taskhistory',
-      component: TaskHistoryComponent,
-      data: { title: 'Task History' },
-      pathMatch: 'full'
-    },]
-  },
   // passport
-  { path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
+  //{ path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
   { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
   { path: '**', redirectTo: 'exception/404' },
 ];

@@ -1,0 +1,205 @@
+:host ::ng-deep {
+    .ant-menu-submenu-title {
+        height: 30px !important;
+        padding-left: 16px !important;
+        width: 25spx !important;
+
+    }
+
+    .ant-menu-item {
+        height: 35px !important;
+        width: 100% !important;
+    }
+}
+
+
+nz-header,
+nz-footer {
+    background: #7dbcea;
+    color: #fff;
+}
+
+nz-submenu {
+    padding-left: 0px !important;
+}
+
+.ControllerContainer {
+    padding-right: 5px;
+}
+
+.firstDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    height: 100%;
+    /* Ocupa el 100% de la altura del contenedor */
+    // overflow: auto;
+    /* Habilita el scroll si el contenido excede la altura */
+}
+
+.nzLayoutHeight100percent {
+    height: 100% !important;
+}
+
+.search-anchor {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: #ffffff;
+    z-index: 10;
+    box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.2);
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.search-container {
+    padding-right: 5px !important;
+}
+
+.right-align {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.boldMenuTittle {
+    font-weight: bold !important;
+}
+
+.ant-layout-sider {
+    position: relative;
+    min-width: 0;
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+.ant-layout-content {
+
+    position: relative;
+    min-width: 0;
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+
+li[nz-menu-item] {
+    position: relative;
+}
+
+nz-layout nz-layout,
+nz-layout:last-child {
+    margin: 0;
+}
+
+nz-sider {
+    line-height: 10px !important;
+    min-width: 250px !important;
+    color: #fff !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+nz-input-group {
+    margin-bottom: 8px;
+}
+
+::ng-deep .highlight {
+    color: #f50;
+}
+
+nz-tree-view {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    padding-right: 7px !important;
+}
+
+nz-divider {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.nzMenuGroup {
+    background: #7dc1ff !important;
+}
+
+.btnSearch {
+    width: 100%;
+}
+
+
+
+.btnSetting {
+    background-color: transparent;
+    border: none;
+}
+
+.btnCreateReport {
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.li-line-height {
+    line-height: 14px;
+    padding-left: 16px !important;
+}
+
+.ant-menu-submenu-title {
+    padding-left: 14px !important;
+}
+
+.padding-14px {
+    padding-left: 14px;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.greycolor {
+    color: #bfbfbf;
+}
+
+.redcolor {
+    color: #ff2327;
+}
+
+.ulContainer-menu {
+    border-right: none !important;
+}
+
+//////////////////////////////////////////////////////////////////////
+
+.tree-node-container {
+    position: relative;
+}
+
+.iconSetting {
+    font-size: 18px;
+}
+
+
+// Quita la línea azul vertical del ítem seleccionado en nz-menu
+::ng-deep .ant-menu-item-selected,
+::ng-deep .ant-menu-submenu-selected {
+    border-left: none !important;
+
+    &::after {
+        border-right: none !important;
+    }
+}
+
+// Opcional: Quita el pseudo-elemento que genera la línea
+::ng-deep .ant-menu-item::after {
+    border-right: none !important;
+}

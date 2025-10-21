@@ -20,6 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "/zamba/",
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -79,6 +80,20 @@
               "sourceMap": true,
               "namedChunks": true
             },
+            "rrhh": {
+              "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                 "with": "src/environments/environment.rrhh.ts"
+              }
+             ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "local": {
               "fileReplacements": [
                 {
@@ -125,6 +140,9 @@
             },
             "local": {
               "browserTarget": "zamba:build:local"
+            },
+             "rrhh": {
+            "browserTarget": "zamba:build:rrhh"
             }
           },
           "defaultConfiguration": "development"

@@ -38,6 +38,7 @@ import { ProProfileBaseComponent } from './profile/basic/basic.component';
 import { ProResultFailComponent } from './result/fail/fail.component';
 import { ProResultSuccessComponent } from './result/success/success.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 const COMPONENTS = [
   BasicFormComponent,
@@ -71,6 +72,7 @@ const COMPONENTS = [
 
 @NgModule({
   imports: [
+    NzSliderModule,
     SharedModule,
     ProRoutingModule,
     EllipsisModule,

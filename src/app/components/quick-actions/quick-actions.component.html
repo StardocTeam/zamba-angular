@@ -1,0 +1,112 @@
+<div *ngIf="isLoadingAction" class="spinner-overlay">
+    <nz-spin [nzSize]="'large'" nzTip="Cargando..."></nz-spin>
+</div>
+<div class="quick-actions-main-container" *ngIf="!isLoading; else sidebarSkeleton">
+    <div class="categories-container">
+        <div class="categories-header">
+            <button nz-button class="categories-clear-button" (click)="clearSelectedCategories()">
+                <span nz-icon nz-icon nzType="clear" nzTheme="outline"> </span>
+                Deseleccionar todo
+            </button>
+        </div>
+        <!-- Sidebar -->
+        <ul nz-menu nzMode="inline" id="custom-multiselect-menu" style="min-width: 260px;">
+            <li nz-menu-item *ngFor="let cat of categories" (click)="toggleCategory(cat)"
+                [nzSelected]="!showAllCategoriesPanel && isSelected(cat)"
+                [class.custom-selected]="!showAllCategoriesPanel && isSelected(cat)">
+                <span class="ant-menu-title-content">
+                    <span nz-icon [nzType]="cat.icon" class="icon-list-item"></span>
+                    <span class="menu-text">{{ cat.name }}</span>
+                </span>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- Panel de seleccionados -->
+    <div class="panel-item-selected" *ngIf="!ruleExecutorWorking">
+        <!--Busqueda-->
+        <div class="search-container">
+            <nz-input-group nzSearch [nzSuffix]="clearIcon" [nzAddOnAfter]="suffixIconButton" nzSize="large">
+                <input type="text" nz-input placeholder="Buscar" autocomplete="off" [(ngModel)]="searchText"
+                    (keydown.enter)="onSearch()" />
+            </nz-input-group>
+            <ng-template #suffixIconButton>
+                <button nz-button nzType="primary" nzSearch nzSize="large"><span nz-icon nzType="search"
+                        (click)="onSearch()"></span></button>
+            </ng-template>
+        </div>
+
+        <ng-container *ngFor="let cat of categories">
+            <ng-container *ngIf="isSelected(cat)">
+                <h3 class="selected-category-title">{{ cat.name }}</h3>
+                <div class="actions-card-container">
+                    <nz-card *ngFor="let action of getVisibleActions(cat)"
+                        style="width: 300px; margin: 16px; display: inline-block; vertical-align: top;"
+                        (click)="executeRule(action.ruleid)">
+                        <!-- Botón de favoritos arriba a la derecha -->
+                        <button nz-button nzType="text" class="favorite-btn"
+                            (click)="toggleFavorite(action); $event.stopPropagation()"
+                            [attr.aria-label]="action.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+                            style="position: absolute; top: 8px; right: 8px; z-index: 2;">
+                            <span nz-icon nzType="star" [nzTheme]="action.isFavorite ? 'twotone' : 'outline'"
+                                [nzTwotoneColor]="action.isFavorite ? '#faad14' : ''" style="font-size: 18px;"></span>
+                        </button>
+                        <nz-card-meta [nzTitle]="action.name" [nzDescription]="descTpl" [nzAvatar]="starAvatar">
+                        </nz-card-meta>
+                        <ng-template #descTpl>
+                            <span nz-tooltip [nzTooltipTitle]="action.description" [nzTooltipMouseEnterDelay]="0.7"
+                                [nzTooltipMouseLeaveDelay]="0.1">
+                                {{ action.description | slice:0:40 }}<ng-container
+                                    *ngIf="action.description.length > 40">...</ng-container>
+                            </span>
+                        </ng-template>
+                    </nz-card>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+    <div class="panel-item-selected" *ngIf="ruleExecutorWorking" style="margin-left: 10px;">
+        <app-rule-executor [ruleId]="pendingRuleId" (ruleExecuted)="onRuleCompleted($event)"
+            #ruleExecutor></app-rule-executor>
+    </div>
+</div>
+<ng-template #starAvatar>
+    <span nz-icon nzType="bar-chart" style="font-size: 10px; color: #000000;"></span>
+</ng-template>
+
+<ng-template #clearIcon>
+    <span *ngIf="searchText" nz-icon nzType="close-circle" class="input-clear-icon" (click)="clearOnSearch()"
+        style="cursor: pointer; color: #bfbfbf;"></span>
+</ng-template>
+
+<ng-template #sidebarSkeleton>
+    <div class="skeleton-row">
+        <nz-skeleton class="sidebar-skeleton" [nzActive]="true" [nzTitle]="false"
+            [nzParagraph]="{ rows: 25, width: '100%' }" [nzLoading]="isLoading" [nzAvatar]="false"
+            style="min-width: 260px; margin: 16px 0;">
+        </nz-skeleton>
+        <div class="skeleton-row-right">
+            <nz-space nzSize="middle">
+                <nz-skeleton-element class="search-skeleton" *nzSpaceItem nzType="input" [nzActive]="true"
+                    style="width:200px"></nz-skeleton-element>
+            </nz-space>
+            <div class="skeleton-row-right-left">
+                <nz-list nzItemLayout="vertical">
+                    <nz-list-item *ngFor="let i of [1,2,3,4]">
+                        <nz-skeleton [nzLoading]="true" [nzActive]="true" [nzAvatar]="true"
+                            [nzParagraph]="{ rows: 2, width: '100%' }">
+                            <nz-list-item-meta nzAvatar="https://api.dicebear.com/7.x/miniavs/svg?seed={{i}}"
+                                nzTitle="Cargando título..." nzDescription="Cargando descripción...">
+                            </nz-list-item-meta>
+                            <div>Cargando contenido...</div>
+                        </nz-skeleton>
+                    </nz-list-item>
+                </nz-list>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #iframeModal>
+    <iframe [src]="safeIframeUrl" width="100%" height="500" frameborder="0"></iframe>
+</ng-template>

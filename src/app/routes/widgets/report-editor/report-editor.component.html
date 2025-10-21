@@ -1,0 +1,81 @@
+<div style="padding-left: 20px; padding-right: 20px; overflow-y: auto;">
+    <div nz-row>
+        <div>
+            <span style="font-size: x-large;">EDITOR DE REPORTE</span><br>
+            <span>En esta sección puedes crear un nuevo reporte.</span>
+        </div>
+    </div>
+
+    <br>
+
+    <div>
+        <div nz-row [nzGutter]="4">
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="10" nzLg="9" nzXl="16">
+                <span>Nombre del reporte:</span><br>
+                <input type="text" [(ngModel)]="report.Name" nz-input placeholder="Nombre..." />
+            </div>
+
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="13" nzXl="8">
+                <span>Categoria:</span><br>
+                <nz-select id="category" [(ngModel)]="report.Category" style="width: 100%;"
+                    nzPlaceHolder="Selecciones una categoria">
+                    <nz-option *ngFor="let item of CategoryList" nzValue="{{item.ID}}"
+                        nzLabel="{{item.Category}}"></nz-option>
+                </nz-select>
+            </div>
+
+
+
+
+        </div>
+
+
+        <div nz-row>
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="10" nzLg="9" nzXl="16">
+                <span>Completar:</span><br>
+                <input type="text" [(ngModel)]="report.Completar" nz-input
+                    placeholder="Agregue el valor de 'Completar'..." />
+            </div>
+
+            <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="13" nzXl="8">
+                <span>Regla:</span><br>
+                <input type="text" [(ngModel)]="ruleId" nz-input placeholder="Agregue el valor de 'Regla'..." />
+            </div>
+
+
+        </div>
+
+        <div nz-row>
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
+                <span>Descripcion:</span>
+                <textarea rows="4" [(ngModel)]="report.Description" nz-input
+                    placeholder="Agregue una descripcion del reporte..."></textarea>
+            </div>
+        </div>
+
+        <div nz-row>
+            <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
+                <span>Query:</span>
+                <textarea rows="4" [(ngModel)]="report.Query" nz-input placeholder="Inserte query..."></textarea>
+            </div>
+        </div>
+
+        <div nz-row style="padding-top: 8px; text-align: right;">
+            <div nz-col>
+                <button nz-button nzType="primary" nzDanger (click)="navigateToListReport()">Cancelar</button>
+                <button nz-button nzType="default" (click)="TestQuery()"
+                    [disabled]="report.Query == '' || isButtonDisabled">Probar</button>
+                <button nz-button nzType="primary" (click)="InsertReport()"
+                    [disabled]="!isFormValid() || isButtonDisabled">
+                    Crear reporte
+                </button>
+            </div>
+        </div>
+
+        <!-- <div nz-row>
+            <nz-divider nzPlain nzText="Grilla de resultados"></nz-divider>
+        </div> -->
+
+    </div>
+</div>

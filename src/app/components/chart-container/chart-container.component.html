@@ -1,0 +1,47 @@
+<div class="container">
+    <div nz-row [nzGutter]="4">
+        <div nz-col nzXs="20" nzFlex="auto">
+            <div id="report-name" style="font-size: 24px !important;">{{currentReport.Name}}</div>
+
+        </div>
+
+        <div nz-col nzXs="4" style="margin-top: 5px;">
+            <button id="returnToReportBtn" nz-button anchorBtn nzType="default" style="margin-bottom: 5px;"
+                (click)="goToReportViewer()" [disabled]="isButtonExcelDisabled">
+                <i nz-icon nzTooltipPlacement="right" nzType="arrow-left" nzTheme="outline"></i>
+            </button>
+            <button id="exportToExcelBtn" nz-button anchorBtn nzType="default"
+                style="margin-bottom: 5px; margin-left: 8px;" [disabled]="isButtonExcelDisabled">
+                <i nz-icon nzTooltipPlacement="right" nzType="download" nzTheme="outline"></i>
+            </button>
+        </div>
+    </div>
+
+
+    <table class="grid-table" height="100%" width="100%">
+        <tr *ngFor="let r of [].constructor(DimY); let rowY = index">
+            <ng-container *ngFor="let c of [].constructor(DimX); let colX = index">
+
+                <!-- solo dibujar si no está cubierta -->
+                <ng-container *ngIf="!isCellCovered(rowY+1, colX+1)">
+
+                    <!-- ocupado -->
+                    <td class="cell" *ngIf="getChartAt(rowY+1, colX+1) as chart" [attr.rowspan]="chart.DimY"
+                        [attr.colspan]="chart.DimX">
+
+                        <app-chart-component [ReportData]="ReportData" [chartType]="chart.ChartTypeDescripcion"
+                            [AttrSelected]="chart.AttrSelected" [title]="chart.ChartTitle">
+                        </app-chart-component>
+                    </td>
+
+                    <!-- libre -->
+                    <td class="cell" *ngIf="!getChartAt(rowY+1, colX+1) as chart">
+                        <!-- LIBRE {{rowY+1}}, {{colX+1}} {{chart}} -->
+                    </td>
+
+                </ng-container>
+            </ng-container>
+        </tr>
+    </table>
+
+</div>

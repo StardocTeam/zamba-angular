@@ -4,10 +4,10 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { GridsterItem } from 'angular-gridster2';
 import { NzButtonSize } from 'ng-zorro-antd/button';
 import { Subscription, catchError } from 'rxjs';
-
-import { Generic } from './entitie/generic';
 import { Vacation } from './entitie/vacation';
 import { PendingVacationsService } from './service/pending-vacations.service';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: 'app-pending-vacations',
@@ -155,3 +155,4 @@ export class PendingVacationsComponent implements OnInit {
     this.router.navigate([route], { queryParams: { typeRule: 'executeViewTask', ruleId: '133' } });
   }
 }
+
