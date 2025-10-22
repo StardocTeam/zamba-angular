@@ -1,23 +1,12 @@
-<div class="checklist-card">
-  <h3>Checklist</h3>
+<div class="checklist-card" [ngStyle]="cardStyle">
 
-  <div class="add-row">
-    <input [(ngModel)]="newTitle" placeholder="New item title" />
-    <button (click)="add()">Add</button>
-  </div>
-
-  <ul class="checklist">
+  <ul class="checklist" [ngStyle]="listStyle">
     <li *ngFor="let it of items; trackBy: trackById" class="item">
       <div class="left">
         <span class="icon" [ngClass]="{ 'success': it.done, 'pending': !it.done }">
-          {{ it.done ? '✓' : '⏳' }}
+          <i nz-icon [nzType]="it.done ? 'check-circle' : 'clock-circle'"></i>
         </span>
         <span class="title" [class.done]="it.done">{{ it.title }}</span>
-      </div>
-
-      <div class="actions">
-        <button (click)="toggle(it)">{{ it.done ? 'Undo' : 'Done' }}</button>
-        <button class="danger" (click)="remove(it)">Remove</button>
       </div>
     </li>
   </ul>
