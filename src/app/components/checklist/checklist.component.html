@@ -1,12 +1,12 @@
 <div class="checklist-card" [ngStyle]="cardStyle">
 
   <ul class="checklist" [ngStyle]="listStyle">
-    <li *ngFor="let it of items; trackBy: trackById" class="item">
+    <li *ngFor="let it of items; trackBy: trackById" class="item" [class.completed]="it.done">
       <div class="left">
         <span class="icon" [ngClass]="{ 'success': it.done, 'pending': !it.done }">
-          <i nz-icon [nzType]="it.done ? 'check-circle' : 'clock-circle'"></i>
+          <i nz-icon [nzType]="it.done ? 'check' : 'clock-circle'" nzTheme="outline"></i>
         </span>
-        <span class="title" [class.done]="it.done">{{ it.title }}</span>
+        <span class="title">{{ it.title }}</span>
       </div>
     </li>
   </ul>
