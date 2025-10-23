@@ -1,8 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { catchError, Observable, Subscription } from 'rxjs';
+import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
 
 @Component({
   selector: 'app-checklist-component',
@@ -11,7 +14,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
   templateUrl: './checklist.component.html',
   styleUrls: ['./checklist.component.scss']
 })
-export class ChecklistComponent {
+export class ChecklistComponent implements OnInit, OnDestroy {
+
+  @Input() reportId: number | undefined;
+  @Input() taskId: number | undefined;
+  @Input() refresh$?: Observable<any>;
+  private refreshSub?: Subscription;
   /**
    * Width can be a number (px) or a CSS string (%, px, etc). Defaults to '100%'.
    */
@@ -21,6 +29,9 @@ export class ChecklistComponent {
    * Height for the list area. Can be number (px) or CSS string. Defaults to 260px.
    */
   @Input() height: string | number = '260px';
+
+  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private RVService: ReportViewerService) {
+  }
 
   get cardStyle() {
     return { width: this.toCss(this.width) };
@@ -34,6 +45,36 @@ export class ChecklistComponent {
     if (value == null) return '';
     return typeof value === 'number' ? `${value}px` : value;
   }
+
+  ngOnInit(): void {
+
+    this.loadData();
+
+    // Subscribe to external refresh trigger if provided
+    if (this.refresh$) {
+      this.refreshSub = this.refresh$.subscribe(() => {
+        this.loadData();
+      });
+    }
+
+  }
+
+  private loadData() {
+    const tokenData = this.tokenService.get();
+    if (tokenData && this.reportId && this.taskId) {
+      let genericRequest = {
+        UserId: tokenData['userid'],
+        Params: {
+          Zvars: JSON.stringify({
+            taskId: this.taskId,
+          }),
+          Id: this.reportId
+        }
+      };
+
+      this.GetResultsByReportId(genericRequest);
+    }
+  }
   items = [
     { id: 1, title: 'Prepare report skeleton', done: true },
     { id: 2, title: 'Fetch data from API', done: false },
@@ -41,25 +82,38 @@ export class ChecklistComponent {
     { id: 4, title: 'Write unit tests', done: true }
   ];
 
-  newTitle = '';
-
-  add() {
-    const title = (this.newTitle || '').trim();
-    if (!title) return;
-    const id = this.items.length ? Math.max(...this.items.map(i => i.id)) + 1 : 1;
-    this.items = [{ id, title, done: false }, ...this.items];
-    this.newTitle = '';
-  }
 
   toggle(item: { id: number; done: boolean }) {
     item.done = !item.done;
   }
 
-  remove(item: { id: number }) {
-    this.items = this.items.filter(i => i.id !== item.id);
-  }
 
   trackById(_index: number, item: { id: number }) {
     return item.id;
+  }
+
+  private GetResultsByReportId(genericRequest: {}) {
+    this.RVService.GetResultsByReportId(genericRequest).pipe(
+      catchError(error => {
+        console.error('Error al obtener datos:', error);
+        throw error;
+      })
+    )
+      .subscribe((data: any) => {
+        this.SetData(data);
+        return;
+      });
+  }
+
+  private SetData(data: any) {
+    this.items = data.map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      done: item.done
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.refreshSub?.unsubscribe();
   }
 }

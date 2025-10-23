@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "../report-component/entitie/report";
 
@@ -10,7 +10,7 @@ import {
 } from 'ng-zorro-antd/table';
 
 import { ReportViewerService } from './service/report-viewer.service';
-import { catchError } from 'rxjs';
+import { catchError, Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GridService } from 'src/app/services/Grid/grid.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -24,7 +24,7 @@ import { RuleExecutorComponent } from 'src/app/components/rule-executor/rule-exe
   styleUrls: ['./report-viewer.component.less']
 })
 
-export class ReportViewerComponent {
+export class ReportViewerComponent implements OnInit, OnDestroy {
   executingRule: boolean = false;
   array = Array.from({ length: 20 }, (_, index) => index + 1);
 
@@ -48,6 +48,14 @@ export class ReportViewerComponent {
   endDateVisible: boolean = false;
   startDateVisible: boolean = false;
   ruleId: any;
+  /** Optional input to set the report id externally */
+  @Input() reportId?: string | number;
+
+  /** Optional observable input that, when it emits, will trigger a refresh of the report */
+  @Input() refresh$?: Observable<any>;
+
+  private routeSub?: Subscription;
+  private refreshSub?: Subscription;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -64,7 +72,7 @@ export class ReportViewerComponent {
     this.loading = true;
     const tokenData = this.tokenService.get();
 
-    this.route.params.subscribe(params => {
+    this.routeSub = this.route.params.subscribe(params => {
       let genericRequest = {};
 
       if (tokenData) {
@@ -92,6 +100,47 @@ export class ReportViewerComponent {
           });
       }
     });
+
+    // If an external reportId was passed as @Input, load it now
+    if (this.reportId != null && tokenData != null) {
+      const genericRequest = {
+        UserId: tokenData['userid'],
+        token: tokenData['token'],
+        Params: {
+          Id: this.reportId
+        }
+      };
+
+      this.RVService.GetReportById(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      ).subscribe((data: any) => {
+        var currentReport: Report = JSON.parse(data)[0];
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+        this.ZVARstartDate = oneMonthAgo;
+        this.ZVARendDate = new Date();
+        this.OpenReport(new Report(currentReport));
+      });
+    }
+
+    // Subscribe to external refresh trigger if provided
+    if (this.refresh$) {
+      this.refreshSub = this.refresh$.subscribe(() => {
+        this.rechargeReport();
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.routeSub?.unsubscribe();
+    } catch (e) { /* noop */ }
+    try {
+      this.refreshSub?.unsubscribe();
+    } catch (e) { /* noop */ }
   }
 
   //#region Bussines Functions
@@ -174,7 +223,7 @@ export class ReportViewerComponent {
         //     throw error;
         //   })
         // ).subscribe((ZvarsData: any) => {
-        //   
+        //
         // const ZvarsDataParsed = JSON.parse(ZvarsData).Vars;
 
         // if (ZvarsDataParsed && Object.prototype.hasOwnProperty.call(ZvarsDataParsed, 'tasks'))
