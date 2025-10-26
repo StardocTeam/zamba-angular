@@ -3,7 +3,7 @@ import { authSimpleCanActivate, authSimpleCanActivateChild } from '@delon/auth';
 
 import { ChartComponent } from '../components/chart/chart.component';
 import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
-import { ChecklistComponent } from '../components/checklist/checklist.component';
+import { ChecklistComponent } from '../elements/checklist/checklist.component';
 import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
@@ -18,6 +18,23 @@ import { SignatureContainerComponent } from '../signature-container/signature-co
 import { TaskHistoryComponent } from '../components/task-history/task-history.component';
 import { ViewFormComponent } from './widgets/view-form/view-form.component';
 import { environment } from '@env/environment';
+
+// Lazy-load CheckListModule below; remove static import
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // layout
 
@@ -40,9 +57,9 @@ const routes: Routes = [
     component: LayoutSimpleComponent,
     children: [
       {
-        path: 'checklist',
-        component: ChecklistComponent,
-        data: { title: 'Checklist' }
+        path: 'elements',
+        loadChildren: () => import('../elements/elements-module').then(m => m.ElementsModule),
+        data: { title: 'Zamba Elements' }
       },
       {
         path: 'taskhistory',
