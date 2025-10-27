@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnDestroy } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { BehaviorSubject, Observable, Subject, Subscription, catchError } from 'rxjs';
+import { BehaviorSubject, Subscription, catchError } from 'rxjs';
 
 import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
 import { ChecklistItem } from './checklist-item';
@@ -81,7 +81,7 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
     return typeof value === 'number' ? `${value}px` : value;
   }
 
-  private loadData() {
+  public loadData() {
     this.tokenService.set({ token: this.token });
 
     if (this.RVService == null) {

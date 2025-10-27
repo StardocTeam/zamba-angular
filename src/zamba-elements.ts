@@ -13,6 +13,6 @@ platformBrowserDynamic()
       customElements.define('zamba-checklist', ChecklistElement);
     }
   })
-  .catch((err) => console.error('[main.checklist] bootstrap failed', err));
+  .catch((err) => console.error('[zamba-elements] bootstrap failed', err));
 
 export { };

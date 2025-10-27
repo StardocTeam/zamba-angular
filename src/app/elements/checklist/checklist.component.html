@@ -1,7 +1,5 @@
 <div class="checklist-card" [ngStyle]="cardStyle">
-
   <ng-container *ngIf="items | async as checklistItems">
-
     <ul class="checklist" [ngStyle]="listStyle">
       <li *ngFor="let it of checklistItems; trackBy: trackById" class="item" [class.completed]="it.done">
         <div class="left">
