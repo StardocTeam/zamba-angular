@@ -24,6 +24,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@env/environment';
 import { EventEmitter } from '@angular/core';
 import { DoShowTableComponent } from '../doshowtable/do-show-table/do-show-table.component';
+import 'sweetalert';
+declare var swal: any;
 
 @Component({
   selector: 'app-rule-executor',
@@ -108,23 +110,38 @@ export class RuleExecutorComponent implements OnInit {
 
               break;
             case 'executescript':
-              if (responseObject.Params.RuleClass.toLowerCase().includes("doopentask")) {
+              if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopentask")) {
                 this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
                 this.SendExecutedEvent(responseObject, true);
                 break;
               }
 
-              if (responseObject.Params.RuleClass.toLowerCase().includes("doopenurl")) {
+              if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopenurl")) {
                 this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
                 this.SendExecutedEvent(responseObject, true);
                 break;
-
               }
-              if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
+
+              if (responseObject.Vars?.scripttoexecute?.toLowerCase().includes("opendoc")) {
                 this.OpenTask(responseObject.Vars, responseObject.Params);
                 this.SendExecutedEvent(responseObject, true);
                 break;
               }
+
+              if (responseObject.Vars?.ruleclass?.toLowerCase() === "doexecutescript") {
+                const script = responseObject.Vars?.scripttoexecute;
+                if (script) {
+                  try {
+                    // Hacer disponibles variables comunes en el contexto del script
+                    (window as any).swal = swal;
+                    eval(script);
+                  } catch (e) {
+                    console.error('Error ejecutando script:', e);
+                  }
+                }
+                this.SendExecutedEvent(responseObject, true);
+              }
+
               this.SendExecutedEvent(responseObject, true);
               break;
 
