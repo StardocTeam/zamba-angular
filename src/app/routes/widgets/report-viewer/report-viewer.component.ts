@@ -42,7 +42,6 @@ export class ReportViewerComponent {
 
   ZVARstartDate: Date = new Date();
   ZVARendDate: Date = new Date();
-  ListZVARsFromDB: any[] = [];
   ListZVARsFromRule: any[] = [];
   ZvarList: Zvars[] = [];
   endDateVisible: boolean = false;
@@ -55,13 +54,7 @@ export class ReportViewerComponent {
   }
 
   ngOnInit() {
-    this.executingRule = false;
-    this.listOfColumns = [];
-    this.listOfData = [];
-    this.ListZVARsFromRule = [];
-    this.ListZVARsFromDB = [];
-
-    this.loading = true;
+    this.loading = false;
     const tokenData = this.tokenService.get();
 
     this.route.params.subscribe(params => {
@@ -97,10 +90,6 @@ export class ReportViewerComponent {
   //#region Bussines Functions
 
   OpenReport(report: Report) {
-
-    this.executingRule = false;
-    this.loading = true;
-
     //TODO: Recordar quitar esto al hacer el ABM
     this.endDateVisible = false;
     this.startDateVisible = false;
@@ -108,18 +97,27 @@ export class ReportViewerComponent {
 
     this.ruleId = 0;
     this.isButtonExcelDisabled = true;
+    this.listOfColumns = [];
+    this.listOfData = [];
 
-    // this.listOfColumns = [];
-    // this.listOfData = [];
-    // this.ListZVARsFromRule = [];
-    // this.ListZVARsFromDB = [];
-
+    this.ListZVARsFromRule = [];
     this.currentReport = report;
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
+    //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
+    //Este codigo detecta y arma una lista de zVars encontradas
+    var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
+
+    if (zVarsFound.includes("FechaDesde")) {
+      this.startDateVisible = true;
+    }
+
+    if (zVarsFound.includes("FechaHasta")) {
+      this.endDateVisible = true;
+    }
     //--------------------------------
 
     if (tokenData != null) {
@@ -135,18 +133,6 @@ export class ReportViewerComponent {
     }
   }
 
-  private SetRangeOfDatesVisible() {
-    var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
-
-    if (zVarsFound.includes("FechaDesde")) {
-      this.startDateVisible = true;
-    }
-
-    if (zVarsFound.includes("FechaHasta")) {
-      this.endDateVisible = true;
-    }
-  }
-
   private GetRuleIdToReport(genericRequest: any, tokenData: any) {
     this.RVService.GetRuleIdToReport(genericRequest).pipe(
       catchError(error => {
@@ -156,55 +142,45 @@ export class ReportViewerComponent {
     ).subscribe((Rule: any) => {
       this.ruleId = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
 
-      //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
-      //Este codigo detecta y arma una lista de zVars encontradas
-      this.SetRangeOfDatesVisible();
-
-      this.ListZVARsFromDB = [];
-      this.ListZVARsFromRule = [];
-
       if (this.ruleId && this.ruleId > 0) {
+        this.TService.executeTaskRule(this.ruleId, "").pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+            throw error;
+          })
+        ).subscribe((ZvarsData: any) => {
 
-        this.executingRule = true;
-        this.cdr.detectChanges();
+          const ZvarsDataParsed = JSON.parse(ZvarsData).Vars;
 
-        // this.TService.executeTaskRule(this.ruleId, "").pipe(
-        //   catchError(error => {
-        //     console.error('Error al obtener datos:', error);
-        //     throw error;
-        //   })
-        // ).subscribe((ZvarsData: any) => {
-        //   
-        // const ZvarsDataParsed = JSON.parse(ZvarsData).Vars;
+          if (ZvarsDataParsed && Object.prototype.hasOwnProperty.call(ZvarsDataParsed, 'tasks'))
+            delete ZvarsDataParsed.tasks;
 
-        // if (ZvarsDataParsed && Object.prototype.hasOwnProperty.call(ZvarsDataParsed, 'tasks'))
-        //   delete ZvarsDataParsed.tasks;
+          var ZvarsDataArray = Object.entries(ZvarsDataParsed);
 
-        // var ZvarsDataArray = Object.entries(ZvarsDataParsed);
+          this.ListZVARsFromRule = [];
+          ZvarsDataArray.forEach(item => {
+            const z = new Zvars();
+            z.KeyZVar = String(item[0]);
+            z.ValueZVar = String(item[1] ?? '');
+            this.ListZVARsFromRule.push(z);
+          });
 
-        // ZvarsDataArray.forEach(item => {
-        //   const z = new Zvars();
-        //   z.KeyZVar = String(item[0]);
-        //   z.ValueZVar = String(item[1] ?? '');
-        //   this.OBSOLETE_ListZVARsFromRule.push(z);
-        // });
+          genericRequest = {
+            UserId: tokenData['userid'],
+            Params: {
+              Zvars: JSON.stringify({
+                ...this.buildZvarsObject(),
+                FechaDesde: this.ZVARstartDate,
+                FechaHasta: this.ZVARendDate
+              }),
+              Query: this.currentReport.Query,
+              Id: this.currentReport.ID
+            }
+          };
+          this.cdr.detectChanges();
 
-        // genericRequest = {
-        //   UserId: tokenData['userid'],
-        //   Params: {
-        //     Zvars: JSON.stringify({
-        //       ...this.buildZvarsObject(),
-        //       FechaDesde: this.ZVARstartDate,
-        //       FechaHasta: this.ZVARendDate
-        //     }),
-        //     Query: this.currentReport.Query,
-        //     Id: this.currentReport.ID
-        //   }
-        // };
-        // this.cdr.detectChanges();
-
-        // this.GetResultsByReportId(genericRequest);
-        // });
+          this.GetResultsByReportId(genericRequest);
+        });
 
 
       } else {
@@ -295,15 +271,11 @@ export class ReportViewerComponent {
       .subscribe((data: any) => {
         this.SetFinalResultOnGrid(data);
         this.executeRepeatedly(2);
-        this.FinallyexecuteRule();
         return;
       });
   }
 
   private SetFinalResultOnGrid(data: any) {
-    this.listOfColumns = [];
-    this.listOfData = [];
-    this.cdr.detectChanges();
     if (!data) {
       this.isButtonExcelDisabled = true;
 
@@ -325,6 +297,7 @@ export class ReportViewerComponent {
 
 
       if (ObjectData && ObjectData.ListColumns.length > 0 && ObjectData.RowHashtable.length > 0) {
+        this.cdr.detectChanges();
 
         ObjectData.ListColumns.forEach((element: any) => {
           var baseWidth = 10; // Factor base para el ancho (puedes ajustarlo según el diseño)
@@ -488,16 +461,7 @@ export class ReportViewerComponent {
     if (tokenData && tokenData['token']) {
       queryParams.t = tokenData['token'];
     }
-
-    // Alinear con el patrón de navigateTo... para que funcione desde raíz o desde report-component
-    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
-    const cleanedBaseUrl = baseUrl
-      .replace(/\/view(\/\d+)?$/, '')
-      .replace(/\/create(\/\d+)?$/, '')
-      .replace(/\/edit(\/\d+)?$/, '')
-      .replace(/\/chartContainer(\/\d+)?$/, '');
-
-    this.router.navigate([cleanedBaseUrl, 'chartcontainer', reportId], { queryParams });
+    this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
   }
 
   executeRepeatedly(maxTimeInSeconds: number) {
@@ -519,6 +483,7 @@ export class ReportViewerComponent {
   }
 
   extractZvarVariables(sql: string): string[] {
+    // regex: busca zvar(contenido)
     const regex = /zvar\(([^)]+)\)/gi;
     const variables: string[] = [];
     let match;
@@ -533,60 +498,6 @@ export class ReportViewerComponent {
   executeRule(event: any): void {
     console.log("Rule completed event received:", event);
 
-    // Obtener Vars desde event.Vars o event.response.Vars
-    let varsData: any = null;
-    if (event && event.Vars) {
-      varsData = event.Vars;
-    } else if (event && event.response && event.response.Vars) {
-      varsData = event.response.Vars;
-    }
-
-    if (!varsData) {
-      console.error('Ocurrio un problema con la devolucion de datos de la regla');
-
-      this.modal.error({
-        nzTitle: 'Ocurrio un problema con la devolucion de datos.',
-        nzContent: '<p>Verifique la configuracion de la regla y los datos devueltos.</p>',
-        nzOkText: 'OK',
-        nzOkType: 'primary',
-        nzOnOk: () => console.log('OK'),
-      });
-      return;
-    }
-
-    const ZvarsDataParsed = varsData;
-
-    if (ZvarsDataParsed && Object.prototype.hasOwnProperty.call(ZvarsDataParsed, 'tasks'))
-      delete ZvarsDataParsed.tasks;
-
-    var ZvarsDataArray = Object.entries(ZvarsDataParsed);
-
-    ZvarsDataArray.forEach(item => {
-      const z = new Zvars();
-      z.KeyZVar = String(item[0]);
-      z.ValueZVar = String(item[1] ?? '');
-      this.ListZVARsFromRule.push(z);
-    });
-
-    const tokenData: any = this.tokenService.get();
-
-    let genericRequest = {
-      UserId: tokenData['userid'],
-      Params: {
-        Zvars: JSON.stringify({
-          ...this.buildZvarsObject(),
-          FechaDesde: this.ZVARstartDate,
-          FechaHasta: this.ZVARendDate
-        }),
-        Query: this.currentReport.Query,
-        Id: this.currentReport.ID
-      }
-    };
-    this.cdr.detectChanges();
-
-    this.GetResultsByReportId(genericRequest);
-  }
-  FinallyexecuteRule() {
     this.executingRule = false;
     this.ruleId = 0;
     this.loading = false;
