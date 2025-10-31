@@ -38,7 +38,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   nzShowPagination: boolean = true;
   isButtonExcelDisabled: boolean = true;
-  CanGoToCharts: boolean = false;
+  CanGoToCharts: boolean = true;
 
   ZVARstartDate: Date = new Date();
   ZVARendDate: Date = new Date();

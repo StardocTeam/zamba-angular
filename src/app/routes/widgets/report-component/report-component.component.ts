@@ -42,7 +42,7 @@ export class ReportComponentComponent {
   XsReportViewerFlag: boolean = false;
   userId: number = 0;
 
-  chartsDisabled: boolean = true;
+  chartsDisabled: boolean = false;
   //#endregion
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
