@@ -25,6 +25,7 @@ import { environment } from '@env/environment';
 import { EventEmitter } from '@angular/core';
 import { DoShowTableComponent } from '../doshowtable/do-show-table/do-show-table.component';
 import 'sweetalert';
+import { error } from 'protractor';
 declare var swal: any;
 
 @Component({
@@ -88,7 +89,30 @@ export class RuleExecutorComponent implements OnInit {
     }
 
   }
+  errorOnRuleExecutionHandler(responseObject: any): boolean {
+    try {
+      if (responseObject.Vars != undefined) {
 
+        const errorRuleId = responseObject.Vars["errorruleid"] || "";
+        if (errorRuleId !== undefined && errorRuleId !== "" && !isNaN(Number(errorRuleId)) && Number(errorRuleId) > 0) {
+          return true;
+        }
+
+        const errorMessage = responseObject.Vars["errormessage"] || "";
+        if (errorMessage !== undefined && errorMessage !== "") {
+          return true;
+        }
+        const error = responseObject.Vars["error"] || "";
+        if (error !== undefined && error !== "") {
+          return true;
+        }
+      }
+      return false;
+    } catch (ex) {
+      console.error('Error in errorOnRuleExecutionHandler', ex);
+      return false;
+    }
+  }
   executeRule(ruleid: number) {
 
     this.isLoadingAction = true;
@@ -99,6 +123,36 @@ export class RuleExecutorComponent implements OnInit {
           const responseObject = JSON.parse(response);
           const accion: string = this.taskService.checkAccion(responseObject);
           console.log(responseObject);
+
+          const hasError = this.errorOnRuleExecutionHandler(responseObject);
+
+          //si hay error 
+          if (hasError) {
+
+            const errorRuleId = responseObject.Vars["errorruleid"] || "";
+            const errorMessage = responseObject.Vars["errormessage"] || "";
+            const error = responseObject.Vars["error"] || "";
+
+            //evaluo si hay que ejecutar una regla en caso de error
+            if (errorRuleId !== undefined && errorRuleId !== "" && !isNaN(Number(errorRuleId)) && Number(errorRuleId) > 0) {
+              this.executeRule(Number(errorRuleId));
+              return;
+
+            } else if (errorMessage !== undefined && errorMessage !== "") { //evaluo si hay que mostrar un mensaje de error
+              swal("Error", errorMessage, "error");
+              this.SendExecutedEvent(responseObject, true);
+              return;
+            } else if (error !== undefined && error !== "") { //evaluo si hay que mostrar el error de la exception directamente
+              swal("Error", error, "error");
+              this.SendExecutedEvent(responseObject, true);
+              return;
+            }
+
+
+            this.SendExecutedEvent(responseObject, true);
+            return;
+          }
+
 
           switch (accion) {
             case 'doshowtable':
@@ -135,6 +189,19 @@ export class RuleExecutorComponent implements OnInit {
                     // Hacer disponibles variables comunes en el contexto del script
                     (window as any).swal = swal;
                     eval(script);
+                  } catch (e) {
+                    console.error('Error ejecutando script:', e);
+                  }
+                }
+                this.SendExecutedEvent(responseObject, true);
+              }
+
+              if (responseObject.Params?.RuleTypeName?.toLowerCase() === "doscreenmessage") {
+                const script = responseObject.Params?.['Nuevo Mensaje'] || "";
+                if (script) {
+                  try {
+                    // Hacer disponibles variables comunes en el contexto del script
+                    swal("", script, "info");
                   } catch (e) {
                     console.error('Error ejecutando script:', e);
                   }
