@@ -54,7 +54,7 @@ export class ReportComponentComponent {
   XsReportViewerFlag: boolean = false;
   userId: number = 0;
 
-  chartsDisabled: boolean = true;
+  chartsDisabled: boolean = false;
   //#endregion
 
   constructor(
@@ -70,24 +70,43 @@ export class ReportComponentComponent {
   private initialized = false;
 
   ngOnInit() {
-    // ...resto del código...
     this.route.queryParamMap.subscribe(params => {
-      if (params) {
-        // var userIdParam: string | null;
-        var tokenParam: string | null;
-
-        this.tokenService.set({ token: params.get('t') });
-
+      if (params && params.keys.length > 0) {
         if (params.get('t')) {
-          tokenParam = params.get('t');
-          this.fetchUserIdWithToken(tokenParam);
+          this.tokenService.set({ token: params.get('t') });
+          this.fetchUserIdWithToken();
+
+        } else {
+          console.error('Error: Token no encontrado en los parámetros');
+          this.modal.error({
+            nzTitle: 'Token no encontrado',
+            nzContent: '<p>No se pudo encontrar el token de autenticación. Por favor, inicie sesión nuevamente.</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+
+          throw new Error('Token not found');
         }
+      } else if (this.tokenService && this.tokenService.get()?.token) {
+        this.fetchUserIdWithToken();
+
       } else {
-        //TODO: hacer un mensaje visual.
+        console.error('Error: Token no encontrado en los parámetros ni en el servicio');
+        this.modal.error({
+          nzTitle: 'Token no encontrado',
+          nzContent: '<p>No se pudo encontrar el token de autenticación. Por favor, inicie sesión nuevamente.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+
         throw new Error('Token not found');
       }
     });
   }
+
+
 
   ngAfterViewInit() {
     const childComponent = this.outlet.component as { createTerminated?: any };
@@ -200,26 +219,25 @@ export class ReportComponentComponent {
         });
     }
   }
-  private fetchUserIdWithToken(tokenParam: string | null) {
+  private fetchUserIdWithToken() {
+
     let genericRequest = {
-      UserId: 0, //No es necesario enviar el userId por queryparams.
-      token: tokenParam
+      UserId: 0,
+      token: this.tokenService.get()?.token
     };
 
-    this.zambaService
-      .getUserId(genericRequest)
-      .pipe(
-        tap(response => {
-          response = JSON.parse(response);
-          this.tokenService.set({ token: tokenParam, userid: response });
+    this.zambaService.getUserId(genericRequest).pipe(
+      tap(response => {
+        response = JSON.parse(response);
+        this.tokenService.set({ token: genericRequest.token, userid: response });
 
-          this.initializeReportComponents();
-        }),
-        catchError(error => {
-          console.error('Error fetching task name:', error);
-          return of([]);
-        })
-      )
+        this.initializeReportComponents();
+      }),
+      catchError(error => {
+        console.error('Error fetching task name:', error);
+        return of([]);
+      })
+    )
       .subscribe();
   }
 
@@ -329,16 +347,17 @@ export class ReportComponentComponent {
   }
 
   switchView(view: string) {
-    switch (view.toLowerCase()) {
-      case 'list':
-        this.XsReportListFlag = true;
-        this.XsReportViewerFlag = false;
-        break;
-      case 'viewer':
-        this.XsReportListFlag = false;
-        this.XsReportViewerFlag = true;
-        break;
-    }
+    //TODO: codigo par auna version responsive.
+    // switch (view.toLowerCase()) {
+    //   case 'list':
+    //     this.XsReportListFlag = true;
+    //     this.XsReportViewerFlag = false;
+    //     break;
+    //   case 'viewer':
+    //     this.XsReportListFlag = false;
+    //     this.XsReportViewerFlag = true;
+    //     break;
+    // }
   }
 
   //#endregion
@@ -367,7 +386,16 @@ export class ReportComponentComponent {
       queryParams.t = tokenData['token'];
     }
 
-    this.router.navigate(['/tools/reports/create'], { queryParams });
+    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+
+    // Si la ruta base termina con 'view' o un id, elimínalos
+    const cleanedBaseUrl = baseUrl
+      .replace(/\/view(\/\d+)?$/, '')
+      .replace(/\/create(\/\d+)?$/, '')
+      .replace(/\/edit(\/\d+)?$/, '')
+      .replace(/\/chartcontainer(\/\d+)?$/, '');
+
+    this.router.navigate([cleanedBaseUrl, 'create'], { queryParams });
   }
 
   navigateToEdit(reportId: number) {
@@ -379,11 +407,21 @@ export class ReportComponentComponent {
         queryParams.t = tokenData['token'];
       }
 
-      this.router.navigate([`/tools/reports/edit/${reportId}`], { queryParams });
+      const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+
+      // Si la ruta base termina con 'view' o un id, elimínalos
+      const cleanedBaseUrl = baseUrl
+        .replace(/\/view(\/\d+)?$/, '')
+        .replace(/\/create(\/\d+)?$/, '')
+        .replace(/\/edit(\/\d+)?$/, '')
+        .replace(/\/chartcontainer(\/\d+)?$/, '');
+
+      this.router.navigate([cleanedBaseUrl, 'edit', reportId], { queryParams });
     }
   }
 
   navigateToView(reportId: number) {
+
     // Navega dinámicamente a la ruta con el ID del reporte
     const tokenData = this.tokenService.get();
     const queryParams: any = {};
@@ -392,7 +430,17 @@ export class ReportComponentComponent {
       queryParams.t = tokenData['token'];
     }
 
-    this.router.navigate(['/tools/reports/view', reportId], { queryParams });
+    // Usa router.createUrlTree para obtener la ruta base sin fragmentos ni parámetros
+    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+
+    // Si la ruta base termina con 'view' o un id, elimínalos
+    const cleanedBaseUrl = baseUrl
+      .replace(/\/view(\/\d+)?$/, '')
+      .replace(/\/create(\/\d+)?$/, '')
+      .replace(/\/edit(\/\d+)?$/, '')
+      .replace(/\/chartcontainer(\/\d+)?$/, '');
+
+    this.router.navigate([cleanedBaseUrl, 'view', reportId], { queryParams });
   }
 
   viewCharts(reportId: number) {

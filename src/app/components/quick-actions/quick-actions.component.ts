@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
 import { TaskHistoryService } from '../../services/task-history-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -19,8 +19,10 @@ import { TaskService } from '../../services/task.service';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzListModule } from 'ng-zorro-antd/list';
-
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@env/environment';
+import { RuleExecutorComponent } from '../rule-executor/rule-executor.component';
 
 @Component({
   selector: 'app-quick-actions',
@@ -40,7 +42,8 @@ import { environment } from '@env/environment';
     NzSpinModule,
     NzSkeletonModule,
     NzSpaceModule,
-    NzListModule
+    NzListModule,
+    RuleExecutorComponent
   ],
   templateUrl: './quick-actions.component.html',
   styleUrls: ['./quick-actions.component.css'],
@@ -49,6 +52,12 @@ import { environment } from '@env/environment';
   encapsulation: ViewEncapsulation.Emulated
 })
 export class QuickActionsComponent implements OnInit {
+
+  @ViewChild(RuleExecutorComponent, { static: false }) ruleExecutor!: RuleExecutorComponent;
+
+  @ViewChild('iframeModal', { static: true }) iframeModal!: TemplateRef<any>;
+  iframeUrl: string = '';
+  safeIframeUrl: SafeResourceUrl = '';
   isLoading: boolean = true;
   showAllCategoriesPanel: boolean = false;
   searchText: string = '';
@@ -62,13 +71,17 @@ export class QuickActionsComponent implements OnInit {
   selectedCategories: string[] = [];
 
   favouriteActions: any[] = [];
+  ruleExecutorWorking: boolean = false;
+  pendingRuleId: number = 0;
 
   private route = inject(ActivatedRoute);
   constructor(
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private taskService: TaskService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private modal: NzModalService,
+    private sanitizer: DomSanitizer,
   ) {
   }
   ngOnInit(): void {
@@ -109,6 +122,12 @@ export class QuickActionsComponent implements OnInit {
     });
   }
 
+
+  executeRule(ruleid: number) {
+    this.pendingRuleId = ruleid;
+    this.ruleExecutorWorking = true;
+    this.cdr.markForCheck();
+  }
   onActionCardClick(ruleid: number) {
     this.isLoadingAction = true;
     this.taskService.executeTaskRule(ruleid, null, null)
@@ -131,6 +150,13 @@ export class QuickActionsComponent implements OnInit {
                   this.isLoadingAction = false;
                   this.cdr.markForCheck();
                   break;
+                }
+
+                if (responseObject.Params.RuleClass.toLowerCase().includes("doopenurl")) {
+                  this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
+                  this.isLoadingAction = false;
+                  this.cdr.markForCheck();
+                  break;
 
                 }
                 if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
@@ -138,17 +164,19 @@ export class QuickActionsComponent implements OnInit {
                   this.isLoadingAction = false;
                   this.cdr.markForCheck();
                   break;
-
                 }
                 this.isLoadingAction = false;
                 this.cdr.markForCheck();
                 break;
+
             }
           }
           this.isLoadingAction = false;
+          this.cdr.markForCheck();
         },
         error: () => {
           this.isLoadingAction = false;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -272,6 +300,15 @@ export class QuickActionsComponent implements OnInit {
     this.updateFavouriteCategory();
   }
 
+
+  onRuleCompleted(event: any) {
+
+    console.log("Rule completed event received:", event);
+    this.ruleExecutorWorking = false;
+    this.pendingRuleId = 0;
+    this.isLoadingAction = false;
+    this.cdr.markForCheck();
+  }
   OpenTask(Vars: any, Params: any) {
     try {
       const taskId = Vars["nuevatarea.taskid"];
@@ -317,5 +354,32 @@ export class QuickActionsComponent implements OnInit {
       `&user=${userid}`
     );
     window.open(Url, '_blank');
+  }
+
+  DoOpenUrlHandler(Vars: any, Params: any) {
+    const urlToOpen = Params["url"] || '';
+    const openMode = Params["OpenMode"] || 0;
+    switch (openMode) {
+      case 0: // New Tab/Window
+        window.open(urlToOpen, '_blank');
+        break;
+      case 1: // Modal
+        this.showIframeModal(urlToOpen);
+        break;
+      default:
+        window.open(urlToOpen, '_blank');
+        break;
+    }
+  }
+
+  showIframeModal(url: string): void {
+    this.iframeUrl = url;
+    this.safeIframeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.modal.create({
+      nzTitle: '',
+      nzContent: this.iframeModal,
+      nzWidth: 800,
+      nzFooter: null
+    });
   }
 }

@@ -6,11 +6,22 @@ import { TokenService } from '@delon/auth';
 import { SFStringWidgetSchema } from '@delon/form';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-signature2',
   templateUrl: './signature-v2.component.html',
   styleUrls: ['./signature-v2.component.less'],
+  standalone: true,
+  imports: [
+    NzSpinModule,
+    NzTabsModule,
+    CommonModule,
+    FormsModule,
+  ]
 })
 export class SignatureV2Component implements OnInit {
   signatureColor: string = 'black';

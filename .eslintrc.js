@@ -107,7 +107,7 @@ module.exports = {
         'prefer-const': 'off',
         'max-len': 'off',
         'deprecation/deprecation': 'warn',
-        'jsdoc/newline-after-description': 'off'
+        "linebreak-style": ["error", "unix"],
       }
     },
     {

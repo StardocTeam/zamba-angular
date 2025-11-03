@@ -46,7 +46,7 @@ export class ReportEditorComponent {
     private router: Router,
     private modal: NzModalService,
     private RVService: ReportViewerService
-  ) {}
+  ) { }
 
   ngOnInit() {
     const tokenData = this.tokenService.get();
@@ -117,53 +117,59 @@ export class ReportEditorComponent {
       };
     }
 
-    if (false) {
-      this.RVService.GetReportByQuery(genericRequest)
-        .pipe(
-          catchError(error => {
-            console.error('Error al obtener datos:', error);
-            throw error;
-          })
-        )
-        .subscribe((data: any) => {
-          this.isButtonDisabled = false;
+    this.RVService.GetReportByQuery(genericRequest).pipe(
+      catchError(error => {
+        console.error('Error al obtener datos:', error);
+        this.isButtonDisabled = false;
+        throw error;
+      })
+    ).subscribe((data: any) => {
+      this.isButtonDisabled = false;
 
-          if (data == null) {
-            console.log('No se ha insertado correctamente', data);
+      if (data == null) {
+        console.log('Error: Ocurrio un error al ejecutar la sentencia', data);
 
-            console.error('Error: Ocurrio un error al ejecutar la sentencia');
-            this.modal.error({
-              nzTitle: 'Ocurrio un error al ejecutar la sentencia',
-              nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
-              nzOkText: 'OK',
-              nzOkType: 'primary',
-              nzOnOk: () => console.log('OK')
-            });
-
-            result = true;
-          } else {
-            var ObjectData = JSON.parse(data);
-
-            this.modal.success({
-              nzTitle: 'Ejecucion de sentencia exitosa',
-              nzContent: `<p>Cantidad de registros obtenidos: ${ObjectData.RowHashtable.length}</p>`,
-              nzOkText: 'OK',
-              nzOkType: 'primary',
-              nzOnOk: () => console.log('OK')
-            });
-          }
-
-          result = false;
+        console.error('Error: La sentencia presenta errores');
+        this.modal.error({
+          nzTitle: 'Se ejecuto la sentencia pero presento errores',
+          nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
         });
-    }
 
-    this.modal.success({
-      nzTitle: 'PRUEBA DE SENTENCIA DESHABILITADA',
-      nzContent: '<p> Puede insertar cualquier sentencia sin validar la ejecucion segura.</p>',
-      nzOkText: 'OK',
-      nzOkType: 'primary',
-      nzOnOk: () => console.log('OK')
-    });
+        result = true;
+      } else {
+        var ObjectData = JSON.parse(data);
+
+        this.modal.success({
+          nzTitle: 'Ejecucion de sentencia exitosa',
+          nzContent: `<p>Cantidad de registros obtenidos: ${ObjectData.RowHashtable.length}</p>`,
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK')
+        });
+      }
+
+      result = false;
+    })
+    //   ,
+    //   catchError(error => {
+    //     console.error('Error al obtener datos:', error);
+
+    //     console.error('Error: Ocurrio un error al ejecutar la sentencia');
+    //     this.modal.error({
+    //       nzTitle: 'Ocurrio un error al ejecutar la sentencia',
+    //       nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
+    //       nzOkText: 'OK',
+    //       nzOkType: 'primary',
+    //       nzOnOk: () => console.log('OK'),
+    //     });
+
+    //     result = false;
+    //     throw error;
+    //   })
+    // ).subscribe();
 
     this.isButtonDisabled = false;
   }
@@ -208,10 +214,10 @@ export class ReportEditorComponent {
 
           this.modal.success({
             nzTitle: 'Insertado correctamente',
-            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category} </p>`,
+            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.ruleId != null ? this.ruleId : 'ninguna'} </p>`,
             nzOkText: 'OK',
             nzOkType: 'primary',
-            nzOnOk: () => console.log('OK')
+            nzOnOk: () => console.log('OK'),
           });
 
           this.createTerminated.emit();
@@ -245,6 +251,7 @@ export class ReportEditorComponent {
       ID: 0,
       GroupExpression: ''
     };
+    this.ruleId = "";
   }
 
   isFormValid(): boolean {
@@ -271,6 +278,18 @@ export class ReportEditorComponent {
       queryParams.t = tokenData['token'];
     }
 
-    this.router.navigate(['/tools/reports'], { queryParams });
+    // Usa router.createUrlTree para obtener la ruta base sin fragmentos ni parámetros
+    const baseUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+
+    // Si la ruta base termina con 'view' o un id, elimínalos
+    const cleanedBaseUrl = baseUrl
+      .replace(/\/view(\/\d+)?$/, '')
+      .replace(/\/create(\/\d+)?$/, '')
+      .replace(/\/edit(\/\d+)?$/, '')
+      .replace(/\/chartContainer(\/\d+)?$/, '');
+
+    this.router.navigate([cleanedBaseUrl], { queryParams });
+
+    //this.router.navigate(['/tools/reports'], { queryParams });
   }
 }

@@ -36,7 +36,9 @@
               "src/custom-theme.scss",
               "src/styles.less"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/sweetalert/dist/sweetalert.min.js"
+            ],
             "allowedCommonJsDependencies": [
               "ajv",
               "ajv-formats",
@@ -73,6 +75,20 @@
               ]
             },
             "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "rrhh": {
+              "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                 "with": "src/environments/environment.rrhh.ts"
+              }
+             ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -126,6 +142,9 @@
             },
             "local": {
               "browserTarget": "zamba:build:local"
+            },
+             "rrhh": {
+            "browserTarget": "zamba:build:rrhh"
             }
           },
           "defaultConfiguration": "development"

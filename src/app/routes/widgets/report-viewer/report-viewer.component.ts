@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, Inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { Report } from "../report-component/entitie/report";
 
@@ -10,12 +10,13 @@ import {
 } from 'ng-zorro-antd/table';
 
 import { ReportViewerService } from './service/report-viewer.service';
-import { catchError } from 'rxjs';
+import { catchError, Observable, Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GridService } from 'src/app/services/Grid/grid.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { TaskService } from 'src/app/services/task.service';
 import { Zvars } from './entitie/ZVar';
+import { RuleExecutorComponent } from 'src/app/components/rule-executor/rule-executor.component';
 
 @Component({
   selector: 'app-report-viewer',
@@ -23,10 +24,9 @@ import { Zvars } from './entitie/ZVar';
   styleUrls: ['./report-viewer.component.less']
 })
 
-
-export class ReportViewerComponent {
+export class ReportViewerComponent implements OnInit, OnDestroy {
+  executingRule: boolean = false;
   array = Array.from({ length: 20 }, (_, index) => index + 1);
-
 
   loading: Boolean = true;
   currentReport: Report = new Report({});
@@ -38,26 +38,34 @@ export class ReportViewerComponent {
 
   nzShowPagination: boolean = true;
   isButtonExcelDisabled: boolean = true;
-  CanGoToCharts: boolean = false;
+  CanGoToCharts: boolean = true;
 
   ZVARstartDate: Date = new Date();
   ZVARendDate: Date = new Date();
   ListZVARsFromRule: any[] = [];
   ZvarList: Zvars[] = [];
+  endDateVisible: boolean = false;
+  startDateVisible: boolean = false;
+  ruleId: any;
+  /** Optional input to set the report id externally */
+  @Input() reportId?: string | number;
 
+  /** Optional observable input that, when it emits, will trigger a refresh of the report */
+  @Input() refresh$?: Observable<any>;
 
+  private routeSub?: Subscription;
+  private refreshSub?: Subscription;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
     private GService: GridService, private modal: NzModalService, private router: Router, private TService: TaskService) {
-
   }
 
   ngOnInit() {
     this.loading = false;
     const tokenData = this.tokenService.get();
 
-    this.route.params.subscribe(params => {
+    this.routeSub = this.route.params.subscribe(params => {
       let genericRequest = {};
 
       if (tokenData) {
@@ -77,17 +85,66 @@ export class ReportViewerComponent {
         )
           .subscribe((data: any) => {
             var currentReport: Report = JSON.parse(data)[0];
-            this.ZVARstartDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            this.ZVARstartDate = oneMonthAgo;
             this.ZVARendDate = new Date();
             this.OpenReport(new Report(currentReport));
           });
       }
     });
+
+    // If an external reportId was passed as @Input, load it now
+    if (this.reportId != null && tokenData != null) {
+      const genericRequest = {
+        UserId: tokenData['userid'],
+        token: tokenData['token'],
+        Params: {
+          Id: this.reportId
+        }
+      };
+
+      this.RVService.GetReportById(genericRequest).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      ).subscribe((data: any) => {
+        var currentReport: Report = JSON.parse(data)[0];
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+        this.ZVARstartDate = oneMonthAgo;
+        this.ZVARendDate = new Date();
+        this.OpenReport(new Report(currentReport));
+      });
+    }
+
+    // Subscribe to external refresh trigger if provided
+    if (this.refresh$) {
+      this.refreshSub = this.refresh$.subscribe(() => {
+        this.rechargeReport();
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    try {
+      this.routeSub?.unsubscribe();
+    } catch (e) { /* noop */ }
+    try {
+      this.refreshSub?.unsubscribe();
+    } catch (e) { /* noop */ }
   }
 
   //#region Bussines Functions
 
   OpenReport(report: Report) {
+    //TODO: Recordar quitar esto al hacer el ABM
+    this.endDateVisible = false;
+    this.startDateVisible = false;
+    //TODO: Recordar quitar esto al hacer el ABM
+
+    this.ruleId = 0;
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
     this.listOfData = [];
@@ -98,6 +155,19 @@ export class ReportViewerComponent {
 
     const tokenData = this.tokenService.get();
     let genericRequest = {};
+
+    //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
+    //Este codigo detecta y arma una lista de zVars encontradas
+    var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
+
+    if (zVarsFound.includes("FechaDesde")) {
+      this.startDateVisible = true;
+    }
+
+    if (zVarsFound.includes("FechaHasta")) {
+      this.endDateVisible = true;
+    }
+    //--------------------------------
 
     if (tokenData != null) {
       genericRequest = {
@@ -119,10 +189,10 @@ export class ReportViewerComponent {
         throw error;
       })
     ).subscribe((Rule: any) => {
-      Rule = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
+      this.ruleId = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
 
-      if (Rule && Rule > 0) {
-        this.TService.executeTaskRule(Rule, "").pipe(
+      if (this.ruleId && this.ruleId > 0) {
+        this.TService.executeTaskRule(this.ruleId, "").pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
@@ -334,7 +404,7 @@ export class ReportViewerComponent {
         console.info('No se encontraron registros para mostrar');
         this.modal.info({
           nzTitle: 'No se encontraron registros para mostrar',
-          nzContent: '<p>Verifique que el reporte y la base de datos estan bien configurados.</p>',
+          nzContent: '<p>Verifique los filtros, que el reporte tenga datos y/o la base de datos estén bien configurados.</p>',
           nzOkText: 'OK',
           nzOkType: 'primary',
           nzOnOk: () => console.log('OK'),
@@ -363,6 +433,7 @@ export class ReportViewerComponent {
       this.cdr.detectChanges();
     }
   }
+
 
   exportToExcel(report: Report): void {
     this.isButtonExcelDisabled = true;
@@ -460,15 +531,35 @@ export class ReportViewerComponent {
     }, intervalTime);
   }
 
+  extractZvarVariables(sql: string): string[] {
+    // regex: busca zvar(contenido)
+    const regex = /zvar\(([^)]+)\)/gi;
+    const variables: string[] = [];
+    let match;
+
+    while ((match = regex.exec(sql)) !== null) {
+      variables.push(match[1]);
+    }
+
+    return variables;
+  }
+
+  executeRule(event: any): void {
+    console.log("Rule completed event received:", event);
+
+    this.executingRule = false;
+    this.ruleId = 0;
+    this.loading = false;
+    this.cdr.markForCheck();
+  }
+
   //#endregion
 
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-
     this.adjustHeight();
   }
-
 
   adjustHeight() {
     const getElementHeightWithMargins = (selector: string): number => {
@@ -501,7 +592,6 @@ export class ReportViewerComponent {
     this.cdr.detectChanges();
   }
 
-
   ngAfterViewInit() {
     this.adjustHeight();
   }
@@ -510,10 +600,7 @@ export class ReportViewerComponent {
     return Object.keys(obj);
   }
   //#endregion
-
 }
-
-
 
 interface ColumnItem {
   name: string;
@@ -525,5 +612,3 @@ interface ColumnItem {
   sortDirections: NzTableSortOrder[];
   width: string;
 }
-
-
