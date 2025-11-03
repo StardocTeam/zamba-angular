@@ -171,6 +171,7 @@ export class ChartContainerComponent {
       currentQueryParams['t'] = tokenData.token;
     }
 
+
     this.router.navigate(['/tools/reports/view', reportId], { queryParams: currentQueryParams });
   }
 }

@@ -328,16 +328,17 @@ export class ReportComponentComponent {
   }
 
   switchView(view: string) {
-    switch (view.toLowerCase()) {
-      case 'list':
-        this.XsReportListFlag = true;
-        this.XsReportViewerFlag = false;
-        break;
-      case 'viewer':
-        this.XsReportListFlag = false;
-        this.XsReportViewerFlag = true;
-        break;
-    }
+    //TODO: codigo par auna version responsive.
+    // switch (view.toLowerCase()) {
+    //   case 'list':
+    //     this.XsReportListFlag = true;
+    //     this.XsReportViewerFlag = false;
+    //     break;
+    //   case 'viewer':
+    //     this.XsReportListFlag = false;
+    //     this.XsReportViewerFlag = true;
+    //     break;
+    // }
   }
 
   //#endregion
@@ -374,7 +375,7 @@ export class ReportComponentComponent {
       .replace(/\/view(\/\d+)?$/, '')
       .replace(/\/create(\/\d+)?$/, '')
       .replace(/\/edit(\/\d+)?$/, '')
-      .replace(/\/chartContainer(\/\d+)?$/, '');
+      .replace(/\/chartcontainer(\/\d+)?$/, '');
 
     this.router.navigate([cleanedBaseUrl, 'create'], { queryParams });
   }
@@ -395,13 +396,14 @@ export class ReportComponentComponent {
         .replace(/\/view(\/\d+)?$/, '')
         .replace(/\/create(\/\d+)?$/, '')
         .replace(/\/edit(\/\d+)?$/, '')
-        .replace(/\/chartContainer(\/\d+)?$/, '');
+        .replace(/\/chartcontainer(\/\d+)?$/, '');
 
       this.router.navigate([cleanedBaseUrl, 'edit', reportId], { queryParams });
     }
   }
 
   navigateToView(reportId: number) {
+
     // Navega dinámicamente a la ruta con el ID del reporte
     const tokenData = this.tokenService.get();
     const queryParams: any = {};
@@ -418,7 +420,7 @@ export class ReportComponentComponent {
       .replace(/\/view(\/\d+)?$/, '')
       .replace(/\/create(\/\d+)?$/, '')
       .replace(/\/edit(\/\d+)?$/, '')
-      .replace(/\/chartContainer(\/\d+)?$/, '');
+      .replace(/\/chartcontainer(\/\d+)?$/, '');
 
     this.router.navigate([cleanedBaseUrl, 'view', reportId], { queryParams });
   }
