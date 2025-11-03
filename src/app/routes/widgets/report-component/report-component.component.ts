@@ -374,7 +374,7 @@ export class ReportComponentComponent {
       .replace(/\/view(\/\d+)?$/, '')
       .replace(/\/create(\/\d+)?$/, '')
       .replace(/\/edit(\/\d+)?$/, '')
-      .replace(/\/chartContainer(\/\d+)?$/, '');
+      .replace(/\/chartcontainer(\/\d+)?$/, '');
 
     this.router.navigate([cleanedBaseUrl, 'create'], { queryParams });
   }
@@ -395,7 +395,7 @@ export class ReportComponentComponent {
         .replace(/\/view(\/\d+)?$/, '')
         .replace(/\/create(\/\d+)?$/, '')
         .replace(/\/edit(\/\d+)?$/, '')
-        .replace(/\/chartContainer(\/\d+)?$/, '');
+        .replace(/\/chartcontainer(\/\d+)?$/, '');
 
       this.router.navigate([cleanedBaseUrl, 'edit', reportId], { queryParams });
     }
@@ -418,7 +418,7 @@ export class ReportComponentComponent {
       .replace(/\/view(\/\d+)?$/, '')
       .replace(/\/create(\/\d+)?$/, '')
       .replace(/\/edit(\/\d+)?$/, '')
-      .replace(/\/chartContainer(\/\d+)?$/, '');
+      .replace(/\/chartcontainer(\/\d+)?$/, '');
 
     this.router.navigate([cleanedBaseUrl, 'view', reportId], { queryParams });
   }
