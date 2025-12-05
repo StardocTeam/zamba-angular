@@ -12,7 +12,7 @@ export class GridService {
 
 
   ExportToExcel(genericRequest: {}) {
-    return this.http.post(`${environment['apiRestBasePath']}/ExportToExcelFromRRHHGrid`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/reports/ExportToExcelFromRRHHGrid`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
     });
   }

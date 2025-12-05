@@ -446,9 +446,23 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         UserId: tokenData['userid'],
         token: tokenData['token'],
         Params: {
-          "Query": report.Query
+          Zvars: JSON.stringify({
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate
+          }),
+          Query: this.currentReport.Query,
+          ReportId: this.currentReport.ID
         }
       };
+      debugger;
+
+      // genericRequest = {
+      //   UserId: tokenData['userid'],
+      //   token: tokenData['token'],
+      //   Params: {
+      //     "Query": report.Query
+      //   }
+      // };
 
       const FileName = report.Name.replace(/ /g, "_") + " ";
 
@@ -463,7 +477,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         if (!data) {
           console.error('Error: No data received for export.');
 
-          this.modal.info({
+          this.modal.error({
             nzTitle: 'Ocurrio un error',
             nzContent: '<p>No hay resultados</p>',
             nzOkText: 'OK',
@@ -471,6 +485,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             nzOnOk: () => console.log('OK'),
           });
 
+          this.isButtonExcelDisabled = false;
+          this.cdr.detectChanges();
           return;
         }
 
