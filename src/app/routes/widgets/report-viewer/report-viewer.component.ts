@@ -89,6 +89,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
             this.ZVARstartDate = oneMonthAgo;
             this.ZVARendDate = new Date();
+
             this.OpenReport(new Report(currentReport));
           });
       }
@@ -454,7 +455,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           ReportId: this.currentReport.ID
         }
       };
-      debugger;
+
 
       // genericRequest = {
       //   UserId: tokenData['userid'],

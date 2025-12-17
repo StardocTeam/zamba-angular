@@ -181,8 +181,14 @@ export class ReportComponentComponent {
           throw error;
         })
       ).subscribe((data: any) => {
+
         var datos: Report[] = JSON.parse(data);
         var Categories = datos.reduce((acc, item) => {
+          if (item.Category == null || item.Category == '') {
+            //item.Category = 'Uncategorized';
+            item.Category = 'Sin categoria';
+          }
+
           if (!acc[item.Category]) {
             acc[item.Category] = [];
           }
