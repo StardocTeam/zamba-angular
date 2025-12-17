@@ -84,11 +84,25 @@
             },
             "rrhh": {
               "fileReplacements": [
-              {
-                "replace": "src/environments/environment.ts",
-                 "with": "src/environments/environment.rrhh.ts"
-              }
-             ],
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.rrhh.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "rrhh.qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.rrhh.qa.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -143,8 +157,8 @@
             "local": {
               "browserTarget": "zamba:build:local"
             },
-             "rrhh": {
-            "browserTarget": "zamba:build:rrhh"
+            "rrhh": {
+              "browserTarget": "zamba:build:rrhh"
             }
           },
           "defaultConfiguration": "development"
