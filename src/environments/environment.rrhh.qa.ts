@@ -8,11 +8,13 @@ export const environment = {
   production: false,
   useHash: true,
 
-  restApi: 'http://zambabpm.com.ar/zambabpm.RestApi/api',
-  apiRestBasePath: 'http://zambabpm.com.ar/zambabpm.RestApi/api/Dashboard',
-  charts: 'http://zambabpm.com.ar/zambabpm.RestApi/api/charts',
-  externalSearchApi: 'http://zambabpm.com.ar/zambabpm.RestApi/api/ExternalSearch',
-  searchApi: 'http://zambabpm.com.ar/zambabpm.RestApi/api/search',
+  //"http://zambabpm.com.ar/zambabpmRestApi/api"
+
+  restApi: 'http://zambabpm.com.ar/zambabpmRestApi/api',
+  apiRestBasePath: 'http://zambabpm.com.ar/zambabpmRestApi/api/Dashboard',
+  charts: 'http://zambabpm.com.ar/zambabpmRestApi/api/charts',
+  externalSearchApi: 'http://zambabpm.com.ar/zambabpmRestApi/api/ExternalSearch',
+  searchApi: 'http://zambabpm.com.ar/zambabpmRestApi/api/search',
   zambaWeb: 'http://zambabpm.com.ar/zambabpm',
   cliente: 'zamba',
   api: {
