@@ -18,6 +18,7 @@ import { SignatureContainerComponent } from '../signature-container/signature-co
 import { TaskHistoryComponent } from '../components/task-history/task-history.component';
 import { ViewFormComponent } from './widgets/view-form/view-form.component';
 import { environment } from '@env/environment';
+import { PermissionsUserGroupComponent } from '../components/permissions-user-group/permissions-user-group';
 
 // Lazy-load CheckListModule below; remove static import
 
@@ -110,6 +111,11 @@ const routes: Routes = [
       {
         path: 'form',
         component: ViewFormComponent,
+      },
+      {
+        path: 'permisos',
+        component: PermissionsUserGroupComponent,
+        data: { title: 'Permisos' },
       }
     ]
   },
