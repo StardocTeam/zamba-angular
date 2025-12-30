@@ -88,10 +88,9 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             var currentReport: Report = JSON.parse(data)[0];
             const oneMonthAgo = new Date();
             oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-            //this.ZVARstartDate = new Date(1990, 6 - 1, 23);
-            //this.cdr.detectChanges();
             this.ZVARstartDate = oneMonthAgo;
             this.ZVARendDate = new Date();
+            this.cdr.detectChanges();
 
             this.OpenReport(new Report(currentReport));
           });
