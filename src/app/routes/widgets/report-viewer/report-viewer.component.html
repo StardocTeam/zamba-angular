@@ -9,7 +9,7 @@
                     <button *ngIf="CanGoToCharts" id="returnToCharts" nz-button anchorBtn nzType="default"
                         (click)="returnToCharts(currentReport)" [disabled]=" isButtonExcelDisabled"
                         style="margin-bottom: 5px;">
-                        <i nz-icon nzTooltipPlacement="right" nzType="arrow-left" nzTheme="outline"></i>
+                        <i nz-icon nzTooltipPlacement="right" nzType="area-chart" nzTheme="outline"></i>
                     </button>
                     <button id="exportToExcelBtn" nz-button anchorBtn nzType="default"
                         (click)="exportToExcel(currentReport)" [disabled]=" isButtonExcelDisabled"
@@ -29,6 +29,7 @@
                                 <label for="startDate">Fecha de inicio:</label>
                                 <input id="startDate" nz-input type="date" [(ngModel)]="ZVARstartDate">
                             </div>
+
                             <div *ngIf="endDateVisible" nz-col nzXs="24" nzSm="6">
                                 <label for="endDate">Fecha hasta:</label>
                                 <input id="endDate" nz-input type="date" [(ngModel)]="ZVARendDate">

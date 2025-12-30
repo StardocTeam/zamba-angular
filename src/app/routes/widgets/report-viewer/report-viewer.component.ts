@@ -84,9 +84,12 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           })
         )
           .subscribe((data: any) => {
+            debugger;
             var currentReport: Report = JSON.parse(data)[0];
             const oneMonthAgo = new Date();
             oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            //this.ZVARstartDate = new Date(1990, 6 - 1, 23);
+            //this.cdr.detectChanges();
             this.ZVARstartDate = oneMonthAgo;
             this.ZVARendDate = new Date();
 
@@ -141,8 +144,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   OpenReport(report: Report) {
     //TODO: Recordar quitar esto al hacer el ABM
-    this.endDateVisible = false;
-    this.startDateVisible = false;
+    this.endDateVisible = true;
+    this.startDateVisible = true;
     //TODO: Recordar quitar esto al hacer el ABM
 
     this.ruleId = 0;
@@ -168,6 +171,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     if (zVarsFound.includes("FechaHasta")) {
       this.endDateVisible = true;
     }
+
     //--------------------------------
 
     if (tokenData != null) {
@@ -238,6 +242,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           UserId: tokenData['userid'],
           Params: {
             Zvars: JSON.stringify({
+              ...this.buildZvarsObject(),
               FechaDesde: this.ZVARstartDate,
               FechaHasta: this.ZVARendDate
             }),
@@ -448,6 +453,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         token: tokenData['token'],
         Params: {
           Zvars: JSON.stringify({
+            ...this.buildZvarsObject(),
             FechaDesde: this.ZVARstartDate,
             FechaHasta: this.ZVARendDate
           }),
@@ -455,15 +461,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           ReportId: this.currentReport.ID
         }
       };
-
-
-      // genericRequest = {
-      //   UserId: tokenData['userid'],
-      //   token: tokenData['token'],
-      //   Params: {
-      //     "Query": report.Query
-      //   }
-      // };
 
       const FileName = report.Name.replace(/ /g, "_") + " ";
 
