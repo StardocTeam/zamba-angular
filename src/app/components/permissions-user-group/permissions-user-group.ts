@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject, WritableSignal, signal } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +24,8 @@ import { environment } from '@env/environment';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { RuleExecutorComponent } from '../rule-executor/rule-executor.component';
+import { AdminService } from 'src/app/services/admin.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-permissions-user-group',
@@ -59,73 +61,26 @@ export class PermissionsUserGroupComponent implements OnInit {
     isLoading: boolean = true;
     searchText: string = '';
     searchTextUsers: string = '';
+    searchTextGroupUsers: string = '';
+    searchTextOtherUsers: any; string = '';
     isLoadingAction = false;
     selectedTabIndex = 0;
-    data = [
-        { title: 'Administrador_ZambaHR (178546)' },
-        { title: 'Area_RRHH_Administracion (171)' },
-        { title: 'Area_RRHH_Capacitacion (102)' },
-        { title: 'Area_RRHH_Compensacion_y_Beneficios (191)' },
-        { title: 'Area_RRHH_Evaluacion_de_Desempeño (192)' },
-        { title: 'Area_RRHH_Gestion_de_Licencias (408)' },
-        { title: 'Area_RRHH_Gestion_de_Vacaciones (454)' },
-        { title: 'Area_RRHH_Gestion_del_Personal (169)' },
-        { title: 'Area_RRHH_Liquidacion_de_Sueldos (170)' },
-        { title: 'Area_RRHH_Recruitment (206)' },
-        { title: 'Area_RRHH_Seguridad_y_Ambiente_Laboral (190)' },
-        { title: 'Empleado (101)' },
-        { title: 'LX_Analistas_a_Cargo_de_Clientes (511)' },
-        { title: 'Postulantes (186)' },
-        { title: 'Stardoc Argentina SA (168)' },
-        { title: 'Stardoc_Area_Administracion (167)' },
-        { title: 'test marsh event log user (505)' },
-        { title: 'Z_CC_Licencias_Permiso_Consultar (336)' },
-        { title: 'Z_CC_Licencias_Permiso_Editar (337)' },
-        { title: 'Z_CC_Licencias_Permiso_Eliminar (339)' },
-        { title: 'Z_CC_Licencias_Permiso_Insertar (338)' },
-        { title: 'Z_CC_Vacaciones_Permiso_Consultar (331)' },
-        { title: 'Z_CC_Vacaciones_Permiso_Editar (332)' },
-        { title: 'Z_CC_Vacaciones_Permiso_Eliminar (333)' },
-        { title: 'Z_CC_Vacaciones_Permiso_Insertar (334)' },
-        { title: 'Z_Config_Firmas_Documentos_Permiso_Consultar (341)' },
-        { title: 'Z_Config_Firmas_Documentos_Permiso_Editar (342)' },
-        { title: 'Z_Config_Firmas_Documentos_Permiso_Eliminar (344)' },
-        { title: 'Z_Config_Firmas_Documentos_Permiso_Insertar (343)' },
-        { title: 'Z_Config_Grupos_Permiso_Consultar (492)' }
-    ];
-    filteredData: { title: string; }[] = [];
-    filteredUsers: { username: string; }[] = [];
-    selectedItem: any = { title: '-' };
 
-    users = [{ username: 'Alvarez Emiliano (emiliano.alvarez@stardoc.com.ar 433)' },
-    { username: 'Alvarez Emiliano (EmilianoManuAlvarez@gmail.com 189)' },
-    { username: 'Bruñé Nicolas (bruñen 530)' },
-    { username: 'Cabrera Nicolas (nicolas.cabrera@stardoc.com.ar 183)' },
-    { username: 'Cardoso Mauro (mauro.cardoso@stardoc.com.ar 295)' },
-    { username: 'Coria Paola (coriap 531)' },
-    { username: 'Cruz Juan (cruzj 529)' },
-    { username: 'Doe John (gusrollan@gmail.com 248)' },
-    { username: 'Figueroa Susana (figueroas 532)' },
-    { username: 'Gio Alejandro (empleado1@stardoc.com.ar 440)' },
-    { username: 'Gonzalez Marcos (marcos.gonzalez2@stardoc.com.ar 271)' },
-    { username: 'Legnani Martin (legnani@gmail.com 229)' },
-    { username: 'Molina Huilen (molinah 528)' },
-    { username: 'Montoto Jose (rrhhadmin@stardoc.com.ar 202)' },
-    { username: 'Parma Francisco (empleadorhrh@stardoc.com.ar 434)' },
-    { username: 'Parma Francisco (franciscoparma@stardoc.com.ar 503)' },
-    { username: 'Rollan Gustavo (gusrollan1@gmail.com 245)' },
-    { username: 'Rollan Gustavo Marcelo (gustavo.rollan@stardoc.com.ar 403)' },
-    { username: 'Rollan Marcelo (gustavomarcelo.rollan@gmail.com 453)' },
-    { username: 'stardoc zamba (zamba 22242)' },
-    { username: 'test cambio de pass cambio de pass (test 504)' }];
+    groups = signal<any[]>([]);
 
-    perros = [
-        {
-            username: 'Fido',
-        }
-    ]
+    filteredData: any[] = [];
+    filteredOtherUsers: any[] = [];
+    filteredGroupUsers: any[] = [];
+    selectedItem: any = { _name: '-' };
+
+    allUsers: any[] = [];
+
+    otherUsers: any[] = [];
+
+    usersForAGroup: any[] = [];
 
     private route = inject(ActivatedRoute);
+
     constructor(
         private router: Router,
         @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -133,38 +88,96 @@ export class PermissionsUserGroupComponent implements OnInit {
         private cdr: ChangeDetectorRef,
         private modal: NzModalService,
         private sanitizer: DomSanitizer,
+
+        private adminService: AdminService
     ) {
     }
     ngOnInit(): void {
-        this.filteredData = this.data;
-        this.filteredUsers = this.users;
+        this.adminService.GetAllGroups().subscribe((res: any) => {
+            res.sort((a: { _name: string; }, b: { _name: any; }) =>
+                a._name.localeCompare(b._name, 'en', { sensitivity: 'base' })
+            );
+            console.log(res);
+            this.groups.set(res);
+            this.filteredData = res;
+            this.cdr.detectChanges();
+        });
+        this.adminService.GetAllUsers().subscribe((res: any) => {
+            console.log("getAllUsers", res);
+            res.sort((a: { _apellidos: string; }, b: { _apellidos: any; }) =>
+                a._apellidos.localeCompare(b._apellidos, 'en', { sensitivity: 'base' })
+            );
+            this.allUsers = res;
+            this.otherUsers = res;
+            this.filteredOtherUsers = res;
+            this.cdr.detectChanges();
+        });
     }
 
     filterGroups(): void {
-        this.filteredData = this.data.filter(item =>
-            item.title.toLowerCase().includes(this.searchText.toLowerCase())
+        this.filteredData = this.groups().filter(item =>
+            item._name.toLowerCase().includes(this.searchText.toLowerCase())
         );
     }
 
-    filterUsers(): void {
-        this.filteredUsers = this.users.filter(item =>
-            item.username.toLowerCase().includes(this.searchTextUsers.toLowerCase())
-        );
+
+    filterOtherUsers(): void {
+        const availableUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
+        this.filteredOtherUsers = availableUsers.filter(item => {
+            const val = item.username || (item._apellidos + ' ' + item._nombres + ' (' + item._name + ' ' + item._id + ')');
+            return val.toLowerCase().includes(this.searchTextOtherUsers.toLowerCase());
+        });
+    }
+
+    filterGroupUsers(): void {
+        this.filteredGroupUsers = this.usersForAGroup.filter(item => {
+            const val = item.username || (item._apellidos + ' ' + item._nombres + ' (' + item._name + ' ' + item._id + ')');
+            return val.toLowerCase().includes(this.searchTextGroupUsers.toLowerCase());
+        });
     }
 
     selectItem(item: any): void {
         this.selectedItem = item;
+        console.log(this.selectedItem);
+        this.adminService.GetAllUsersForAGroup(this.selectedItem._id).subscribe((res: any) => {
+            console.log(res);
+            this.usersForAGroup = res;
+            this.filteredGroupUsers = res;
+            this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
+            this.cdr.detectChanges();
+        });
     }
 
     moveToGroup(item: any): void {
-        this.users = this.users.filter(u => u !== item);
-        this.perros.push(item);
-        this.filterUsers();
+        this.allUsers = this.allUsers.filter(u => u !== item);
+        this.usersForAGroup.push(item);
     }
 
-    removeFromGroup(item: any): void {
-        this.perros = this.perros.filter(p => p !== item);
-        this.users.push(item);
-        this.filterUsers();
+    removeUserFromGroup(item: any): void {
+        this.adminService.RemoveUserFromGroup(item._id, this.selectedItem._id).subscribe({
+            next: (res: any) => {
+                this.usersForAGroup = this.usersForAGroup.filter(p => p !== item);
+                this.filterGroupUsers();
+                this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
+                this.cdr.detectChanges();
+            },
+            error: (err: any) => {
+                console.error(err);
+            }
+        });
+    }
+
+    addUserIntoGroup(item: any): void {
+        this.adminService.AddUserIntoGroup(item._id, this.selectedItem._id).subscribe({
+            next: (res: any) => {
+                this.usersForAGroup.push(item);
+                this.filterGroupUsers();
+                this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
+                this.cdr.detectChanges();
+            },
+            error: (err: any) => {
+                console.error(err);
+            }
+        });
     }
 }
