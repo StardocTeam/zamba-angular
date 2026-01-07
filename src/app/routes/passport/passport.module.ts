@@ -19,8 +19,13 @@ import { ResetResultComponent } from './reset-result/reset-result.component';
 import { ValidateComponent } from './validate.component';
 import { InitialPasswordWizardComponent } from '../welcome/initial-password-wizard/initial-password-wizard.component';
 
+import { UserLoginVZambaComponent } from './loginVZamba/login.component';
+import { UserRegisterVZambaComponent } from './registerVZamba/register.component';
+
 const COMPONENTS = [
   UserLoginV2Component,
+  UserLoginVZambaComponent,
+  UserRegisterVZambaComponent,
   UserRegisterResultComponent,
   UserRegisterComponent,
   UserLockComponent,
@@ -40,4 +45,4 @@ const COMPONENTS = [
   imports: [SharedModule, PassportRoutingModule, RecaptchaModule, NzTypographyModule],
   declarations: [...COMPONENTS]
 })
-export class PassportModule {}
+export class PassportModule { }

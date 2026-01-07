@@ -84,7 +84,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           })
         )
           .subscribe((data: any) => {
-            debugger;
             var currentReport: Report = JSON.parse(data)[0];
             const oneMonthAgo = new Date();
             oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
