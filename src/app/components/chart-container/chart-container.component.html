@@ -18,6 +18,10 @@
     </div>
 
 
+    <div *ngIf="isLoading" class="spinner-overlay">
+        <nz-spin [nzSize]="'large'"></nz-spin>
+    </div>
+
     <table class="grid-table" height="100%" width="100%">
         <tr *ngFor="let r of [].constructor(DimY); let rowY = index">
             <ng-container *ngFor="let c of [].constructor(DimX); let colX = index">

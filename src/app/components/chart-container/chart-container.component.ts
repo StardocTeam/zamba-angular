@@ -17,13 +17,14 @@ import { Report } from "../../routes/widgets/report-component/entitie/report";
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-chart-container',
   templateUrl: './chart-container.component.html',
   styleUrls: ['./chart-container.component.less'],
   standalone: true,
-  imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf, ChartComponent, CommonModule, NzIconModule, NzButtonModule]
+  imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf, ChartComponent, CommonModule, NzIconModule, NzButtonModule, NzSpinModule]
 })
 export class ChartContainerComponent {
   //a
@@ -45,6 +46,7 @@ export class ChartContainerComponent {
   ReportData: any;
   // Estado para deshabilitar botones hasta que termine la carga (igual que en report-viewer)
   isButtonExcelDisabled: boolean = true;
+  isLoading: boolean = false;
 
   /**
    *
@@ -61,6 +63,7 @@ export class ChartContainerComponent {
     const tokenData = this.tokenService.get();
 
     this.route.params.subscribe(params => {
+      this.isLoading = true;
       let genericRequest = {};
       if (tokenData) {
         genericRequest = {
@@ -164,9 +167,11 @@ export class ChartContainerComponent {
                   } else {
                     this.chartList = JSON.parse(data);
                     this.isButtonExcelDisabled = false;
+                    this.isLoading = false;
                   }
                 }, error => {
-                  //this.isButtonExcelDisabled = true;
+                  this.isButtonExcelDisabled = false;
+                  this.isLoading = false;
                 });
               });
           });
