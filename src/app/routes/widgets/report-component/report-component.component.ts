@@ -43,6 +43,7 @@ export class ReportComponentComponent {
   userId: number = 0;
 
   chartsDisabled: boolean = false;
+  isLoading: boolean = false;
   //#endregion
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -123,6 +124,7 @@ export class ReportComponentComponent {
 
   private initializeReportComponents() {
     this.GetPermissions();
+    this.isLoading = true;
     this.GetReports();
     this.adjustHeight();
     this.cdr.detectChanges();
@@ -206,6 +208,8 @@ export class ReportComponentComponent {
           name: category,
           currentReport: Categories[category].map(item => new Report(item))
         }));
+
+        this.isLoading = false;
 
       });
     }

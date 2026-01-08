@@ -17,6 +17,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { TaskService } from 'src/app/services/task.service';
 import { Zvars } from './entitie/ZVar';
 import { RuleExecutorComponent } from 'src/app/components/rule-executor/rule-executor.component';
+import { NzSpinComponent } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-report-viewer',
@@ -28,7 +29,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   executingRule: boolean = false;
   array = Array.from({ length: 20 }, (_, index) => index + 1);
 
-  loading: Boolean = true;
+  isLoading: Boolean = true;
   currentReport: Report = new Report({});
   listOfData: any[] = [];
   listOfColumns: ColumnItem[] = [];
@@ -62,7 +63,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loading = false;
+    this.isLoading = true;
     const tokenData = this.tokenService.get();
 
     this.routeSub = this.route.params.subscribe(params => {
@@ -141,6 +142,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   //#region Bussines Functions
 
   OpenReport(report: Report) {
+    this.isLoading = true;
     //TODO: Recordar quitar esto al hacer el ABM
     this.endDateVisible = true;
     this.startDateVisible = true;
@@ -268,7 +270,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
     this.listOfData = [];
-    this.loading = true;
+    this.isLoading = true;
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
@@ -341,7 +343,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         nzOnOk: () => console.log('OK'),
       });
 
-      this.loading = false;
+      this.isLoading = false;
       this.cdr.detectChanges();
 
     } else if (typeof (JSON.parse(data)) == "object") {
@@ -416,7 +418,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       }
 
 
-      this.loading = false;
+      this.isLoading = false;
 
       this.cdr.detectChanges();
       //return;
@@ -432,7 +434,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         nzOnOk: () => console.log('OK'),
       });
 
-      this.loading = false;
+      this.isLoading = false;
 
       this.cdr.detectChanges();
     }
@@ -561,7 +563,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
     this.executingRule = false;
     this.ruleId = 0;
-    this.loading = false;
+    this.isLoading = false;
     this.cdr.markForCheck();
   }
 

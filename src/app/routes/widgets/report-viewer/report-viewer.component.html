@@ -27,12 +27,14 @@
                             <!-- TODO:Aca van los inputs dinamicos por ZVARs -->
                             <div *ngIf="startDateVisible" nz-col nzXs="24" nzSm="6">
                                 <label for="startDate">Fecha de inicio:</label>
-                                <nz-date-picker [(ngModel)]="ZVARstartDate" style="width: 100%"></nz-date-picker>
+                                <nz-date-picker [(ngModel)]="ZVARstartDate" [nzFormat]="'dd-MM-yyyy'"
+                                    style="width: 100%"></nz-date-picker>
                             </div>
 
                             <div *ngIf="endDateVisible" nz-col nzXs="24" nzSm="6">
                                 <label for="endDate">Fecha hasta:</label>
-                                <nz-date-picker [(ngModel)]="ZVARendDate" style="width: 100%"></nz-date-picker>
+                                <nz-date-picker [(ngModel)]="ZVARendDate" [nzFormat]="'dd-MM-yyyy'"
+                                    style="width: 100%"></nz-date-picker>
                             </div>
                             <!-- <div *ngFor="let zvar of ListZVARsFromDB" nz-col nzXs="24" nzSm="6">
                                 <label>{{zvar.KeyZVar}}:</label>
@@ -60,10 +62,15 @@
             </div> -->
             </div>
         </div>
-        <nz-table #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
+
+        <div *ngIf="isLoading" class="spinner-overlay">
+            <nz-spin [nzSize]="'large'"></nz-spin>
+        </div>
+
+        <nz-table *ngIf="!isLoading" #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
             [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"
-            [nzShowPagination]="nzShowPagination" [nzShowSizeChanger]="true" [nzScroll]="{y: height }" [nzPageSize]="20"
-            [nzLoading]="loading ? 'true' : 'false'">
+            [nzShowPagination]="nzShowPagination" [nzShowSizeChanger]="true" [nzScroll]="{y: height }"
+            [nzPageSize]="20">
             <thead>
                 <tr>
                     <ng-container *ngFor="let column of listOfColumns;">

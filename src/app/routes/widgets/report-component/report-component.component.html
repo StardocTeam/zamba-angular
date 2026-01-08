@@ -22,7 +22,11 @@
                 </div>
             </div>
 
-            <div>
+            <div *ngIf="isLoading" class="spinner-overlay">
+                <nz-spin [nzSize]="'large'"></nz-spin>
+            </div>
+
+            <div *ngIf="!isLoading">
                 <ul class="ulContainer-menu" nz-menu nzMode="inline">
                     <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzTitle="{{itemTree.name}}" nzOpen
                         nzIcon="file">
