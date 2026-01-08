@@ -94,6 +94,41 @@ export class AdminService {
       { headers }
     );
   }
+  AddInheritedGroup(groupId: number, inheritedGroupId: number) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "groupId1": groupId,
+        "groupId2": inheritedGroupId
+      }
+    };
+    return this.http.post(
+      `${this.serviceBase}Admin/AddInheritedGroup`,
+      genericRequest,
+      { headers }
+    );
+  }
+
+  DeleteInheritedGroup(groupId: number, inheritedGroupId: number) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "groupId1": groupId,
+        "groupId2": inheritedGroupId
+      }
+    };
+    return this.http.post(
+      `${this.serviceBase}Admin/DeleteInheritedGroup`,
+      genericRequest,
+      { headers }
+    );
+  }
 
   GetInheritedGroups(groupId: number) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

@@ -105,7 +105,7 @@
                                 </div>
                                 <nz-list nzItemLayout="horizontal">
                                     <nz-list-item *ngFor="let item of filteredInheritedGroups" class="fz-item-small"
-                                        (dblclick)="removeUserFromGroup(item)">
+                                        (dblclick)="deleteInheritedGroup(item)">
                                         <div style="display: flex; align-items: center;">
                                             <span nz-icon nzType="group" nzTheme="outline"
                                                 style="margin-right: 8px;"></span>
@@ -116,29 +116,24 @@
                                 </nz-list>
                             </div>
                             <div class="list-column">
-                                <!--
                                 <div class="sticky-header">
                                     <div class="column-header">Otros grupos</div>
                                     <nz-input-group class="full-width-input" nzSearch [nzAddOnAfter]="suffixIconButton">
-                                        <input type="text" nz-input placeholder="Buscar usuarios"
-                                            [(ngModel)]="searchTextUsers" (input)="filterUsers()" />
+                                        <input type="text" nz-input placeholder="Buscar grupos"
+                                            [(ngModel)]="searchTextOtherGroups" (input)="filterOtherGroups()" />
                                     </nz-input-group>
                                 </div>
-                                
                                 <nz-list nzItemLayout="horizontal">
-                                    <nz-list-item *ngFor="let item of filteredUsers" class="fz-item-small"
-                                        (dblclick)="moveToGroup(item)">
+                                    <nz-list-item *ngFor="let item of filteredOtherGroups" class="fz-item-small"
+                                        (dblclick)="addInheritedGroup(item)">
                                         <div style="display: flex; align-items: center;">
-                                            <span nz-icon nzType="user" nzTheme="outline"
+                                            <span nz-icon nzType="group" nzTheme="outline"
                                                 style="margin-right: 8px;"></span>
-                                            <span>{{ item._apellidos + ' ' + item._nombres + ' (' + item._name + ' '
-                                                +
-                                                item._id + ')' }}</span>
+                                            <span>{{ item._name }}</span>
                                         </div>
                                     </nz-list-item>
-                                    <nz-list-empty *ngIf="filteredUsers.length === 0"></nz-list-empty>
+                                    <nz-list-empty *ngIf="filteredOtherGroups.length === 0"></nz-list-empty>
                                 </nz-list>
-                                -->
                             </div>
                         </div>
                     </nz-tab>

@@ -64,6 +64,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     searchTextGroupUsers: string = '';
     searchTextOtherUsers: any; string = '';
     searchInheritedGroupUsers: string = '';
+    searchTextOtherGroups: string = '';
     isLoadingAction = false;
     selectedTabIndex = 0;
 
@@ -84,7 +85,8 @@ export class PermissionsUserGroupComponent implements OnInit {
     inheritedGroups: any[] = [];
     filteredInheritedGroups: any[] = [];
 
-
+    otherGroups: any[] = [];
+    filteredOtherGroups: any[] = [];
 
     private route = inject(ActivatedRoute);
 
@@ -107,6 +109,9 @@ export class PermissionsUserGroupComponent implements OnInit {
             console.log(res);
             this.groups.set(res);
             this.filteredData = res;
+
+            this.otherGroups = res;
+            this.filteredOtherGroups = res;
             this.cdr.detectChanges();
         });
         this.adminService.GetAllUsers().subscribe((res: any) => {
@@ -133,6 +138,15 @@ export class PermissionsUserGroupComponent implements OnInit {
         );
     }
 
+    filterOtherGroups(): void {
+        this.filteredOtherGroups = this.otherGroups.filter(g =>
+            !this.inheritedGroups.some((ig: any) => ig._id === g._id) &&
+            g._id !== this.selectedItem._id
+        );
+        this.filteredOtherGroups = this.filteredOtherGroups.filter(item =>
+            (item._name || '').toLowerCase().includes((this.searchTextOtherGroups || '').toLowerCase())
+        );
+    }
     filterOtherUsers(): void {
         const availableUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
         this.filteredOtherUsers = availableUsers.filter(item => {
@@ -167,9 +181,10 @@ export class PermissionsUserGroupComponent implements OnInit {
             console.log("inherited groups", res);
             this.inheritedGroups = res;
             this.filteredInheritedGroups = res;
+            this.filterOtherGroups();
             this.cdr.detectChanges();
         });
-        //this.getInheritedGroupsForGroup(this.selectedItem._id);
+
     }
 
     moveToGroup(item: any): void {
@@ -204,4 +219,32 @@ export class PermissionsUserGroupComponent implements OnInit {
             }
         });
     }
+
+    addInheritedGroup(item: any): void {
+        this.adminService.AddInheritedGroup(this.selectedItem._id, item._id).subscribe({
+            next: (res: any) => {
+                this.inheritedGroups.push(item);
+                this.filterInheritedGroups();
+                this.filterOtherGroups();
+                this.cdr.detectChanges();
+            },
+            error: (err: any) => {
+                console.error(err);
+            }
+        });
+    }
+    deleteInheritedGroup(item: any): void {
+        this.adminService.DeleteInheritedGroup(this.selectedItem._id, item._id).subscribe({
+            next: (res: any) => {
+                this.inheritedGroups = this.inheritedGroups.filter(p => p !== item);
+                this.filterInheritedGroups();
+                this.filterOtherGroups();
+                this.cdr.detectChanges();
+            },
+            error: (err: any) => {
+                console.error(err);
+            }
+        });
+    }
+
 }
