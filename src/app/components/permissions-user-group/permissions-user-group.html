@@ -16,7 +16,7 @@
                         <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
                     </ng-template>
                     <nz-list nzItemLayout="horizontal">
-                        <nz-list-item *ngFor="let item of filteredData" (click)="selectItem(item)"
+                        <nz-list-item *ngFor="let item of filteredData" (click)="selectSidebarGroupItem(item)"
                             [class.selected]="item === selectedItem" class="fz-item">
                             <div style="display: flex; align-items: center;">
                                 <span nz-icon nzType="group" nzTheme="outline" style="margin-right: 8px;"></span>
@@ -99,21 +99,20 @@
                                 <div class="sticky-header">
                                     <div class="column-header">Grupos de los cuales hereda este grupo</div>
                                     <nz-input-group class="full-width-input" nzSearch [nzAddOnAfter]="suffixIconButton">
-                                        <input type="text" nz-input placeholder="Buscar usuarios" />
+                                        <input type="text" nz-input placeholder="Buscar grupos"
+                                            [(ngModel)]="searchInheritedGroupUsers" (input)="filterInheritedGroups()" />
                                     </nz-input-group>
                                 </div>
                                 <nz-list nzItemLayout="horizontal">
-                                    <nz-list-item *ngFor="let item of usersForAGroup" class="fz-item-small"
+                                    <nz-list-item *ngFor="let item of filteredInheritedGroups" class="fz-item-small"
                                         (dblclick)="removeUserFromGroup(item)">
                                         <div style="display: flex; align-items: center;">
-                                            <span nz-icon nzType="user" nzTheme="outline"
+                                            <span nz-icon nzType="group" nzTheme="outline"
                                                 style="margin-right: 8px;"></span>
-                                            <span>{{ item._apellidos + ' ' + item._nombres + ' (' + item._name + ' '
-                                                +
-                                                item._id + ')' }}</span>
+                                            <span>{{ item._name }}</span>
                                         </div>
                                     </nz-list-item>
-                                    <nz-list-empty *ngIf="usersForAGroup.length === 0"></nz-list-empty>
+                                    <nz-list-empty *ngIf="filteredInheritedGroups.length === 0"></nz-list-empty>
                                 </nz-list>
                             </div>
                             <div class="list-column">

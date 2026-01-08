@@ -63,6 +63,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     searchTextUsers: string = '';
     searchTextGroupUsers: string = '';
     searchTextOtherUsers: any; string = '';
+    searchInheritedGroupUsers: string = '';
     isLoadingAction = false;
     selectedTabIndex = 0;
 
@@ -78,6 +79,12 @@ export class PermissionsUserGroupComponent implements OnInit {
     otherUsers: any[] = [];
 
     usersForAGroup: any[] = [];
+
+    //grupos heredados del grupo seleccionado
+    inheritedGroups: any[] = [];
+    filteredInheritedGroups: any[] = [];
+
+
 
     private route = inject(ActivatedRoute);
 
@@ -120,6 +127,11 @@ export class PermissionsUserGroupComponent implements OnInit {
         );
     }
 
+    filterInheritedGroups(): void {
+        this.filteredInheritedGroups = this.inheritedGroups.filter(item =>
+            item._name.toLowerCase().includes(this.searchInheritedGroupUsers.toLowerCase())
+        );
+    }
 
     filterOtherUsers(): void {
         const availableUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
@@ -136,9 +148,12 @@ export class PermissionsUserGroupComponent implements OnInit {
         });
     }
 
-    selectItem(item: any): void {
+    //cuando se selecciona un GRUPO de la sidebar
+    selectSidebarGroupItem(item: any): void {
         this.selectedItem = item;
         console.log(this.selectedItem);
+
+        //obtener los usuarios de ese grupo
         this.adminService.GetAllUsersForAGroup(this.selectedItem._id).subscribe((res: any) => {
             console.log(res);
             this.usersForAGroup = res;
@@ -146,6 +161,15 @@ export class PermissionsUserGroupComponent implements OnInit {
             this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
             this.cdr.detectChanges();
         });
+
+        //obtener los grupos heredados de ese grupo
+        this.adminService.GetInheritedGroups(this.selectedItem._id).subscribe((res: any) => {
+            console.log("inherited groups", res);
+            this.inheritedGroups = res;
+            this.filteredInheritedGroups = res;
+            this.cdr.detectChanges();
+        });
+        //this.getInheritedGroupsForGroup(this.selectedItem._id);
     }
 
     moveToGroup(item: any): void {
