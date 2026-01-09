@@ -146,6 +146,22 @@ export class AdminService {
       { headers }
     );
   }
+  GetGroupsForAUser(userId: number) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "userId": userId
+      }
+    };
+    return this.http.post(
+      `${this.serviceBase}Admin/GetGroupsForAUser`,
+      genericRequest,
+      { headers }
+    );
+  }
 
 
   private serviceBase: string = '';

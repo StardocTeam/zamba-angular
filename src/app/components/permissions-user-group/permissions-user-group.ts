@@ -65,15 +65,22 @@ export class PermissionsUserGroupComponent implements OnInit {
     searchTextOtherUsers: any; string = '';
     searchInheritedGroupUsers: string = '';
     searchTextOtherGroups: string = '';
+
+    searchTextOtherGroupsForUserMainTab: string = '';
+
+    searchTextGroupsBelongUser: string = '';
     isLoadingAction = false;
     selectedTabIndex = 0;
 
     groups = signal<any[]>([]);
 
     filteredData: any[] = [];
+    filteredUsersSidebar: any[] = [];
     filteredOtherUsers: any[] = [];
     filteredGroupUsers: any[] = [];
     selectedItem: any = { _name: '-' };
+
+    selectedUserSidebarItem: any = { _nombres: '-', _apellidos: '', _name: '', };
 
     allUsers: any[] = [];
 
@@ -87,6 +94,12 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     otherGroups: any[] = [];
     filteredOtherGroups: any[] = [];
+
+    filteredOtherGroupsForUserMainTab: any[] = [];
+
+    //Asignar grupos al usuario
+    groupsBelongUser: any[] = [];
+    filteredGroupsBelongUser: any[] = [];
 
     private route = inject(ActivatedRoute);
 
@@ -112,6 +125,7 @@ export class PermissionsUserGroupComponent implements OnInit {
 
             this.otherGroups = res;
             this.filteredOtherGroups = res;
+            this.filteredOtherGroupsForUserMainTab = res;
             this.cdr.detectChanges();
         });
         this.adminService.GetAllUsers().subscribe((res: any) => {
@@ -119,6 +133,8 @@ export class PermissionsUserGroupComponent implements OnInit {
             res.sort((a: { _apellidos: string; }, b: { _apellidos: any; }) =>
                 a._apellidos.localeCompare(b._apellidos, 'en', { sensitivity: 'base' })
             );
+            this.filteredUsersSidebar = res;
+
             this.allUsers = res;
             this.otherUsers = res;
             this.filteredOtherUsers = res;
@@ -129,6 +145,12 @@ export class PermissionsUserGroupComponent implements OnInit {
     filterGroups(): void {
         this.filteredData = this.groups().filter(item =>
             item._name.toLowerCase().includes(this.searchText.toLowerCase())
+        );
+    }
+    filterUsers(): void {
+        this.filteredUsersSidebar = this.allUsers.filter(item =>
+            (item.username || (item._apellidos + ' ' + item._nombres + ' (' + item._name + ' ' + item._id + ')'))
+                .toLowerCase().includes(this.searchTextUsers.toLowerCase())
         );
     }
 
@@ -147,6 +169,17 @@ export class PermissionsUserGroupComponent implements OnInit {
             (item._name || '').toLowerCase().includes((this.searchTextOtherGroups || '').toLowerCase())
         );
     }
+
+    filterOtherGroupsForUserMainTab(): void {
+        this.filteredOtherGroupsForUserMainTab = this.otherGroups.filter(g =>
+            !this.groupsBelongUser.some((ig: any) => ig._id === g._id)
+        );
+        this.filteredOtherGroupsForUserMainTab = this.filteredOtherGroupsForUserMainTab.filter(item =>
+            (item._name || '').toLowerCase().includes((this.searchTextOtherGroupsForUserMainTab || '').toLowerCase())
+        );
+    }
+
+
     filterOtherUsers(): void {
         const availableUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
         this.filteredOtherUsers = availableUsers.filter(item => {
@@ -159,6 +192,13 @@ export class PermissionsUserGroupComponent implements OnInit {
         this.filteredGroupUsers = this.usersForAGroup.filter(item => {
             const val = item.username || (item._apellidos + ' ' + item._nombres + ' (' + item._name + ' ' + item._id + ')');
             return val.toLowerCase().includes(this.searchTextGroupUsers.toLowerCase());
+        });
+    }
+
+    filterGroupsBelongUser(): void {
+        this.filteredGroupsBelongUser = this.groupsBelongUser.filter(item => {
+            const val = item.username || (item._apellidos + ' ' + item._nombres + ' (' + item._name + ' ' + item._id + ')');
+            return val.toLowerCase().includes(this.searchTextGroupsBelongUser.toLowerCase());
         });
     }
 
@@ -187,11 +227,20 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     }
 
-    moveToGroup(item: any): void {
-        this.allUsers = this.allUsers.filter(u => u !== item);
-        this.usersForAGroup.push(item);
-    }
+    selectSidebarUserItem(item: any): void {
+        this.selectedUserSidebarItem = item;
+        console.log(this.selectedUserSidebarItem);
 
+        //obtener los grupos de ese usuario
+        this.adminService.GetGroupsForAUser(this.selectedUserSidebarItem._id).subscribe((res: any) => {
+            console.log(res);
+            this.groupsBelongUser = res;
+            this.filteredGroupsBelongUser = res;
+            this.filterOtherGroupsForUserMainTab();
+            this.cdr.detectChanges();
+        });
+
+    }
     removeUserFromGroup(item: any): void {
         this.adminService.RemoveUserFromGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
@@ -206,12 +255,40 @@ export class PermissionsUserGroupComponent implements OnInit {
         });
     }
 
+    removeUserFromGroup2(item: any): void {
+        this.adminService.RemoveUserFromGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
+            next: (res: any) => {
+                this.groupsBelongUser = this.groupsBelongUser.filter(p => p !== item);
+                this.filterGroupsBelongUser();
+                this.filterOtherGroupsForUserMainTab();
+                this.cdr.detectChanges();
+            },
+            error: (err: any) => {
+                console.error(err);
+            }
+        });
+    }
+
     addUserIntoGroup(item: any): void {
         this.adminService.AddUserIntoGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
                 this.usersForAGroup.push(item);
                 this.filterGroupUsers();
                 this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
+                this.cdr.detectChanges();
+            },
+            error: (err: any) => {
+                console.error(err);
+            }
+        });
+    }
+
+    addUserIntoGroup2(item: any): void {
+        this.adminService.AddUserIntoGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
+            next: (res: any) => {
+                this.groupsBelongUser.push(item);
+                this.filterGroupsBelongUser();
+                this.filterOtherGroupsForUserMainTab();
                 this.cdr.detectChanges();
             },
             error: (err: any) => {
