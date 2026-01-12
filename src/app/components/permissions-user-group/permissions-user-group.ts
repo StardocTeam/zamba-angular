@@ -26,6 +26,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { RuleExecutorComponent } from '../rule-executor/rule-executor.component';
 import { AdminService } from 'src/app/services/admin.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-permissions-user-group',
@@ -59,6 +60,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class PermissionsUserGroupComponent implements OnInit {
 
     isLoading: boolean = true;
+    isLoadingRightPanel: boolean = false;
     searchText: string = '';
     searchTextUsers: string = '';
     searchTextGroupUsers: string = '';
@@ -115,30 +117,43 @@ export class PermissionsUserGroupComponent implements OnInit {
     ) {
     }
     ngOnInit(): void {
-        this.adminService.GetAllGroups().subscribe((res: any) => {
-            res.sort((a: { _name: string; }, b: { _name: any; }) =>
-                a._name.localeCompare(b._name, 'en', { sensitivity: 'base' })
-            );
-            console.log(res);
-            this.groups.set(res);
-            this.filteredData = res;
+        this.isLoading = true;
+        forkJoin({
+            groups: this.adminService.GetAllGroups(),
+            users: this.adminService.GetAllUsers()
+        }).subscribe({
+            next: (res: any) => {
+                // Groups
+                const groups = res.groups;
+                groups.sort((a: { _name: string; }, b: { _name: any; }) =>
+                    a._name.localeCompare(b._name, 'en', { sensitivity: 'base' })
+                );
+                console.log(groups);
+                this.groups.set(groups);
+                this.filteredData = groups;
+                this.otherGroups = groups;
+                this.filteredOtherGroups = groups;
+                this.filteredOtherGroupsForUserMainTab = groups;
 
-            this.otherGroups = res;
-            this.filteredOtherGroups = res;
-            this.filteredOtherGroupsForUserMainTab = res;
-            this.cdr.detectChanges();
-        });
-        this.adminService.GetAllUsers().subscribe((res: any) => {
-            console.log("getAllUsers", res);
-            res.sort((a: { _apellidos: string; }, b: { _apellidos: any; }) =>
-                a._apellidos.localeCompare(b._apellidos, 'en', { sensitivity: 'base' })
-            );
-            this.filteredUsersSidebar = res;
+                // Users
+                const users = res.users;
+                console.log("getAllUsers", users);
+                users.sort((a: { _apellidos: string; }, b: { _apellidos: any; }) =>
+                    a._apellidos.localeCompare(b._apellidos, 'en', { sensitivity: 'base' })
+                );
+                this.filteredUsersSidebar = users;
+                this.allUsers = users;
+                this.otherUsers = users;
+                this.filteredOtherUsers = users;
 
-            this.allUsers = res;
-            this.otherUsers = res;
-            this.filteredOtherUsers = res;
-            this.cdr.detectChanges();
+                this.isLoading = false;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                console.error(err);
+                this.isLoading = false;
+                this.cdr.detectChanges();
+            }
         });
     }
 
@@ -205,39 +220,58 @@ export class PermissionsUserGroupComponent implements OnInit {
     //cuando se selecciona un GRUPO de la sidebar
     selectSidebarGroupItem(item: any): void {
         this.selectedItem = item;
+        this.isLoadingRightPanel = true;
         console.log(this.selectedItem);
 
-        //obtener los usuarios de ese grupo
-        this.adminService.GetAllUsersForAGroup(this.selectedItem._id).subscribe((res: any) => {
-            console.log(res);
-            this.usersForAGroup = res;
-            this.filteredGroupUsers = res;
-            this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
-            this.cdr.detectChanges();
-        });
+        forkJoin({
+            users: this.adminService.GetAllUsersForAGroup(this.selectedItem._id),
+            inheritedGroups: this.adminService.GetInheritedGroups(this.selectedItem._id)
+        }).subscribe({
+            next: (res: any) => {
+                // Users
+                console.log(res.users);
+                this.usersForAGroup = res.users;
+                this.filteredGroupUsers = res.users;
+                this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
 
-        //obtener los grupos heredados de ese grupo
-        this.adminService.GetInheritedGroups(this.selectedItem._id).subscribe((res: any) => {
-            console.log("inherited groups", res);
-            this.inheritedGroups = res;
-            this.filteredInheritedGroups = res;
-            this.filterOtherGroups();
-            this.cdr.detectChanges();
+                // Inherited Groups
+                console.log("inherited groups", res.inheritedGroups);
+                this.inheritedGroups = res.inheritedGroups;
+                this.filteredInheritedGroups = res.inheritedGroups;
+                this.filterOtherGroups();
+
+                this.isLoadingRightPanel = false;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                console.error(err);
+                this.isLoadingRightPanel = false;
+                this.cdr.detectChanges();
+            }
         });
 
     }
 
     selectSidebarUserItem(item: any): void {
         this.selectedUserSidebarItem = item;
+        this.isLoadingRightPanel = true;
         console.log(this.selectedUserSidebarItem);
 
         //obtener los grupos de ese usuario
-        this.adminService.GetGroupsForAUser(this.selectedUserSidebarItem._id).subscribe((res: any) => {
-            console.log(res);
-            this.groupsBelongUser = res;
-            this.filteredGroupsBelongUser = res;
-            this.filterOtherGroupsForUserMainTab();
-            this.cdr.detectChanges();
+        this.adminService.GetGroupsForAUser(this.selectedUserSidebarItem._id).subscribe({
+            next: (res: any) => {
+                console.log(res);
+                this.groupsBelongUser = res;
+                this.filteredGroupsBelongUser = res;
+                this.filterOtherGroupsForUserMainTab();
+                this.isLoadingRightPanel = false;
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                console.error(err);
+                this.isLoadingRightPanel = false;
+                this.cdr.detectChanges();
+            }
         });
 
     }

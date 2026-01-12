@@ -117,6 +117,7 @@
     height: 100%;
     display: flex;
     gap: 2rem;
+    position: relative;
 }
 
 .list-column {
@@ -159,4 +160,27 @@ nz-sider .card-container ::ng-deep .ant-tabs-content>.ant-tabs-tabpane {
 
 .sidebar-card ::ng-deep>.ant-tabs-card .ant-tabs-content {
     height: calc(100vh - 178px);
+    overflow: hidden;
+}
+
+.sidebar-inner-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.sidebar-card {
+    overflow: hidden !important;
+}
+
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,55 +1,62 @@
 <nz-layout class="full-height-layout">
+    <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+    </ng-template>
     <!-- Sidebar con lista de grupos y barra de búsqueda -->
     <nz-sider class="nz-sider-bg padding-right-10 " nzWidth="400px">
         <div class="card-container sidebar-card">
-            <nz-tabset nzType="card" [(nzSelectedIndex)]="selectedTabIndex">
+            <div *ngIf="isLoading" style="padding: 20px;">
+                <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 15 }"></nz-skeleton>
+            </div>
+            <nz-tabset nzType="card" [(nzSelectedIndex)]="selectedTabIndex" *ngIf="!isLoading">
                 <nz-tab nzTitle="Grupos">
-                    <div class="sidebar-sticky-header">
-                        <div class="column-header">Grupos</div>
-                        <nz-input-group class="full-width-input" nzSearch [nzAddOnAfter]="suffixIconButton">
-                            <input type="text" nz-input placeholder="Buscar grupos" [(ngModel)]="searchText"
-                                (input)="filterGroups()" />
-                        </nz-input-group>
+                    <div class="sidebar-inner-container">
+                        <div class="sidebar-sticky-header">
+                            <div class="column-header">Grupos</div>
+                            <nz-input-group class="full-width-input" nzSearch [nzAddOnAfter]="suffixIconButton">
+                                <input type="text" nz-input placeholder="Buscar grupos" [(ngModel)]="searchText"
+                                    (input)="filterGroups()" />
+                            </nz-input-group>
+                        </div>
+
+                        <nz-list nzItemLayout="horizontal">
+                            <nz-list-item *ngFor="let item of filteredData" (click)="selectSidebarGroupItem(item)"
+                                [class.selected]="item === selectedItem" class="fz-item">
+                                <div style="display: flex; align-items: center;">
+                                    <span nz-icon nzType="group" nzTheme="outline" style="margin-right: 8px;"></span>
+                                    <span>{{ item._name }}</span>
+                                </div>
+
+                            </nz-list-item>
+                            <nz-list-empty *ngIf="filteredData.length === 0"></nz-list-empty>
+                        </nz-list>
                     </div>
-
-                    <ng-template #suffixIconButton>
-                        <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
-                    </ng-template>
-                    <nz-list nzItemLayout="horizontal">
-                        <nz-list-item *ngFor="let item of filteredData" (click)="selectSidebarGroupItem(item)"
-                            [class.selected]="item === selectedItem" class="fz-item">
-                            <div style="display: flex; align-items: center;">
-                                <span nz-icon nzType="group" nzTheme="outline" style="margin-right: 8px;"></span>
-                                <span>{{ item._name }}</span>
-                            </div>
-
-                        </nz-list-item>
-                        <nz-list-empty *ngIf="filteredData.length === 0"></nz-list-empty>
-                    </nz-list>
                 </nz-tab>
                 <nz-tab nzTitle="Usuarios">
-                    <div class="sidebar-sticky-header">
-                        <div class="column-header">Usuarios</div>
-                        <nz-input-group class="full-width-input" nzSearch [nzAddOnAfter]="suffixIconButton">
-                            <input type="text" nz-input placeholder="Buscar usuarios" [(ngModel)]="searchTextUsers"
-                                (input)="filterUsers()" />
-                        </nz-input-group>
+                    <div class="sidebar-inner-container">
+                        <div class="sidebar-sticky-header">
+                            <div class="column-header">Usuarios</div>
+                            <nz-input-group class="full-width-input" nzSearch [nzAddOnAfter]="suffixIconButton">
+                                <input type="text" nz-input placeholder="Buscar usuarios" [(ngModel)]="searchTextUsers"
+                                    (input)="filterUsers()" />
+                            </nz-input-group>
+                        </div>
+
+                        <nz-list nzItemLayout="horizontal">
+                            <nz-list-item *ngFor="let item of filteredUsersSidebar"
+                                (click)="selectSidebarUserItem(item)"
+                                [class.selected]="item === selectedUserSidebarItem" class="fz-item">
+                                <div style="display: flex; align-items: center;">
+                                    <span nz-icon nzType="user" nzTheme="outline" style="margin-right: 8px;"></span>
+                                    <span>{{ item._apellidos + ' ' + item._nombres + ' ('
+                                        +
+                                        item._id + ')' }}</span>
+                                </div>
+
+                            </nz-list-item>
+                            <nz-list-empty *ngIf="filteredUsersSidebar.length === 0"></nz-list-empty>
+                        </nz-list>
                     </div>
-
-                    <nz-list nzItemLayout="horizontal">
-                        <nz-list-item *ngFor="let item of filteredUsersSidebar" (click)="selectSidebarUserItem(item)"
-                            [class.selected]="item === selectedUserSidebarItem" class="fz-item">
-                            <div style="display: flex; align-items: center;">
-                                <span nz-icon nzType="user" nzTheme="outline" style="margin-right: 8px;"></span>
-                                <span>{{ item._apellidos + ' ' + item._nombres + ' ('
-                                    +
-                                    item._id + ')' }}</span>
-                            </div>
-
-                        </nz-list-item>
-                        <nz-list-empty *ngIf="filteredUsersSidebar.length === 0"></nz-list-empty>
-                    </nz-list>
-
                 </nz-tab>
             </nz-tabset>
         </div>
@@ -57,14 +64,21 @@
     <!-- FIN: Sidebar con lista de grupos y barra de búsqueda -->
     <!--Contenido principal-->
     <nz-content>
+        <div *ngIf="isLoading" style="padding: 24px;">
+            <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 15 }"></nz-skeleton>
+        </div>
         <!-- Contenido que se muestra cuando la sidebar muestra Grupos -->
-        <div *ngIf="selectedTabIndex === 0">
-            <span class="selected-group-title">{{ selectedItem?._name }}</span>
+        <div *ngIf="!isLoading && selectedTabIndex === 0">
+            <span class="selected-group-title">Grupo Seleccionado: {{ (selectedItem && selectedItem._id) ?
+                selectedItem._name : 'NINGUNO' }}</span>
             <div class="card-container height-80">
                 <nz-tabset nzType="card">
                     <!--TAB Asignar usuarios al grupo-->
                     <nz-tab nzTitle="Asignar usuarios al grupo">
                         <div class="lists-container">
+                            <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
+                                <nz-spin nzSimple nzSize="large"></nz-spin>
+                            </div>
                             <div class="list-column">
                                 <div class="sticky-header">
                                     <div class="column-header">Usuarios que pertenecen al grupo</div>
@@ -118,6 +132,9 @@
                     <!--TAB Herencia de grupos-->
                     <nz-tab nzTitle="Grupos">
                         <div class="lists-container">
+                            <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
+                                <nz-spin nzSimple nzSize="large"></nz-spin>
+                            </div>
                             <div class="list-column">
                                 <div class="sticky-header">
                                     <div class="column-header">Grupos de los cuales hereda este grupo</div>
@@ -164,15 +181,19 @@
                 </nz-tabset>
             </div>
         </div>
-        <div *ngIf="selectedTabIndex === 1">
+        <div *ngIf="!isLoading && selectedTabIndex === 1">
             <!-- Contenido para la pestaña Usuarios -->
-            <span class="selected-group-title">{{ selectedUserSidebarItem?._apellidos + ' ' +
-                selectedUserSidebarItem?._nombres + ' (' +
-                selectedUserSidebarItem?._name +')' }}</span>
+            <span class="selected-group-title">Usuario Seleccionado: {{ (selectedUserSidebarItem &&
+                selectedUserSidebarItem._id) ?(selectedUserSidebarItem._apellidos + ' ' +
+                selectedUserSidebarItem._nombres + ' (' +
+                selectedUserSidebarItem._name +')') : 'NINGUNO' }}</span>
             <div class="card-container height-80">
                 <nz-tabset nzType="card">
                     <nz-tab nzTitle="Asignar grupos al usuario">
                         <div class="lists-container">
+                            <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
+                                <nz-spin nzSimple nzSize="large"></nz-spin>
+                            </div>
                             <div class="list-column">
                                 <div class="sticky-header">
                                     <div class="column-header">Grupos a los que pertenece el usuario</div>
