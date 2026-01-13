@@ -23,7 +23,24 @@ td.cell {
     padding-left: 10px;
 }
 
+.scroll-viewport {
+    overflow-y: auto;
+    /* Ajusta el offset si el header/botones cambian de tamaño */
+    max-height: calc(100vh - 160px);
+    padding-right: 8px;
+}
+
 // Alinear apariencia de botones con report-viewer
 ::ng-deep .anchorBtn {
     position: absolute !important;
+}
+
+.spinner-overlay {
+    top: 0;
+    left: 0;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 }

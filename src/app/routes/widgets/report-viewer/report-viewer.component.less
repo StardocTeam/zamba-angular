@@ -156,3 +156,23 @@ nz-divider {
 .tree-node-container {
     position: relative;
 }
+
+.spinner-overlay {
+    top: 0;
+    left: 0;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+::ng-deep {
+    ant-spin-text ng-star-inserted {
+        padding-right: 0px;
+        border-right-width: 20px;
+        margin-right: 0px;
+        right: 33px;
+        left: -20;
+    }
+}

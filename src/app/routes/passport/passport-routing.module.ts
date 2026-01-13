@@ -16,6 +16,8 @@ import { ResetResultComponent } from './reset-result/reset-result.component';
 import { ValidateComponent } from './validate.component';
 import { LayoutPassportComponent } from '../../layout/passport/passport.component';
 import { InitialPasswordWizardComponent } from '../welcome/initial-password-wizard/initial-password-wizard.component';
+import { UserLoginVZambaComponent } from './loginVZamba/login.component';
+import { UserRegisterVZambaComponent } from './registerVZamba/register.component';
 
 const routes: Routes = [
   // passport
@@ -24,8 +26,13 @@ const routes: Routes = [
     component: LayoutPassportComponent,
     children: [
       {
-        path: 'login',
+        path: 'login', //(este login consume tablas de Zamba y Dashboard)
         component: UserLoginV2Component,
+        data: { title: 'Login', titleI18n: 'app.login.login' }
+      },
+      {
+        path: 'zlogin',
+        component: UserLoginVZambaComponent,
         data: { title: 'Login', titleI18n: 'app.login.login' }
       },
       {
@@ -34,8 +41,13 @@ const routes: Routes = [
         data: { title: 'Validacion de cuenta', titleI18n: 'app.validate.account' }
       },
       {
-        path: 'register',
+        path: 'register', //(este login consume tablas de Zamba y Dashboard)
         component: UserRegisterComponent,
+        data: { title: 'Registrarse', titleI18n: 'app.register.register' }
+      },
+      {
+        path: 'zregister',
+        component: UserRegisterVZambaComponent,
         data: { title: 'Registrarse', titleI18n: 'app.register.register' }
       },
       {

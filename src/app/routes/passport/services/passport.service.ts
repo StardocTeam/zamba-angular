@@ -28,7 +28,7 @@ export class PassportService {
       Params: data
     };
     return this.http
-      .post(`${environment['apiRestBasePath']}/login`, genericRequest, null, {
+      .post(`${environment['apiRestBasePath']}/zlogin`, genericRequest, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true)
       })
       .pipe(

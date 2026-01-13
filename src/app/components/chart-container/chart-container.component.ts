@@ -16,13 +16,15 @@ import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/servic
 import { Report } from "../../routes/widgets/report-component/entitie/report";
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @Component({
   selector: 'app-chart-container',
   templateUrl: './chart-container.component.html',
   styleUrls: ['./chart-container.component.less'],
   standalone: true,
-  imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf, ChartComponent, CommonModule, NzIconModule, NzButtonModule]
+  imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf, ChartComponent, CommonModule, NzIconModule, NzButtonModule, NzSpinModule]
 })
 export class ChartContainerComponent {
   //a
@@ -44,12 +46,13 @@ export class ChartContainerComponent {
   ReportData: any;
   // Estado para deshabilitar botones hasta que termine la carga (igual que en report-viewer)
   isButtonExcelDisabled: boolean = true;
+  isLoading: boolean = false;
 
   /**
    *
    */
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private CService: ChartService, private route: ActivatedRoute, private RViewService: ReportViewerService,
+    private CService: ChartService, private modal: NzModalService, private route: ActivatedRoute, private RViewService: ReportViewerService,
     private router: Router) {
 
   }
@@ -60,6 +63,7 @@ export class ChartContainerComponent {
     const tokenData = this.tokenService.get();
 
     this.route.params.subscribe(params => {
+      this.isLoading = true;
       let genericRequest = {};
       if (tokenData) {
         genericRequest = {
@@ -73,11 +77,22 @@ export class ChartContainerComponent {
         this.CService._GetChartContainer(genericRequest).pipe(
           catchError(error => {
             console.error('Error al obtener configuración:', error);
+
+            this.modal.error({
+              nzTitle: 'Error al obtener configuración',
+              nzContent: '<p>No se encontro ningun grafico.</p>',
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => console.log('OK'),
+            });
+
             throw error;
           })
         ).subscribe((data: any) => {
           this.DimY = JSON.parse(data)[0].DimY;
           this.DimX = JSON.parse(data)[0].DimX;
+
+
         });
 
         this.RViewService.GetReportById(genericRequest).pipe(
@@ -118,16 +133,45 @@ export class ChartContainerComponent {
                 this.CService._GetChartsByReportId(GRequest).pipe(
                   catchError(error => {
                     console.error('Error al obtener configuración:', error);
+
+                    this.modal.error({
+                      nzTitle: 'Error al obtener configuración',
+                      nzContent: '<p>No se encontro ningun grafico.</p>',
+                      nzOkText: 'OK',
+                      nzOkType: 'primary',
+                      nzOnOk: () => console.log('OK'),
+                    });
+
                     throw error;
                   })
                 ).subscribe((data: any) => {
                   console.log(JSON.parse(data));
-                  this.chartList = JSON.parse(data);
-                  // Habilitar botones cuando ya tenemos charts y datos del reporte
-                  this.isButtonExcelDisabled = false;
+
+                  if (data == null || data == '[]') {
+                    console.info('No hay resultados');
+
+                    this.modal.info({
+                      nzTitle: 'No hay resultados',
+                      nzContent: '<p>No se encontro ningun grafico valido</p>',
+                      nzOkText: 'OK',
+                      nzOkType: 'primary',
+                      nzOnOk: () => {
+                        console.log('OK');
+                        this.goToReportViewer();
+                      },
+                      nzOnCancel: () => {
+                        console.log('Modal cerrado por la X');
+                        this.goToReportViewer();
+                      }
+                    });
+                  } else {
+                    this.chartList = JSON.parse(data);
+                    this.isButtonExcelDisabled = false;
+                    this.isLoading = false;
+                  }
                 }, error => {
-                  // Mantener deshabilitado si falla
-                  this.isButtonExcelDisabled = true;
+                  this.isButtonExcelDisabled = false;
+                  this.isLoading = false;
                 });
               });
           });
