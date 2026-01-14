@@ -103,6 +103,9 @@ export class PermissionsUserGroupComponent implements OnInit {
     groupsBelongUser: any[] = [];
     filteredGroupsBelongUser: any[] = [];
 
+    unassignedRoles: any[] = [];
+    filteredUnassignedRoles: any[] = [];
+
     private route = inject(ActivatedRoute);
 
     constructor(
@@ -124,15 +127,25 @@ export class PermissionsUserGroupComponent implements OnInit {
         }).subscribe({
             next: (res: any) => {
                 // Groups
-                const groups = res.groups;
+                let groups = res.groups;
+
+
                 groups.sort((a: { _name: string; }, b: { _name: any; }) =>
                     a._name.localeCompare(b._name, 'en', { sensitivity: 'base' })
                 );
                 console.log(groups);
                 this.groups.set(groups);
-                this.filteredData = groups;
+                //solo grupos, sin roles
+                let groupsWithoutRoles = groups.filter((g: any) => !g._name.toLowerCase().startsWith('rol_'));
+                this.filteredData = groupsWithoutRoles;
                 this.otherGroups = groups;
-                this.filteredOtherGroups = groups;
+
+                //filteredOtherGroups = roles no asignados. Asi que vamos a filtrar y dejar solo la lista de roles
+                let rolesOnly = groups.filter((g: any) => g._name.toLowerCase().startsWith('rol_'));
+
+                this.unassignedRoles = rolesOnly;
+                this.filteredUnassignedRoles = rolesOnly;
+
                 this.filteredOtherGroupsForUserMainTab = groups;
 
                 // Users
@@ -159,7 +172,8 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     filterGroups(): void {
         this.filteredData = this.groups().filter(item =>
-            item._name.toLowerCase().includes(this.searchText.toLowerCase())
+            item._name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+            item._id.toString().toLowerCase().includes(this.searchText.toLowerCase())
         );
     }
     filterUsers(): void {
@@ -176,11 +190,11 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     filterOtherGroups(): void {
-        this.filteredOtherGroups = this.otherGroups.filter(g =>
+        this.filteredUnassignedRoles = this.unassignedRoles.filter(g =>
             !this.inheritedGroups.some((ig: any) => ig._id === g._id) &&
             g._id !== this.selectedItem._id
         );
-        this.filteredOtherGroups = this.filteredOtherGroups.filter(item =>
+        this.filteredUnassignedRoles = this.filteredUnassignedRoles.filter(item =>
             (item._name || '').toLowerCase().includes((this.searchTextOtherGroups || '').toLowerCase())
         );
     }
@@ -231,13 +245,19 @@ export class PermissionsUserGroupComponent implements OnInit {
                 // Users
                 console.log(res.users);
                 this.usersForAGroup = res.users;
-                this.filteredGroupUsers = res.users;
+                this.usersForAGroup.sort((a: any, b: any) =>
+                    (a._apellidos || '').localeCompare((b._apellidos || ''), 'en', { sensitivity: 'base' })
+                );
+                this.filteredGroupUsers = this.usersForAGroup;
                 this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
 
                 // Inherited Groups
                 console.log("inherited groups", res.inheritedGroups);
-                this.inheritedGroups = res.inheritedGroups;
-                this.filteredInheritedGroups = res.inheritedGroups;
+
+                //ahora no quieren que se vean los grupos, sino solo los roles heredados. Asi que filtramos solo los que empiezan por "rol_"
+                let inheritedGroupsFiltered = res.inheritedGroups.filter((g: any) => g._name.toLowerCase().startsWith('rol_'));
+                this.inheritedGroups = inheritedGroupsFiltered;
+                this.filteredInheritedGroups = inheritedGroupsFiltered;
                 this.filterOtherGroups();
 
                 this.isLoadingRightPanel = false;
@@ -276,84 +296,113 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     }
     removeUserFromGroup(item: any): void {
+        this.isLoadingRightPanel = true;
         this.adminService.RemoveUserFromGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
                 this.usersForAGroup = this.usersForAGroup.filter(p => p !== item);
                 this.filterGroupUsers();
                 this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
+                this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();
             },
             error: (err: any) => {
                 console.error(err);
+                this.isLoadingRightPanel = false;
+                this.cdr.detectChanges();
             }
         });
     }
 
     removeUserFromGroup2(item: any): void {
+        this.isLoadingRightPanel = true;
         this.adminService.RemoveUserFromGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
             next: (res: any) => {
                 this.groupsBelongUser = this.groupsBelongUser.filter(p => p !== item);
                 this.filterGroupsBelongUser();
                 this.filterOtherGroupsForUserMainTab();
+                this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();
             },
             error: (err: any) => {
                 console.error(err);
+                this.isLoadingRightPanel = false;
             }
         });
     }
 
     addUserIntoGroup(item: any): void {
+        this.isLoadingRightPanel = true;
         this.adminService.AddUserIntoGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
                 this.usersForAGroup.push(item);
+                this.usersForAGroup.sort((a: any, b: any) =>
+                    (a._apellidos || '').localeCompare((b._apellidos || ''), 'en', { sensitivity: 'base' })
+                );
                 this.filterGroupUsers();
                 this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
+                this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();
             },
             error: (err: any) => {
                 console.error(err);
+                this.isLoadingRightPanel = false;
+                this.cdr.detectChanges();
             }
         });
     }
 
     addUserIntoGroup2(item: any): void {
+        this.isLoadingRightPanel = true;
         this.adminService.AddUserIntoGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
             next: (res: any) => {
                 this.groupsBelongUser.push(item);
+                this.groupsBelongUser.sort((a: any, b: any) =>
+                    (a._name || '').localeCompare((b._name || ''), 'en', { sensitivity: 'base' })
+                );
                 this.filterGroupsBelongUser();
                 this.filterOtherGroupsForUserMainTab();
+                this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();
             },
             error: (err: any) => {
                 console.error(err);
+                this.isLoadingRightPanel = false;
             }
         });
     }
 
     addInheritedGroup(item: any): void {
+        this.isLoadingRightPanel = true;
         this.adminService.AddInheritedGroup(this.selectedItem._id, item._id).subscribe({
             next: (res: any) => {
                 this.inheritedGroups.push(item);
+                this.inheritedGroups.sort((a: any, b: any) =>
+                    (a._name || '').localeCompare((b._name || ''), 'en', { sensitivity: 'base' })
+                );
                 this.filterInheritedGroups();
                 this.filterOtherGroups();
+                this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();
             },
             error: (err: any) => {
                 console.error(err);
+                this.isLoadingRightPanel = false;
             }
         });
     }
     deleteInheritedGroup(item: any): void {
+        this.isLoadingRightPanel = true;
         this.adminService.DeleteInheritedGroup(this.selectedItem._id, item._id).subscribe({
             next: (res: any) => {
                 this.inheritedGroups = this.inheritedGroups.filter(p => p !== item);
                 this.filterInheritedGroups();
                 this.filterOtherGroups();
+                this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();
             },
             error: (err: any) => {
                 console.error(err);
+                this.isLoadingRightPanel = false;
             }
         });
     }
