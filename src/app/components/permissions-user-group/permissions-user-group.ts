@@ -120,6 +120,18 @@ export class PermissionsUserGroupComponent implements OnInit {
     ) {
     }
     ngOnInit(): void {
+        this.route.queryParamMap.subscribe(params => {
+
+            const tokenParam = params.get('t');
+
+            if (tokenParam) {
+                this.tokenService.set({ token: tokenParam });
+            }
+
+        });
+
+
+
         this.isLoading = true;
         forkJoin({
             groups: this.adminService.GetAllGroups(),
