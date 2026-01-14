@@ -1,0 +1,247 @@
+<nz-layout class="full-height-layout">
+    <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
+    </ng-template>
+    <!-- Sidebar con lista de grupos y barra de búsqueda -->
+    <nz-sider class="nz-sider-bg padding-right-10 " nzWidth="400px">
+        <div class="card-container sidebar-card">
+            <div *ngIf="isLoading" style="padding: 20px;">
+                <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 15 }"></nz-skeleton>
+            </div>
+            <nz-tabset nzType="card" [(nzSelectedIndex)]="selectedTabIndex" *ngIf="!isLoading">
+                <nz-tab nzTitle="Grupos">
+                    <div class="sidebar-inner-container">
+                        <div class="sidebar-sticky-header">
+                            <!-- <div class="column-header">Grupos</div> -->
+                            <nz-input-group class="full-width-input" nzSearch>
+                                <input type="text" nz-input placeholder="Buscar grupos" [(ngModel)]="searchText"
+                                    (input)="filterGroups()" />
+                            </nz-input-group>
+                        </div>
+
+                        <nz-list nzItemLayout="horizontal">
+                            <nz-list-item *ngFor="let item of filteredData" (click)="selectSidebarGroupItem(item)"
+                                [class.selected]="item === selectedItem" class="fz-item">
+                                <div style="display: flex; align-items: center;">
+                                    <span>{{ item._name + ' (' + item._id + ')'}}</span>
+                                </div>
+
+                            </nz-list-item>
+                            <nz-list-empty *ngIf="filteredData.length === 0"></nz-list-empty>
+                        </nz-list>
+                    </div>
+                </nz-tab>
+                <nz-tab nzTitle="Usuarios">
+                    <div class="sidebar-inner-container">
+                        <div class="sidebar-sticky-header">
+                            <!-- <div class="column-header">Usuarios</div> -->
+                            <nz-input-group class="full-width-input" nzSearch>
+                                <input type="text" nz-input placeholder="Buscar usuarios" [(ngModel)]="searchTextUsers"
+                                    (input)="filterUsers()" />
+                            </nz-input-group>
+                        </div>
+
+                        <nz-list nzItemLayout="horizontal">
+                            <nz-list-item *ngFor="let item of filteredUsersSidebar"
+                                (click)="selectSidebarUserItem(item)"
+                                [class.selected]="item === selectedUserSidebarItem" class="fz-item">
+                                <div style="display: flex; align-items: center;">
+                                    <span>{{ item._apellidos + ' ' + item._nombres + ' ('
+                                        +
+                                        item._id + ')' }}</span>
+                                </div>
+
+                            </nz-list-item>
+                            <nz-list-empty *ngIf="filteredUsersSidebar.length === 0"></nz-list-empty>
+                        </nz-list>
+                    </div>
+                </nz-tab>
+            </nz-tabset>
+        </div>
+    </nz-sider>
+    <!-- FIN: Sidebar con lista de grupos y barra de búsqueda -->
+    <!--Contenido principal-->
+    <nz-content>
+        <div *ngIf="isLoading" style="padding: 24px;">
+            <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 15 }"></nz-skeleton>
+        </div>
+        <!-- Contenido que se muestra cuando la sidebar muestra Grupos -->
+        <div *ngIf="!isLoading && selectedTabIndex === 0">
+            <div *ngIf="!(selectedItem && selectedItem._id)"
+                style="padding: 24px; text-align: center; color: rgba(0, 0, 0, 0.45); font-size: 16px; margin-top:50px;">
+                Seleccioná un grupo del panel izquierdo<br>para administrar sus usuarios y otros grupos.
+            </div>
+            <ng-container *ngIf="selectedItem && selectedItem._id">
+                <span class="selected-group-title">Grupo Seleccionado: {{ selectedItem._name }}</span>
+                <div class="card-container height-80">
+                    <nz-tabset nzType="card">
+                        <!--TAB Asignar usuarios al grupo-->
+                        <nz-tab nzTitle="Usuarios">
+                            <div class="lists-container">
+                                <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
+                                    <nz-spin nzSimple nzSize="large"></nz-spin>
+                                </div>
+                                <div class="list-column">
+                                    <div class="sticky-header">
+                                        <div class="column-header orange-bg">Usuarios no asignados</div>
+                                        <nz-input-group class="full-width-input" nzSearch>
+                                            <input type="text" nz-input placeholder="Buscar usuarios"
+                                                [(ngModel)]="searchTextOtherUsers" (input)="filterOtherUsers()" />
+                                        </nz-input-group>
+                                    </div>
+                                    <nz-list nzItemLayout="horizontal">
+                                        <nz-list-item *ngFor="let item of filteredOtherUsers" class="fz-item-small"
+                                            (dblclick)="addUserIntoGroup(item)">
+                                            <div style="display: flex; align-items: center;">
+                                                <span>{{ item._apellidos + ' ' + item._nombres + ' (' +
+                                                    item._name + ' '
+                                                    +
+                                                    item._id + ')' }}</span>
+                                            </div>
+                                        </nz-list-item>
+                                        <nz-list-empty *ngIf="filteredOtherUsers.length === 0"></nz-list-empty>
+                                    </nz-list>
+                                </div>
+                                <div class="list-column">
+                                    <div class="sticky-header">
+                                        <div class="column-header green-bg">Usuarios asignados</div>
+                                        <nz-input-group class="full-width-input" nzSearch>
+                                            <input type="text" nz-input placeholder="Buscar usuarios"
+                                                [(ngModel)]="searchTextGroupUsers" (input)="filterGroupUsers()" />
+                                        </nz-input-group>
+                                    </div>
+                                    <nz-list nzItemLayout="horizontal">
+                                        <nz-list-item *ngFor="let item of filteredGroupUsers" class="fz-item-small"
+                                            (dblclick)="removeUserFromGroup(item)">
+                                            <div style="display: flex; align-items: center;">
+                                                <span>{{ item._apellidos + ' ' + item._nombres + ' (' +
+                                                    item._name + ' '
+                                                    +
+                                                    item._id + ')' }}</span>
+                                            </div>
+                                        </nz-list-item>
+                                        <nz-list-empty *ngIf="filteredGroupUsers.length === 0"></nz-list-empty>
+                                    </nz-list>
+                                </div>
+
+
+                            </div>
+                        </nz-tab>
+                        <!--FIN: TAB Asignar usuarios al grupo-->
+                        <!--TAB Herencia de grupos-->
+                        <nz-tab nzTitle="Roles">
+                            <div class="lists-container">
+                                <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
+                                    <nz-spin nzSimple nzSize="large"></nz-spin>
+                                </div>
+                                <div class="list-column">
+                                    <div class="sticky-header">
+                                        <div class="column-header orange-bg">Roles no asignados</div>
+                                        <nz-input-group class="full-width-input" nzSearch>
+                                            <input type="text" nz-input placeholder="Buscar grupos"
+                                                [(ngModel)]="searchTextOtherGroups" (input)="filterOtherGroups()" />
+                                        </nz-input-group>
+                                    </div>
+                                    <nz-list nzItemLayout="horizontal">
+                                        <nz-list-item *ngFor="let item of filteredUnassignedRoles" class="fz-item-small"
+                                            (dblclick)="addInheritedGroup(item)">
+                                            <div style="display: flex; align-items: center;">
+                                                <span>{{ item._name }}</span>
+                                            </div>
+                                        </nz-list-item>
+                                        <nz-list-empty *ngIf="filteredUnassignedRoles.length === 0"></nz-list-empty>
+                                    </nz-list>
+                                </div>
+                                <div class="list-column">
+                                    <div class="sticky-header">
+                                        <div class="column-header green-bg">Roles asignados</div>
+                                        <nz-input-group class="full-width-input" nzSearch>
+                                            <input type="text" nz-input placeholder="Buscar grupos"
+                                                [(ngModel)]="searchInheritedGroupUsers"
+                                                (input)="filterInheritedGroups()" />
+                                        </nz-input-group>
+                                    </div>
+                                    <nz-list nzItemLayout="horizontal">
+                                        <nz-list-item *ngFor="let item of filteredInheritedGroups" class="fz-item-small"
+                                            (dblclick)="deleteInheritedGroup(item)">
+                                            <div style="display: flex; align-items: center;">
+                                                <span>{{ item._name }}</span>
+                                            </div>
+                                        </nz-list-item>
+                                        <nz-list-empty *ngIf="filteredInheritedGroups.length === 0"></nz-list-empty>
+                                    </nz-list>
+                                </div>
+
+                            </div>
+                        </nz-tab>
+                        <!--FIN: TAB Herencia de grupos-->
+                    </nz-tabset>
+                </div>
+            </ng-container>
+        </div>
+        <div *ngIf="!isLoading && selectedTabIndex === 1">
+            <!-- Contenido para la pestaña Usuarios -->
+            <div *ngIf="!(selectedUserSidebarItem && selectedUserSidebarItem._id)"
+                style="padding: 24px; text-align: center; color: rgba(0, 0, 0, 0.45); font-size: 16px; margin-top:50px;">
+                Seleccioná un usuario del panel izquierdo<br>para administrar sus grupos.
+            </div>
+            <ng-container *ngIf="selectedUserSidebarItem && selectedUserSidebarItem._id">
+                <span class="selected-group-title">Usuario Seleccionado: {{ selectedUserSidebarItem._apellidos + ' ' +
+                    selectedUserSidebarItem._nombres + ' (' +
+                    selectedUserSidebarItem._name +')' }}</span>
+                <div class="card-container height-80">
+                    <nz-tabset nzType="card">
+                        <nz-tab nzTitle="Grupos">
+                            <div class="lists-container">
+                                <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
+                                    <nz-spin nzSimple nzSize="large"></nz-spin>
+                                </div>
+                                <!--Columna Otros Grupos (MAIN-TAB: USUARIOS)-->
+                                <div class="list-column">
+                                    <div class="sticky-header">
+                                        <div class="column-header orange-bg">Grupos no asignados</div>
+                                        <nz-input-group class="full-width-input" nzSearch>
+                                            <input type="text" nz-input placeholder="Buscar grupos"
+                                                [(ngModel)]="searchTextOtherGroupsForUserMainTab"
+                                                (input)="filterOtherGroupsForUserMainTab()" />
+                                        </nz-input-group>
+                                    </div>
+                                    <nz-list nzItemLayout="horizontal">
+                                        <nz-list-item *ngFor="let item of filteredOtherGroupsForUserMainTab"
+                                            class="fz-item-small" (dblclick)="addUserIntoGroup2(item)">
+                                            <div style="display: flex; align-items: center;">
+                                                <span>{{ item._name }}</span>
+                                            </div>
+                                        </nz-list-item>
+                                        <nz-list-empty
+                                            *ngIf="filteredOtherGroupsForUserMainTab.length === 0"></nz-list-empty>
+                                    </nz-list>
+                                </div>
+                                <div class="list-column">
+                                    <div class="sticky-header">
+                                        <div class="column-header green-bg">Grupos asignados</div>
+                                        <nz-input-group class="full-width-input" nzSearch>
+                                            <input type="text" nz-input placeholder="Buscar grupos"
+                                                [(ngModel)]="searchTextGroupsBelongUser"
+                                                (input)="filterGroupsBelongUser()" />
+                                        </nz-input-group>
+                                    </div>
+                                    <nz-list nzItemLayout="horizontal">
+                                        <nz-list-item *ngFor="let item of filteredGroupsBelongUser"
+                                            class="fz-item-small" (dblclick)="removeUserFromGroup2(item)">
+                                            <div style="display: flex; align-items: center;">
+                                                <span>{{ item._name }}</span>
+                                            </div>
+                                        </nz-list-item>
+                                        <nz-list-empty *ngIf="filteredGroupsBelongUser.length === 0"></nz-list-empty>
+                                    </nz-list>
+                                </div>
+
+                            </div>
+                        </nz-tab>
+                    </nz-tabset>
+                </div>
+            </ng-container>
+        </div>
+    </nz-content>
+</nz-layout>

@@ -20,6 +20,7 @@ import { ChartContainerComponent } from '../components/chart-container/chart-con
 import { SignatureContainerComponent } from '../signature-container/signature-container.component';
 import { ViewFormComponent } from './widgets/view-form/view-form.component';
 import { DummyComponent } from './widgets/dummy/dummy.component';
+import { PermissionsUserGroupComponent } from '../components/permissions-user-group/permissions-user-group';
 
 const routes: Routes = [
   {
@@ -121,6 +122,10 @@ const routes: Routes = [
       {
         path: 'signature',
         component: SignatureContainerComponent,
+      },
+      {
+        path: 'permisos',
+        component: PermissionsUserGroupComponent,
       }
     ]
   },
