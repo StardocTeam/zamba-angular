@@ -3,10 +3,10 @@
     <nz-typography>
       <span nzTitle class="header-title">Inicia sesión para continuar</span>
     </nz-typography>
-    <nz-typography>
+    <!-- <nz-typography>
       <a class="register" routerLink="/passport/zregister">
         <span nzTitle class="header-title w-underline">{{ 'app.login.signup' | i18n }}</span></a>
-    </nz-typography>
+    </nz-typography> -->
   </div>
   <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="'app.login.message-invalid-credentials' | i18n"
     [nzShowIcon]="true" class="mb-lg" />

@@ -25,13 +25,13 @@ const routes: Routes = [
     path: 'passport',
     component: LayoutPassportComponent,
     children: [
+      // {
+      //   path: 'login', //(este login consume tablas de Zamba y Dashboard)
+      //   component: UserLoginV2Component,
+      //   data: { title: 'Login', titleI18n: 'app.login.login' }
+      // },
       {
-        path: 'login', //(este login consume tablas de Zamba y Dashboard)
-        component: UserLoginV2Component,
-        data: { title: 'Login', titleI18n: 'app.login.login' }
-      },
-      {
-        path: 'zlogin',
+        path: 'login',
         component: UserLoginVZambaComponent,
         data: { title: 'Login', titleI18n: 'app.login.login' }
       },
