@@ -6,9 +6,7 @@ import { environment } from '@env/environment';
 import { RouteRoutingRRHHModule } from './routes-routing-rrhh.module';
 
 const COMPONENTS: Array<Type<null>> = [];
-const ROUTES_MODULE = environment['cliente'] === 'rrhh'
-  ? RouteRoutingRRHHModule
-  : RouteRoutingModule;
+const ROUTES_MODULE = RouteRoutingRRHHModule
 @NgModule({
   imports: [SharedModule, ROUTES_MODULE],
   declarations: [...COMPONENTS]
