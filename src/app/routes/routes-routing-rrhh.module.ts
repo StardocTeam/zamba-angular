@@ -21,6 +21,9 @@ import { SignatureContainerComponent } from '../signature-container/signature-co
 import { ViewFormComponent } from './widgets/view-form/view-form.component';
 import { DummyComponent } from './widgets/dummy/dummy.component';
 import { PermissionsUserGroupComponent } from '../components/permissions-user-group/permissions-user-group';
+import { MainPageComponent } from '../main-page/main-page.component';
+
+
 
 const routes: Routes = [
   {
@@ -30,7 +33,13 @@ const routes: Routes = [
     canActivateChild: [authSimpleCanActivateChild],
     data: {},
     children: [
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: '/main', pathMatch: 'full' },
+      {
+        path: 'main',
+        component: MainPageComponent,
+        data: { title: 'Main Page' },
+        pathMatch: 'full'
+      },
       {
         path: 'dashboard',
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),

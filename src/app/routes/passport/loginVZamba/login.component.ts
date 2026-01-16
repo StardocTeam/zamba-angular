@@ -129,7 +129,7 @@ export class UserLoginVZambaComponent implements OnDestroy, OnInit {
               let tokenService = this.tokenService.get();
               console.log(tokenService);
 
-              this.router.navigateByUrl('/');
+              this.router.navigateByUrl('main');
               this.cdr.detectChanges();
             });
           }

@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleSrv: TitleService,
     private modalSrv: NzModalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     let configLoad = false;
