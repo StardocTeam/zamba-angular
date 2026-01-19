@@ -32,7 +32,8 @@ export class ReportEditorComponent {
     Aditional: 0,
     Completar: '',
     ID: 0,
-    GroupExpression: ""
+    GroupExpression: "",
+    RuleId: 0
   };
 
   isButtonDisabled: boolean = false;
@@ -186,7 +187,7 @@ export class ReportEditorComponent {
           category: this.report.Category,
           completar: this.report.Completar,
           Aditional: this.report.Aditional,
-          ruleId: this.ruleId
+          ruleId: this.report.RuleId
         }
       };
     }
@@ -208,7 +209,7 @@ export class ReportEditorComponent {
 
         this.modal.success({
           nzTitle: 'Insertado correctamente',
-          nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.ruleId != null ? this.ruleId : 'ninguna'} </p>`,
+          nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.report.RuleId != null ? this.report.RuleId : 'ninguna'} </p>`,
           nzOkText: 'OK',
           nzOkType: 'primary',
           nzOnOk: () => console.log('OK'),
@@ -245,9 +246,9 @@ export class ReportEditorComponent {
       Aditional: 0,
       Completar: '',
       ID: 0,
-      GroupExpression: ""
+      GroupExpression: "",
+      RuleId: 0
     };
-    this.ruleId = "";
   }
 
   isFormValid(): boolean {
