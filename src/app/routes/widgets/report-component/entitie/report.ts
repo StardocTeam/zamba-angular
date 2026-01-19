@@ -7,7 +7,7 @@ export class Report {
     Aditional: number = 0;
     Completar: string = "";
     GroupExpression: string = "";
-    RuleId: number = 0;
+    RuleId: string | null = null;
 
     constructor(data: any) {
         this.Aditional = data.Aditional;

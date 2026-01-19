@@ -11,13 +11,13 @@
     <div>
         <div nz-row [nzGutter]="4">
             <div nz-col [nzXs]="12" nzSm="12" nzMd="10" nzLg="9" nzXl="16">
-                <span>Nombre del reporte:</span><br>
+                <span>Nombre del reporte: *</span><br>
                 <input type="text" [(ngModel)]="report.Name" nz-input placeholder="Nombre..." />
             </div>
 
 
             <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="13" nzXl="8">
-                <span>Categoria:</span><br>
+                <span>Categoria: *</span><br>
                 <nz-select id="category" [(ngModel)]="report.Category" style="width: 100%;"
                     nzPlaceHolder="Selecciones una categoria">
                     <nz-option *ngFor="let item of CategoryList" nzValue="{{item.ID}}"
@@ -48,7 +48,7 @@
 
         <div nz-row>
             <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
-                <span>Descripcion:</span>
+                <span>Descripcion: *</span>
                 <textarea rows="4" [(ngModel)]="report.Description" nz-input
                     placeholder="Agregue una descripcion al reporte..."></textarea>
             </div>
@@ -56,7 +56,7 @@
 
         <div nz-row>
             <div nz-col [nzXs]="12" nzSm="12" nzMd="14" nzLg="15" nzXl="24">
-                <span>Query:</span>
+                <span>Query: *</span>
                 <textarea rows="4" [(ngModel)]="report.Query" nz-input
                     placeholder="Inserte la query que el reporte ejecutara..."></textarea>
             </div>

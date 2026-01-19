@@ -33,7 +33,7 @@ export class ReportEditorComponent {
     Completar: '',
     ID: 0,
     GroupExpression: "",
-    RuleId: 0
+    RuleId: null
   };
 
   isButtonDisabled: boolean = false;
@@ -247,7 +247,7 @@ export class ReportEditorComponent {
       Completar: '',
       ID: 0,
       GroupExpression: "",
-      RuleId: 0
+      RuleId: null
     };
   }
 

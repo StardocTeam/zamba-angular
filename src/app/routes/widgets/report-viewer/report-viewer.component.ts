@@ -143,10 +143,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   OpenReport(report: Report) {
     this.isLoading = true;
-    //TODO: Recordar quitar esto al hacer el ABM
-    this.endDateVisible = true;
-    this.startDateVisible = true;
-    //TODO: Recordar quitar esto al hacer el ABM
 
     this.ruleId = 0;
     this.isButtonExcelDisabled = true;
