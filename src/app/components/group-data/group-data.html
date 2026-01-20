@@ -1,0 +1,52 @@
+<div class="lists-container">
+    <div *ngIf="isLoading" class="spinner-overlay">
+        <nz-spin nzSimple nzSize="large"></nz-spin>
+    </div>
+    <nz-card *ngIf="!isEditing" [nzBordered]="false" class="group-info-card" [nzBodyStyle]="{ padding: '24px' }"
+        [nzExtra]="extraAction">
+        <div class="card-header">
+            <div>
+                <h3 nz-typography nzCopyable [nzContent]="name" [nzCopyTooltips]="['Copiar', 'Copiado']"
+                    style="font-weight: 600; color: rgba(0, 0, 0, 0.85);"></h3>
+                <span nz-typography nzType="secondary">ID: <span nz-typography nzCopyable [nzContent]="groupId + ''"
+                        [nzCopyTooltips]="['Copiar', 'Copiado']" style="color: rgba(0, 0, 0, 0.45);"></span></span>
+            </div>
+        </div>
+        <nz-divider></nz-divider>
+        <nz-descriptions nzTitle="" [nzColumn]="1" nzBordered nzSize="middle">
+            <nz-descriptions-item nzTitle="Descripción">
+                <span *ngIf="description; else noDesc">{{description}}</span>
+                <ng-template #noDesc><span nz-typography nzType="secondary">No hay descripción
+                        disponible.</span></ng-template>
+            </nz-descriptions-item>
+        </nz-descriptions>
+    </nz-card>
+
+    <nz-card *ngIf="isEditing" [nzBordered]="false" class="group-info-card edit-card"
+        [nzBodyStyle]="{ padding: '24px' }">
+        <h4 nz-typography style="margin-bottom: 24px; font-weight: 600; color: #1890ff;">Editar Grupo</h4>
+
+        <div style="margin-bottom: 16px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 500; color: rgba(0,0,0,0.85);">Nombre</label>
+            <input nz-input [(ngModel)]="name" placeholder="Ingrese el nombre del grupo" />
+        </div>
+
+        <div style="margin-bottom: 24px;">
+            <label
+                style="display: block; margin-bottom: 8px; font-weight: 500; color: rgba(0,0,0,0.85);">Descripción</label>
+            <textarea nz-input [(ngModel)]="description" [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+                placeholder="Ingrese una descripción"></textarea>
+        </div>
+
+        <div style="text-align: right; border-top: 1px solid #f0f0f0; padding-top: 16px;">
+            <button nz-button nzType="default" (click)="toggleEdit()" style="margin-right: 8px;">Cancelar</button>
+            <button nz-button nzType="primary" (click)="saveChanges()">Confirmar</button>
+        </div>
+    </nz-card>
+
+    <ng-template #extraAction>
+        <button nz-button nzType="text" (click)="toggleEdit()">
+            <span nz-icon nzType="edit" nzTheme="outline"></span> Editar
+        </button>
+    </ng-template>
+</div>

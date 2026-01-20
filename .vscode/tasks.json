@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "append_to_css",
+			"type": "shell",
+			"command": "echo",
+			"args": [
+				"g:\\StardocRRHH\\zamba-angular\\src\\app\\components\\group-data\\group-data.css",
+				"\n/* Overriding copy icon color to be neutral/dark instead of primary blue */\n:host ::ng-deep .ant-typography-copy {\n    color: rgba(0, 0, 0, 0.45);\n}\n:host ::ng-deep .ant-typography-copy:hover {\n    color: rgba(0, 0, 0, 0.75);\n}\n\n.green-bg {"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "none"
+		}
+	]
+}

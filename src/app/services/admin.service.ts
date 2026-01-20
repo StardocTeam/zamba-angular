@@ -162,7 +162,24 @@ export class AdminService {
       { headers }
     );
   }
+  updateGroup(groupId: number, groupData: { name: string; description: string }): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "groupId": groupId,
+        "name": groupData.name,
+        "description": groupData.description
+      }
+    };
+    return this.http.post(
+      `${this.serviceBase}Admin/UpdateGroup`,
+      genericRequest,
+      { headers }
+    );
+  }
 
   private serviceBase: string = '';
   constructor(private http: HttpClient) {

@@ -53,7 +53,7 @@ export class LayoutSimpleComponent implements OnInit, OnDestroy {
     logoExpanded: `./assets/logo-zamba-rrhh-t.svg`,
     logoCollapsed: `./assets/logo-zamba-rrhh-iso.png`,
     hideAside: true,
-    logoLink: './taskhistory',
+    logoLink: '/',
   };
   searchToggleStatus = false;
   showSettingDrawer = false;

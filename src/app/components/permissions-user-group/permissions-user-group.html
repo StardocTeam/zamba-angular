@@ -76,6 +76,12 @@
                 <div class="card-container height-80">
                     <nz-tabset nzType="card">
                         <!--TAB Asignar usuarios al grupo-->
+                        <nz-tab nzTitle="Datos del Grupo">
+                            <app-group-data [groupId]="selectedItem._id" [name]="selectedItem._name"
+                                [description]="selectedItem._description"
+                                (onChangesSaved)="refreshGroups()"></app-group-data>
+                        </nz-tab>
+                        <!--TAB Asignar usuarios al grupo-->
                         <nz-tab nzTitle="Usuarios">
                             <div class="lists-container">
                                 <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
