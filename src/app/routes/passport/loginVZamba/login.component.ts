@@ -112,26 +112,28 @@ export class UserLoginVZambaComponent implements OnDestroy, OnInit {
             this.error = res.msg;
             this.cdr.detectChanges();
             return;
-          } else if (res.msg == 'ok' && res.isActive == false) {
+          } else if (res.isActive == false) {
             this.errorUserIsNotActive = true;
             this.cdr.detectChanges();
             return;
           }
-          this.reuseTabService.clear();
-          this.startupService.load().subscribe(() => {
-            let url = this.tokenService.referrer!.url || '/';
-            if (url.includes('/passport')) {
-              url = '/';
-            }
-            let tokenService = this.tokenService.get();
-            console.log(tokenService);
-            let userid = tokenService ? tokenService['userID'] : null;
-            let token = tokenService ? tokenService['token'] : null;
-            this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `c=${userid}&t=${token}`
-            );
-            this.cdr.detectChanges();
-          });
+          else if (res.isActive == true) {
+            this.reuseTabService.clear();
+
+            this.startupService.load().subscribe(() => {
+              let url = this.tokenService.referrer!.url || '/';
+
+              if (url.includes('/passport'))
+                url = '/';
+
+              let tokenService = this.tokenService.get();
+              console.log(tokenService);
+
+              this.router.navigateByUrl('main');
+              this.cdr.detectChanges();
+            });
+          }
+
         })
     );
   }

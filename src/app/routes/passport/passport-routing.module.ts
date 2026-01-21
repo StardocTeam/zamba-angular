@@ -18,18 +18,18 @@ import { LayoutPassportComponent } from '../../layout/passport/passport.componen
 import { InitialPasswordWizardComponent } from '../welcome/initial-password-wizard/initial-password-wizard.component';
 import { UserLoginVZambaComponent } from './loginVZamba/login.component';
 import { UserRegisterVZambaComponent } from './registerVZamba/register.component';
+import { MainPageComponent } from 'src/app/main-page/main-page.component';
 
 const routes: Routes = [
-  // passport
+  {
+    path: 'main',
+    component: MainPageComponent,
+    data: { title: 'main pantalla', titleI18n: 'mi app' }
+  },
   {
     path: 'passport',
     component: LayoutPassportComponent,
     children: [
-      // {
-      //   path: 'login', //(este login consume tablas de Zamba y Dashboard)
-      //   component: UserLoginV2Component,
-      //   data: { title: 'Login', titleI18n: 'app.login.login' }
-      // },
       {
         path: 'login',
         component: UserLoginVZambaComponent,

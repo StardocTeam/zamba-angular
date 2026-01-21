@@ -22,36 +22,6 @@ import { PermissionsUserGroupComponent } from '../components/permissions-user-gr
 
 // Lazy-load CheckListModule below; remove static import
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// layout
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const routes: Routes = [
   {
     path: 'tools',

@@ -7,6 +7,7 @@ export class Report {
     Aditional: number = 0;
     Completar: string = "";
     GroupExpression: string = "";
+    RuleId: string | null = null;
 
     constructor(data: any) {
         this.Aditional = data.Aditional;
@@ -16,5 +17,6 @@ export class Report {
         this.Query = data.Query;
         this.Category = data.Category;
         this.Description = data.Description;
+        this.RuleId = data.RuleId;
     }
 }
