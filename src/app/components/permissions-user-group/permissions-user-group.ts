@@ -27,6 +27,7 @@ import { RuleExecutorComponent } from '../rule-executor/rule-executor.component'
 import { AdminService } from 'src/app/services/admin.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { forkJoin } from 'rxjs';
+import { GroupDataComponent } from '../group-data/group-data';
 
 @Component({
     selector: 'app-permissions-user-group',
@@ -49,7 +50,8 @@ import { forkJoin } from 'rxjs';
         NzListModule,
         RuleExecutorComponent,
         NzTabsModule,
-        NzLayoutModule
+        NzLayoutModule,
+        GroupDataComponent
     ],
     templateUrl: './permissions-user-group.html',
     styleUrls: ['./permissions-user-group.css'],
@@ -96,6 +98,8 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     otherGroups: any[] = [];
     filteredOtherGroups: any[] = [];
+
+    canEdit: boolean = false;
 
     filteredOtherGroupsForUserMainTab: any[] = [];
 
@@ -177,6 +181,52 @@ export class PermissionsUserGroupComponent implements OnInit {
             error: (err) => {
                 console.error(err);
                 this.isLoading = false;
+                this.cdr.detectChanges();
+            }
+        });
+    }
+
+    refreshGroups(): void {
+        const currentSelectedId = this.selectedItem ? this.selectedItem._id : null;
+
+        this.adminService.GetAllGroups().subscribe({
+            next: (groups: any) => {
+                groups.sort((a: { _name: string; }, b: { _name: any; }) =>
+                    a._name.localeCompare(b._name, 'en', { sensitivity: 'base' })
+                );
+                console.log(groups);
+                this.groups.set(groups);
+                //solo grupos, sin roles
+                let groupsWithoutRoles = groups.filter((g: any) => !g._name.toLowerCase().startsWith('rol_'));
+                this.otherGroups = groups;
+
+                //filteredOtherGroups = roles no asignados. Asi que vamos a filtrar y dejar solo la lista de roles
+                let rolesOnly = groups.filter((g: any) => g._name.toLowerCase().startsWith('rol_'));
+
+                this.unassignedRoles = rolesOnly;
+
+                // Actualizar filtros
+                if (this.searchText) {
+                    this.filterGroups();
+                } else {
+                    this.filteredData = groupsWithoutRoles;
+                }
+
+                this.filterOtherGroups();
+                this.filterOtherGroupsForUserMainTab();
+
+                // Recuperar la selección
+                if (currentSelectedId) {
+                    const found = this.groups().find(g => g._id === currentSelectedId);
+                    if (found) {
+                        this.selectedItem = found;
+                    }
+                }
+
+                this.cdr.detectChanges();
+            },
+            error: (err) => {
+                console.error(err);
                 this.cdr.detectChanges();
             }
         });
@@ -308,6 +358,7 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     }
     removeUserFromGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.RemoveUserFromGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
@@ -326,6 +377,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     removeUserFromGroup2(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.RemoveUserFromGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
             next: (res: any) => {
@@ -343,6 +395,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     addUserIntoGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.AddUserIntoGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
@@ -364,6 +417,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     addUserIntoGroup2(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.AddUserIntoGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
             next: (res: any) => {
@@ -384,6 +438,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     addInheritedGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.AddInheritedGroup(this.selectedItem._id, item._id).subscribe({
             next: (res: any) => {
@@ -403,6 +458,7 @@ export class PermissionsUserGroupComponent implements OnInit {
         });
     }
     deleteInheritedGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.DeleteInheritedGroup(this.selectedItem._id, item._id).subscribe({
             next: (res: any) => {
