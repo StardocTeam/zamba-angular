@@ -81,6 +81,9 @@ export class GroupDataComponent implements OnInit {
     isLoading: boolean = false;
     isEditing: boolean = false;
 
+    @Input()
+    canEdit: boolean = false;
+
     private route = inject(ActivatedRoute);
 
     constructor(

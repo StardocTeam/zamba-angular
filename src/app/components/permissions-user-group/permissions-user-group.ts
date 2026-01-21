@@ -99,6 +99,8 @@ export class PermissionsUserGroupComponent implements OnInit {
     otherGroups: any[] = [];
     filteredOtherGroups: any[] = [];
 
+    canEdit: boolean = false;
+
     filteredOtherGroupsForUserMainTab: any[] = [];
 
     //Asignar grupos al usuario
@@ -356,6 +358,7 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     }
     removeUserFromGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.RemoveUserFromGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
@@ -374,6 +377,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     removeUserFromGroup2(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.RemoveUserFromGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
             next: (res: any) => {
@@ -391,6 +395,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     addUserIntoGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.AddUserIntoGroup(item._id, this.selectedItem._id).subscribe({
             next: (res: any) => {
@@ -412,6 +417,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     addUserIntoGroup2(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.AddUserIntoGroup(this.selectedUserSidebarItem._id, item._id).subscribe({
             next: (res: any) => {
@@ -432,6 +438,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     }
 
     addInheritedGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.AddInheritedGroup(this.selectedItem._id, item._id).subscribe({
             next: (res: any) => {
@@ -451,6 +458,7 @@ export class PermissionsUserGroupComponent implements OnInit {
         });
     }
     deleteInheritedGroup(item: any): void {
+        if (!this.canEdit) return;
         this.isLoadingRightPanel = true;
         this.adminService.DeleteInheritedGroup(this.selectedItem._id, item._id).subscribe({
             next: (res: any) => {

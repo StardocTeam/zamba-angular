@@ -78,7 +78,7 @@
                         <!--TAB Asignar usuarios al grupo-->
                         <nz-tab nzTitle="Datos del Grupo">
                             <app-group-data [groupId]="selectedItem._id" [name]="selectedItem._name"
-                                [description]="selectedItem._description"
+                                [description]="selectedItem._description" [canEdit]="canEdit"
                                 (onChangesSaved)="refreshGroups()"></app-group-data>
                         </nz-tab>
                         <!--TAB Asignar usuarios al grupo-->

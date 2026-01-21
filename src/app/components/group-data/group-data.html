@@ -45,7 +45,7 @@
     </nz-card>
 
     <ng-template #extraAction>
-        <button nz-button nzType="text" (click)="toggleEdit()">
+        <button *ngIf="canEdit" nz-button nzType="text" (click)="toggleEdit()">
             <span nz-icon nzType="edit" nzTheme="outline"></span> Editar
         </button>
     </ng-template>
