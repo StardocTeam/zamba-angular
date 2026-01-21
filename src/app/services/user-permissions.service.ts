@@ -9,10 +9,37 @@ import { catchError, map, of } from 'rxjs';
     providedIn: 'root'
 })
 export class UserPermissionsService {
-    Permissions: any[] = [];
+    private readonly storageKey = 'user_permissions';
+    Permissions: UserPermissions[] = [];
 
     constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private http: _HttpClient,) {
-        //this.getAllUserPermissions();
+        this.loadFromSessionStorage();
+    }
+
+    getPermissions(): any[] {
+        return this.Permissions;
+    }
+
+    setPermissions(data: UserPermissions[] = []): void {
+        debugger;
+        this.Permissions = Array.isArray(data) ? data : [];
+        try {
+            sessionStorage.setItem(this.storageKey, JSON.stringify(this.Permissions));
+        } catch {
+            // ignore storage errors
+        }
+    }
+
+    private loadFromSessionStorage(): void {
+        try {
+            const raw = sessionStorage.getItem(this.storageKey);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                this.Permissions = Array.isArray(parsed) ? parsed : [];
+            }
+        } catch {
+            this.Permissions = [];
+        }
     }
 
     getAllUserPermissions() {
@@ -35,12 +62,21 @@ export class UserPermissionsService {
                         console.warn(`Network request failed`, res);
                         return of(res);
                     }),
-                    map((data: any) => {
-                        //TODO: asignar data al servicio para que toda la app tenga acceso a esta informacion.
+                    map((data: UserPermissions[]) => {
+                        const permissions = data;
+                        this.setPermissions(permissions);
+                        return permissions;
                     })
                 )
                 .subscribe();
 
         }
     }
+}
+
+class UserPermissions {
+    ADITIONAL: number = 0;
+    GROUPID: number = 0;
+    OBJID: number = 0;
+    RTYPE: number = 0;
 }

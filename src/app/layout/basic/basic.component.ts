@@ -23,7 +23,10 @@ export class LayoutBasicComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
-    this.userPermissionsService.getAllUserPermissions();
+
+    if (this.userPermissionsService.getPermissions().length == 0) {
+      this.userPermissionsService.getAllUserPermissions();
+    }
 
     this.settings.setLayout('collapsed', true);
     this.message.startListening();
