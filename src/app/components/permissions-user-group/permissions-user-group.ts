@@ -28,6 +28,7 @@ import { AdminService } from 'src/app/services/admin.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { forkJoin } from 'rxjs';
 import { GroupDataComponent } from '../group-data/group-data';
+import { UserDataComponent } from '../user-data/user-data';
 
 @Component({
     selector: 'app-permissions-user-group',
@@ -48,6 +49,7 @@ import { GroupDataComponent } from '../group-data/group-data';
         NzSkeletonModule,
         NzSpaceModule,
         NzListModule,
+        UserDataComponent,
         RuleExecutorComponent,
         NzTabsModule,
         NzLayoutModule,
@@ -99,7 +101,7 @@ export class PermissionsUserGroupComponent implements OnInit {
     otherGroups: any[] = [];
     filteredOtherGroups: any[] = [];
 
-    canEdit: boolean = false;
+    canEdit: boolean = true;
 
     filteredOtherGroupsForUserMainTab: any[] = [];
 

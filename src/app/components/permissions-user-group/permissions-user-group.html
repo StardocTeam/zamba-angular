@@ -197,6 +197,14 @@
                     selectedUserSidebarItem._name +')' }}</span>
                 <div class="card-container height-80">
                     <nz-tabset nzType="card">
+                        <nz-tab nzTitle="Datos del Usuario">
+                            <div class="lists-container">
+                                <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
+                                    <nz-spin nzSimple nzSize="large"></nz-spin>
+                                </div>
+                                <user-data [user]="selectedUserSidebarItem"></user-data>
+                            </div>
+                        </nz-tab>
                         <nz-tab nzTitle="Grupos">
                             <div class="lists-container">
                                 <div *ngIf="isLoadingRightPanel" class="spinner-overlay">

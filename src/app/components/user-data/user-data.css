@@ -1,0 +1,109 @@
+﻿:host {
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.user-data-container {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    padding: 0;
+    font-size: 12px;
+}
+
+.preview-box {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #d9d9d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    margin-bottom: 8px;
+}
+
+.preview-box mat-icon,
+.preview-box i {
+    font-size: 48px;
+    color: #ccc;
+}
+
+:host ::ng-deep nz-form-item {
+    margin-bottom: 4px;
+}
+
+.additional-data-section {
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+/* Ensure the card container has scroll if content overflows, but main scroll is handled by layout */
+.user-data-card {
+    border-radius: 4px;
+}
+
+/* Adjust images row spacing */
+.images-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Section titles consistent styling */
+.section-title {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+/* Customizations for compact card headers */
+:host ::ng-deep .user-data-card .ant-card-head {
+    min-height: 32px;
+    padding: 4px 12px;
+}
+
+:host ::ng-deep .user-data-card .ant-card-head-title {
+    padding: 0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+:host ::ng-deep .user-data-card .ant-card-extra {
+    padding: 0;
+}
+
+:host ::ng-deep .user-data-card .ant-card-body {
+    padding-bottom: 0;
+}
+
+/* Global font size reduction for this component */
+:host ::ng-deep .ant-form-item-label>label,
+:host ::ng-deep .ant-input,
+:host ::ng-deep .ant-select,
+:host ::ng-deep .ant-table,
+:host ::ng-deep .ant-descriptions-item-content,
+:host ::ng-deep .ant-descriptions-item-label,
+:host ::ng-deep .ant-checkbox-wrapper,
+:host ::ng-deep .ant-btn {
+    font-size: 12px;
+}
+
+:host ::ng-deep .user-data-card .ant-card-head-title {
+    font-size: 13px !important;
+    /* Slightly larger for headers but smaller than default */
+}
