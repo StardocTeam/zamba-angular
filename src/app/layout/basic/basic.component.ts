@@ -23,8 +23,9 @@ export class LayoutBasicComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
+    var UP = this.userPermissionsService.getPermissions();
 
-    if (this.userPermissionsService.getPermissions().length == 0) {
+    if (UP.rights.length == 0 && UP.userId == 0) {
       this.userPermissionsService.getAllUserPermissions();
     }
 

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService, User } from '@delon/theme';
+import { UserPermissionsService } from 'src/app/services/user-permissions.service';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 @Component({
@@ -38,7 +39,8 @@ export class HeaderUserComponent {
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private zambaService: ZambaService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private userPermissionsService: UserPermissionsService
   ) {
     this.zambaService.GetProfileImage()
       .subscribe((data: any) => {
@@ -50,8 +52,9 @@ export class HeaderUserComponent {
   }
 
   logout(): void {
+    this.userPermissionsService.clearPermissions();
+
     this.tokenService.clear();
-    //this.router.navigateByUrl(this.tokenService.login_url!);    
     this.router.navigateByUrl('passport/login');
   }
 }

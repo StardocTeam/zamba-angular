@@ -10,21 +10,41 @@ import { catchError, map, of } from 'rxjs';
 })
 export class UserPermissionsService {
     private readonly storageKey = 'user_permissions';
-    Permissions: UserPermissions[] = [];
+    Permissions: RightsColection = new RightsColection();
 
     constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService, private http: _HttpClient,) {
-        this.loadFromSessionStorage();
+        const token = this.tokenService.get();
+
+        if (token && token['userID']) {
+            this.loadFromSessionStorage();
+        }
     }
 
-    getPermissions(): any[] {
+    getPermissions(): RightsColection {
+        this.loadFromSessionStorage();
         return this.Permissions;
     }
 
-    setPermissions(data: UserPermissions[] = []): void {
-        debugger;
-        this.Permissions = Array.isArray(data) ? data : [];
+    setPermissions(data: RightsColection): void {
+
+        this.Permissions.rights = Array.isArray(data.rights) ? data.rights : [];
+        this.Permissions.userId = data.userId;
+
         try {
-            sessionStorage.setItem(this.storageKey, JSON.stringify(this.Permissions));
+            sessionStorage.setItem(this.storageKey + "_" + this.Permissions.userId, JSON.stringify(this.Permissions));
+        } catch {
+            // ignore storage errors
+        }
+    }
+
+    clearPermissions(): void {
+        this.Permissions = new RightsColection();
+        try {
+            const token = this.tokenService.get();
+
+            if (token && token['userID']) {
+                sessionStorage.removeItem(this.storageKey + "_" + token['userID']);
+            }
         } catch {
             // ignore storage errors
         }
@@ -32,13 +52,18 @@ export class UserPermissionsService {
 
     private loadFromSessionStorage(): void {
         try {
-            const raw = sessionStorage.getItem(this.storageKey);
-            if (raw) {
-                const parsed = JSON.parse(raw);
-                this.Permissions = Array.isArray(parsed) ? parsed : [];
+            const token = this.tokenService.get();
+
+            if (token && token['userID']) {
+                const raw = sessionStorage.getItem(this.storageKey + "_" + token['userID']);
+
+                if (raw) {
+                    const parsed = JSON.parse(raw) as RightsColection;
+                    this.Permissions = Array.isArray(parsed.rights) ? { userId: parsed.userId, rights: parsed.rights } : new RightsColection();
+                }
             }
         } catch {
-            this.Permissions = [];
+            this.Permissions = new RightsColection();
         }
     }
 
@@ -62,7 +87,7 @@ export class UserPermissionsService {
                         console.warn(`Network request failed`, res);
                         return of(res);
                     }),
-                    map((data: UserPermissions[]) => {
+                    map((data: RightsColection) => {
                         const permissions = data;
                         this.setPermissions(permissions);
                         return permissions;
@@ -72,6 +97,11 @@ export class UserPermissionsService {
 
         }
     }
+}
+
+class RightsColection {
+    userId: number = 0;
+    rights: UserPermissions[] = [];
 }
 
 class UserPermissions {
