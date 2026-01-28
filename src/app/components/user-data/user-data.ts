@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -18,6 +18,14 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { AdminService } from '../../services/admin.service';
+
+export enum MailTypes {
+    NetMail = 1,
+    OutLookMail = 2,
+    LotusNotesMail = 3,
+    Internal = 4
+}
 
 // Trigger rebuild
 @Component({
@@ -53,10 +61,20 @@ export class UserDataComponent implements OnInit, OnChanges {
     userForm!: FormGroup;
     passwordForm!: FormGroup;
 
+    isLoading = false;
     isEditing = false;
     isChangePasswordVisible = false;
     passwordVisible = false;
     confirmPasswordVisible = false;
+    mailPasswordVisible = false;
+
+    MailTypes = MailTypes;
+    mailTypeOptions = [
+        { label: 'NetMail', value: MailTypes.NetMail },
+        { label: 'OutLookMail', value: MailTypes.OutLookMail },
+        { label: 'LotusNotesMail', value: MailTypes.LotusNotesMail },
+        { label: 'Internal', value: MailTypes.Internal }
+    ];
 
     toggleEdit() {
         this.isEditing = !this.isEditing;
@@ -94,7 +112,9 @@ export class UserDataComponent implements OnInit, OnChanges {
     fileListPhoto: NzUploadFile[] = [];
     fileListSignature: NzUploadFile[] = [];
 
-    constructor(private fb: FormBuilder) { }
+    constructor(private fb: FormBuilder,
+        private cdr: ChangeDetectorRef,
+        private adminService: AdminService) { }
 
     ngOnInit(): void {
         this.initForm();
@@ -127,7 +147,9 @@ export class UserDataComponent implements OnInit, OnChanges {
             mailSsl: [false],
             mailPort: [25],
             mailSmtp: [''],
-            mailType: ['NetMail']
+            mailServer: [''],
+            mailBase: [''],
+            mailType: [MailTypes.NetMail]
             // photoPath: [''],
             // signaturePath: ['']
         });
@@ -152,6 +174,15 @@ export class UserDataComponent implements OnInit, OnChanges {
                 // confirmPassword: user._password, // Usually we don't prefill confirm password or we set it same
                 phone: user._telefono,
                 // position: // Not provided in mapping
+                mailAccount: user._email._mail,
+                mailSsl: user._email._enableSsl,
+                mailPassword: user._email._password,
+                mailPort: user._email._puerto,
+                mailUser: user._email._userName,
+                mailSmtp: user._email._proveedorSMTP,
+                mailType: user._email._type,
+                mailServer: user._email._servidor,
+                mailBase: user._email._base
             });
             // Handle blocked if it exists in user object, otherwise default
             // this.userForm.patchValue({ blocked: user.blocked });
@@ -179,7 +210,61 @@ export class UserDataComponent implements OnInit, OnChanges {
 
     onSubmit() {
         if (this.userForm.valid) {
+            this.isLoading = true;
             console.log('Form Submitted', this.userForm.value);
+            const formValue = this.userForm.getRawValue();
+
+            // Detect changes in mail configuration
+            const mailFields = ['mailAccount', 'mailUser', 'mailPassword', 'mailSsl', 'mailPort', 'mailSmtp', 'mailServer', 'mailBase', 'mailType'];
+            const isMailConfigChanged = mailFields.some(field => this.userForm.get(field)?.dirty);
+
+            const payload = {
+                "Usuario": formValue.username,
+                "ID": formValue.id,
+                "Bloqueado": formValue.blocked,
+                "Nombres": formValue.firstName,
+                "Apellidos": formValue.lastName,
+                "Telefonos": formValue.phone,
+                "PuestoCodigo": formValue.position,
+                "MailAccount": formValue.mailAccount,
+                "MailUser": formValue.mailUser,
+                "MailPassword": formValue.mailPassword,
+                "MailSsl": formValue.mailSsl,
+                "MailPort": formValue.mailPort,
+                "MailSmtp": formValue.mailSmtp,
+                "MailServer": formValue.mailServer,
+                "MailBase": formValue.mailBase,
+                "MailType": formValue.mailType,
+                "UpdateMailConfig": isMailConfigChanged
+            };
+
+            this.adminService.updateUserData(payload).subscribe({
+                next: (res: any) => {
+                    console.log('Update successful', res);
+                    this.isEditing = false;
+                    this.isLoading = false;
+
+                    if (isMailConfigChanged && this.user) {
+                        if (!this.user._email) {
+                            this.user._email = {};
+                        }
+                        this.user._email._mail = formValue.mailAccount;
+                        this.user._email._userName = formValue.mailUser;
+                        this.user._email._password = formValue.mailPassword;
+                        this.user._email._enableSsl = formValue.mailSsl;
+                        this.user._email._puerto = formValue.mailPort;
+                        this.user._email._proveedorSMTP = formValue.mailSmtp;
+                        this.user._email._servidor = formValue.mailServer;
+                        this.user._email._base = formValue.mailBase;
+                        this.user._email._type = formValue.mailType;
+                    }
+                    this.cdr.detectChanges();
+                },
+                error: (err: any) => {
+                    console.error('Update failed', err);
+                    this.isLoading = false;
+                }
+            });
         } else {
             Object.values(this.userForm.controls).forEach(control => {
                 if (control.invalid) {
@@ -202,5 +287,10 @@ export class UserDataComponent implements OnInit, OnChanges {
         console.log('Create New Data Type Clicked');
         // Example: add a row
         this.additionalData = [...this.additionalData, { title: 'Nuevo Dato', value: '' }];
+    }
+
+    getMailTypeLabel(value: number): string {
+        const option = this.mailTypeOptions.find(opt => opt.value === value);
+        return option ? option.label : '';
     }
 }

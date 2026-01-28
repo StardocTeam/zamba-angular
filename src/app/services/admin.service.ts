@@ -181,6 +181,19 @@ export class AdminService {
     );
   }
 
+  updateUserData(userData: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": userData
+    };
+
+    const url = `${this.serviceBase}Admin/UpdateUserData`;
+    return this.http.post(url, genericRequest, { headers });
+  }
+
   private serviceBase: string = '';
   constructor(private http: HttpClient) {
     let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();

@@ -1,4 +1,4 @@
-﻿:host {
+:host {
     display: block;
     height: 100%;
     width: 100%;
@@ -106,4 +106,45 @@
 :host ::ng-deep .user-data-card .ant-card-head-title {
     font-size: 13px !important;
     /* Slightly larger for headers but smaller than default */
+}
+
+/* Compact Image Upload */
+:host ::ng-deep .images-container .ant-upload.ant-upload-select-picture-card,
+:host ::ng-deep .images-container .ant-upload-list-picture-card-container {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 0 !important;
+}
+
+:host ::ng-deep .images-container .ant-upload.ant-upload-select-picture-card .anticon {
+    font-size: 16px;
+}
+
+:host ::ng-deep .images-container .ant-upload.ant-upload-select-picture-card>.ant-upload {
+    padding: 0;
+}
+
+:host ::ng-deep .images-container .ant-form-item {
+    margin-bottom: 0;
+}
+
+/* Reduce generic card body padding further */
+:host ::ng-deep .user-data-card .ant-card-body {
+    padding: 8px 12px;
+}
+
+/* Reduce spacing between label and input */
+:host ::ng-deep .ant-form-item-label {
+    padding-bottom: 2px !important;
+    line-height: 1.2;
+}
+
+:host ::ng-deep .ant-form-item {
+    margin-bottom: 8px;
+    /* Slightly more tight than default but keeping separation between fields */
+}
+
+/* Overwrite specific margin-bottom for form items if needed */
+:host ::ng-deep .user-data-container .ant-form-item {
+    margin-bottom: 6px;
 }

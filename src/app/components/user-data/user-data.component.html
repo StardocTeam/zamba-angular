@@ -18,7 +18,7 @@
                     <button *nzSpaceItem nz-button nzType="default" type="button" (click)="toggleEdit()">
                         Cancelar
                     </button>
-                    <button *nzSpaceItem nz-button nzType="primary" type="submit">
+                    <button *nzSpaceItem nz-button nzType="primary" type="submit" [nzLoading]="isLoading">
                         <span nz-icon nzType="save"></span> Aplicar Cambios
                     </button>
                 </ng-container>
@@ -62,7 +62,7 @@
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">Usuario</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input formControlName="username" />
+                                            <input nz-input nzSize="small" formControlName="username" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -70,13 +70,17 @@
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">ID</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input formControlName="id" readonly />
+                                            <input nz-input nzSize="small" formControlName="id" readonly />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
-                                <div nz-col [nzSpan]="4" class="flex-center"
-                                    style="display: flex; align-items: center; padding-top: 30px;">
-                                    <label nz-checkbox formControlName="blocked">Bloquear</label>
+                                <div nz-col [nzSpan]="4">
+                                    <nz-form-item>
+                                        <nz-form-label [nzNoColon]="true">&nbsp;</nz-form-label>
+                                        <nz-form-control>
+                                            <label nz-checkbox formControlName="blocked">Bloquear</label>
+                                        </nz-form-control>
+                                    </nz-form-item>
                                 </div>
                             </div>
 
@@ -86,7 +90,7 @@
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">Nombre</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input formControlName="firstName" />
+                                            <input nz-input nzSize="small" formControlName="firstName" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -94,7 +98,7 @@
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">Apellido</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input formControlName="lastName" />
+                                            <input nz-input nzSize="small" formControlName="lastName" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -105,7 +109,7 @@
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">Teléfono</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input formControlName="phone" />
+                                            <input nz-input nzSize="small" formControlName="phone" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -113,7 +117,7 @@
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">Código</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input formControlName="position" />
+                                            <input nz-input nzSize="small" formControlName="position" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -136,7 +140,7 @@
                                 <tr *ngFor="let data of basicTable.data">
                                     <td>
                                         <ng-container *ngIf="isEditing; else readTitle">
-                                            <nz-select style="width: 100%" [ngModel]="data.title"
+                                            <nz-select nzSize="small" style="width: 100%" [ngModel]="data.title"
                                                 [ngModelOptions]="{standalone: true}">
                                                 <nz-option nzValue="Tipo de contrato"
                                                     nzLabel="Tipo de contrato"></nz-option>
@@ -148,7 +152,7 @@
                                     </td>
                                     <td>
                                         <ng-container *ngIf="isEditing; else readValue">
-                                            <input nz-input [ngModel]="data.value"
+                                            <input nz-input nzSize="small" [ngModel]="data.value"
                                                 [ngModelOptions]="{standalone: true}" />
                                         </ng-container>
                                         <ng-template #readValue>
@@ -158,10 +162,11 @@
                                 </tr>
                                 <tr *ngIf="additionalData.length === 0 && isEditing">
                                     <td>
-                                        <nz-select style="width: 100%" nzPlaceHolder="Select"></nz-select>
+                                        <nz-select nzSize="small" style="width: 100%"
+                                            nzPlaceHolder="Select"></nz-select>
                                     </td>
                                     <td>
-                                        <input nz-input />
+                                        <input nz-input nzSize="small" />
                                     </td>
                                 </tr>
                                 <tr *ngIf="additionalData.length === 0 && !isEditing">
@@ -175,7 +180,7 @@
                     <ng-template #extraActionData>
                         <button *ngIf="isEditing" nz-button nzType="primary" nzSize="small" type="button"
                             (click)="createNewDataType()">
-                            <span nz-icon nzType="plus"></span> Nuevo
+                            <span nz-icon nzType="plus"></span> Nuevo Dato Adicional
                         </button>
                     </ng-template>
                 </div>
@@ -229,16 +234,24 @@
                                     }}</nz-descriptions-item>
                                 <nz-descriptions-item nzTitle="Usuario">{{ userForm.get('mailUser')?.value
                                     }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Proveedor SMTP">{{ userForm.get('mailSmtp')?.value
+                                <nz-descriptions-item nzTitle="Proveedor SMTP"
+                                    *ngIf="userForm.get('mailType')?.value !== 3">{{ userForm.get('mailSmtp')?.value
                                     }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Puerto">{{ userForm.get('mailPort')?.value
+                                <nz-descriptions-item nzTitle="Servidor de Mail"
+                                    *ngIf="userForm.get('mailType')?.value !== 1">{{ userForm.get('mailServer')?.value
+                                    }}</nz-descriptions-item>
+                                <nz-descriptions-item nzTitle="Base Mail"
+                                    *ngIf="userForm.get('mailType')?.value !== 1">{{ userForm.get('mailBase')?.value
                                     }}</nz-descriptions-item>
                                 <nz-descriptions-item nzTitle="SSL">
                                     <nz-tag [nzColor]="userForm.get('mailSsl')?.value ? 'success' : 'default'">
                                         {{ userForm.get('mailSsl')?.value ? 'Activado' : 'Desactivado' }}
                                     </nz-tag>
                                 </nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Tipo de Mail">{{ userForm.get('mailType')?.value
+                                <nz-descriptions-item nzTitle="Puerto">{{ userForm.get('mailPort')?.value
+                                    }}</nz-descriptions-item>
+                                <nz-descriptions-item nzTitle="Tipo de Mail">{{
+                                    getMailTypeLabel(userForm.get('mailType')?.value)
                                     }}</nz-descriptions-item>
                             </nz-descriptions>
                         </div>
@@ -248,35 +261,46 @@
                             <nz-form-item>
                                 <nz-form-label [nzNoColon]="true">Correo</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input formControlName="mailAccount" />
+                                    <input nz-input nzSize="small" formControlName="mailAccount" />
                                 </nz-form-control>
                             </nz-form-item>
 
                             <nz-form-item>
                                 <nz-form-label [nzNoColon]="true">Usuario</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input formControlName="mailUser" />
+                                    <input nz-input nzSize="small" formControlName="mailUser" />
                                 </nz-form-control>
                             </nz-form-item>
 
                             <nz-form-item>
                                 <nz-form-label [nzNoColon]="true">Password</nz-form-label>
                                 <nz-form-control>
-                                    <input nz-input type="password" formControlName="mailPassword" />
+                                    <nz-input-group [nzSuffix]="suffixTemplateMailPw" nzSize="small">
+                                        <input [type]="mailPasswordVisible ? 'text' : 'password'" nz-input
+                                            formControlName="mailPassword" />
+                                    </nz-input-group>
+                                    <ng-template #suffixTemplateMailPw>
+                                        <span nz-icon [nzType]="mailPasswordVisible ? 'eye-invisible' : 'eye'"
+                                            (click)="mailPasswordVisible = !mailPasswordVisible"></span>
+                                    </ng-template>
                                 </nz-form-control>
                             </nz-form-item>
 
                             <div nz-row [nzGutter]="16">
-                                <div nz-col [nzSpan]="12"
-                                    style="display: flex; align-items: center; padding-top: 30px;">
-                                    <label nz-checkbox formControlName="mailSsl">Habilitar SSL</label>
-                                </div>
                                 <div nz-col [nzSpan]="12">
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">Puerto</nz-form-label>
                                         <nz-form-control>
-                                            <nz-input-number formControlName="mailPort"
+                                            <nz-input-number nzSize="small" formControlName="mailPort"
                                                 style="width: 100%;"></nz-input-number>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item>
+                                        <nz-form-label [nzNoColon]="true">&nbsp;</nz-form-label>
+                                        <nz-form-control>
+                                            <label nz-checkbox formControlName="mailSsl">Habilitar SSL</label>
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -284,10 +308,10 @@
 
                             <div nz-row [nzGutter]="16">
                                 <div nz-col [nzSpan]="12">
-                                    <nz-form-item>
+                                    <nz-form-item *ngIf="userForm.get('mailType')?.value !== 3">
                                         <nz-form-label [nzNoColon]="true">Proveedor SMTP</nz-form-label>
                                         <nz-form-control>
-                                            <input nz-input formControlName="mailSmtp" />
+                                            <input nz-input nzSize="small" formControlName="mailSmtp" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -295,10 +319,29 @@
                                     <nz-form-item>
                                         <nz-form-label [nzNoColon]="true">Tipo de Mail</nz-form-label>
                                         <nz-form-control>
-                                            <nz-select formControlName="mailType">
-                                                <nz-option nzValue="NetMail" nzLabel="NetMail"></nz-option>
-                                                <nz-option nzValue="SMTP" nzLabel="SMTP"></nz-option>
+                                            <nz-select nzSize="small" formControlName="mailType">
+                                                <nz-option *ngFor="let option of mailTypeOptions"
+                                                    [nzValue]="option.value" [nzLabel]="option.label"></nz-option>
                                             </nz-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+
+                            <div nz-row [nzGutter]="16" *ngIf="userForm.get('mailType')?.value !== 1">
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item>
+                                        <nz-form-label [nzNoColon]="true">Servidor de Mail</nz-form-label>
+                                        <nz-form-control>
+                                            <input nz-input nzSize="small" formControlName="mailServer" />
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item>
+                                        <nz-form-label [nzNoColon]="true">Base Mail</nz-form-label>
+                                        <nz-form-control>
+                                            <input nz-input nzSize="small" formControlName="mailBase" />
                                         </nz-form-control>
                                     </nz-form-item>
                                 </div>
@@ -320,8 +363,8 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Nueva Contraseña</nz-form-label>
                 <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Por favor ingrese la nueva contraseña!">
                     <nz-input-group [nzSuffix]="suffixTemplateNew">
-                        <input [type]="passwordVisible ? 'text' : 'password'" nz-input formControlName="newPassword"
-                            placeholder="Nueva Contraseña" />
+                        <input [type]="passwordVisible ? 'text' : 'password'" nz-input nzSize="small"
+                            formControlName="newPassword" placeholder="Nueva Contraseña" />
                     </nz-input-group>
                     <ng-template #suffixTemplateNew>
                         <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
@@ -334,7 +377,7 @@
                 <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Confirmar Contraseña</nz-form-label>
                 <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Por favor confirme la contraseña!">
                     <nz-input-group [nzSuffix]="suffixTemplateConfirm">
-                        <input [type]="confirmPasswordVisible ? 'text' : 'password'" nz-input
+                        <input [type]="confirmPasswordVisible ? 'text' : 'password'" nz-input nzSize="small"
                             formControlName="confirmPassword" placeholder="Confirmar Contraseña" />
                     </nz-input-group>
                     <ng-template #suffixTemplateConfirm>
