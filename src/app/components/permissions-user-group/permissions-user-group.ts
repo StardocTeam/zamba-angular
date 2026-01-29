@@ -295,6 +295,11 @@ export class PermissionsUserGroupComponent implements OnInit {
         });
     }
 
+    refreshUsersList(updatedUser: any): void {
+        this.filterUsers();
+        this.cdr.detectChanges();
+    }
+
     //cuando se selecciona un GRUPO de la sidebar
     selectSidebarGroupItem(item: any): void {
         this.selectedItem = item;

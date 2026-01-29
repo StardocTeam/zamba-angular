@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -58,6 +58,7 @@ export enum MailTypes {
 })
 export class UserDataComponent implements OnInit, OnChanges {
     @Input() user!: any;
+    @Output() onUserUpdated = new EventEmitter<any>();
     userForm!: FormGroup;
     passwordForm!: FormGroup;
 
@@ -65,7 +66,6 @@ export class UserDataComponent implements OnInit, OnChanges {
     isEditing = false;
     isChangePasswordVisible = false;
     passwordVisible = false;
-    confirmPasswordVisible = false;
     mailPasswordVisible = false;
 
     MailTypes = MailTypes;
@@ -77,6 +77,9 @@ export class UserDataComponent implements OnInit, OnChanges {
     ];
 
     toggleEdit() {
+        if (this.isEditing) {
+            this.loadUserData(this.user);
+        }
         this.isEditing = !this.isEditing;
     }
 
@@ -165,29 +168,29 @@ export class UserDataComponent implements OnInit, OnChanges {
     loadUserData(user: any) {
         console.log('Loading user data:', user);
         if (this.userForm && user) {
-            this.userForm.patchValue({
+            this.userForm.reset({
                 id: user._id,
                 username: user.name || user._name,
                 firstName: user._nombres,
                 lastName: user._apellidos,
                 password: user._password,
-                // confirmPassword: user._password, // Usually we don't prefill confirm password or we set it same
+                // confirmPassword: user._password, 
                 phone: user._telefono,
-                // position: // Not provided in mapping
-                mailAccount: user._email._mail,
-                mailSsl: user._email._enableSsl,
-                mailPassword: user._email._password,
-                mailPort: user._email._puerto,
-                mailUser: user._email._userName,
-                mailSmtp: user._email._proveedorSMTP,
-                mailType: user._email._type,
-                mailServer: user._email._servidor,
-                mailBase: user._email._base
+                position: user._puesto,
+                mailAccount: user._email?._mail,
+                mailSsl: user._email?._enableSsl,
+                mailPassword: user._email?._password,
+                mailPort: user._email?._puerto,
+                mailUser: user._email?._userName,
+                mailSmtp: user._email?._proveedorSMTP,
+                mailType: user._email?._type,
+                mailServer: user._email?._servidor,
+                mailBase: user._email?._base,
+                blocked: user.blocked ?? false
             });
-            // Handle blocked if it exists in user object, otherwise default
-            // this.userForm.patchValue({ blocked: user.blocked });
         }
         // Mock default photo
+        /*
         this.fileListPhoto = [
             {
                 uid: '-1',
@@ -196,6 +199,7 @@ export class UserDataComponent implements OnInit, OnChanges {
                 url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
             }
         ];
+        */
     }
 
     handlePhotoChange(info: NzUploadChangeParam): void {
@@ -218,6 +222,10 @@ export class UserDataComponent implements OnInit, OnChanges {
             const mailFields = ['mailAccount', 'mailUser', 'mailPassword', 'mailSsl', 'mailPort', 'mailSmtp', 'mailServer', 'mailBase', 'mailType'];
             const isMailConfigChanged = mailFields.some(field => this.userForm.get(field)?.dirty);
 
+            // Detect changes in general data
+            const generalFields = ['username', 'blocked', 'firstName', 'lastName', 'phone', 'position'];
+            const isGeneralDataChanged = generalFields.some(field => this.userForm.get(field)?.dirty);
+
             const payload = {
                 "Usuario": formValue.username,
                 "ID": formValue.id,
@@ -225,7 +233,7 @@ export class UserDataComponent implements OnInit, OnChanges {
                 "Nombres": formValue.firstName,
                 "Apellidos": formValue.lastName,
                 "Telefonos": formValue.phone,
-                "PuestoCodigo": formValue.position,
+                "Puesto": formValue.position,
                 "MailAccount": formValue.mailAccount,
                 "MailUser": formValue.mailUser,
                 "MailPassword": formValue.mailPassword,
@@ -235,7 +243,8 @@ export class UserDataComponent implements OnInit, OnChanges {
                 "MailServer": formValue.mailServer,
                 "MailBase": formValue.mailBase,
                 "MailType": formValue.mailType,
-                "UpdateMailConfig": isMailConfigChanged
+                "UpdateMailConfig": isMailConfigChanged,
+                "UpdateGeneralData": isGeneralDataChanged
             };
 
             this.adminService.updateUserData(payload).subscribe({
@@ -258,6 +267,17 @@ export class UserDataComponent implements OnInit, OnChanges {
                         this.user._email._base = formValue.mailBase;
                         this.user._email._type = formValue.mailType;
                     }
+
+                    if (isGeneralDataChanged && this.user) {
+                        this.user._name = formValue.username;
+                        this.user.name = formValue.username;
+                        this.user._nombres = formValue.firstName;
+                        this.user._apellidos = formValue.lastName;
+                        this.user._telefono = formValue.phone;
+                        this.user.blocked = formValue.blocked;
+                    }
+
+                    this.onUserUpdated.emit(this.user);
                     this.cdr.detectChanges();
                 },
                 error: (err: any) => {

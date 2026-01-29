@@ -44,7 +44,7 @@
                                     }}</nz-descriptions-item>
                                 <nz-descriptions-item nzTitle="Teléfono">{{ userForm.get('phone')?.value
                                     }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Código">{{ userForm.get('position')?.value
+                                <nz-descriptions-item nzTitle="Puesto">{{ userForm.get('position')?.value
                                     }}</nz-descriptions-item>
                                 <nz-descriptions-item nzTitle="Bloqueado" [nzSpan]="2">
                                     <nz-tag [nzColor]="userForm.get('blocked')?.value ? 'error' : 'success'">
@@ -362,30 +362,26 @@
             <nz-form-item>
                 <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Nueva Contraseña</nz-form-label>
                 <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Por favor ingrese la nueva contraseña!">
-                    <nz-input-group [nzSuffix]="suffixTemplateNew">
+                    <nz-input-group>
                         <input [type]="passwordVisible ? 'text' : 'password'" nz-input nzSize="small"
                             formControlName="newPassword" placeholder="Nueva Contraseña" />
                     </nz-input-group>
-                    <ng-template #suffixTemplateNew>
-                        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-                            (click)="passwordVisible = !passwordVisible"></span>
-                    </ng-template>
                 </nz-form-control>
             </nz-form-item>
 
             <nz-form-item>
                 <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Confirmar Contraseña</nz-form-label>
                 <nz-form-control [nzSm]="24" [nzXs]="24" nzErrorTip="Por favor confirme la contraseña!">
-                    <nz-input-group [nzSuffix]="suffixTemplateConfirm">
-                        <input [type]="confirmPasswordVisible ? 'text' : 'password'" nz-input nzSize="small"
+                    <nz-input-group>
+                        <input [type]="passwordVisible ? 'text' : 'password'" nz-input nzSize="small"
                             formControlName="confirmPassword" placeholder="Confirmar Contraseña" />
                     </nz-input-group>
-                    <ng-template #suffixTemplateConfirm>
-                        <span nz-icon [nzType]="confirmPasswordVisible ? 'eye-invisible' : 'eye'"
-                            (click)="confirmPasswordVisible = !confirmPasswordVisible"></span>
-                    </ng-template>
                 </nz-form-control>
             </nz-form-item>
+            <div style="margin-top: 8px;">
+                <label nz-checkbox [(ngModel)]="passwordVisible" [ngModelOptions]="{standalone: true}">Mostrar
+                    contraseña</label>
+            </div>
         </form>
     </ng-container>
     <ng-template #modalFooter>

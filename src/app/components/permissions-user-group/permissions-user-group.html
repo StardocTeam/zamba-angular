@@ -202,7 +202,8 @@
                                 <div *ngIf="isLoadingRightPanel" class="spinner-overlay">
                                     <nz-spin nzSimple nzSize="large"></nz-spin>
                                 </div>
-                                <user-data [user]="selectedUserSidebarItem"></user-data>
+                                <user-data [user]="selectedUserSidebarItem"
+                                    (onUserUpdated)="refreshUsersList($event)"></user-data>
                             </div>
                         </nz-tab>
                         <nz-tab nzTitle="Grupos">
