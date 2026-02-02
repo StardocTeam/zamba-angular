@@ -18,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { NzMessageService, NzMessageModule } from 'ng-zorro-antd/message';
 import { AdminService } from '../../services/admin.service';
 
 export enum MailTypes {
@@ -53,7 +54,8 @@ export enum MailTypes {
         NzTypographyModule,
         NzTagModule,
         NzDividerModule,
-        NzInputNumberModule
+        NzInputNumberModule,
+        NzMessageModule
     ]
 })
 export class UserDataComponent implements OnInit, OnChanges {
@@ -90,13 +92,37 @@ export class UserDataComponent implements OnInit, OnChanges {
 
     handleCancelPasswordModal(): void {
         this.isChangePasswordVisible = false;
+        this.passwordForm.reset();
     }
 
     handleChangePassword(): void {
         if (this.passwordForm.valid) {
-            // Implement password change logic here
-            console.log('Password changed:', this.passwordForm.value);
-            this.isChangePasswordVisible = false;
+            const formValue = this.passwordForm.getRawValue();
+
+            const userId = this.user._id;
+            const username = this.user.name || this.user._name;
+            const newPassword = formValue.newPassword;
+
+            this.isLoading = true;
+            this.adminService.changePassword(userId, username, newPassword).subscribe({
+                next: (result) => {
+                    this.isLoading = false;
+                    if (result && result.IsValid) {
+                        this.message.success('Password changed successfully');
+                        this.isChangePasswordVisible = false;
+                        this.passwordForm.reset();
+                    } else {
+                        this.message.error(result.Message || 'Error changing password');
+                    }
+                    this.cdr.detectChanges();
+                },
+                error: (err) => {
+                    this.isLoading = false;
+                    this.message.error('Server error');
+                    console.error('Change password error:', err);
+                    this.cdr.detectChanges();
+                }
+            });
         } else {
             Object.values(this.passwordForm.controls).forEach(control => {
                 if (control.invalid) {
@@ -117,7 +143,8 @@ export class UserDataComponent implements OnInit, OnChanges {
 
     constructor(private fb: FormBuilder,
         private cdr: ChangeDetectorRef,
-        private adminService: AdminService) { }
+        private adminService: AdminService,
+        private message: NzMessageService) { }
 
     ngOnInit(): void {
         this.initForm();
@@ -160,8 +187,10 @@ export class UserDataComponent implements OnInit, OnChanges {
 
     private initPasswordForm(): void {
         this.passwordForm = this.fb.group({
-            newPassword: ['', [Validators.required]],
-            confirmPassword: ['', [Validators.required]]
+            // Validate that password only contains letters, numbers, and common symbols
+            newPassword: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9!@#\$%\^&\*\(\)_\+\-=\[\]\{\};':"\\|,.<>\/?]*$/)]],
+            confirmPassword: ['', [Validators.required]],
+            sendByEmail: [false]
         });
     }
 

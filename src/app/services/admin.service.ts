@@ -194,6 +194,23 @@ export class AdminService {
     return this.http.post(url, genericRequest, { headers });
   }
 
+  changePassword(userId: number, username: string, newPassword: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "ID": userId.toString(),
+        "Usuario": username,
+        "NewPassword": newPassword
+      }
+    };
+
+    const url = `${this.serviceBase}Admin/ChangePassword`;
+    return this.http.post(url, genericRequest, { headers });
+  }
+
   private serviceBase: string = '';
   constructor(private http: HttpClient) {
     let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
