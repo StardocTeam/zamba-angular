@@ -7,6 +7,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { ZambaService } from '../../services/zamba/zamba.service';
 import { PendingTasksService } from 'src/app/routes/widgets/pending-tasks/service/pending-tasks.service';
 import { DateRangePopupComponent } from 'ng-zorro-antd/date-picker/date-range-popup.component';
+import { UserPermissionsService } from 'src/app/services/user-permissions.service';
 
 @Component({
   selector: 'layout-basic',
@@ -17,10 +18,17 @@ export class LayoutBasicComponent implements OnInit {
   constructor(
     private settings: SettingsService,
     private ZambaService: ZambaService,
-    private message: MessageService
+    private message: MessageService,
+    private userPermissionsService: UserPermissionsService
   ) { }
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
+    var UP = this.userPermissionsService.getPermissions();
+
+    if (UP.rights.length == 0 && UP.userId == 0) {
+      this.userPermissionsService.getAllUserPermissions();
+    }
+
     this.settings.setLayout('collapsed', true);
     this.message.startListening();
   }
