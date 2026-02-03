@@ -8,7 +8,7 @@ export const environment = {
   production: false,
   useHash: true,
 
-  restApi: 'http://ZambaAngularTEST.Restapi/api',
+  restApi: 'http://imageapt/ZambaAngularTEST.Restapi/api',
   apiRestBasePath: 'http://imageapt/ZambaAngularTEST.Restapi/api/Dashboard',
   externalSearchApi: 'http://imageapt/ZambaAngularTEST.Restapi/api/ExternalSearch',
   searchApi: 'http://imageapt/ZambaAngularTEST.Restapi/api/search',
