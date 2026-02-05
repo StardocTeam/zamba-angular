@@ -95,7 +95,7 @@ const routes: Routes = [
       {
         path: 'reports',
         component: ReportComponentComponent,
-        data: { title: 'Listado de reportes' },
+        data: { title: 'Reportes' },
         children: [
           {
             path: 'create',
@@ -110,7 +110,7 @@ const routes: Routes = [
           {
             path: 'view/:id',
             component: ReportViewerComponent,
-            data: { title: 'Vista general del reporte' }
+            data: { title: 'Reporte' }
           },
           {
             path: 'chartcontainer/:id',
@@ -160,7 +160,7 @@ const routes: Routes = [
       scrollPositionRestoration: 'top',
       preloadingStrategy: PreloadOptionalModules,
       bindToComponentInputs: true,
-      onSameUrlNavigation: 'reload'
+      onSameUrlNavigation: 'ignore'
     })
   ],
   exports: [RouterModule]

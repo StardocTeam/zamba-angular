@@ -41,7 +41,7 @@ const routes: Routes = [
       {
         path: 'reports',
         component: ReportComponentComponent,
-        data: { title: 'Listado de reportes' },
+        data: { title: 'Reportes' },
         children: [
           {
             path: 'create',
@@ -56,7 +56,7 @@ const routes: Routes = [
           {
             path: 'view/:id',
             component: ReportViewerComponent,
-            data: { title: 'Vista general del reporte' }
+            data: { title: 'Reporte' }
           },
           {
             path: 'chartcontainer/:id',
@@ -89,8 +89,6 @@ const routes: Routes = [
       }
     ]
   },
-  // passport
-  //{ path: '', loadChildren: () => import('./passport/passport.module').then(m => m.PassportModule), data: { preload: true } },
   { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
   { path: '**', redirectTo: 'exception/404' },
 ];
@@ -100,12 +98,10 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       useHash: environment.useHash,
-      // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`
-      // Pls refer to https://ng-alain.com/components/reuse-tab
       scrollPositionRestoration: 'top',
       preloadingStrategy: PreloadOptionalModules,
       bindToComponentInputs: true,
-      onSameUrlNavigation: 'reload'
+      onSameUrlNavigation: 'ignore'
     })
   ],
   exports: [RouterModule]
