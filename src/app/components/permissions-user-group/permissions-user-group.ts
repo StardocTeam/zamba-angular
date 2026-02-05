@@ -64,6 +64,7 @@ import { UserDataComponent } from '../user-data/user-data';
 export class PermissionsUserGroupComponent implements OnInit {
 
     isLoading: boolean = true;
+    isSidebarCollapsed: boolean = false;
     isLoadingRightPanel: boolean = false;
     searchText: string = '';
     searchTextUsers: string = '';
@@ -124,6 +125,9 @@ export class PermissionsUserGroupComponent implements OnInit {
 
         private adminService: AdminService
     ) {
+    }
+    toggleSidebar(): void {
+        this.isSidebarCollapsed = !this.isSidebarCollapsed;
     }
     ngOnInit(): void {
         this.route.queryParamMap.subscribe(params => {
