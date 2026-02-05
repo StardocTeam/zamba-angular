@@ -8,11 +8,11 @@ export const environment = {
   production: false,
   useHash: true,
 
-  restApi: 'http://imageapt/ZambaAngularTEST.Restapi/api',
-  apiRestBasePath: 'http://imageapt/ZambaAngularTEST.Restapi/api/Dashboard',
-  externalSearchApi: 'http://imageapt/ZambaAngularTEST.Restapi/api/ExternalSearch',
-  searchApi: 'http://imageapt/ZambaAngularTEST.Restapi/api/search',
-  zambaWeb: 'http://imageapt/ZambaAngularTEST',
+  restApi: 'http://imageapt/ZambaAngularC.Restapi/api',
+  apiRestBasePath: 'http://imageapt/ZambaAngularC.Restapi/api/Dashboard',
+  externalSearchApi: 'http://imageapt/ZambaAngularC.Restapi/api/ExternalSearch',
+  searchApi: 'http://imageapt/ZambaAngularC.Restapi/api/search',
+  zambaWeb: 'http://imageapt/ZambaC.web',
 
   cliente: 'zamba',
   api: {

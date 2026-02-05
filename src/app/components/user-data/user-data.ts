@@ -28,6 +28,13 @@ export enum MailTypes {
     Internal = 4
 }
 
+export enum AdditionalDataState {
+    Unchanged = 'Unchanged',
+    Added = 'Added',
+    Deleted = 'Deleted',
+    Modified = 'Modifyed'
+}
+
 // Trigger rebuild
 @Component({
     selector: 'user-data',
@@ -63,10 +70,13 @@ export class UserDataComponent implements OnInit, OnChanges {
     @Output() onUserUpdated = new EventEmitter<any>();
     userForm!: FormGroup;
     passwordForm!: FormGroup;
+    newDataTypeForm!: FormGroup;
 
     isLoading = false;
     isEditing = false;
     isChangePasswordVisible = false;
+    isNewDataTypeVisible = false;
+    isCreatingDataType = false;
     passwordVisible = false;
     mailPasswordVisible = false;
 
@@ -77,6 +87,8 @@ export class UserDataComponent implements OnInit, OnChanges {
         { label: 'LotusNotesMail', value: MailTypes.LotusNotesMail },
         { label: 'Internal', value: MailTypes.Internal }
     ];
+
+    AdditionalDataState = AdditionalDataState;
 
     toggleEdit() {
         if (this.isEditing) {
@@ -135,7 +147,8 @@ export class UserDataComponent implements OnInit, OnChanges {
 
 
     // Mock data for additional user data table
-    additionalData: Array<{ title: string; value: string }> = [];
+    additionalData: any[] = [];
+    dataTypes: any[] = [];
 
     // Upload lists
     fileListPhoto: NzUploadFile[] = [];
@@ -149,9 +162,22 @@ export class UserDataComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this.initForm();
         this.initPasswordForm();
+        this.initNewDataTypeForm();
+        this.loadDataTypes();
         if (this.user) {
             this.loadUserData(this.user);
         }
+    }
+
+    loadDataTypes() {
+        this.adminService.getDataTypes().subscribe({
+            next: (result) => {
+                this.dataTypes = result;
+            },
+            error: (err) => {
+                console.error('Error loading data types:', err);
+            }
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -193,9 +219,12 @@ export class UserDataComponent implements OnInit, OnChanges {
             sendByEmail: [false]
         });
     }
-
+    private initNewDataTypeForm(): void {
+        this.newDataTypeForm = this.fb.group({
+            name: ['', [Validators.required, Validators.maxLength(100), Validators.pattern(/^[a-zA-Z0-9\sñÑáéíóúÁÉÍÓÚ\-_]*$/)]]
+        });
+    }
     loadUserData(user: any) {
-        console.log('Loading user data:', user);
         if (this.userForm && user) {
             this.userForm.reset({
                 id: user._id,
@@ -217,6 +246,27 @@ export class UserDataComponent implements OnInit, OnChanges {
                 mailBase: user._email?._base,
                 blocked: user.blocked ?? false
             });
+
+            if (user._id) {
+                this.adminService.getAdditionalData(user._id).subscribe({
+                    next: (result: any[]) => {
+                        console.log('Additional data loaded:', result);
+                        this.additionalData = result.map(item => ({
+                            title: item.Title,
+                            value: item.Value,
+                            id: item.Id,
+                            dataTypeId: item.DataTypeId,
+                            state: AdditionalDataState.Unchanged
+                        }));
+                        this.cdr.detectChanges();
+                    },
+                    error: (err) => {
+                        console.error('Error loading additional data:', err);
+                    }
+                });
+            } else {
+                this.additionalData = [];
+            }
         }
         // Mock default photo
         /*
@@ -242,86 +292,176 @@ export class UserDataComponent implements OnInit, OnChanges {
     }
 
     onSubmit() {
-        if (this.userForm.valid) {
-            this.isLoading = true;
-            console.log('Form Submitted', this.userForm.value);
-            const formValue = this.userForm.getRawValue();
-
-            // Detect changes in mail configuration
-            const mailFields = ['mailAccount', 'mailUser', 'mailPassword', 'mailSsl', 'mailPort', 'mailSmtp', 'mailServer', 'mailBase', 'mailType'];
-            const isMailConfigChanged = mailFields.some(field => this.userForm.get(field)?.dirty);
-
-            // Detect changes in general data
-            const generalFields = ['username', 'blocked', 'firstName', 'lastName', 'phone', 'position'];
-            const isGeneralDataChanged = generalFields.some(field => this.userForm.get(field)?.dirty);
-
-            const payload = {
-                "Usuario": formValue.username,
-                "ID": formValue.id,
-                "Bloqueado": formValue.blocked,
-                "Nombres": formValue.firstName,
-                "Apellidos": formValue.lastName,
-                "Telefonos": formValue.phone,
-                "Puesto": formValue.position,
-                "MailAccount": formValue.mailAccount,
-                "MailUser": formValue.mailUser,
-                "MailPassword": formValue.mailPassword,
-                "MailSsl": formValue.mailSsl,
-                "MailPort": formValue.mailPort,
-                "MailSmtp": formValue.mailSmtp,
-                "MailServer": formValue.mailServer,
-                "MailBase": formValue.mailBase,
-                "MailType": formValue.mailType,
-                "UpdateMailConfig": isMailConfigChanged,
-                "UpdateGeneralData": isGeneralDataChanged
-            };
-
-            this.adminService.updateUserData(payload).subscribe({
-                next: (res: any) => {
-                    console.log('Update successful', res);
-                    this.isEditing = false;
-                    this.isLoading = false;
-
-                    if (isMailConfigChanged && this.user) {
-                        if (!this.user._email) {
-                            this.user._email = {};
-                        }
-                        this.user._email._mail = formValue.mailAccount;
-                        this.user._email._userName = formValue.mailUser;
-                        this.user._email._password = formValue.mailPassword;
-                        this.user._email._enableSsl = formValue.mailSsl;
-                        this.user._email._puerto = formValue.mailPort;
-                        this.user._email._proveedorSMTP = formValue.mailSmtp;
-                        this.user._email._servidor = formValue.mailServer;
-                        this.user._email._base = formValue.mailBase;
-                        this.user._email._type = formValue.mailType;
-                    }
-
-                    if (isGeneralDataChanged && this.user) {
-                        this.user._name = formValue.username;
-                        this.user.name = formValue.username;
-                        this.user._nombres = formValue.firstName;
-                        this.user._apellidos = formValue.lastName;
-                        this.user._telefono = formValue.phone;
-                        this.user.blocked = formValue.blocked;
-                    }
-
-                    this.onUserUpdated.emit(this.user);
-                    this.cdr.detectChanges();
-                },
-                error: (err: any) => {
-                    console.error('Update failed', err);
-                    this.isLoading = false;
-                }
-            });
-        } else {
-            Object.values(this.userForm.controls).forEach(control => {
-                if (control.invalid) {
-                    control.markAsDirty();
-                    control.updateValueAndValidity({ onlySelf: true });
-                }
-            });
+        if (this.userForm.invalid) {
+            this.markFormAsDirty();
+            return;
         }
+
+        this.isLoading = true;
+        const formValue = this.userForm.getRawValue();
+
+        const isMailConfigChanged = this.checkMailConfigChanged();
+        const isGeneralDataChanged = this.checkGeneralDataChanged();
+        const additionalDataResult = this.processAdditionalData();
+        console.log(additionalDataResult);
+
+        const payload = this.buildPayload(formValue, isMailConfigChanged, isGeneralDataChanged, additionalDataResult);
+
+        this.adminService.updateUserData(payload).subscribe({
+            next: (res: any) => this.handleUpdateSuccess(formValue, isMailConfigChanged, isGeneralDataChanged, additionalDataResult.data),
+            error: (err: any) => this.handleUpdateError(err)
+        });
+    }
+
+    private markFormAsDirty() {
+        Object.values(this.userForm.controls).forEach(control => {
+            if (control.invalid) {
+                control.markAsDirty();
+                control.updateValueAndValidity({ onlySelf: true });
+            }
+        });
+    }
+
+    private checkMailConfigChanged(): boolean {
+        const mailFields = ['mailAccount', 'mailUser', 'mailPassword', 'mailSsl', 'mailPort', 'mailSmtp', 'mailServer', 'mailBase', 'mailType'];
+        return mailFields.some(field => this.userForm.get(field)?.dirty);
+    }
+
+    private checkGeneralDataChanged(): boolean {
+        const generalFields = ['username', 'blocked', 'firstName', 'lastName', 'phone', 'position'];
+        return generalFields.some(field => this.userForm.get(field)?.dirty);
+    }
+
+    private processAdditionalData(): { changed: boolean, data: any[] } {
+        let isChanged = false;
+        const processedData: any[] = [];
+
+        this.additionalData.forEach(item => {
+            if (item.state === AdditionalDataState.Deleted) {
+                isChanged = true;
+                processedData.push(item);
+                return;
+            }
+
+            const trimmedValue = item.value ? item.value.trim() : '';
+            const hasTitle = !!item.title;
+            const isValid = hasTitle && trimmedValue !== '';
+
+            if (isValid) {
+                if (item.state !== AdditionalDataState.Unchanged) {
+                    isChanged = true;
+                }
+
+                // Ensure DataTypeId is populated if missing (double check)
+                let currentDataTypeId = item.dataTypeId;
+                if (!currentDataTypeId && this.dataTypes) {
+                    const selectedType = this.dataTypes.find(t => (t.Title || t.Name) === item.title);
+                    if (selectedType) {
+                        currentDataTypeId = selectedType.Id || selectedType.id || selectedType.ID || selectedType.DataTypeId || 0;
+                    }
+                }
+
+                processedData.push({
+                    ...item,
+                    value: trimmedValue,
+                    dataTypeId: currentDataTypeId || 0
+                });
+            } else {
+                // If it's an existing item that became invalid (empty), treat as deleted
+                if (item.state !== AdditionalDataState.Added) {
+                    isChanged = true;
+                    processedData.push({
+                        ...item,
+                        state: AdditionalDataState.Deleted
+                    });
+                }
+            }
+        });
+
+        return { changed: isChanged, data: processedData };
+    }
+
+    private buildPayload(formValue: any, isMailConfigChanged: boolean, isGeneralDataChanged: boolean, additionalDataResult: { changed: boolean, data: any[] }) {
+        // Map to PascalCase for the API
+        const additionalDataPayload = additionalDataResult.data.map(item => ({
+            Id: item.id || 0,
+            Title: item.title,
+            Value: item.value,
+            DataTypeId: item.dataTypeId || 0,
+            State: item.state
+        }));
+
+        return {
+            "Usuario": formValue.username,
+            "ID": formValue.id,
+            "Bloqueado": formValue.blocked,
+            "Nombres": formValue.firstName,
+            "Apellidos": formValue.lastName,
+            "Telefonos": formValue.phone,
+            "Puesto": formValue.position,
+            "MailAccount": formValue.mailAccount,
+            "MailUser": formValue.mailUser,
+            "MailPassword": formValue.mailPassword,
+            "MailSsl": formValue.mailSsl,
+            "MailPort": formValue.mailPort,
+            "MailSmtp": formValue.mailSmtp,
+            "MailServer": formValue.mailServer,
+            "MailBase": formValue.mailBase,
+            "MailType": formValue.mailType,
+            "UpdateMailConfig": isMailConfigChanged,
+            "UpdateGeneralData": isGeneralDataChanged,
+            "UpdateAdditionalData": additionalDataResult.changed,
+            "AdditionalData": additionalDataResult.changed ? JSON.stringify(additionalDataPayload) : null
+        };
+    }
+
+    private handleUpdateSuccess(formValue: any, isMailConfigChanged: boolean, isGeneralDataChanged: boolean, processedAdditionalData: any[]) {
+        this.isEditing = false;
+        this.isLoading = false;
+
+        this.updateLocalAdditionalData(processedAdditionalData);
+        if (this.user) {
+            if (isMailConfigChanged) this.updateLocalMailConfig(formValue);
+            if (isGeneralDataChanged) this.updateLocalGeneralData(formValue);
+        }
+
+        this.onUserUpdated.emit(this.user);
+        this.cdr.detectChanges();
+    }
+
+    private handleUpdateError(err: any) {
+        console.error('Update failed', err);
+        this.isLoading = false;
+    }
+
+    private updateLocalAdditionalData(processedData: any[]) {
+        this.additionalData = processedData
+            .filter(item => item.state !== AdditionalDataState.Deleted)
+            .map(item => ({ ...item, state: AdditionalDataState.Unchanged }));
+    }
+
+    private updateLocalMailConfig(formValue: any) {
+        if (!this.user._email) {
+            this.user._email = {};
+        }
+        this.user._email._mail = formValue.mailAccount;
+        this.user._email._userName = formValue.mailUser;
+        this.user._email._password = formValue.mailPassword;
+        this.user._email._enableSsl = formValue.mailSsl;
+        this.user._email._puerto = formValue.mailPort;
+        this.user._email._proveedorSMTP = formValue.mailSmtp;
+        this.user._email._servidor = formValue.mailServer;
+        this.user._email._base = formValue.mailBase;
+        this.user._email._type = formValue.mailType;
+    }
+
+    private updateLocalGeneralData(formValue: any) {
+        this.user._name = formValue.username;
+        this.user.name = formValue.username;
+        this.user._nombres = formValue.firstName;
+        this.user._apellidos = formValue.lastName;
+        this.user._telefono = formValue.phone;
+        this.user.blocked = formValue.blocked;
     }
 
     resetPassword() {
@@ -333,9 +473,75 @@ export class UserDataComponent implements OnInit, OnChanges {
     }
 
     createNewDataType() {
-        console.log('Create New Data Type Clicked');
-        // Example: add a row
-        this.additionalData = [...this.additionalData, { title: 'Nuevo Dato', value: '' }];
+        this.additionalData = [...this.additionalData, { title: '', value: '', state: AdditionalDataState.Added }];
+    }
+
+    showNewDataTypeModal(): void {
+        this.newDataTypeForm.reset();
+        this.isNewDataTypeVisible = true;
+    }
+
+    handleCancelNewDataType(): void {
+        this.isNewDataTypeVisible = false;
+        this.newDataTypeForm.reset();
+    }
+
+    handleOkNewDataType(): void {
+        if (this.newDataTypeForm.valid) {
+            this.isCreatingDataType = true;
+            const name = this.newDataTypeForm.get('name')?.value;
+            this.adminService.saveAdditionalDataType(name).subscribe({
+                next: (res) => {
+                    this.isCreatingDataType = false;
+                    if (res === true) {
+                        this.isNewDataTypeVisible = false;
+                        this.message.success('Tipo de dato creado correctamente');
+                        this.loadDataTypes();
+                    } else {
+                        this.message.error('Ha ocurrido un error al crear el tipo de dato');
+                    }
+                },
+                error: (err) => {
+                    this.isCreatingDataType = false;
+                    this.message.error('Error al crear el tipo de dato');
+                    console.error(err);
+                }
+            });
+        } else {
+            Object.values(this.newDataTypeForm.controls).forEach(control => {
+                if (control.invalid) {
+                    control.markAsDirty();
+                    control.updateValueAndValidity({ onlySelf: true });
+                }
+            });
+        }
+    }
+
+    deleteAdditionalData(item: any) {
+        if (item.state === AdditionalDataState.Added) {
+            const index = this.additionalData.indexOf(item);
+            if (index > -1) {
+                this.additionalData = this.additionalData.filter((_, i) => i !== index);
+            }
+        } else {
+            item.state = AdditionalDataState.Deleted;
+        }
+    }
+
+    onAdditionalDataChange(item: any) {
+        if (item.state === AdditionalDataState.Unchanged) {
+            item.state = AdditionalDataState.Modified;
+        }
+
+        if (this.dataTypes) {
+            const selectedType = this.dataTypes.find(t => (t.Title || t.Name) === item.title);
+            console.log('Selected Type Lookup:', { title: item.title, found: selectedType, allTypes: this.dataTypes });
+
+            if (selectedType) {
+                item.dataTypeId = selectedType.Id || selectedType.id || selectedType.ID || selectedType.DataTypeId || 0;
+                console.log('Assigned DataTypeId:', item.dataTypeId);
+            }
+        }
     }
 
     getMailTypeLabel(value: number): string {
