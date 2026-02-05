@@ -262,7 +262,8 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     filterOtherGroupsForUserMainTab(): void {
         this.filteredOtherGroupsForUserMainTab = this.otherGroups.filter(g =>
-            !this.groupsBelongUser.some((ig: any) => ig._id === g._id)
+            !this.groupsBelongUser.some((ig: any) => ig._id === g._id) &&
+            !g._name.toLowerCase().startsWith('rol_')
         );
         this.filteredOtherGroupsForUserMainTab = this.filteredOtherGroupsForUserMainTab.filter(item =>
             (item._name || '').toLowerCase().includes((this.searchTextOtherGroupsForUserMainTab || '').toLowerCase())
@@ -342,8 +343,16 @@ export class PermissionsUserGroupComponent implements OnInit {
         //obtener los grupos de ese usuario
         this.adminService.GetGroupsForAUser(this.selectedUserSidebarItem._id).subscribe({
             next: (res: any) => {
-                this.groupsBelongUser = res;
-                this.filteredGroupsBelongUser = res;
+                // Filtramos para que NO aparezcan los que empiezan con "Rol_"
+                const assignedGroupsFiltered = res.filter((g: any) => !g._name.toLowerCase().startsWith('rol_'));
+
+                // Ordenamos alfabeticamente
+                assignedGroupsFiltered.sort((a: any, b: any) =>
+                    (a._name || '').localeCompare((b._name || ''), 'en', { sensitivity: 'base' })
+                );
+
+                this.groupsBelongUser = assignedGroupsFiltered;
+                this.filteredGroupsBelongUser = assignedGroupsFiltered;
                 this.filterOtherGroupsForUserMainTab();
                 this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();
