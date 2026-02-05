@@ -149,6 +149,9 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     this.listOfColumns = [];
     this.listOfData = [];
 
+    this.startDateVisible = false;
+    this.endDateVisible = false;
+
     this.ListZVARsFromRule = [];
     this.currentReport = report;
     this.cdr.detectChanges();
@@ -158,6 +161,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
     //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
     //Este codigo detecta y arma una lista de zVars encontradas
+    debugger;
     var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
 
     if (zVarsFound.includes("FechaDesde")) {
@@ -167,6 +171,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     if (zVarsFound.includes("FechaHasta")) {
       this.endDateVisible = true;
     }
+
+    this.cdr.detectChanges();
 
     //--------------------------------
 
