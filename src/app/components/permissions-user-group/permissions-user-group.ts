@@ -64,6 +64,7 @@ import { UserDataComponent } from '../user-data/user-data';
 export class PermissionsUserGroupComponent implements OnInit {
 
     isLoading: boolean = true;
+    isSidebarCollapsed: boolean = false;
     isLoadingRightPanel: boolean = false;
     searchText: string = '';
     searchTextUsers: string = '';
@@ -125,6 +126,9 @@ export class PermissionsUserGroupComponent implements OnInit {
         private adminService: AdminService
     ) {
     }
+    toggleSidebar(): void {
+        this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    }
     ngOnInit(): void {
         this.route.queryParamMap.subscribe(params => {
 
@@ -151,7 +155,6 @@ export class PermissionsUserGroupComponent implements OnInit {
                 groups.sort((a: { _name: string; }, b: { _name: any; }) =>
                     a._name.localeCompare(b._name, 'en', { sensitivity: 'base' })
                 );
-                console.log(groups);
                 this.groups.set(groups);
                 //solo grupos, sin roles
                 let groupsWithoutRoles = groups.filter((g: any) => !g._name.toLowerCase().startsWith('rol_'));
@@ -168,7 +171,6 @@ export class PermissionsUserGroupComponent implements OnInit {
 
                 // Users
                 const users = res.users;
-                console.log("getAllUsers", users);
                 users.sort((a: { _apellidos: string; }, b: { _apellidos: any; }) =>
                     a._apellidos.localeCompare(b._apellidos, 'en', { sensitivity: 'base' })
                 );
@@ -196,7 +198,6 @@ export class PermissionsUserGroupComponent implements OnInit {
                 groups.sort((a: { _name: string; }, b: { _name: any; }) =>
                     a._name.localeCompare(b._name, 'en', { sensitivity: 'base' })
                 );
-                console.log(groups);
                 this.groups.set(groups);
                 //solo grupos, sin roles
                 let groupsWithoutRoles = groups.filter((g: any) => !g._name.toLowerCase().startsWith('rol_'));
@@ -265,7 +266,8 @@ export class PermissionsUserGroupComponent implements OnInit {
 
     filterOtherGroupsForUserMainTab(): void {
         this.filteredOtherGroupsForUserMainTab = this.otherGroups.filter(g =>
-            !this.groupsBelongUser.some((ig: any) => ig._id === g._id)
+            !this.groupsBelongUser.some((ig: any) => ig._id === g._id) &&
+            !g._name.toLowerCase().startsWith('rol_')
         );
         this.filteredOtherGroupsForUserMainTab = this.filteredOtherGroupsForUserMainTab.filter(item =>
             (item._name || '').toLowerCase().includes((this.searchTextOtherGroupsForUserMainTab || '').toLowerCase())
@@ -304,7 +306,6 @@ export class PermissionsUserGroupComponent implements OnInit {
     selectSidebarGroupItem(item: any): void {
         this.selectedItem = item;
         this.isLoadingRightPanel = true;
-        console.log(this.selectedItem);
 
         forkJoin({
             users: this.adminService.GetAllUsersForAGroup(this.selectedItem._id),
@@ -312,7 +313,6 @@ export class PermissionsUserGroupComponent implements OnInit {
         }).subscribe({
             next: (res: any) => {
                 // Users
-                console.log(res.users);
                 this.usersForAGroup = res.users;
                 this.usersForAGroup.sort((a: any, b: any) =>
                     (a._apellidos || '').localeCompare((b._apellidos || ''), 'en', { sensitivity: 'base' })
@@ -321,7 +321,6 @@ export class PermissionsUserGroupComponent implements OnInit {
                 this.filteredOtherUsers = this.otherUsers.filter(u => !this.usersForAGroup.some(g => g._id === u._id));
 
                 // Inherited Groups
-                console.log("inherited groups", res.inheritedGroups);
 
                 //ahora no quieren que se vean los grupos, sino solo los roles heredados. Asi que filtramos solo los que empiezan por "rol_"
                 let inheritedGroupsFiltered = res.inheritedGroups.filter((g: any) => g._name.toLowerCase().startsWith('rol_'));
@@ -344,14 +343,20 @@ export class PermissionsUserGroupComponent implements OnInit {
     selectSidebarUserItem(item: any): void {
         this.selectedUserSidebarItem = item;
         this.isLoadingRightPanel = true;
-        console.log(this.selectedUserSidebarItem);
 
         //obtener los grupos de ese usuario
         this.adminService.GetGroupsForAUser(this.selectedUserSidebarItem._id).subscribe({
             next: (res: any) => {
-                console.log(res);
-                this.groupsBelongUser = res;
-                this.filteredGroupsBelongUser = res;
+                // Filtramos para que NO aparezcan los que empiezan con "Rol_"
+                const assignedGroupsFiltered = res.filter((g: any) => !g._name.toLowerCase().startsWith('rol_'));
+
+                // Ordenamos alfabeticamente
+                assignedGroupsFiltered.sort((a: any, b: any) =>
+                    (a._name || '').localeCompare((b._name || ''), 'en', { sensitivity: 'base' })
+                );
+
+                this.groupsBelongUser = assignedGroupsFiltered;
+                this.filteredGroupsBelongUser = assignedGroupsFiltered;
                 this.filterOtherGroupsForUserMainTab();
                 this.isLoadingRightPanel = false;
                 this.cdr.detectChanges();

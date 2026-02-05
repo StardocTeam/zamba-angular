@@ -211,6 +211,50 @@ export class AdminService {
     return this.http.post(url, genericRequest, { headers });
   }
 
+  getDataTypes(): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+      }
+    };
+
+    const url = `${this.serviceBase}Admin/GetDataTypesForAdicionalUserData`;
+    return this.http.post(url, genericRequest, { headers });
+  }
+
+  getAdditionalData(userId: number): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "ID": userId.toString(),
+      }
+    };
+
+    const url = `${this.serviceBase}Admin/GetAditionalUserData`;
+    return this.http.post(url, genericRequest, { headers });
+  }
+
+  saveAdditionalDataType(name: string): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    var genericRequest: any = {
+      "UserId": 0,
+      "token": "",
+      "Params": {
+        "DataTypeName": name,
+      }
+    };
+
+    const url = `${this.serviceBase}Admin/SaveAdditionalDataType`;
+    return this.http.post(url, genericRequest, { headers });
+  }
+
   private serviceBase: string = '';
   constructor(private http: HttpClient) {
     let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();

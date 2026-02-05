@@ -2,24 +2,22 @@
     <form nz-form [formGroup]="userForm" (ngSubmit)="onSubmit()" nzLayout="vertical" style="min-width: 1024px;">
         <!-- Toolbar -->
         <div
-            style="position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 4px 16px; background-color: #ffffff; border-bottom: 1px solid #e8e8e8;">
-            <div>
-                <button *ngIf="!isEditing" nz-button nzType="default" (click)="showChangePasswordModal()" type="button">
-                    <span nz-icon nzType="lock"></span> Cambiar Contraseña
-                </button>
-            </div>
+            style="position: sticky; top: 0; z-index: 1000; display: flex; justify-content: flex-start; align-items: center; padding: 4px 16px; background-color: #ffffff; border-bottom: 1px solid #e8e8e8;">
             <nz-space>
                 <ng-container *ngIf="!isEditing">
                     <button *nzSpaceItem nz-button nzType="primary" (click)="toggleEdit()" type="button">
                         <span nz-icon nzType="edit"></span> Editar
                     </button>
+                    <button *nzSpaceItem nz-button nzType="default" (click)="showChangePasswordModal()" type="button">
+                        <span nz-icon nzType="lock"></span> Cambiar Contraseña
+                    </button>
                 </ng-container>
                 <ng-container *ngIf="isEditing">
-                    <button *nzSpaceItem nz-button nzType="default" type="button" (click)="toggleEdit()">
-                        Cancelar
-                    </button>
                     <button *nzSpaceItem nz-button nzType="primary" type="submit" [nzLoading]="isLoading">
                         <span nz-icon nzType="save"></span> Aplicar Cambios
+                    </button>
+                    <button *nzSpaceItem nz-button nzType="default" type="button" (click)="toggleEdit()">
+                        Cancelar
                     </button>
                 </ng-container>
             </nz-space>
@@ -134,43 +132,47 @@
                                 <tr>
                                     <th nzWidth="40%">Titulo</th>
                                     <th>Valor</th>
+                                    <th *ngIf="isEditing" nzWidth="50px"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let data of basicTable.data">
-                                    <td>
-                                        <ng-container *ngIf="isEditing; else readTitle">
-                                            <nz-select nzSize="small" style="width: 100%" [ngModel]="data.title"
-                                                [ngModelOptions]="{standalone: true}">
-                                                <nz-option nzValue="Tipo de contrato"
-                                                    nzLabel="Tipo de contrato"></nz-option>
-                                            </nz-select>
-                                        </ng-container>
-                                        <ng-template #readTitle>
-                                            {{ data.title }}
-                                        </ng-template>
-                                    </td>
-                                    <td>
-                                        <ng-container *ngIf="isEditing; else readValue">
-                                            <input nz-input nzSize="small" [ngModel]="data.value"
-                                                [ngModelOptions]="{standalone: true}" />
-                                        </ng-container>
-                                        <ng-template #readValue>
-                                            {{ data.value }}
-                                        </ng-template>
-                                    </td>
-                                </tr>
-                                <tr *ngIf="additionalData.length === 0 && isEditing">
-                                    <td>
-                                        <nz-select nzSize="small" style="width: 100%"
-                                            nzPlaceHolder="Select"></nz-select>
-                                    </td>
-                                    <td>
-                                        <input nz-input nzSize="small" />
-                                    </td>
-                                </tr>
-                                <tr *ngIf="additionalData.length === 0 && !isEditing">
-                                    <td colspan="2" style="color: rgba(0,0,0,0.45); font-style: italic;">
+                                <ng-container *ngFor="let data of basicTable.data">
+                                    <tr *ngIf="data.state !== AdditionalDataState.Deleted">
+                                        <td>
+                                            <ng-container *ngIf="isEditing; else readTitle">
+                                                <nz-select nzSize="small" style="width: 100%" [ngModel]="data.title"
+                                                    (ngModelChange)="data.title=$event; onAdditionalDataChange(data)"
+                                                    [ngModelOptions]="{standalone: true}">
+                                                    <nz-option *ngFor="let type of dataTypes"
+                                                        [nzValue]="type.Title || type.Name"
+                                                        [nzLabel]="type.Title || type.Name"></nz-option>
+                                                </nz-select>
+                                            </ng-container>
+                                            <ng-template #readTitle>
+                                                {{ data.title }}
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <ng-container *ngIf="isEditing; else readValue">
+                                                <input nz-input nzSize="small" [(ngModel)]="data.value"
+                                                    (ngModelChange)="onAdditionalDataChange(data)"
+                                                    [ngModelOptions]="{standalone: true}" />
+                                            </ng-container>
+                                            <ng-template #readValue>
+                                                {{ data.value }}
+                                            </ng-template>
+                                        </td>
+                                        <td *ngIf="isEditing">
+                                            <button nz-button nzType="text" nzDanger type="button"
+                                                (click)="deleteAdditionalData(data)">
+                                                <span nz-icon nzType="delete"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <tr *ngIf="additionalData.length === 0">
+                                    <td colspan="3"
+                                        style="color: rgba(0,0,0,0.45); font-style: italic; text-align: center;">
                                         No hay datos adicionales
                                     </td>
                                 </tr>
@@ -178,10 +180,16 @@
                         </nz-table>
                     </nz-card>
                     <ng-template #extraActionData>
-                        <button *ngIf="isEditing" nz-button nzType="primary" nzSize="small" type="button"
-                            (click)="createNewDataType()">
-                            <span nz-icon nzType="plus"></span> Nuevo Dato Adicional
-                        </button>
+                        <div *ngIf="isEditing">
+                            <button nz-button nzType="primary" nzSize="small" type="button"
+                                (click)="createNewDataType()">
+                                <span nz-icon nzType="plus"></span> Nuevo Dato Adicional
+                            </button>
+                            <button nz-button nzType="default" nzSize="small" type="button"
+                                (click)="showNewDataTypeModal()" style="margin-left: 8px;">
+                                <span nz-icon nzType="plus"></span> Nuevo Tipo de Dato
+                            </button>
+                        </div>
                     </ng-template>
                 </div>
 
@@ -395,4 +403,42 @@
         <button nz-button nzType="default" (click)="handleCancelPasswordModal()">Cancelar</button>
         <button nz-button nzType="primary" (click)="handleChangePassword()" [nzLoading]="isLoading">Confirmar</button>
     </ng-template>
+</nz-modal>
+
+<!-- New Data Type Modal -->
+<nz-modal [(nzVisible)]="isNewDataTypeVisible" nzTitle="Nuevo Tipo de Dato" (nzOnCancel)="handleCancelNewDataType()"
+    (nzOnOk)="handleOkNewDataType()" [nzOkLoading]="isCreatingDataType">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="newDataTypeForm" nzLayout="vertical">
+            <nz-form-item>
+                <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Nombre del Tipo de Dato</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" [nzErrorTip]="dataTypeErrorTip">
+                    <input nz-input formControlName="name" placeholder="Ingrese el nombre" maxlength="100" />
+                    <ng-template #dataTypeErrorTip let-control>
+                        <ng-container *ngIf="control.hasError('required')">El nombre es requerido</ng-container>
+                        <ng-container *ngIf="control.hasError('pattern')">Caracteres inválidos</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
+</nz-modal>
+
+<!-- New Data Type Modal -->
+<nz-modal [(nzVisible)]="isNewDataTypeVisible" nzTitle="Nuevo Tipo de Dato" (nzOnCancel)="handleCancelNewDataType()"
+    (nzOnOk)="handleOkNewDataType()" [nzOkLoading]="isCreatingDataType">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="newDataTypeForm" nzLayout="vertical">
+            <nz-form-item>
+                <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>Nombre del Tipo de Dato</nz-form-label>
+                <nz-form-control [nzSm]="24" [nzXs]="24" [nzErrorTip]="dataTypeErrorTip">
+                    <input nz-input formControlName="name" placeholder="Ingrese el nombre" maxlength="100" />
+                    <ng-template #dataTypeErrorTip let-control>
+                        <ng-container *ngIf="control.hasError('required')">El nombre es requerido</ng-container>
+                        <ng-container *ngIf="control.hasError('pattern')">Caracteres inválidos</ng-container>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-container>
 </nz-modal>

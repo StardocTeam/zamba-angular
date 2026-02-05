@@ -110,6 +110,20 @@
               "sourceMap": true,
               "namedChunks": true
             },
+            "c": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.c.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "local": {
               "fileReplacements": [
                 {

@@ -3,12 +3,27 @@
         <button nz-button nzType="primary" nzSearch><span nz-icon nzType="search"></span></button>
     </ng-template>
     <!-- Sidebar con lista de grupos y barra de búsqueda -->
-    <nz-sider class="nz-sider-bg padding-right-10 " nzWidth="400px">
+    <nz-sider class="nz-sider-bg padding-right-10" nzWidth="400px" [nzCollapsed]="isSidebarCollapsed"
+        [nzCollapsible]="true" [nzTrigger]="null" [nzCollapsedWidth]="80">
         <div class="card-container sidebar-card">
             <div *ngIf="isLoading" style="padding: 20px;">
                 <nz-skeleton [nzActive]="true" [nzParagraph]="{ rows: 15 }"></nz-skeleton>
             </div>
-            <nz-tabset nzType="card" [(nzSelectedIndex)]="selectedTabIndex" *ngIf="!isLoading">
+
+            <ng-template #extraTemplate>
+                <button nz-button nzType="text" (click)="toggleSidebar()">
+                    <span nz-icon nzType="menu-fold"></span>
+                </button>
+            </ng-template>
+
+            <div *ngIf="!isLoading && isSidebarCollapsed" style="text-align: center; margin-top: 10px;">
+                <button nz-button nzType="text" (click)="toggleSidebar()">
+                    <span nz-icon nzType="menu-unfold"></span>
+                </button>
+            </div>
+
+            <nz-tabset nzType="card" [(nzSelectedIndex)]="selectedTabIndex" *ngIf="!isLoading && !isSidebarCollapsed"
+                [nzTabBarExtraContent]="extraTemplate">
                 <nz-tab nzTitle="Grupos">
                     <div class="sidebar-inner-container">
                         <div class="sidebar-sticky-header">
