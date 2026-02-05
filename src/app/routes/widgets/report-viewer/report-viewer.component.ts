@@ -190,7 +190,12 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         throw error;
       })
     ).subscribe((Rule: any) => {
-      this.ruleId = Rule != "[]" ? JSON.parse(Rule)[0].RuleId : null;
+
+      if (Rule != null && Rule != "[]") {
+        this.ruleId = JSON.parse(Rule)[0].RuleId;
+      } else {
+        this.ruleId = null;
+      }
 
       if (this.ruleId && this.ruleId > 0) {
         this.TService.executeTaskRule(this.ruleId, "").pipe(

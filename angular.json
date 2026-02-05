@@ -96,7 +96,7 @@
               "sourceMap": true,
               "namedChunks": true
             },
-            "rrhh.qa": {
+            "rrhh_qa": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -173,6 +173,12 @@
             },
             "rrhh": {
               "browserTarget": "zamba:build:rrhh"
+            },
+            "rrhh_qa": {
+              "browserTarget": "zamba:build:rrhh_qa"
+            },
+            "qa": {
+              "browserTarget": "zamba:build:qa"
             }
           },
           "defaultConfiguration": "development"
