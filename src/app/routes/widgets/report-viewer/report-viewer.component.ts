@@ -161,7 +161,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
     //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
     //Este codigo detecta y arma una lista de zVars encontradas
-    debugger;
+
     var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
 
     if (zVarsFound.includes("FechaDesde")) {

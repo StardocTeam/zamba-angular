@@ -131,7 +131,7 @@ export class ReportComponentComponent {
     this.GetReports();
     this.adjustHeight();
     this.cdr.detectChanges();
-    debugger;
+
     this.getViewLastReport();
 
   }
@@ -155,7 +155,7 @@ export class ReportComponentComponent {
       })
     ).subscribe((data: ReportViewState) => {
 
-      debugger;
+
       if (data && data.LastReportIdView && data.LastReportIdView != 0) {
         if (data.ReportViewMode === 'Chart') {
           this.viewCharts(data.LastReportIdView);
