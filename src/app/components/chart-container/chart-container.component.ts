@@ -47,13 +47,12 @@ export class ChartContainerComponent {
   // Estado para deshabilitar botones hasta que termine la carga (igual que en report-viewer)
   isButtonExcelDisabled: boolean = true;
   isLoading: boolean = false;
-
   /**
    *
    */
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private CService: ChartService, private modal: NzModalService, private route: ActivatedRoute, private RViewService: ReportViewerService,
-    private router: Router) {
+    private router: Router, private RVService: ReportViewerService) {
 
   }
 
@@ -168,6 +167,21 @@ export class ChartContainerComponent {
                     this.chartList = JSON.parse(data);
                     this.isButtonExcelDisabled = false;
                     this.isLoading = false;
+
+                    const tokenData = this.tokenService.get();
+
+                    if (tokenData != null) {
+                      var genericRequestToSaveView = {
+                        UserId: tokenData['userid'],
+                        token: tokenData['token'],
+                        Params: {
+                          ReportId: this.currentReport.ID,
+                          ViewMode: "Chart"
+                        }
+                      };
+
+                      this.RVService.SaveLastReportViewed(genericRequestToSaveView).subscribe();
+                    }
                   }
                 }, error => {
                   this.isButtonExcelDisabled = false;

@@ -8,6 +8,11 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class ReportService {
+  GetLastReportViewed(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetLastReportViewed`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
 
   constructor(private http: _HttpClient) { }
 

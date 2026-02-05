@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { GridService } from 'src/app/services/Grid/grid.service';
+import { ReportViewStateDto as ReportViewState } from './entitie/ReportViewState';
 
 export interface TreeNode {
   name: string;
@@ -55,7 +56,7 @@ export class ReportComponentComponent {
   private initialized = false;
 
 
-
+  //#region ngOnInit  
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
       if (params && params.keys.length > 0) {
@@ -92,9 +93,9 @@ export class ReportComponentComponent {
       }
     });
   }
+  //#endregion
 
-
-
+  //#region ngAfterViewInit
   ngAfterViewInit() {
 
     const childComponent = this.outlet.component as { createTerminated?: any };
@@ -109,7 +110,9 @@ export class ReportComponentComponent {
       console.log('Evento - NO - recibido del hijo:');
     }
   }
+  //#endregion
 
+  //TODO: Revisar este metodo, posiblemente se retire con el arreglo del ticket 1449
   onChildActivate(componentRef: any) {
 
     if (componentRef && componentRef.createTerminated) {
@@ -128,8 +131,42 @@ export class ReportComponentComponent {
     this.GetReports();
     this.adjustHeight();
     this.cdr.detectChanges();
+    debugger;
+    this.getViewLastReport();
+
   }
 
+
+  private getViewLastReport() {
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        token: tokenData['token']
+      };
+    }
+
+    this.RService.GetLastReportViewed(genericRequest).pipe(
+      catchError(error => {
+        console.error('Error al obtener datos:', error);
+        throw error;
+      })
+    ).subscribe((data: ReportViewState) => {
+
+      debugger;
+      if (data && data.LastReportIdView && data.LastReportIdView != 0) {
+        if (data.ReportViewMode === 'Chart') {
+          this.viewCharts(data.LastReportIdView);
+        } else if (data.ReportViewMode === 'ResultsGrid') {
+          this.navigateToView(data.LastReportIdView);
+        }
+
+      }
+
+    });
+  }
 
   //#region Bussines Functions
   private GetPermissions() {

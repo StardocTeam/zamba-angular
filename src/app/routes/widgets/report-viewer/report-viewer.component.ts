@@ -357,7 +357,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       this.isButtonExcelDisabled = false;
       var ObjectData = JSON.parse(data);
 
-
       if (ObjectData && ObjectData.ListColumns.length > 0 && ObjectData.RowHashtable.length > 0) {
         this.cdr.detectChanges();
 
@@ -424,10 +423,24 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         });
       }
 
-
       this.isLoading = false;
-
       this.cdr.detectChanges();
+
+      const tokenData = this.tokenService.get();
+
+      if (tokenData != null) {
+        var genericRequestToSaveView = {
+          UserId: tokenData['userid'],
+          token: tokenData['token'],
+          Params: {
+            ReportId: this.currentReport.ID,
+            ViewMode: "ResultsGrid"
+          }
+        };
+
+        this.RVService.SaveLastReportViewed(genericRequestToSaveView).subscribe();
+      }
+
       //return;
     } else if (typeof (JSON.parse(data)) == "string") {
       this.isButtonExcelDisabled = true;
