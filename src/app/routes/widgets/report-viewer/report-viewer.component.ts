@@ -357,7 +357,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       this.isButtonExcelDisabled = false;
       var ObjectData = JSON.parse(data);
 
-      if (ObjectData && ObjectData.ListColumns.length > 0 && ObjectData.RowHashtable.length > 0) {
+      if (ObjectData.RowHashtable && ObjectData.ListColumns.length > 0) {
         this.cdr.detectChanges();
 
         ObjectData.ListColumns.forEach((element: any) => {
