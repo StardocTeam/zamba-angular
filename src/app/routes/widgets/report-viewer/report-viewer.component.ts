@@ -392,8 +392,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           var newColumn = {
             name: element.ColumnName,
             sortOrder: null,
-            sortFn: null,
-            sortDirections: [null],
+            sortFn: this.getSortFn(element.ColumnName),
+            sortDirections: this.getSortDirection(element.ColumnName),
             filterMultiple: false,
             listOfFilter: [],
             filterFn: null,
@@ -459,7 +459,39 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       this.cdr.detectChanges();
     }
   }
+  private getSortFn(ColumnName: any) {
+    if (ColumnName == "Task_Id" || ColumnName == "Taskid") {
+      return (a: any, b: any) => {
+        const valA = a[ColumnName];
+        const valB = b[ColumnName];
 
+        // Si ambos son números, compara como números
+        if (!isNaN(valA) && !isNaN(valB) && valA !== null && valB !== null && valA !== '' && valB !== '') {
+          return Number(valA) - Number(valB);
+        }
+
+        // Si ambos son fechas válidas
+        if (!isNaN(Date.parse(valA)) && !isNaN(Date.parse(valB))) {
+          return new Date(valA).getTime() - new Date(valB).getTime();
+        }
+
+        // Si ambos son strings, compara como strings
+        return String(valA ?? '').localeCompare(String(valB ?? ''));
+      }
+    } else {
+      return null;
+    }
+  }
+
+
+  private getSortDirection(ColumnName: any) {
+
+    if (ColumnName == "Task_Id" || ColumnName == "Taskid") {
+      return ['ascend', 'descend', null];
+    }
+
+    return [null];
+  }
 
   exportToExcel(report: Report): void {
     this.isButtonExcelDisabled = true;
