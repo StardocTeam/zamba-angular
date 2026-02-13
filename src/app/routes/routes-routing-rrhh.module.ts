@@ -135,6 +135,7 @@ const routes: Routes = [
       {
         path: 'permisos',
         component: PermissionsUserGroupComponent,
+        data: { title: 'Gestión de grupos y usuarios' },
       }
     ]
   },
