@@ -47,27 +47,33 @@ export class ChartComponent {
   }
 
   ngOnInit() {
-    this.ReportData;
+
+    const attributes = this.AttrSelected.split(',');
+    const XAttribute = attributes[0];
+    const YAttribute = attributes.length > 1 ? attributes[1] : undefined;
+    const ZAttribute = attributes.length > 2 ? attributes[2] : undefined;
+    const labelAttribute = attributes.length > 3 ? attributes[3] : undefined;
+    const aggretationType = attributes.length > 4 ? attributes[4] : 'count';
 
     switch (this.chartType) {
       case "Bars":
-        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, this.AttrSelected));
+        this.ListValues = this.setData(this.getDistinctValues(this.ReportData.RowHashtable, aggretationType, XAttribute, YAttribute));
         this.dataIsEmpty = false;
         break;
       case "Bars-timeLine": // Tipo timeLine
-        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        this.ListValues = this.setData(this.getDistinctValues(this.ReportData.RowHashtable, aggretationType, XAttribute, YAttribute));
         break;
       case "Cake": // Tipo Count
-        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        this.ListValues = this.setData(this.getDistinctValues(this.ReportData.RowHashtable, aggretationType, XAttribute, YAttribute));
         break;
       case "MiniArea(TimeLine B)": // Tipo timeLine
-        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        this.ListValues = this.setData(this.getDistinctValues(this.ReportData.RowHashtable, aggretationType, XAttribute, YAttribute));
         break;
       case "MiniArea(TimeLine A, el posta)": // Tipo timeLine con mas lineas (iteraciones de columnas)
-        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        this.ListValues = this.setData(this.getDistinctValues(this.ReportData.RowHashtable, aggretationType, XAttribute, YAttribute));
         break;
       default:
-        this.ListValues = this.setData(this.getDistinctCount(this.ReportData.RowHashtable, "Category"));
+        this.ListValues = this.setData(this.getDistinctValues(this.ReportData.RowHashtable, aggretationType, XAttribute, YAttribute));
         break;
     }
   }
@@ -208,10 +214,33 @@ export class ChartComponent {
       y: value
     }));
   }
+
+  getDistinctValues(data: any[], aggregationType: string, XField: string, YField?: string): Array<{ x: string, y: number }> {
+    const results: { [key: string]: number } = {};
+
+    data.forEach(obj => {
+      const XValue = obj[XField];
+      const YValue = YField ? obj[YField] : undefined;
+      if (XValue !== undefined && XValue !== null && YValue !== undefined && YValue !== null) {
+        const key = `${XValue}`;
+        if (aggregationType === 'count') {
+          results[key] = (results[key] || 0) + 1;
+        } else if (aggregationType === 'sum') {
+          results[key] = (results[key] || 0) + YValue;
+        }
+      }
+    });
+
+    return Object.entries(results).map(([key, value]) => ({
+      x: key,
+      y: value
+    }));
+  }
+
   //#endregion
 
 
-  //#region Visualización 
+  //#region Visualización
   handleClick(data: G2BarClickItem): void {
     this.msg.info(`${data.item.x} - ${data.item.y}`);
   }
