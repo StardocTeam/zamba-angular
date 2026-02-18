@@ -30,26 +30,44 @@
                     <!-- Card: Información General -->
                     <nz-card [nzBordered]="false" class="user-data-card" [nzTitle]="'Información General'">
                         <!-- Read-Only View -->
-                        <div *ngIf="!isEditing">
-                            <nz-descriptions [nzColumn]="2" nzSize="small" nzBordered>
-                                <nz-descriptions-item nzTitle="Usuario">{{ userForm.get('username')?.value
-                                    }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="ID">{{ userForm.get('id')?.value
-                                    }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Nombre">{{ userForm.get('firstName')?.value
-                                    }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Apellido">{{ userForm.get('lastName')?.value
-                                    }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Teléfono">{{ userForm.get('phone')?.value
-                                    }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Puesto">{{ userForm.get('position')?.value
-                                    }}</nz-descriptions-item>
-                                <nz-descriptions-item nzTitle="Bloqueado" [nzSpan]="2">
-                                    <nz-tag [nzColor]="userForm.get('blocked')?.value ? 'error' : 'success'">
-                                        {{ userForm.get('blocked')?.value ? 'Sí' : 'No' }}
-                                    </nz-tag>
-                                </nz-descriptions-item>
-                            </nz-descriptions>
+                        <div *ngIf="!isEditing" style="padding: 0 12px;">
+                            <div nz-row [nzGutter]="[16, 12]"> <!-- Vertical gutter for spacing between rows -->
+                                <div nz-col [nzSpan]="12">
+                                    <div class="field-label">Usuario</div>
+                                    <div class="field-value">{{ userForm.get('username')?.value || '-' }}</div>
+                                </div>
+                                <div nz-col [nzSpan]="12">
+                                    <div class="field-label">ID</div>
+                                    <div class="field-value">{{ userForm.get('id')?.value || '-' }}</div>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <div class="field-label">Nombre</div>
+                                    <div class="field-value">{{ userForm.get('firstName')?.value || '-' }}</div>
+                                </div>
+                                <div nz-col [nzSpan]="12">
+                                    <div class="field-label">Apellido</div>
+                                    <div class="field-value">{{ userForm.get('lastName')?.value || '-' }}</div>
+                                </div>
+
+                                <div nz-col [nzSpan]="12">
+                                    <div class="field-label">Teléfono</div>
+                                    <div class="field-value">{{ userForm.get('phone')?.value || '-' }}</div>
+                                </div>
+                                <div nz-col [nzSpan]="12">
+                                    <div class="field-label">Puesto</div>
+                                    <div class="field-value">{{ userForm.get('position')?.value || '-' }}</div>
+                                </div>
+
+                                <div nz-col [nzSpan]="24">
+                                    <div class="field-label">Estado</div>
+                                    <div class="field-value">
+                                        <nz-tag [nzColor]="userForm.get('blocked')?.value ? 'error' : 'success'">
+                                            {{ userForm.get('blocked')?.value ? 'Bloqueado' : 'Activo' }}
+                                        </nz-tag>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Edit View -->

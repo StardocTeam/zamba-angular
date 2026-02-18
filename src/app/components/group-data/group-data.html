@@ -6,8 +6,8 @@
         [nzExtra]="extraAction">
         <div class="card-header">
             <div>
-                <h3 nz-typography nzCopyable [nzContent]="name" [nzCopyTooltips]="['Copiar', 'Copiado']"
-                    style="font-weight: 600; color: rgba(0, 0, 0, 0.85);"></h3>
+                <span nz-typography nzCopyable [nzContent]="name" [nzCopyTooltips]="['Copiar', 'Copiado']"></span>
+                <br>
                 <span nz-typography nzType="secondary">ID: <span nz-typography nzCopyable [nzContent]="groupId + ''"
                         [nzCopyTooltips]="['Copiar', 'Copiado']" style="color: rgba(0, 0, 0, 0.45);"></span></span>
             </div>
@@ -40,7 +40,7 @@
 
         <div style="text-align: right; border-top: 1px solid #f0f0f0; padding-top: 16px;">
             <button nz-button nzType="default" (click)="toggleEdit()" style="margin-right: 8px;">Cancelar</button>
-            <button nz-button nzType="primary" (click)="saveChanges()">Confirmar</button>
+            <button nz-button nzType="primary" (click)="saveChanges()">Guardar</button>
         </div>
     </nz-card>
 

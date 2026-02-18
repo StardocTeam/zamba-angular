@@ -12,6 +12,18 @@
 			"isBackground": false,
 			"problemMatcher": [],
 			"group": "none"
+		},
+		{
+			"label": "append_to_css_user_data",
+			"type": "shell",
+			"command": "echo",
+			"args": [
+				"g:\\StardocRRHH\\zamba-angular\\src\\app\\components\\user-data\\user-data.css",
+				"\n/* New styles for read-only user data view */\n.field-label {\n    font-size: 12px;\n    color: rgba(0, 0, 0, 0.45);\n    margin-bottom: 2px; /* Close to the value */\n    font-weight: 500;\n    text-transform: uppercase; /* Optional: distinct look for label */\n    letter-spacing: 0.5px;\n}\n\n.field-value {\n    font-size: 14px;\n    color: rgba(0, 0, 0, 0.85);\n    word-wrap: break-word;\n    white-space: pre-wrap;\n    line-height: 1.5;\n    padding-bottom: 8px; /* Spacing for the next row if needed, mainly handled by gutter though */\n    min-height: 22px; /* Ensure empty fields take up space or align correctly */\n}\n"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "none"
 		}
 	]
 }
