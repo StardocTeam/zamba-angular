@@ -1,6 +1,6 @@
 <div class="firstDiv" [style.height.px]="height">
     <nz-layout>
-        <nz-sider [nzWidth]="260">
+        <nz-sider [nzWidth]="290">
             <div class="search-anchor" nz-row [nzGutter]="4">
 
                 <div nz-col nzXs="20" nzFlex="auto">
@@ -28,8 +28,11 @@
 
             <div *ngIf="!isLoading">
                 <ul class="ulContainer-menu" nz-menu nzMode="inline">
-                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzTitle="{{itemTree.name}}" nzOpen
+                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzOpen
                         nzIcon="file">
+                        <ng-template #titleTpl>
+                            <b class="boldMenuTittle">{{ itemTree.name }}</b>
+                        </ng-template>
 
                         <ul class="ulContainer-menu" nz-menu nzMode="inline">
 
