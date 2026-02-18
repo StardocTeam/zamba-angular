@@ -1,6 +1,6 @@
 <div class="firstDiv" [style.height.px]="height">
     <nz-layout>
-        <nz-sider [nzWidth]="260">
+        <nz-sider [nzWidth]="290">
             <div class="search-anchor" nz-row [nzGutter]="4">
 
                 <div nz-col nzXs="20" nzFlex="auto">
@@ -28,24 +28,31 @@
 
             <div *ngIf="!isLoading">
                 <ul class="ulContainer-menu" nz-menu nzMode="inline">
-                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu nzTitle="{{itemTree.name}}" nzOpen
+                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzOpen
                         nzIcon="file">
+                        <ng-template #titleTpl>
+                            <b class="boldMenuTittle">{{ itemTree.name }}</b>
+                        </ng-template>
 
                         <ul class="ulContainer-menu" nz-menu nzMode="inline">
 
                             <div *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)">
                                 <div nz-row>
 
-                                    <div nz-col nzSpan="22">
+                                    <div nz-col nzSpan="24">
                                         <li #itemLeaf class="li-line-height move-up " nz-menu-item
                                             routerLinkActive="active"
                                             (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
 
                                             <div nz-row>
                                                 <div nz-col>
-                                                    <span class="ellipsis">{{ itemLeaf.Name }}</span>
+                                                    <span [nzTooltipTitle]="itemLeaf.Name" class="ellipsis BlackColor"
+                                                        nzTooltipPlacement="right" nz-button nz-tooltip>{{ itemLeaf.Name
+                                                        }}</span>
                                                     <br>
-                                                    <span nz-typography nzType="secondary" class="ellipsis">
+                                                    <span [nzTooltipTitle]="itemLeaf.Description" nz-typography
+                                                        nzType="secondary" class="ellipsis" nzTooltipPlacement="right"
+                                                        nz-button nz-tooltip>
                                                         {{itemLeaf.Description}}
                                                     </span>
                                                 </div>
@@ -53,7 +60,7 @@
                                         </li>
                                     </div>
 
-                                    <div nz-col nzSpan="2">
+                                    <!-- <div nz-col nzSpan="2">
                                         <div>
                                             <button class="right-align btnSetting" nz-button nzShape="circle"
                                                 nzSize="small">
@@ -68,9 +75,9 @@
                                                     [nzDisabled]="!UpdatePermission">
                                                     <i nz-icon nzType="edit"></i> Editar
                                                 </li>
-                                                <!-- <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
+                                                <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
                                                     <i nz-icon nzType="arrow-down" nzTheme="outline"></i> Exportar excel
-                                                </li> -->
+                                                </li> 
 
                                                 <li nz-menu-item (click)="viewCharts(itemLeaf.ID)"
                                                     [nzDisabled]="chartsDisabled">
@@ -85,7 +92,7 @@
                                                 </li>
                                             </ul>
                                         </nz-dropdown-menu>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                             </div>
