@@ -60,31 +60,38 @@
             <nz-spin [nzSize]="'large'"></nz-spin>
         </div>
 
-        <nz-table *ngIf="!isLoading" #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
-            [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"
-            [nzShowPagination]="nzShowPagination" [nzShowSizeChanger]="true" [nzScroll]="{y: height }"
-            [nzPageSize]="20">
-            <thead>
-                <tr>
-                    <ng-container *ngFor="let column of listOfColumns;">
-                        <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                            [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
-                            [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
-                            {{ column.name }}
-                        </th>
-                    </ng-container>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let data of filterTable.data;">
+        <div class="table-container">
+            <nz-table *ngIf="!isLoading" #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
+                [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"
+                [nzShowPagination]="nzShowPagination" [nzShowSizeChanger]="true" [nzScroll]="{y: height }"
+                [nzPageSize]="20">
+                <thead>
                     <tr>
-                        <td *ngFor="let key of objectKeys(data)">
-                            {{ data[key] }}
-                        </td>
+                        <ng-container *ngFor="let column of listOfColumns;">
+                            <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                                [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
+                                [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
+                                {{ column.name }}
+                            </th>
+                        </ng-container>
                     </tr>
-                </ng-container>
-            </tbody>
-        </nz-table>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let data of filterTable.data;">
+                        <tr>
+                            <td *ngFor="let key of objectKeys(data)">
+                                {{ data[key] }}
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </nz-table>
+
+            <div *ngIf="listOfData.length > 0" class="table-record-count">
+                {{ listOfData.length }} registros encontrados
+            </div>
+        </div>
+
     </ng-container>
 
     <!-- <ng-container *ngIf="loading">
