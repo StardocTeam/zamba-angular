@@ -14,6 +14,7 @@ export const environment = {
   externalSearchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/ExternalSearch',
   searchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/search',
   zambaWeb: 'http://localhost:44301/Zamba.Web',
+
   cliente: 'zamba',
   api: {
     baseUrl: './',
