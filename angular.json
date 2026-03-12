@@ -30,7 +30,12 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "node_modules/tinymce",
+                "output": "assets/tinymce"
+              }
             ],
             "styles": [
               "src/custom-theme.scss",
@@ -42,6 +47,10 @@
             "allowedCommonJsDependencies": [
               "ajv",
               "ajv-formats",
+              "html-docx-js-typescript",
+              "jszip",
+              "lodash",
+              "mammoth",
               "mockjs",
               "file-saver",
               "extend"
