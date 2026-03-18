@@ -1,15 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
-import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
-import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
-
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, Optional, SimpleChanges } from '@angular/core';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { firstValueFrom } from 'rxjs';
+
+import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
 
 const SELF_HOSTED_ASSET_PATH = 'assets/tinymce';
 const SELF_HOSTED_BASE_URL = resolveTinyMceAssetUrl();
@@ -18,7 +12,8 @@ const LICENSE_KEY = 'gpl';
 const BLANK_DOCUMENT = '<p></p>';
 const DOCX_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
-type IdentifierInputValue = number | string | null | undefined;
+type ElementInputValue = number | string | null | undefined;
+type BooleanLike = boolean | string | null | undefined;
 
 interface MammothMessage {
   message: string;
@@ -28,14 +23,6 @@ interface MammothResult {
   value: string;
   messages: MammothMessage[];
 }
-
-interface TinyMceSettings {
-  readonly: boolean;
-}
-
-const DEFAULT_SETTINGS: TinyMceSettings = {
-  readonly: false
-};
 
 function resolveTinyMceAssetUrl(pathSuffix?: string): string {
   const relativePath = pathSuffix ? `${SELF_HOSTED_ASSET_PATH}/${pathSuffix}` : `${SELF_HOSTED_ASSET_PATH}/`;
@@ -50,34 +37,34 @@ function resolveTinyMceAssetUrl(pathSuffix?: string): string {
 }
 
 @Component({
-  selector: 'app-tinymce-premium-editor',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    EditorModule,
-    NzAlertModule,
-    NzButtonModule,
-    NzCardModule,
-    NzMessageModule,
-    NzSwitchModule
-  ],
+  selector: 'app-tinymce-element',
+  templateUrl: './tinymce-editor.component.html',
+  styleUrls: ['./tinymce-editor.component.less'],
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: SELF_HOSTED_SCRIPT_SRC }],
-  templateUrl: './tinymce-premium-editor.component.html',
-  styleUrls: ['./tinymce-premium-editor.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TinymcePremiumEditorComponent implements OnChanges {
-  @Input() userId?: IdentifierInputValue;
-  @Input() documentId?: IdentifierInputValue;
-  @Input() entityId?: IdentifierInputValue;
+export class TinymceElementComponent implements OnChanges {
+  @Input() userId?: ElementInputValue;
+  @Input() documentId?: ElementInputValue;
+  @Input() entityId?: ElementInputValue;
+  @Input() token?: string | null;
+
+  @Input()
+  set readOnly(value: BooleanLike) {
+    this._readOnly = this.toBoolean(value);
+    this.editorInit = this.buildEditorInit();
+    this.cdr.markForCheck();
+  }
+
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
 
   readonly licenseKey = LICENSE_KEY;
 
-  settings: TinyMceSettings = { ...DEFAULT_SETTINGS };
-  documentTitle = this.buildDefaultDocumentName();
   editorContent = BLANK_DOCUMENT;
   editorInit = this.buildEditorInit();
+  documentName = this.buildDefaultDocumentName();
   loading = false;
   openingLocalDocx = false;
   exporting = false;
@@ -85,70 +72,62 @@ export class TinymcePremiumEditorComponent implements OnChanges {
   statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
   errorMessage = '';
 
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly message = inject(NzMessageService);
-  private readonly zambaService = inject(ZambaService);
+  private _readOnly = false;
+
+  constructor(
+    private readonly cdr: ChangeDetectorRef,
+    @Optional() private readonly zambaService: ZambaService | null,
+    @Optional() @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService | null
+  ) { }
 
   get hasDocumentContext(): boolean {
     return this.resolveDocumentRequest() !== null;
   }
 
-  get isEditable(): boolean {
-    return !this.settings.readonly;
+  get documentIdLabel(): string {
+    return this.normaliseTextInput(this.documentId);
+  }
+
+  get entityIdLabel(): string {
+    return this.normaliseTextInput(this.entityId);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['userId'] || changes['documentId'] || changes['entityId']) {
-      void this.loadDocument();
+    if (changes['userId'] || changes['documentId'] || changes['entityId'] || changes['token']) {
+      void this.loadDocumentFromInputs();
     }
   }
 
-  setEditable(value: boolean): void {
-    this.settings = { readonly: !value };
-    this.editorInit = this.buildEditorInit();
-    this.cdr.markForCheck();
-  }
-
   reload(): void {
-    void this.loadDocument();
+    void this.loadDocumentFromInputs();
   }
 
   createBlankDocument(): void {
     this.editorContent = BLANK_DOCUMENT;
-    this.documentTitle = this.buildDefaultDocumentName();
+    this.documentName = this.buildDefaultDocumentName(this.documentId);
     this.errorMessage = '';
     this.statusMessage = 'Nuevo documento.';
     this.cdr.markForCheck();
   }
 
+  onContentChange(value: string): void {
+    this.editorContent = value;
+
+    if (!this.loading) {
+      this.errorMessage = '';
+      this.statusMessage = this.readOnly
+        ? 'Documento cargado en modo solo lectura.'
+        : 'Cambios locales pendientes de guardar.';
+      this.cdr.markForCheck();
+    }
+  }
+
   downloadHtml(): void {
     const blob = new Blob([this.editorContent], { type: 'text/html;charset=utf-8' });
-    this.downloadBlob(blob, this.ensureExtension(this.documentTitle, 'html'));
+    this.downloadBlob(blob, this.ensureExtension(this.documentName, 'html'));
     this.statusMessage = 'Se descargó el documento como HTML.';
     this.errorMessage = '';
     this.cdr.markForCheck();
-  }
-
-  async downloadDocx(): Promise<void> {
-    this.exporting = true;
-    this.errorMessage = '';
-    this.statusMessage = 'Generando archivo DOCX...';
-    this.cdr.markForCheck();
-
-    try {
-      const blob = await this.convertHtmlToDocx(this.buildHtmlDocument(this.editorContent));
-      this.downloadBlob(blob, this.ensureExtension(this.documentTitle, 'docx'));
-      this.statusMessage = 'Se descargó el documento como DOCX.';
-      this.message.success('Se descargó el documento como DOCX.');
-    } catch (error) {
-      console.error('[tinymce-premium-editor] Error exporting DOCX', error);
-      this.errorMessage = 'No se pudo exportar el documento en formato DOCX.';
-      this.statusMessage = 'Ocurrió un error al exportar el documento.';
-      this.message.error('No se pudo exportar el documento en formato DOCX.');
-    } finally {
-      this.exporting = false;
-      this.cdr.markForCheck();
-    }
   }
 
   async onLocalDocxSelected(event: Event): Promise<void> {
@@ -162,7 +141,6 @@ export class TinymcePremiumEditorComponent implements OnChanges {
     if (!this.isDocxFileName(file.name)) {
       this.errorMessage = 'Selecciona un archivo DOCX valido.';
       this.statusMessage = 'No se abrio el archivo seleccionado.';
-      this.message.warning('Selecciona un archivo DOCX valido.');
       this.resetFileInput(input);
       this.cdr.markForCheck();
       return;
@@ -177,15 +155,13 @@ export class TinymcePremiumEditorComponent implements OnChanges {
       const result = await this.convertDocxToHtml(await file.arrayBuffer());
 
       this.editorContent = this.normaliseLoadedHtml(result.value);
-      this.documentTitle = this.stripExtension(file.name);
-      this.statusMessage = this.hasDocumentContext
-        ? 'Documento DOCX local cargado. Si guardas, se usara el contexto actual de Zamba.'
-        : 'Documento DOCX local cargado desde la PC. Para guardar en Zamba siguen siendo necesarios userId, documentId y entityId.';
+      this.documentName = this.stripExtension(file.name);
+      this.statusMessage = this.buildLocalDocxStatusMessage();
+      this.errorMessage = '';
     } catch (error) {
-      console.error('[tinymce-premium-editor] Error opening local DOCX', error);
+      console.error('[zamba-tinymce-editor] Error opening local DOCX', error);
       this.errorMessage = 'No se pudo abrir el archivo DOCX seleccionado.';
       this.statusMessage = 'Ocurrio un error al procesar el archivo local.';
-      this.message.error('No se pudo abrir el archivo DOCX seleccionado.');
     } finally {
       this.openingLocalDocx = false;
       this.resetFileInput(input);
@@ -193,14 +169,43 @@ export class TinymcePremiumEditorComponent implements OnChanges {
     }
   }
 
+  async downloadDocx(): Promise<void> {
+    this.exporting = true;
+    this.errorMessage = '';
+    this.statusMessage = 'Generando archivo DOCX...';
+    this.cdr.markForCheck();
+
+    try {
+      const blob = await this.convertHtmlToDocx(this.buildHtmlDocument(this.editorContent));
+      this.downloadBlob(blob, this.ensureExtension(this.documentName, 'docx'));
+      this.statusMessage = 'Se descargó el documento como DOCX.';
+    } catch (error) {
+      console.error('[zamba-tinymce-editor] Error exporting DOCX', error);
+      this.errorMessage = 'No se pudo exportar el documento en formato DOCX.';
+      this.statusMessage = 'Ocurrió un error al exportar el documento.';
+    } finally {
+      this.exporting = false;
+      this.cdr.markForCheck();
+    }
+  }
+
   async saveDocument(): Promise<void> {
-    if (this.settings.readonly || this.saving) {
+    if (this.readOnly || this.saving) {
+      return;
+    }
+
+    if (!this.zambaService) {
+      this.errorMessage = 'ZambaService no está disponible en el contexto del elemento.';
+      this.statusMessage = 'No se pudo guardar el documento.';
+      this.cdr.markForCheck();
       return;
     }
 
     const request = this.resolveDocumentRequest();
     if (!request) {
-      this.message.warning('Completa userId, documentId y entityId para guardar el documento.');
+      this.errorMessage = 'Faltan userId, documentId o entityId para guardar el documento.';
+      this.statusMessage = 'Completa los identificadores requeridos e intenta nuevamente.';
+      this.cdr.markForCheck();
       return;
     }
 
@@ -220,27 +225,39 @@ export class TinymcePremiumEditorComponent implements OnChanges {
         })
       );
 
-      this.statusMessage = 'El documento se guardó correctamente en Zamba.';
-      this.message.success('El documento se guardó correctamente en Zamba.');
+      this.statusMessage = 'Documento guardado correctamente en Zamba.';
+      this.errorMessage = '';
     } catch (error) {
-      console.error('[tinymce-premium-editor] Error saving document', error);
+      console.error('[zamba-tinymce-editor] Error saving document', error);
       this.errorMessage = 'No se pudo guardar el documento en Zamba.';
       this.statusMessage = 'Ocurrió un error durante el guardado.';
-      this.message.error('No se pudo guardar el documento en Zamba.');
     } finally {
       this.saving = false;
       this.cdr.markForCheck();
     }
   }
 
-  private async loadDocument(): Promise<void> {
+  private async loadDocumentFromInputs(): Promise<void> {
     const request = this.resolveDocumentRequest();
 
     if (!request) {
       this.editorContent = BLANK_DOCUMENT;
-      this.documentTitle = this.buildDefaultDocumentName();
+      this.documentName = this.buildDefaultDocumentName(this.documentId);
       this.errorMessage = '';
       this.statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
+      this.cdr.markForCheck();
+      return;
+    }
+
+    if (this.token && this.tokenService) {
+      this.tokenService.set({ token: this.token });
+    }
+
+    if (!this.zambaService) {
+      this.editorContent = BLANK_DOCUMENT;
+      this.documentName = this.buildDefaultDocumentName(request.documentId);
+      this.errorMessage = 'ZambaService no está disponible en el contexto del elemento.';
+      this.statusMessage = 'Se dejó un documento en blanco porque no fue posible acceder a ZambaService.';
       this.cdr.markForCheck();
       return;
     }
@@ -255,15 +272,15 @@ export class TinymcePremiumEditorComponent implements OnChanges {
       const editorDocument = await this.mapPayloadToEditorDocument(documentPayload, request.documentId);
 
       this.editorContent = editorDocument.html;
-      this.documentTitle = editorDocument.fileName;
+      this.documentName = editorDocument.fileName;
       this.statusMessage = 'Documento cargado correctamente.';
+      this.errorMessage = '';
     } catch (error) {
-      console.error('[tinymce-premium-editor] Error loading document', error);
-      this.editorContent = BLANK_DOCUMENT;
-      this.documentTitle = this.buildDefaultDocumentName(request.documentId);
+      console.error('[zamba-tinymce-editor] Error loading document', error);
       this.errorMessage = 'No se pudo cargar el documento solicitado.';
       this.statusMessage = 'Se dejó un documento en blanco para continuar editando.';
-      this.message.error('No se pudo cargar el documento solicitado.');
+      this.editorContent = BLANK_DOCUMENT;
+      this.documentName = this.buildDefaultDocumentName(request.documentId);
     } finally {
       this.loading = false;
       this.editorInit = this.buildEditorInit();
@@ -344,48 +361,47 @@ export class TinymcePremiumEditorComponent implements OnChanges {
   }
 
   private buildEditorInit(): Record<string, unknown> {
-    const plugins = [
-      'advlist',
-      'anchor',
-      'autolink',
-      'charmap',
-      'code',
-      'fullscreen',
-      'help',
-      'image',
-      'link',
-      'lists',
-      'media',
-      'preview',
-      'searchreplace',
-      'table',
-      'visualblocks',
-      'wordcount'
-    ];
-
     return {
       base_url: SELF_HOSTED_BASE_URL,
       branding: false,
       content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; }',
-      height: 720,
+      height: 640,
       menubar: 'file edit view insert format tools table help',
       promotion: false,
-      plugins,
+      plugins: [
+        'advlist',
+        'anchor',
+        'autolink',
+        'charmap',
+        'code',
+        'fullscreen',
+        'help',
+        'image',
+        'link',
+        'lists',
+        'media',
+        'preview',
+        'searchreplace',
+        'table',
+        'visualblocks',
+        'wordcount'
+      ],
       quickbars_selection_toolbar: 'bold italic underline | blocks | quicklink blockquote',
-      readonly: this.settings.readonly,
+      readonly: this.readOnly,
       skin: 'oxide',
       suffix: '.min',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
+      toolbar:
+        'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
       toolbar_sticky: true
     };
   }
 
-  private buildDefaultDocumentName(documentId: IdentifierInputValue = this.documentId): string {
+  private buildDefaultDocumentName(documentId?: ElementInputValue): string {
     const normalizedDocumentId = this.normaliseTextInput(documentId);
     return normalizedDocumentId ? `documento-${normalizedDocumentId}` : 'documento';
   }
 
-  private normaliseTextInput(value: IdentifierInputValue): string {
+  private normaliseTextInput(value: ElementInputValue): string {
     if (typeof value === 'string') {
       return value.trim();
     }
@@ -395,6 +411,22 @@ export class TinymcePremiumEditorComponent implements OnChanges {
     }
 
     return '';
+  }
+
+  private toBoolean(value: BooleanLike): boolean {
+    if (typeof value === 'string') {
+      const normalizedValue = value.trim().toLowerCase();
+
+      if (!normalizedValue || normalizedValue === 'true' || normalizedValue === '1' || normalizedValue === 'readonly') {
+        return true;
+      }
+
+      if (normalizedValue === 'false' || normalizedValue === '0' || normalizedValue === 'null' || normalizedValue === 'undefined') {
+        return false;
+      }
+    }
+
+    return Boolean(value);
   }
 
   private stripExtension(value: string): string {
@@ -419,6 +451,16 @@ export class TinymcePremiumEditorComponent implements OnChanges {
 
   private removeBase64Prefix(value: string): string {
     return value.replace(/^data:[^;]+;base64,/i, '').trim();
+  }
+
+  private buildLocalDocxStatusMessage(): string {
+    if (this.readOnly) {
+      return 'Documento DOCX local cargado en modo solo lectura.';
+    }
+
+    return this.hasDocumentContext
+      ? 'Documento DOCX local cargado. Si guardas, se usara el contexto actual de Zamba.'
+      : 'Documento DOCX local cargado desde la PC. Para guardar en Zamba siguen siendo necesarios userId, documentId y entityId.';
   }
 
   private resetFileInput(input: HTMLInputElement | null): void {
@@ -463,48 +505,48 @@ export class TinymcePremiumEditorComponent implements OnChanges {
   private buildHtmlDocument(body: string): string {
     return `<!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <title>${this.escapeHtml(this.documentTitle || 'documento')}</title>
-        <style>
-            body {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 12pt;
-                line-height: 1.6;
-                color: #1f1f1f;
-            }
-            h1, h2, h3 {
-                color: #141414;
-                margin-bottom: 0.6em;
-            }
-            p {
-                margin: 0 0 0.75em;
-            }
-            ul, ol {
-                margin: 0 0 0.75em 1.5em;
-            }
-            blockquote {
-                margin: 0.75em 0;
-                padding-left: 1em;
-                border-left: 4px solid #d9d9d9;
-                color: #595959;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            td, th {
-                border: 1px solid #d9d9d9;
-                padding: 8px;
-            }
-            img {
-                max-width: 100%;
-            }
-        </style>
-    </head>
-    <body>
-        ${body}
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>${this.escapeHtml(this.documentName || 'documento')}</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+        line-height: 1.6;
+        color: #1f1f1f;
+      }
+      h1, h2, h3 {
+        color: #141414;
+        margin-bottom: 0.6em;
+      }
+      p {
+        margin: 0 0 0.75em;
+      }
+      ul, ol {
+        margin: 0 0 0.75em 1.5em;
+      }
+      blockquote {
+        margin: 0.75em 0;
+        padding-left: 1em;
+        border-left: 4px solid #d9d9d9;
+        color: #595959;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td, th {
+        border: 1px solid #d9d9d9;
+        padding: 8px;
+      }
+      img {
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    ${body}
+  </body>
 </html>`;
   }
 
