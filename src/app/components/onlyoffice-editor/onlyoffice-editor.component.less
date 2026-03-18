@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+
+.editor-page {
+  padding: 24px;
+}
+
+.intro {
+  margin-bottom: 16px;
+}
+
+.intro p {
+  margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+.switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.switch-item {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.status-grid p,
+.status-grid pre {
+  margin: 8px 0 0;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  color: rgba(0, 0, 0, 0.75);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.editor-host {
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+}
+
+.editor-host document-editor {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .editor-page {
+    padding: 12px;
+  }
+}

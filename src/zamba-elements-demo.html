@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Checklist Web Component Demo</title>
+  <title>Zamba Elements Demo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
@@ -21,18 +21,44 @@
       padding: 16px;
       margin-bottom: 16px;
     }
+
+    .link-button {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #0f766e;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .link-button:hover {
+      background: #115e59;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h1>Checklist Web Component Demo</h1>
+    <h1>Zamba Elements Demo</h1>
 
     <div class="card">
-      <p>Note: this demo expects the element bundle files to be served from <code>./dist/checklist-element/</code>
+      <p>Note: this demo expects the element bundle files to be served from <code>./dist/elements/</code>
         alongside this page (runtime.js, polyfills.js, main.js).</p>
       <p>If you built with `--output-hashing=none`, the filenames will be stable. Adjust the script src paths below to
         match your build output.</p>
+    </div>
+
+    <div class="card">
+      <h3>Dedicated TinyMCE test page</h3>
+      <p>
+        For a focused TinyMCE-only test harness with controls for <code>userId</code>, <code>documentId</code>,
+        <code>entityId</code>, <code>token</code>, and <code>readOnly</code>, open the dedicated page below.
+      </p>
+      <p>
+        <a class="link-button" href="../tinymce-elements-demo.html" target="_blank" rel="noopener noreferrer">Open
+          TinyMCE test page</a>
+      </p>
     </div>
 
     <div class="card">
@@ -63,11 +89,11 @@
         };
       </script>
 
-      <!-- Load the Angular-generated bundle files for the custom element (development build) -->
-      <script src="../dist/checklist-element-dev/runtime.js"></script>
-      <script src="../dist/checklist-element-dev/polyfills.js"></script>
-      <script src="../dist/checklist-element-dev/vendor.js"></script>
-      <script src="../dist/checklist-element-dev/main.js"></script>
+      <!-- Load the Angular-generated bundle files for the custom elements build -->
+      <script src="../dist/elements/runtime.js"></script>
+      <script src="../dist/elements/polyfills.js"></script>
+      <script src="../dist/elements/vendor.js"></script>
+      <script src="../dist/elements/main.js"></script>
 
       <!-- Insert the custom element into the page -->
       <zamba-checklist id="demoChecklist"></zamba-checklist>
@@ -113,12 +139,37 @@
 
           });
 
-           if (el && el.refresh$ && typeof el.refresh$.next === 'function') {
+          if (el && el.refresh$ && typeof el.refresh$.next === 'function') {
             el.refresh$.next(undefined);
           }
 
 
         }).catch(err => console.error('Error waiting for zamba-checklist definition', err));
+      </script>
+    </div>
+
+    <div class="card">
+      <h3>TinyMCE editor element</h3>
+      <p>
+        The editor starts with a blank document by default. If you set <code>userId</code>, <code>documentId</code>
+        and <code>entityId</code> (and optionally <code>token</code>) as properties from JavaScript, it will try to load
+        the base64 payload using
+        <code>ZambaService</code>.
+      </p>
+
+      <zamba-tinymce-editor id="demoEditor"></zamba-tinymce-editor>
+
+      <script>
+        customElements.whenDefined('zamba-tinymce-editor').then(() => {
+          const editorEl = document.getElementById('demoEditor');
+          editorEl.readOnly = false;
+
+          // Optional examples:
+          // editorEl.userId = '123';
+          // editorEl.documentId = '456';
+          // editorEl.entityId = '258';
+          // editorEl.token = 'your-jwt-token';
+        }).catch(err => console.error('Error waiting for zamba-tinymce-editor definition', err));
       </script>
     </div>
 

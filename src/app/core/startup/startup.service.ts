@@ -32,17 +32,27 @@ export class StartupService {
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
+    // Try to load runtime config from /config.json (root). If not available, fall back to assets/config.json
+    const config$ = this.httpClient.get('/config.json').pipe(catchError(() => this.httpClient.get('assets/config.json')));
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('assets/tmp/app-data.json', { context: new HttpContext().set(ALLOW_ANONYMOUS, true) })
-    return zip(this.i18n.loadLangData(defaultLang), this.httpClient.get('assets/tmp/app-data.json')).pipe(
-      catchError(res => {
+    return (zip(this.i18n.loadLangData(defaultLang), this.httpClient.get('assets/tmp/app-data.json'), config$) as Observable<[Record<string, string>, NzSafeAny, any]>).pipe(
+      catchError((res: any) => {
         console.warn(`StartupService.load: Network request failed`, res);
         setTimeout(() => this.router.navigateByUrl(`/exception/500`));
-        return [];
+        // Throw error to stop execution on startup failure
+        throw res;
       }),
-      map(([langData, appData]: [Record<string, string>, NzSafeAny]) => {
+      map(([langData, appData, config]: [Record<string, string>, NzSafeAny, any]) => {
         // setting language data
         this.i18n.use(defaultLang, langData);
+
+        // expose runtime config to window.appConfig for other code to use
+        try {
+          (window as any).appConfig = config || {};
+        } catch (e) {
+          console.warn('Unable to set window.appConfig', e);
+        }
 
         //this.settingService.setApp(appData.app);
         //this.settingService.setUser(appData.user);

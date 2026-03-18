@@ -1,0 +1,96 @@
+<div class="editor-page">
+    <nz-card nzTitle="OnlyOffice Docs" [nzBordered]="false">
+        <div class="intro">
+            <p>
+                Esta prueba usa el wrapper oficial de OnlyOffice para Angular. Es la opción más cercana a Word, pero
+                necesita un <strong>Document Server</strong> accesible para funcionar. Por defecto queda preparado para
+                la edición <strong>Community / free</strong>.
+            </p>
+            <div class="tags">
+                <nz-tag nzColor="blue">Edición DOCX nativa</nz-tag>
+                <nz-tag nzColor="green">Default: Community / free</nz-tag>
+                <nz-tag nzColor="gold">Requiere Document Server</nz-tag>
+                <nz-tag nzColor="purple">Guardado real vía callback</nz-tag>
+            </div>
+        </div>
+
+        <nz-alert nzType="info" nzShowIcon nzMessage="Requisitos"
+            nzDescription="El default usa la edición Community/free. Para guardar cambios realmente, configura callbackUrl en tu backend. Sin callbackUrl podrás abrir el documento, pero el guardado no persistirá."></nz-alert>
+
+        <nz-alert nzType="success" nzShowIcon nzMessage="Configuración local lista"
+            nzDescription="Si levantas el Document Server en Docker y el servidor demo local, esta pantalla ya queda lista con los valores por defecto para probar OnlyOffice."></nz-alert>
+
+        <div class="form-grid">
+            <label class="field">
+                <span>URL del Document Server</span>
+                <input nz-input [(ngModel)]="form.documentServerUrl" placeholder="http://tu-document-server/" />
+            </label>
+
+            <label class="field">
+                <span>URL del documento DOCX</span>
+                <input nz-input [(ngModel)]="form.documentUrl" placeholder="https://.../archivo.docx" />
+            </label>
+
+            <label class="field">
+                <span>Callback URL</span>
+                <input nz-input [(ngModel)]="form.callbackUrl"
+                    placeholder="https://tu-backend/api/onlyoffice/callback" />
+            </label>
+
+            <label class="field">
+                <span>Título del documento</span>
+                <input nz-input [(ngModel)]="form.documentTitle" placeholder="archivo.docx" />
+            </label>
+
+            <label class="field">
+                <span>Clave del documento</span>
+                <input nz-input [(ngModel)]="form.documentKey" placeholder="onlyoffice-..." />
+            </label>
+
+            <label class="field">
+                <span>Modo</span>
+                <select nz-input [(ngModel)]="form.mode">
+                    <option value="edit">Edición</option>
+                    <option value="view">Solo lectura</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="switches">
+            <div class="switch-item">
+                <span>Autosave</span>
+                <nz-switch [(ngModel)]="form.autosave"></nz-switch>
+            </div>
+
+            <div class="switch-item">
+                <span>Toolbar compacta</span>
+                <nz-switch [(ngModel)]="form.compactToolbar"></nz-switch>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button nz-button nzType="default" (click)="useCommunityDefaults()">Usar defaults free/community</button>
+            <button nz-button nzType="default" (click)="useSampleDocument()">Usar documento demo</button>
+            <button nz-button nzType="default" (click)="regenerateKey()">Regenerar clave</button>
+            <button nz-button nzType="primary" (click)="initializeEditor()">Cargar OnlyOffice</button>
+        </div>
+
+        <div class="status-grid">
+            <div>
+                <strong>Último evento</strong>
+                <p>{{ lastEvent }}</p>
+            </div>
+            <div *ngIf="lastError">
+                <strong>Último error</strong>
+                <pre>{{ lastError }}</pre>
+            </div>
+        </div>
+
+        <div *ngIf="showEditor && config" class="editor-host">
+            <document-editor id="onlyoffice-doc-editor" [documentServerUrl]="form.documentServerUrl" [config]="config"
+                [type]="'desktop'" [width]="'100%'" [height]="'780px'" [events_onDocumentReady]="onDocumentReady"
+                [events_onDocumentStateChange]="onDocumentStateChange" [events_onError]="onEditorError"
+                [onLoadComponentError]="onLoadComponentError"></document-editor>
+        </div>
+    </nz-card>
+</div>

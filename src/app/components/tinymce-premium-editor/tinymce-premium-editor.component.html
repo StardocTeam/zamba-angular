@@ -1,0 +1,43 @@
+<div class="editor-page">
+  <nz-card [nzTitle]="documentTitle" [nzBordered]="false">
+    <div class="switches">
+      <div class="switch-item">
+        <span>Editar</span>
+        <nz-switch [ngModel]="isEditable" (ngModelChange)="setEditable($event)"></nz-switch>
+      </div>
+    </div>
+
+    <div class="intro" *ngIf="statusMessage || errorMessage">
+      <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage"></nz-alert>
+      <nz-alert *ngIf="errorMessage" nzType="error" nzShowIcon [nzMessage]="errorMessage"></nz-alert>
+    </div>
+
+    <input #localDocxInput hidden type="file"
+      accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      (change)="onLocalDocxSelected($event)" />
+
+    <div class="actions">
+      <button nz-button nzType="default" (click)="reload()"
+        [disabled]="loading || openingLocalDocx || !hasDocumentContext">{{ loading ?
+        'Cargando...' : 'Recargar documento' }}</button>
+      <button nz-button nzType="default" (click)="localDocxInput.click()"
+        [disabled]="loading || saving || exporting || openingLocalDocx">{{
+        openingLocalDocx ? 'Abriendo...' : 'Abrir DOCX local' }}</button>
+      <button nz-button nzType="primary" (click)="createBlankDocument()">Nuevo documento en blanco</button>
+      <button nz-button nzType="primary" (click)="saveDocument()"
+        [disabled]="settings.readonly || saving || exporting || loading || openingLocalDocx || !hasDocumentContext">{{
+        saving ?
+        'Guardando...' : 'Guardar en Zamba' }}</button>
+      <button nz-button nzType="default" (click)="downloadDocx()"
+        [disabled]="loading || saving || exporting || openingLocalDocx">{{ exporting ?
+        'Descargando DOCX...' : 'Descargar DOCX' }}</button>
+      <button nz-button nzType="default" (click)="downloadHtml()"
+        [disabled]="loading || saving || exporting || openingLocalDocx">Descargar HTML</button>
+    </div>
+
+    <div class="editor-host">
+      <editor [licenseKey]="licenseKey" [disabled]="settings.readonly" [init]="editorInit" [(ngModel)]="editorContent">
+      </editor>
+    </div>
+  </nz-card>
+</div>

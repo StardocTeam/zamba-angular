@@ -1,0 +1,87 @@
+:host {
+  display: block;
+}
+
+.editor-page {
+  padding: 24px;
+}
+
+.intro {
+  margin-bottom: 16px;
+}
+
+.intro p {
+  margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+.switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.switch-item {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.editor-host {
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+:host ::ng-deep .ck.ck-editor__editable_inline {
+  min-height: 680px;
+  padding: 0 24px;
+}
+
+:host ::ng-deep .ck.ck-toolbar {
+  border: 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .editor-page {
+    padding: 12px;
+  }
+
+  :host ::ng-deep .ck.ck-editor__editable_inline {
+    min-height: 520px;
+    padding: 0 16px;
+  }
+}

@@ -1,0 +1,104 @@
+:host {
+  display: block;
+}
+
+.editor-page {
+  padding: 24px;
+}
+
+.intro {
+  margin-bottom: 16px;
+}
+
+.intro p {
+  margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  font: inherit;
+  color: rgba(0, 0, 0, 0.88);
+  background: #fff;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: #1677ff;
+  box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.12);
+}
+
+.switches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.switch-item {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.editor-host {
+  border: 1px solid #f0f0f0;
+  border-radius: 12px;
+  overflow: visible;
+  display: block;
+}
+
+:host ::ng-deep .tox.tox-tinymce {
+  border-radius: 12px;
+  overflow: visible;
+}
+
+@media (max-width: 768px) {
+  .editor-page {
+    padding: 12px;
+  }
+}

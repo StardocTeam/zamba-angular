@@ -77,3 +77,34 @@
   border: 0;
   cursor: pointer;
 }
+
+.checklist-collapsed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+
+  .icons-bar {
+    display: flex;
+    gap: 4px;
+  }
+
+  .mini-icon {
+    font-size: 14px;
+    color: #999;
+    
+    &.completed {
+      color: #52c41a;
+    }
+  }
+
+  .expand-button {
+    cursor: pointer;
+    padding: 4px;
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 4px;
+    }
+  }
+}
