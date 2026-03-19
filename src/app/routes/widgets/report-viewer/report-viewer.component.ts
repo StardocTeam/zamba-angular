@@ -18,6 +18,7 @@ import { TaskService } from 'src/app/services/task.service';
 import { Zvars } from './entitie/ZVar';
 import { RuleExecutorComponent } from 'src/app/components/rule-executor/rule-executor.component';
 import { NzSpinComponent } from 'ng-zorro-antd/spin';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-report-viewer',
@@ -56,6 +57,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   private routeSub?: Subscription;
   private refreshSub?: Subscription;
+  private FlagOnClick: boolean = false;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
@@ -142,17 +144,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   //#region Bussines Functions
 
   OpenReport(report: Report) {
-    this.isLoading = true;
+    this.ResetAllVars();
 
-    this.ruleId = 0;
-    this.isButtonExcelDisabled = true;
-    this.listOfColumns = [];
-    this.listOfData = [];
-
-    this.startDateVisible = false;
-    this.endDateVisible = false;
-
-    this.ListZVARsFromRule = [];
     this.currentReport = report;
     this.cdr.detectChanges();
 
@@ -187,6 +180,21 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
       this.GetRuleIdToReport(genericRequest, tokenData);
     }
+  }
+
+  private ResetAllVars() {
+    this.isLoading = true;
+    this.FlagOnClick = false;
+
+    this.ruleId = 0;
+    this.isButtonExcelDisabled = true;
+    this.listOfColumns = [];
+    this.listOfData = [];
+
+    this.startDateVisible = false;
+    this.endDateVisible = false;
+
+    this.ListZVARsFromRule = [];
   }
 
   private GetRuleIdToReport(genericRequest: any, tokenData: any) {
@@ -389,7 +397,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           // Limitar el ancho al máximo permitido
           columnWidth = Math.min(columnWidth, maxWidth);
 
-          var newColumn = {
+          var newColumn: ColumnItem = {
             name: element.ColumnName,
             sortOrder: null,
             sortFn: this.getSortFn(element.ColumnName),
@@ -402,6 +410,12 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
           this.listOfColumns.push(newColumn);
         });
+
+        const SystemColumns = ['DOC_ID', 'ENTITY_ID', 'TASK_ID', 'STEP_ID'];
+
+        this.FlagOnClick = SystemColumns.every(SC =>
+          this.listOfColumns.some(c => c.name === SC)
+        );
 
         ObjectData.RowHashtable.forEach((element: any) => {
           var newRow: any = [];
@@ -619,6 +633,25 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  onRowClick(data: any): void {
+    if (this.FlagOnClick) {
+      var thisDomain = environment['zambaWeb'];
+      const tokenData = this.tokenService.get();
+
+      if (thisDomain && tokenData != null) {
+        const Url = (thisDomain + "/views/WF/TaskViewer.aspx" +
+          "?DocTypeId=" + data['ENTITY_ID'] +
+          "&docid=" + data['DOC_ID'] +
+          "&taskid=" + data['TASK_ID'] +
+          "&wfstepid=" + data['STEP_ID'] +
+          "&user=" + tokenData['user'] +
+          "&t=" + tokenData['token']);
+
+        window.open(Url, '_blank');
+      }
+
+    }
+  }
   //#endregion
 
   //#region Visual Management
@@ -677,4 +710,5 @@ interface ColumnItem {
   filterMultiple: boolean;
   sortDirections: NzTableSortOrder[];
   width: string;
+
 }
