@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, inject, ViewChild, ElementRef } from '@angular/core';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
@@ -72,12 +73,14 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   @Input() documentId?: IdentifierInputValue;
   @Input() entityId?: IdentifierInputValue;
 
+  @ViewChild('localDocxInput') localDocxInput!: ElementRef<HTMLInputElement>;
+
   readonly licenseKey = LICENSE_KEY;
 
   settings: TinyMceSettings = { ...DEFAULT_SETTINGS };
   documentTitle = this.buildDefaultDocumentName();
   editorContent = BLANK_DOCUMENT;
-  editorInit = this.buildEditorInit();
+  editorInit!: Record<string, unknown>;
   loading = false;
   openingLocalDocx = false;
   exporting = false;
@@ -88,6 +91,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly message = inject(NzMessageService);
   private readonly zambaService = inject(ZambaService);
+  private readonly tokenService = inject(DA_SERVICE_TOKEN);
 
   get hasDocumentContext(): boolean {
     return this.resolveDocumentRequest() !== null;
@@ -98,15 +102,29 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    const documentRequest = this.zambaService.getDocument(window.location.href);
-    console.log('ZambaService.getDocument result:', documentRequest);
+    // Inicializamos una sola vez
+    this.editorInit = this.buildEditorInit();
 
-    if (documentRequest) {
-      this.userId = documentRequest.userId;
-      this.documentId = documentRequest.documentId;
-      this.entityId = documentRequest.entityId;
-      void this.loadDocument();
-    }
+    // TEST: Limpiar token para forzar obtención
+    //this.tokenService.clear();
+
+    this.zambaService.ensureAuthToken().subscribe(hasToken => {
+      if (hasToken) {
+        const documentRequest = this.zambaService.getDocument(window.location.href);
+        console.log('ZambaService.getDocument result:', documentRequest);
+
+        if (documentRequest) {
+          this.userId = documentRequest.userId;
+          this.documentId = documentRequest.documentId;
+          this.entityId = documentRequest.entityId;
+          void this.loadDocument();
+        }
+      } else {
+        console.error('No se pudo obtener el token de autenticación.');
+        this.errorMessage = 'No se pudo obtener el token de autenticación.';
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -116,8 +134,13 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   }
 
   setEditable(value: boolean): void {
+    // Si ya estamos en el estado deseado, no hacer nada
+    if (this.settings.readonly === !value) {
+      return;
+    }
+
+    // Solo actualizamos settings, no regeneramos editorInit
     this.settings = { readonly: !value };
-    this.editorInit = this.buildEditorInit();
     this.cdr.markForCheck();
   }
 
@@ -236,12 +259,9 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       );
 
       this.statusMessage = 'El documento se guardó correctamente en Zamba.';
-      this.message.success('El documento se guardó correctamente en Zamba.');
     } catch (error) {
       console.error('[tinymce-premium-editor] Error saving document', error);
-      this.errorMessage = 'No se pudo guardar el documento en Zamba.';
       this.statusMessage = 'Ocurrió un error durante el guardado.';
-      this.message.error('No se pudo guardar el documento en Zamba.');
     } finally {
       this.saving = false;
       this.cdr.markForCheck();
@@ -277,7 +297,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       this.documentTitle = this.buildDefaultDocumentName(request.documentId);
     } finally {
       this.loading = false;
-      this.editorInit = this.buildEditorInit();
+      // No reinicializamos editorInit aqui
       this.statusMessage = '';
       this.cdr.markForCheck();
     }
@@ -389,12 +409,61 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       readonly: this.settings.readonly,
       skin: 'oxide',
       suffix: '.min',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
       toolbar_sticky: true,
       setup: (editor: any) => {
         editor.on('Change KeyUp', () => {
           this.editorContent = editor.getContent();
           this.cdr.markForCheck();
+        });
+
+        editor.ui.registry.addButton('reload_doc', {
+          icon: 'reload',
+          tooltip: 'Recargar documento',
+          onAction: () => this.reload()
+        });
+
+        editor.ui.registry.addButton('open_docx', {
+          icon: 'upload',
+          tooltip: 'Abrir DOCX local',
+          onAction: () => this.localDocxInput?.nativeElement.click()
+        });
+
+        editor.ui.registry.addButton('new_doc', {
+          icon: 'new-document',
+          tooltip: 'Nuevo documento en blanco',
+          onAction: () => this.createBlankDocument()
+        });
+
+        editor.ui.registry.addButton('save_zamba', {
+          icon: 'save',
+          tooltip: 'Guardar en Zamba',
+          onAction: () => this.saveDocument()
+        });
+
+        editor.ui.registry.addButton('download_docx', {
+          icon: 'export',
+          tooltip: 'Descargar DOCX',
+          onAction: () => this.downloadDocx()
+        });
+
+        editor.ui.registry.addToggleButton('toggle_edit', {
+          icon: 'lock',
+          tooltip: 'Bloquear/Desbloquear edición',
+          onAction: (api: any) => {
+            const isCurrentlyLocked = api.isActive();
+            const newLockedState = !isCurrentlyLocked; // Si estaba Locked, ahora Unlocked.
+
+            api.setActive(newLockedState); // Actualizamos estado visual
+            this.setEditable(!newLockedState); // Si newLockedState=TRUE (Locked) -> editable=FALSE
+          },
+          onSetup: (api: any) => {
+            api.setActive(this.settings.readonly);
+            const forceEnable = () => api.setEnabled(true);
+            setTimeout(forceEnable, 0);
+            editor.on('SwitchMode', forceEnable);
+            return () => editor.off('SwitchMode', forceEnable);
+          }
         });
       }
     };

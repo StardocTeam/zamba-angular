@@ -164,6 +164,42 @@ export class ZambaService {
     }
   }
 
+  public ensureAuthToken(): Observable<boolean> {
+    const tokenData = this.tokenService.get();
+    if (tokenData?.token) {
+      return of(true);
+    }
+
+    const urlParams = this.getParametersFromURL(window.location.href);
+    const userId = urlParams['userId'] || urlParams['UserId'] || urlParams['u'] || urlParams['user'];
+
+    if (userId) {
+      return this.httpClient
+        .get(`${environment['restApi']}/auth/GetJwt?userId=${userId}`, { responseType: 'text' })
+        .pipe(
+          map((newToken: string) => {
+            if (newToken) {
+              this.tokenService.set({
+                token: newToken,
+                name: userId,
+                email: '',
+                id: 0,
+                time: +new Date()
+              });
+              return true;
+            }
+            return false;
+          }),
+          catchError(error => {
+            console.error('Error fetching JWT:', error);
+            return of(false);
+          })
+        );
+    }
+
+    return of(false);
+  }
+
   public getDocument(url: string): ZambaDocumentRequest | null {
     const UrlParams = this.getParametersFromURL(url);
     let userid = null;
