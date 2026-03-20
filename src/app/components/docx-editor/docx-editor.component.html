@@ -1,0 +1,76 @@
+<div class="docx-editor-page">
+    <nz-card nzTitle="Editor DOCX" [nzBordered]="false">
+        <p class="description">
+            Carga un archivo Word (.docx), edítalo directamente en el navegador y vuelve a guardarlo como documento
+            DOCX.
+        </p>
+
+        <div class="editor-actions">
+            <input #fileInput class="file-input" type="file" accept=".docx" (change)="onFileSelected($event)" />
+
+            <button nz-button nzType="default" (click)="fileInput.click()" [disabled]="isBusy || isSaving">
+                <span nz-icon nzType="folder-open"></span>
+                Abrir DOCX
+            </button>
+
+            <button nz-button nzType="default" (click)="createNewDocument()" [disabled]="isBusy || isSaving">
+                <span nz-icon nzType="file-add"></span>
+                Nuevo documento
+            </button>
+
+            <button nz-button nzType="primary" (click)="saveDocument()" [disabled]="isBusy || isSaving">
+                <span nz-icon nzType="save"></span>
+                Guardar DOCX
+            </button>
+        </div>
+
+        <div class="name-row">
+            <label class="name-label" for="documentName">Nombre del archivo</label>
+            <input id="documentName" nz-input [(ngModel)]="documentName" [disabled]="isBusy || isSaving"
+                placeholder="documento" />
+        </div>
+
+        <div class="meta-row">
+            <span *ngIf="currentFileName">Archivo cargado: <strong>{{ currentFileName }}</strong></span>
+            <span>Salida: Word (.docx)</span>
+            <span>Usa archivos DOCX de confianza.</span>
+        </div>
+
+        <div *ngIf="conversionMessages.length > 0" class="warning-box">
+            <strong>Advertencias de conversión</strong>
+            <ul>
+                <li *ngFor="let warning of conversionMessages">{{ warning }}</li>
+            </ul>
+        </div>
+
+        <nz-spin [nzSpinning]="isBusy || isSaving" nzTip="Procesando documento...">
+            <div class="toolbar">
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="formatBlock('p')">Párrafo</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="formatBlock('h1')">Título 1</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="formatBlock('h2')">Título 2</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('bold')">Negrita</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('italic')">Cursiva</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('underline')">Subrayado</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('insertUnorderedList')">Lista</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('insertOrderedList')">Numeración</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('removeFormat')">Quitar formato</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('undo')">Deshacer</button>
+                <button nz-button nzSize="small" (mousedown)="onToolbarMouseDown($event)"
+                    (click)="applyCommand('redo')">Rehacer</button>
+            </div>
+
+            <div #editorSurface class="editor-surface" [attr.contenteditable]="isBusy || isSaving ? 'false' : 'true'"
+                spellcheck="true" (input)="onEditorInput()"></div>
+        </nz-spin>
+    </nz-card>
+</div>

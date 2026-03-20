@@ -1,0 +1,56 @@
+<div class="editor-page">
+    <nz-card nzTitle="CKEditor 5" [nzBordered]="false">
+        <div class="intro">
+            <p>
+                Esta prueba usa el componente oficial de Angular y el CDN de CKEditor 5. La configuración actual usa el
+                editor desacoplado para simular una experiencia más cercana a documento completo. Arranca en modo
+                <strong>free/open-source</strong>.
+            </p>
+            <div class="tags">
+                <nz-tag nzColor="green">Default: free / GPL</nz-tag>
+                <nz-tag nzColor="blue">Angular oficial</nz-tag>
+                <nz-tag nzColor="green">Document-like UI</nz-tag>
+                <nz-tag nzColor="purple">Premium por trial o licencia</nz-tag>
+            </div>
+        </div>
+
+        <nz-alert nzType="info" nzShowIcon nzMessage="Licenciamiento"
+            nzDescription="El default ya usa GPL y la versión open source. Si quieres probar funciones premium reales, coloca una trial o licencia comercial y activa el switch de premium."></nz-alert>
+
+        <div class="form-grid">
+            <label class="field">
+                <span>Versión CDN</span>
+                <input nz-input [(ngModel)]="settings.version" placeholder="47.6.0" />
+            </label>
+
+            <label class="field">
+                <span>License key</span>
+                <input nz-input [(ngModel)]="settings.licenseKey" placeholder="GPL o tu license key" />
+            </label>
+        </div>
+
+        <div class="switches">
+            <div class="switch-item">
+                <span>Activar funciones premium</span>
+                <nz-switch [(ngModel)]="settings.enablePremiumFeatures"></nz-switch>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button nz-button nzType="default" (click)="useFreeDefaults()">Usar defaults free</button>
+            <button nz-button nzType="primary" (click)="initializeEditor()">Inicializar editor</button>
+            <button nz-button nzType="default" (click)="restoreSample()">Restaurar demo</button>
+            <button nz-button nzType="default" (click)="downloadHtml()">Descargar HTML</button>
+        </div>
+
+        <nz-spin [nzSpinning]="isLoading" nzTip="Cargando CKEditor 5...">
+            <nz-alert *ngIf="loadError" nzType="error" nzShowIcon nzMessage="No se pudo iniciar CKEditor 5"
+                [nzDescription]="loadError"></nz-alert>
+
+            <div class="editor-host" *ngIf="Editor && editorConfig">
+                <ckeditor [editor]="Editor" [config]="editorConfig" [data]="editorData"
+                    [disableTwoWayDataBinding]="true" (ready)="onReady($event)" (change)="onChange($event)"></ckeditor>
+            </div>
+        </nz-spin>
+    </nz-card>
+</div>

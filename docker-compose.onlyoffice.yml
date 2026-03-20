@@ -1,0 +1,18 @@
+services:
+  onlyoffice-documentserver:
+    image: onlyoffice/documentserver:latest
+    container_name: onlyoffice-documentserver
+    restart: unless-stopped
+    ports:
+      - '8081:80'
+    environment:
+      JWT_ENABLED: 'false'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - onlyoffice_data:/var/www/onlyoffice/Data
+      - onlyoffice_log:/var/log/onlyoffice
+
+volumes:
+  onlyoffice_data:
+  onlyoffice_log:

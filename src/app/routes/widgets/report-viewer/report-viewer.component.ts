@@ -654,6 +654,30 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   }
   //#endregion
 
+  onRowDblClick(row: any): void {
+    if (row && row.TaskId) {
+
+
+
+
+      // Llama a tu servicio para ejecutar el endpoint
+      this.TService.openDocTask(row.TaskId).pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        })
+      )
+        .subscribe((data: any) => {
+          console.log('Respuesta del servicio:', data);
+          if (data && data.url) {
+            window.open(data.url, '_blank');
+          } else {
+            console.error('URL no encontrada en la respuesta del servicio');
+          }
+        });
+    }
+  }
+
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {

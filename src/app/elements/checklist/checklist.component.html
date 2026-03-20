@@ -1,8 +1,19 @@
-<div class="checklist-card" [ngStyle]="cardStyle">
-
+<div class="checklist-card" [ngStyle]="cardStyle" [class.collapsed]="collapsed">
   <ng-container *ngIf="items | async as checklistItems">
+    <!-- Collapsed view -->
+    <div *ngIf="collapsed" class="checklist-collapsed">
+      <div class="icons-bar">
+        <span *ngFor="let it of checklistItems; trackBy: trackById" class="mini-icon" [class.completed]="it.done">
+          <i nz-icon [nzType]="it.done ? 'check' : 'clock-circle'" nzTheme="outline"></i>
+        </span>
+      </div>
+      <span class="expand-button" (click)="collapsed = false">
+        <i nz-icon nzType="down" nzTheme="outline"></i>
+      </span>
+    </div>
 
-    <ul class="checklist" [ngStyle]="listStyle">
+    <!-- Expanded view -->
+    <ul *ngIf="!collapsed" class="checklist" [ngStyle]="listStyle">
       <li *ngFor="let it of checklistItems; trackBy: trackById" class="item" [class.completed]="it.done">
         <div class="left">
           <span class="icon" [ngClass]="{ 'success': it.done, 'pending': !it.done }">

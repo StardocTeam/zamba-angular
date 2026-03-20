@@ -28,6 +28,8 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
    */
   @Input() height: string | number = '260px';
 
+  @Input() collapsed = false;
+
   // Use BehaviorSubject seeded with an empty array so late subscribers (the template async pipe)
   // always receive the most recent value. This fixes the case where the first emission
   // happens before the template subscribes and nothing is rendered.

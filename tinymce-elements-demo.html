@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>TinyMCE Element Test Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base href="./dist/elements/" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        :root {
+            --page-bg: #f5efe4;
+            --ink: #1f1b18;
+            --muted: #6b625b;
+            --card: rgba(255, 251, 245, 0.92);
+            --card-strong: #fffdf9;
+            --line: rgba(80, 58, 39, 0.14);
+            --accent: #0f766e;
+            --accent-strong: #115e59;
+            --accent-soft: rgba(15, 118, 110, 0.12);
+            --warn: #92400e;
+            --warn-soft: rgba(146, 64, 14, 0.12);
+            --danger: #b91c1c;
+            --danger-soft: rgba(185, 28, 28, 0.12);
+            --shadow: 0 22px 60px rgba(65, 45, 29, 0.12);
+            --radius-lg: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Trebuchet MS", "Segoe UI Variable Text", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(15, 118, 110, 0.18), transparent 26%),
+                radial-gradient(circle at right 15%, rgba(194, 120, 3, 0.12), transparent 24%),
+                linear-gradient(180deg, #fbf8f2 0%, var(--page-bg) 100%);
+        }
+
+        .shell {
+            width: min(1440px, calc(100vw - 32px));
+            margin: 24px auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        .hero,
+        .panel,
+        .viewer,
+        .notes {
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background: var(--card);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .hero {
+            padding: 28px 30px;
+            display: grid;
+            gap: 14px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(248, 241, 230, 0.92)),
+                var(--card);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: "Segoe UI Variable Display", "Trebuchet MS", sans-serif;
+            font-size: clamp(2rem, 3vw, 3.2rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+
+        .hero p,
+        .notes p,
+        .notes li,
+        .hint,
+        .status-copy,
+        label,
+        input,
+        textarea,
+        button {
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .hero p,
+        .status-copy,
+        .hint,
+        .notes p,
+        .notes li,
+        .field-help {
+            color: var(--muted);
+        }
+
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .panel {
+            padding: 24px;
+            display: grid;
+            gap: 18px;
+            position: sticky;
+            top: 24px;
+        }
+
+        .panel-head,
+        .viewer-head {
+            display: grid;
+            gap: 6px;
+        }
+
+        h2,
+        h3 {
+            margin: 0;
+            font-family: "Segoe UI Variable Display", "Trebuchet MS", sans-serif;
+            letter-spacing: -0.03em;
+        }
+
+        .field-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        label {
+            display: grid;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(90, 70, 52, 0.18);
+            border-radius: var(--radius-sm);
+            background: var(--card-strong);
+            color: var(--ink);
+            outline: none;
+            transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            border-color: rgba(15, 118, 110, 0.6);
+            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 13px;
+        }
+
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.72);
+            border: 1px solid var(--line);
+        }
+
+        .toggle-row label {
+            gap: 2px;
+        }
+
+        .toggle-row input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--accent);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 16px;
+            background: #ebe4d7;
+            color: var(--ink);
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(55, 39, 26, 0.12);
+            background: #e3dac9;
+        }
+
+        button.primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #f5fffd;
+        }
+
+        button.primary:hover {
+            background: linear-gradient(135deg, #0b8b82, #0f766e);
+        }
+
+        button.ghost {
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent-strong);
+        }
+
+        .status-strip {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .status-card {
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.72);
+            display: grid;
+            gap: 6px;
+        }
+
+        .status-label {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            width: fit-content;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-weight: 700;
+            background: rgba(107, 98, 91, 0.12);
+            color: var(--muted);
+        }
+
+        .status-pill::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.75;
+        }
+
+        .status-pill.ready {
+            background: var(--accent-soft);
+            color: var(--accent-strong);
+        }
+
+        .status-pill.pending {
+            background: var(--warn-soft);
+            color: var(--warn);
+        }
+
+        .status-pill.error {
+            background: var(--danger-soft);
+            color: var(--danger);
+        }
+
+        .viewer {
+            padding: 24px;
+            display: grid;
+            gap: 18px;
+            min-height: 860px;
+        }
+
+        .host-frame {
+            min-height: 720px;
+            border: 1px dashed rgba(56, 44, 32, 0.18);
+            border-radius: 24px;
+            padding: 18px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(247, 242, 234, 0.84));
+            overflow: visible;
+        }
+
+        .empty-state {
+            min-height: 680px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            color: var(--muted);
+            padding: 28px;
+            border-radius: 20px;
+            border: 1px dashed rgba(56, 44, 32, 0.14);
+            background: rgba(255, 255, 255, 0.64);
+        }
+
+        .activity-log {
+            border-radius: 20px;
+            background: #1c1c1c;
+            color: #f6eadb;
+            padding: 16px;
+            min-height: 180px;
+            max-height: 260px;
+            overflow: auto;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .log-line {
+            margin: 0 0 8px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .log-line.warn {
+            color: #ffd08a;
+        }
+
+        .log-line.error {
+            color: #ffb3b3;
+        }
+
+        .notes {
+            padding: 24px;
+        }
+
+        .notes ul {
+            margin: 12px 0 0;
+            padding-left: 20px;
+        }
+
+        code {
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.95em;
+            background: rgba(31, 27, 24, 0.06);
+            padding: 2px 6px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 1120px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+
+            .panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .shell {
+                width: min(100vw - 18px, 1440px);
+                margin: 12px auto 18px;
+            }
+
+            .hero,
+            .panel,
+            .viewer,
+            .notes {
+                border-radius: 20px;
+                padding: 18px;
+            }
+
+            .status-strip,
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .host-frame {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shell">
+        <section class="hero">
+            <div class="eyebrow">TinyMCE Angular Element</div>
+            <h1>Standalone test page for zamba-tinymce-editor</h1>
+            <p>
+                This page loads the custom element bundle from <code>dist/elements</code>, creates a
+                <code>zamba-tinymce-editor</code> instance, and lets you test both local DOCX flows and the
+                Zamba-backed load/save flow with explicit properties.
+            </p>
+            <p class="status-copy">
+                Expected preparation: run <code>npm run build:elements</code> before opening this file. The page now
+                loads the elements bundle automatically.
+            </p>
+        </section>
+
+        <section class="workspace">
+            <aside class="panel">
+                <div class="panel-head">
+                    <h2>Control Panel</h2>
+                    <div class="hint">Use blank mode to test local open/download, or set all IDs to test backend
+                        load/save.</div>
+                </div>
+
+                <div class="status-strip">
+                    <div class="status-card">
+                        <div class="status-label">Bundle</div>
+                        <div id="bundleStatus" class="status-pill pending">Waiting to load</div>
+                        <div class="field-help">Loads <code>runtime.js</code>, <code>polyfills.js</code>,
+                            <code>vendor.js</code>, and <code>main.js</code>.
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-label">Element</div>
+                        <div id="elementStatus" class="status-pill pending">Not created</div>
+                        <div class="field-help">The host creates and recreates the custom element on demand.</div>
+                    </div>
+                </div>
+
+                <div class="field-grid">
+                    <label>
+                        User ID
+                        <input id="userIdInput" type="text" placeholder="Example: 123" />
+                    </label>
+
+                    <label>
+                        Document ID
+                        <input id="documentIdInput" type="text" placeholder="Example: 456" />
+                    </label>
+
+                    <label>
+                        Entity ID
+                        <input id="entityIdInput" type="text" placeholder="Example: 258" />
+                    </label>
+
+                    <label>
+                        Token
+                        <textarea id="tokenInput"
+                            placeholder="Optional. Paste a JWT only when you need to exercise the Zamba endpoints."></textarea>
+                    </label>
+
+                    <div class="toggle-row">
+                        <label for="readOnlyInput">
+                            Read only
+                            <span class="field-help">Maps to the element <code>readOnly</code> input.</span>
+                        </label>
+                        <input id="readOnlyInput" type="checkbox" />
+                    </div>
+                </div>
+
+                <div class="button-grid">
+                    <button id="loadBundleButton" class="primary" type="button">Check bundle status</button>
+                    <button id="createElementButton" type="button">Create editor</button>
+                    <button id="applyPropsButton" class="ghost" type="button">Apply properties</button>
+                    <button id="clearPropsButton" type="button">Clear properties</button>
+                    <button id="samplePropsButton" type="button">Fill sample IDs</button>
+                    <button id="localModeButton" type="button">Prepare local-only mode</button>
+                </div>
+
+                <div class="hint">
+                    After the editor is visible, use its own toolbar buttons to open a local DOCX, download DOCX/HTML,
+                    or save to Zamba.
+                </div>
+            </aside>
+
+            <main class="viewer">
+                <div class="viewer-head">
+                    <h2>Live Element Host</h2>
+                    <div class="hint">The element below is the actual <code>zamba-tinymce-editor</code> custom element
+                        from the elements bundle.</div>
+                </div>
+
+                <div class="host-frame">
+                    <div id="emptyState" class="empty-state">
+                        <div>
+                            <h3>Bundle not loaded yet</h3>
+                            <p>Wait for the bundle to load, then click <strong>Create editor</strong>.</p>
+                        </div>
+                    </div>
+                    <div id="editorHost"></div>
+                </div>
+
+                <div>
+                    <h3>Activity log</h3>
+                    <div id="activityLog" class="activity-log" aria-live="polite"></div>
+                </div>
+            </main>
+        </section>
+
+        <section class="notes">
+            <h2>Suggested test flow</h2>
+            <ul>
+                <li>Run <code>npm run build:elements</code> and then open this page from the repository root.</li>
+                <li>Use <strong>Prepare local-only mode</strong> when you only want to test opening and exporting DOCX
+                    from the PC.</li>
+                <li>Use <strong>Fill sample IDs</strong> as a quick scaffold, then replace them with real values and
+                    optionally a token to exercise the Zamba integration.</li>
+                <li>If you change inputs after the editor exists, click <strong>Apply properties</strong>; if you want a
+                    completely fresh instance, click <strong>Create editor</strong>.</li>
+            </ul>
+        </section>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script src="runtime.js"></script>
+    <script src="polyfills.js"></script>
+    <script src="vendor.js"></script>
+    <script src="main.js"></script>
+    <script src="assets/tinymce/tinymce.min.js"></script>
+
+    <script>
+        (function () {
+            var bundleStatus = document.getElementById('bundleStatus');
+            var elementStatus = document.getElementById('elementStatus');
+            var activityLog = document.getElementById('activityLog');
+            var host = document.getElementById('editorHost');
+            var emptyState = document.getElementById('emptyState');
+
+            var userIdInput = document.getElementById('userIdInput');
+            var documentIdInput = document.getElementById('documentIdInput');
+            var entityIdInput = document.getElementById('entityIdInput');
+            var tokenInput = document.getElementById('tokenInput');
+            var readOnlyInput = document.getElementById('readOnlyInput');
+
+            var loadBundleButton = document.getElementById('loadBundleButton');
+            var createElementButton = document.getElementById('createElementButton');
+            var applyPropsButton = document.getElementById('applyPropsButton');
+            var clearPropsButton = document.getElementById('clearPropsButton');
+            var samplePropsButton = document.getElementById('samplePropsButton');
+            var localModeButton = document.getElementById('localModeButton');
+
+            var bundlesLoaded = false;
+            var bundlePromise = null;
+            var currentEditor = null;
+            var originalConsoleError = console.error;
+            var originalConsoleWarn = console.warn;
+
+            console.error = function () {
+                var args = Array.prototype.slice.call(arguments);
+                log('console.error: ' + args.map(function (value) {
+                    return value instanceof Error ? value.stack || value.message : String(value);
+                }).join(' | '), 'error');
+                originalConsoleError.apply(console, args);
+            };
+
+            console.warn = function () {
+                var args = Array.prototype.slice.call(arguments);
+                log('console.warn: ' + args.map(function (value) {
+                    return value instanceof Error ? value.stack || value.message : String(value);
+                }).join(' | '), 'warn');
+                originalConsoleWarn.apply(console, args);
+            };
+
+            globalThis.addEventListener('error', function (event) {
+                var message = event && event.message ? event.message : 'Unknown browser error';
+                log('Browser error: ' + message, 'error');
+            });
+
+            globalThis.addEventListener('unhandledrejection', function (event) {
+                var reason = event && event.reason ? String(event.reason) : 'Unknown promise rejection';
+                log('Unhandled rejection: ' + reason, 'error');
+            });
+
+            function nowLabel() {
+                var stamp = new Date();
+                return stamp.toLocaleTimeString();
+            }
+
+            function log(message, tone) {
+                var line = document.createElement('div');
+                line.className = 'log-line' + (tone ? ' ' + tone : '');
+                line.textContent = '[' + nowLabel() + '] ' + message;
+                activityLog.prepend(line);
+            }
+
+            function setStatus(target, text, tone) {
+                target.textContent = text;
+                target.className = 'status-pill' + (tone ? ' ' + tone : '');
+            }
+
+            function setButtonState(button, busyText, isBusy) {
+                if (!button.dataset.defaultLabel) {
+                    button.dataset.defaultLabel = button.textContent;
+                }
+
+                button.disabled = isBusy;
+                button.textContent = isBusy ? busyText : button.dataset.defaultLabel;
+            }
+
+            function getPropsFromForm() {
+                return {
+                    userId: userIdInput.value.trim(),
+                    documentId: documentIdInput.value.trim(),
+                    entityId: entityIdInput.value.trim(),
+                    token: tokenInput.value.trim(),
+                    readOnly: readOnlyInput.checked
+                };
+            }
+
+            function describeProps(props) {
+                return 'userId=' + (props.userId || '<empty>') +
+                    ', documentId=' + (props.documentId || '<empty>') +
+                    ', entityId=' + (props.entityId || '<empty>') +
+                    ', token=' + (props.token ? '<provided>' : '<empty>') +
+                    ', readOnly=' + String(props.readOnly);
+            }
+
+            function applyPropsToEditor() {
+                if (!currentEditor) {
+                    log('Create the editor before applying properties.', 'warn');
+                    setStatus(elementStatus, 'No editor instance', 'error');
+                    return;
+                }
+
+                var props = getPropsFromForm();
+
+                currentEditor.userId = props.userId || null;
+                currentEditor.documentId = props.documentId || null;
+                currentEditor.entityId = props.entityId || null;
+                currentEditor.token = props.token || null;
+                currentEditor.readOnly = props.readOnly;
+
+                log('Applied properties to the element: ' + describeProps(props));
+                setStatus(elementStatus, 'Properties applied', 'ready');
+            }
+
+            function createEditorInstance() {
+                if (!bundlesLoaded) {
+                    log('Load the element bundle before creating the editor.', 'warn');
+                    setStatus(bundleStatus, 'Load required first', 'error');
+                    return;
+                }
+
+                if (currentEditor) {
+                    currentEditor.remove();
+                }
+
+                currentEditor = document.createElement('zamba-tinymce-editor');
+                currentEditor.id = 'demoTinymceElement';
+                currentEditor.style.display = 'block';
+                currentEditor.style.width = '100%';
+                currentEditor.style.minHeight = '760px';
+
+                host.replaceChildren(currentEditor);
+                emptyState.style.display = 'none';
+                applyPropsToEditor();
+
+                log('Created a new zamba-tinymce-editor instance.');
+                setStatus(elementStatus, 'Editor ready', 'ready');
+
+                globalThis.setTimeout(function () {
+                    var childCount = currentEditor ? currentEditor.childElementCount : 0;
+                    log('Post-create check: childElementCount=' + childCount + ', tinymceGlobal=' + String(Boolean(globalThis.tinymce)) + '.');
+
+                    if (currentEditor && childCount === 0) {
+                        log('The custom element exists but rendered no child nodes yet. Check console lines above for TinyMCE or Angular runtime errors.', 'warn');
+                    }
+                }, 1200);
+            }
+
+            function ensureBundleLoaded() {
+                if (bundlesLoaded) {
+                    return Promise.resolve();
+                }
+
+                if (bundlePromise) {
+                    return bundlePromise;
+                }
+
+                setStatus(bundleStatus, 'Waiting for bundle...', 'pending');
+                setButtonState(loadBundleButton, 'Checking...', true);
+                log('Waiting for Angular Elements bundle already referenced by the page ...');
+
+                bundlePromise = Promise.resolve()
+                    .then(function () {
+                        return customElements.whenDefined('zamba-tinymce-editor');
+                    })
+                    .then(function () {
+                        bundlesLoaded = true;
+                        setStatus(bundleStatus, 'Bundle loaded', 'ready');
+                        setButtonState(loadBundleButton, 'Checking...', false);
+                        log('The zamba-tinymce-editor custom element is ready. TinyMCE global present=' + String(Boolean(globalThis.tinymce)) + '.');
+                    })
+                    .catch(function (error) {
+                        bundlePromise = null;
+                        setStatus(bundleStatus, 'Bundle load failed', 'error');
+                        setButtonState(loadBundleButton, 'Checking...', false);
+                        log((error && error.message ? error.message : String(error)) + ' Make sure dist/elements exists and was built with npm run build:elements.', 'error');
+                        throw error;
+                    });
+
+                return bundlePromise;
+            }
+
+            function fillSampleProps() {
+                userIdInput.value = '123';
+                documentIdInput.value = '456';
+                entityIdInput.value = '258';
+                readOnlyInput.checked = false;
+                log('Filled sample identifiers. Replace them with real values if you want to hit Zamba.');
+            }
+
+            function clearProps() {
+                userIdInput.value = '';
+                documentIdInput.value = '';
+                entityIdInput.value = '';
+                tokenInput.value = '';
+                readOnlyInput.checked = false;
+
+                if (currentEditor) {
+                    currentEditor.userId = null;
+                    currentEditor.documentId = null;
+                    currentEditor.entityId = null;
+                    currentEditor.token = null;
+                    currentEditor.readOnly = false;
+                }
+
+                log('Cleared all properties. The editor stays in local-only mode until IDs are applied again.');
+                setStatus(elementStatus, currentEditor ? 'Properties cleared' : 'Not created', currentEditor ? 'ready' : 'pending');
+            }
+
+            function prepareLocalMode() {
+                clearProps();
+                log('Local-only mode is ready. Use the element button "Abrir DOCX local" to test files from your PC.');
+            }
+
+            loadBundleButton.addEventListener('click', function () {
+                ensureBundleLoaded().catch(function () {
+                    return undefined;
+                });
+            });
+
+            createElementButton.addEventListener('click', function () {
+                ensureBundleLoaded()
+                    .then(createEditorInstance)
+                    .catch(function () {
+                        return undefined;
+                    });
+            });
+
+            applyPropsButton.addEventListener('click', applyPropsToEditor);
+            clearPropsButton.addEventListener('click', clearProps);
+            samplePropsButton.addEventListener('click', fillSampleProps);
+            localModeButton.addEventListener('click', prepareLocalMode);
+
+            log('Page ready. Waiting for the auto-loaded bundle.');
+            ensureBundleLoaded().catch(function () {
+                return undefined;
+            });
+        })();
+    </script>
+</body>
+
+</html>

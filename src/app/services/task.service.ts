@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { HttpHeaders } from '@angular/common/http';
+import { ALLOW_ANONYMOUS } from '@delon/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,14 @@ export class TaskService {
     } else {
       return "";
     }
+  }
+
+  openDocTask(genericRequest: {}) {
+    return this.http.post(
+      `${environment['restApi']}/Taskservice/openDocTask`,
+      genericRequest,
+      { context: new HttpContext().set(ALLOW_ANONYMOUS, true) }
+    );
   }
 
 }

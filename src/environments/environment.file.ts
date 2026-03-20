@@ -1,19 +1,24 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+
 import * as MOCKDATA from '@_mock';
+
 import { DelonMockModule } from '@delon/mock';
 import { Environment } from '@delon/theme';
+
+// Load runtime config injected at startup (StartupService sets `window.appConfig` from /config.json)
+const runtimeConfig = (window as any).appConfig || {};
+const r = (key: string, def: any) => (runtimeConfig[key] ?? def);
 export const environment = {
   production: false,
   useHash: true,
 
-  restApi: 'http://imageapt/ZambaAngularC.Restapi/api',
-  apiRestBasePath: 'http://imageapt/ZambaAngularC.Restapi/api/Dashboard',
-  charts: 'http://imageapt/ZambaAngularC.Restapi/api/charts',
-  externalSearchApi: 'http://imageapt/ZambaAngularC.Restapi/api/ExternalSearch',
-  searchApi: 'http://imageapt/ZambaAngularC.Restapi/api/search',
-  zambaWeb: 'http://imageapt/ZambaC.web',
+  restApi: r('restApi', 'http://imageapt/Zamba.Api/api'),
+  apiRestBasePath: r('apiRestBasePath', 'http://imageapt/Zamba.Api/api/Dashboard'),
+  externalSearchApi: r('externalSearchApi', 'http://imageapt/Zamba.Api/api/ExternalSearch'),
+  searchApi: r('searchApi', 'http://imageapt/Zamba.Api/api/search'),
+  zambaWeb: r('zambaWeb', 'http://imageapt/Zamba.WebDesa'),
 
   cliente: 'zamba',
   api: {
