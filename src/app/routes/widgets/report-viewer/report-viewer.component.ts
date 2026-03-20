@@ -57,12 +57,25 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   private routeSub?: Subscription;
   private refreshSub?: Subscription;
-  private FlagOnClick: boolean = false;
+  public FlagOnClick: boolean = false;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef, private RVService: ReportViewerService, private route: ActivatedRoute,
     private GService: GridService, private modal: NzModalService, private router: Router, private TService: TaskService) {
   }
+
+
+  ngOnDestroy(): void {
+    try {
+      this.routeSub?.unsubscribe();
+    } catch (e) { /* noop */ }
+    try {
+      this.refreshSub?.unsubscribe();
+    } catch (e) { /* noop */ }
+  }
+
+  //#region Bussines Functions
+
 
   ngOnInit() {
     this.isLoading = true;
@@ -131,17 +144,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  ngOnDestroy(): void {
-    try {
-      this.routeSub?.unsubscribe();
-    } catch (e) { /* noop */ }
-    try {
-      this.refreshSub?.unsubscribe();
-    } catch (e) { /* noop */ }
-  }
-
-  //#region Bussines Functions
 
   OpenReport(report: Report) {
     this.ResetAllVars();
@@ -411,7 +413,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           this.listOfColumns.push(newColumn);
         });
 
-        const SystemColumns = ['DOC_ID', 'ENTITY_ID', 'TASK_ID', 'STEP_ID'];
+        const SystemColumns = ['DOCID', 'ENTITYID', 'TASKID', 'STEPID'];
 
         this.FlagOnClick = SystemColumns.every(SC =>
           this.listOfColumns.some(c => c.name === SC)
@@ -474,7 +476,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     }
   }
   private getSortFn(ColumnName: any) {
-    if (ColumnName == "Task_Id" || ColumnName == "Taskid") {
+    if (ColumnName == "TaskId" || ColumnName == "Taskid") {
       return (a: any, b: any) => {
         const valA = a[ColumnName];
         const valB = b[ColumnName];
@@ -500,7 +502,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   private getSortDirection(ColumnName: any) {
 
-    if (ColumnName == "Task_Id" || ColumnName == "Taskid") {
+    if (ColumnName == "TaskId" || ColumnName == "Taskid") {
       return ['ascend', 'descend', null];
     }
 
@@ -640,10 +642,10 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
       if (thisDomain && tokenData != null) {
         const Url = (thisDomain + "/views/WF/TaskViewer.aspx" +
-          "?DocTypeId=" + data['ENTITY_ID'] +
-          "&docid=" + data['DOC_ID'] +
-          "&taskid=" + data['TASK_ID'] +
-          "&wfstepid=" + data['STEP_ID'] +
+          "?DocTypeId=" + data['ENTITYID'] +
+          "&docid=" + data['DOCID'] +
+          "&taskid=" + data['TASKID'] +
+          "&wfstepid=" + data['STEPID'] +
           "&user=" + tokenData['user'] +
           "&t=" + tokenData['token']);
 
@@ -656,10 +658,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   onRowDblClick(row: any): void {
     if (row && row.TaskId) {
-
-
-
-
       // Llama a tu servicio para ejecutar el endpoint
       this.TService.openDocTask(row.TaskId).pipe(
         catchError(error => {
