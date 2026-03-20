@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
@@ -67,7 +67,7 @@ function resolveTinyMceAssetUrl(pathSuffix?: string): string {
   styleUrls: ['./tinymce-premium-editor.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TinymcePremiumEditorComponent implements OnChanges {
+export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   @Input() userId?: IdentifierInputValue;
   @Input() documentId?: IdentifierInputValue;
   @Input() entityId?: IdentifierInputValue;
@@ -95,6 +95,18 @@ export class TinymcePremiumEditorComponent implements OnChanges {
 
   get isEditable(): boolean {
     return !this.settings.readonly;
+  }
+
+  ngOnInit(): void {
+    const documentRequest = this.zambaService.getDocument(window.location.href);
+    console.log('ZambaService.getDocument result:', documentRequest);
+
+    if (documentRequest) {
+      this.userId = documentRequest.userId;
+      this.documentId = documentRequest.documentId;
+      this.entityId = documentRequest.entityId;
+      void this.loadDocument();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -210,13 +222,16 @@ export class TinymcePremiumEditorComponent implements OnChanges {
     this.cdr.markForCheck();
 
     try {
-      const docxBlob = await this.convertHtmlToDocx(this.buildHtmlDocument(this.editorContent));
+      // Usamos el metodo manual con JSZip y AltChunk
+      const docxBlob = await this.generateDocxWithAltChunk(this.editorContent);
+
       const base64 = await this.blobToBase64(docxBlob);
 
       await firstValueFrom(
         this.zambaService.replaceDocument({
           ...request,
-          base64
+          base64,
+          fileName: this.ensureExtension(this.documentTitle, 'docx')
         })
       );
 
@@ -256,17 +271,14 @@ export class TinymcePremiumEditorComponent implements OnChanges {
 
       this.editorContent = editorDocument.html;
       this.documentTitle = editorDocument.fileName;
-      this.statusMessage = 'Documento cargado correctamente.';
+
     } catch (error) {
-      console.error('[tinymce-premium-editor] Error loading document', error);
       this.editorContent = BLANK_DOCUMENT;
       this.documentTitle = this.buildDefaultDocumentName(request.documentId);
-      this.errorMessage = 'No se pudo cargar el documento solicitado.';
-      this.statusMessage = 'Se dejó un documento en blanco para continuar editando.';
-      this.message.error('No se pudo cargar el documento solicitado.');
     } finally {
       this.loading = false;
       this.editorInit = this.buildEditorInit();
+      this.statusMessage = '';
       this.cdr.markForCheck();
     }
   }
@@ -311,10 +323,12 @@ export class TinymcePremiumEditorComponent implements OnChanges {
   private isDocxPayload(payload: ZambaDocumentPayload, bytes: Uint8Array): boolean {
     const extension = payload.extension?.toLowerCase();
     const mimeType = payload.mimeType?.toLowerCase();
+    const fileName = payload.fileName?.toLowerCase();
 
     return (
       extension === 'docx' ||
       mimeType === DOCX_MIME_TYPE ||
+      fileName?.endsWith('.docx') ||
       (bytes.length >= 4 && bytes[0] === 0x50 && bytes[1] === 0x4b && bytes[2] === 0x03 && bytes[3] === 0x04)
     );
   }
@@ -376,7 +390,13 @@ export class TinymcePremiumEditorComponent implements OnChanges {
       skin: 'oxide',
       suffix: '.min',
       toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
-      toolbar_sticky: true
+      toolbar_sticky: true,
+      setup: (editor: any) => {
+        editor.on('Change KeyUp', () => {
+          this.editorContent = editor.getContent();
+          this.cdr.markForCheck();
+        });
+      }
     };
   }
 
@@ -445,66 +465,127 @@ export class TinymcePremiumEditorComponent implements OnChanges {
       throw new Error('No se pudo inicializar el conversor de DOCX.');
     }
 
-    return convertToHtml(
+    const result = await convertToHtml(
       { arrayBuffer },
       {
         includeDefaultStyleMap: true
       }
     );
+
+    // Si Mammoth detecta altChunk y el resultado está vacío, intentamos extraer manualmente
+    if (!result.value.trim() && result.messages.some(m => m.message.includes('altChunk'))) {
+      const fallbackHtml = await this.extractAltChunkHtml(arrayBuffer);
+      if (fallbackHtml) {
+        return {
+          value: fallbackHtml,
+          messages: result.messages
+        };
+      }
+    }
+
+    return result;
   }
 
+  private async extractAltChunkHtml(arrayBuffer: ArrayBuffer): Promise<string | null> {
+    try {
+      console.log('Iniciando extracción manual de AltChunk con JSZip...');
+      const JSZip = (await import('jszip')).default;
+      const zip = await JSZip.loadAsync(arrayBuffer);
+
+      const files = Object.keys(zip.files);
+      console.log('Archivos encontrados en el DOCX:', files);
+
+      const htmlFiles = files.filter(filename => filename.endsWith('.html') || filename.endsWith('.htm'));
+      console.log('Archivos HTML candidatos:', htmlFiles);
+
+      if (htmlFiles.length === 0) {
+        console.warn('No se encontraron archivos HTML dentro del DOCX.');
+        return null;
+      }
+
+      // Intentar leer el contenido del archivo que parezca ser el chunk principal
+      // Priorizamos nombres comunes de altChunk generados por librerías
+      const contentFile = htmlFiles.find(f => f.includes('htmlChunk') || f.includes('content') || f.includes('document')) || htmlFiles[0];
+
+      console.log('Intentando extraer contenido de:', contentFile);
+      const content = await zip.file(contentFile)?.async('string');
+
+      if (content) {
+        console.log('Contenido extraído (longitud):', content.length);
+        return content;
+      }
+      return null;
+    } catch (e) {
+      console.error('Error crítico al intentar extraer altChunk HTML:', e);
+      return null;
+    }
+  }
+
+  private async generateDocxWithAltChunk(htmlContent: string): Promise<Blob> {
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+
+    // 1. [Content_Types].xml
+    const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Default Extension="html" ContentType="text/html"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`;
+    zip.file('[Content_Types].xml', contentTypes);
+
+    // 2. _rels/.rels
+    const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`;
+    zip.file('_rels/.rels', rels);
+
+    // 3. word/window.xml
+    const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <w:body>
+    <w:altChunk r:id="htmlChunk" />
+  </w:body>
+</w:document>`;
+    zip.folder('word')?.file('document.xml', documentXml);
+
+    // 4. word/_rels/document.xml.rels (Map HTML file)
+    const documentRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="htmlChunk" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk" Target="htmlChunk.html"/>
+</Relationships>`;
+    zip.folder('word')?.folder('_rels')?.file('document.xml.rels', documentRels);
+
+    // 5. word/htmlChunk.html (El contenido real)
+    // Aseguramos una estructura basica de HTML para que Word lo interprete mejor
+    const fullHtml = this.buildHtmlDocument(htmlContent);
+    // IMPORTANTE: Aseguramos UTF-8 y Byte-Order-Mark (BOM) para que Word reconozca caracteres especiales
+    const htmlBlob = new Blob(['\uFEFF', fullHtml], { type: 'text/html;charset=utf-8' });
+    zip.folder('word')?.file('htmlChunk.html', htmlBlob);
+
+    // Generar Blob
+    return await zip.generateAsync({ type: 'blob', mimeType: DOCX_MIME_TYPE });
+  }
+
+  // Se mantiene como fallback o referencia, pero ya no se usa en saveDocument
   private async convertHtmlToDocx(html: string): Promise<Blob> {
     const { asBlob } = await import('html-docx-js-typescript');
     const file = await asBlob(html);
-
     return file instanceof Blob ? file : new Blob([file as BlobPart], { type: DOCX_MIME_TYPE });
   }
 
   private buildHtmlDocument(body: string): string {
     return `<!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <title>${this.escapeHtml(this.documentTitle || 'documento')}</title>
-        <style>
-            body {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: 12pt;
-                line-height: 1.6;
-                color: #1f1f1f;
-            }
-            h1, h2, h3 {
-                color: #141414;
-                margin-bottom: 0.6em;
-            }
-            p {
-                margin: 0 0 0.75em;
-            }
-            ul, ol {
-                margin: 0 0 0.75em 1.5em;
-            }
-            blockquote {
-                margin: 0.75em 0;
-                padding-left: 1em;
-                border-left: 4px solid #d9d9d9;
-                color: #595959;
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            td, th {
-                border: 1px solid #d9d9d9;
-                padding: 8px;
-            }
-            img {
-                max-width: 100%;
-            }
-        </style>
-    </head>
-    <body>
-        ${body}
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <title>${this.escapeHtml(this.documentTitle || 'documento')}</title>
+  </head>
+  <body>
+    ${body}
+  </body>
 </html>`;
   }
 

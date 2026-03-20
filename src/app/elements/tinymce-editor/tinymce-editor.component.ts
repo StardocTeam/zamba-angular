@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, Optional, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { firstValueFrom } from 'rxjs';
@@ -43,7 +43,7 @@ function resolveTinyMceAssetUrl(pathSuffix?: string): string {
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: SELF_HOSTED_SCRIPT_SRC }],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TinymceElementComponent implements OnChanges {
+export class TinymceElementComponent implements OnChanges, OnInit {
   @Input() userId?: ElementInputValue;
   @Input() documentId?: ElementInputValue;
   @Input() entityId?: ElementInputValue;
@@ -90,6 +90,22 @@ export class TinymceElementComponent implements OnChanges {
 
   get entityIdLabel(): string {
     return this.normaliseTextInput(this.entityId);
+  }
+
+  ngOnInit(): void {
+    if (!this.zambaService) {
+      return;
+    }
+
+    const documentRequest = this.zambaService.getDocument(window.location.href);
+    console.log('ZambaService.getDocument result:', documentRequest);
+
+    if (documentRequest) {
+      this.userId = documentRequest.userId;
+      this.documentId = documentRequest.documentId;
+      this.entityId = documentRequest.entityId;
+      void this.loadDocumentFromInputs();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -215,13 +231,14 @@ export class TinymceElementComponent implements OnChanges {
     this.cdr.markForCheck();
 
     try {
-      const docxBlob = await this.convertHtmlToDocx(this.buildHtmlDocument(this.editorContent));
+      const docxBlob = await this.generateDocxWithAltChunk(this.editorContent);
       const base64 = await this.blobToBase64(docxBlob);
 
       await firstValueFrom(
         this.zambaService.replaceDocument({
           ...request,
-          base64
+          base64,
+          fileName: this.ensureExtension(this.documentName, 'docx')
         })
       );
 
@@ -328,10 +345,12 @@ export class TinymceElementComponent implements OnChanges {
   private isDocxPayload(payload: ZambaDocumentPayload, bytes: Uint8Array): boolean {
     const extension = payload.extension?.toLowerCase();
     const mimeType = payload.mimeType?.toLowerCase();
+    const fileName = payload.fileName?.toLowerCase();
 
     return (
       extension === 'docx' ||
       mimeType === DOCX_MIME_TYPE ||
+      fileName?.endsWith('.docx') ||
       (bytes.length >= 4 && bytes[0] === 0x50 && bytes[1] === 0x4b && bytes[2] === 0x03 && bytes[3] === 0x04)
     );
   }
@@ -487,18 +506,85 @@ export class TinymceElementComponent implements OnChanges {
       throw new Error('No se pudo inicializar el conversor de DOCX.');
     }
 
-    return convertToHtml(
+    const result = await convertToHtml(
       { arrayBuffer },
       {
         includeDefaultStyleMap: true
       }
     );
+
+    if (!result.value.trim() && result.messages.some(m => m.message.includes('altChunk'))) {
+      const fallbackHtml = await this.extractAltChunkHtml(arrayBuffer);
+      if (fallbackHtml) {
+        return {
+          value: fallbackHtml,
+          messages: result.messages
+        };
+      }
+    }
+
+    return result;
+  }
+
+  private async extractAltChunkHtml(arrayBuffer: ArrayBuffer): Promise<string | null> {
+    try {
+      const JSZip = (await import('jszip')).default;
+      const zip = await JSZip.loadAsync(arrayBuffer);
+      const files = Object.keys(zip.files);
+      const htmlFiles = files.filter(f => f.endsWith('.html') || f.endsWith('.htm'));
+
+      if (htmlFiles.length === 0) {
+        return null;
+      }
+
+      const contentFile = htmlFiles.find(f => f.includes('htmlChunk') || f.includes('content') || f.includes('document')) || htmlFiles[0];
+      return await zip.file(contentFile)?.async('string') ?? null;
+    } catch (e) {
+      console.error('[zamba-tinymce-editor] Error extracting altChunk HTML:', e);
+      return null;
+    }
+  }
+
+  private async generateDocxWithAltChunk(htmlContent: string): Promise<Blob> {
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+
+    zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Default Extension="html" ContentType="text/html"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`);
+
+    zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`);
+
+    zip.folder('word')?.file('document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
+  <w:body>
+    <w:altChunk r:id="htmlChunk" />
+  </w:body>
+</w:document>`);
+
+    zip.folder('word')?.folder('_rels')?.file('document.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="htmlChunk" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk" Target="htmlChunk.html"/>
+</Relationships>`);
+
+    // IMPORTANT: Add BOM for UTF-8 support
+    const fullHtml = this.buildHtmlDocument(htmlContent);
+    const htmlBlob = new Blob(['\uFEFF', fullHtml], { type: 'text/html;charset=utf-8' });
+    zip.folder('word')?.file('htmlChunk.html', htmlBlob);
+
+    return await zip.generateAsync({ type: 'blob', mimeType: DOCX_MIME_TYPE });
   }
 
   private async convertHtmlToDocx(html: string): Promise<Blob> {
     const { asBlob } = await import('html-docx-js-typescript');
     const file = await asBlob(html);
-
     return file instanceof Blob ? file : new Blob([file as BlobPart], { type: DOCX_MIME_TYPE });
   }
 
@@ -506,43 +592,8 @@ export class TinymceElementComponent implements OnChanges {
     return `<!DOCTYPE html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>${this.escapeHtml(this.documentName || 'documento')}</title>
-    <style>
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 12pt;
-        line-height: 1.6;
-        color: #1f1f1f;
-      }
-      h1, h2, h3 {
-        color: #141414;
-        margin-bottom: 0.6em;
-      }
-      p {
-        margin: 0 0 0.75em;
-      }
-      ul, ol {
-        margin: 0 0 0.75em 1.5em;
-      }
-      blockquote {
-        margin: 0.75em 0;
-        padding-left: 1em;
-        border-left: 4px solid #d9d9d9;
-        color: #595959;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      td, th {
-        border: 1px solid #d9d9d9;
-        padding: 8px;
-      }
-      img {
-        max-width: 100%;
-      }
-    </style>
   </head>
   <body>
     ${body}

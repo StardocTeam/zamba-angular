@@ -31,6 +31,7 @@ export interface ZambaDocumentRequest {
 
 export interface ZambaReplaceDocumentRequest extends ZambaDocumentRequest {
   base64: string;
+  fileName?: string;
 }
 
 @Injectable({
@@ -139,6 +140,68 @@ export class ZambaService {
       return false;
     }
   }
+  public getParametersFromURL(url: string) {
+    var res: any = {};
+    if (url != undefined) {
+      if (url.indexOf('?') === -1) return res;
+      var pairs = url.split("?")[1].split("&");
+      var i, pair;
+      for (i = 0; i < pairs.length; i++) {
+        pair = pairs[i].toLowerCase().split('=');
+        if (pair[1])
+          res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+      }
+      return res;
+    } else {
+      var pairs = window.location.search.substring(1).split(/[&?]/);
+      var i, pair;
+      for (i = 0; i < pairs.length; i++) {
+        pair = pairs[i].toLowerCase().split('=');
+        if (pair[1])
+          res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+      }
+      return res;
+    }
+  }
+
+  public getDocument(url: string): ZambaDocumentRequest | null {
+    const UrlParams = this.getParametersFromURL(url);
+    let userid = null;
+    let docid = null;
+    let doctypeid = null;
+
+    if (UrlParams) {
+      if (UrlParams.user != undefined) {
+        userid = UrlParams.user;
+      } else if (UrlParams.userid != undefined) {
+        userid = UrlParams.userid;
+      } else if (UrlParams.u != undefined) {
+        userid = UrlParams.u;
+      }
+
+      docid = UrlParams.docid;
+
+      if (UrlParams.doctypeid != undefined) {
+        doctypeid = UrlParams.doctypeid;
+      } else if (UrlParams.doctype != undefined) {
+        doctypeid = UrlParams.doctype;
+      } else if (UrlParams.taskid != undefined) {
+        // TODO: Reemplazar con la lógica de DocumentViewerServices.getDoctypeId si es necesario
+        //doctypeid = DocumentViewerServices.getDoctypeId(UrlParams.taskid);
+      }
+    }
+
+    if (userid && docid && doctypeid) {
+      return {
+        userId: userid,
+        documentId: docid,
+        entityId: doctypeid
+      };
+    }
+
+    console.error('[Error]: Fallo al obtener el ID de la entidad (DocTypeId).');
+    return null;
+  }
 
   public GetSidebarItems() {
     const tokenData = this.tokenService.get();
@@ -212,7 +275,9 @@ export class ZambaService {
       ExternUserID: request.userId,
       IdDocument: request.documentId,
       Id: request.entityId,
-      Base64StringArray: this.buildBase64StringArray(request.base64)
+      Base64StringArray: this.buildBase64StringArray(request.base64, request.fileName),
+      DocTypeId: request.entityId,
+      EncryptedData: false
     };
 
     return this.httpClient.post(`${environment['externalSearchApi']}/ReplaceDoc`, body, {
@@ -367,23 +432,10 @@ export class ZambaService {
     const entityId = request.entityId.trim();
 
     return {
-      UserId: userId,
-      userId,
-      userid: userId,
-      ExternUserID: userId,
-      IdDocument: documentId,
-      DocumentId: documentId,
-      documentId,
-      DocId: documentId,
-      docId: documentId,
+      userId: userId,
       docid: documentId,
-      EntityId: entityId,
-      entityId,
-      EntityID: entityId,
-      DocType: entityId,
-      DocTypeId: entityId,
-      doctype: entityId,
-      Id: entityId
+      doctypeId: entityId,
+      converttopdf: 'false'
     };
   }
 
@@ -433,10 +485,10 @@ export class ZambaService {
     return undefined;
   }
 
-  private buildBase64StringArray(base64Value: string): Array<Record<string, string>> {
+  private buildBase64StringArray(base64Value: string, fileName?: string): Array<Record<string, string>> {
     const normalizedBase64 = this.removeBase64Prefix(base64Value).split(/\s+/).join('');
 
-    return [{ Base64String: normalizedBase64 }];
+    return [{ Base64String: normalizedBase64, FileName: fileName || '' }];
   }
 
   private parseDataUrl(value: string): ZambaDocumentPayload | null {
