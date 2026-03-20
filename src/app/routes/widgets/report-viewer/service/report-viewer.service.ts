@@ -8,6 +8,11 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class ReportViewerService {
+  TestReportQuery(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/TestReportQuery`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+    });
+  }
   SaveLastReportViewed(genericRequest: {}) {
     return this.http.post(`${environment['restApi']}/reports/SaveLastReportViewed`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true)
