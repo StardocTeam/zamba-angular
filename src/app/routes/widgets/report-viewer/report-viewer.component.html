@@ -78,7 +78,7 @@
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let data of filterTable.data;">
-                        <tr (dblclick)="onRowClick(data)">
+                        <tr (click)="onRowClick(data)" [class.clickable]="FlagOnClick">
                             <td *ngFor="let key of objectKeys(data)">
                                 {{ data[key] }}
                             </td>
