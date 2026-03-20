@@ -245,7 +245,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
                 FechaHasta: this.ZVARendDate
               }),
               Query: this.currentReport.Query,
-              Id: this.currentReport.ID
+              ReportId: this.currentReport.ID
             }
           };
           this.cdr.detectChanges();
@@ -264,7 +264,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
               FechaHasta: this.ZVARendDate
             }),
             Query: this.currentReport.Query,
-            Id: this.currentReport.ID
+            ReportId: this.currentReport.ID
           }
         };
 
@@ -301,7 +301,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             FechaHasta: this.ZVARendDate
           }),
           Query: this.currentReport.Query,
-          Id: this.currentReport.ID
+          ReportId: this.currentReport.ID
         }
       };
 

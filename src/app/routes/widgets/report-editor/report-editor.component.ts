@@ -39,6 +39,9 @@ export class ReportEditorComponent {
   isButtonDisabled: boolean = false;
   userId: any;
   ruleId: any;
+  ListZVARsFromRule: any[] = [];
+  ZVARstartDate: any;
+  ZVARendDate: any;
 
   constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef,
@@ -49,6 +52,11 @@ export class ReportEditorComponent {
 
   ngOnInit() {
     const tokenData = this.tokenService.get();
+
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setFullYear(oneMonthAgo.getFullYear() - 5);
+    this.ZVARstartDate = oneMonthAgo;
+    this.ZVARendDate = new Date();
 
     let genericRequest = {};
 
@@ -104,18 +112,34 @@ export class ReportEditorComponent {
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
+
     if (tokenData != null) {
       genericRequest = {
         UserId: tokenData['userid'],
         Params: {
-          Query: this.report.Query
+          Zvars: JSON.stringify({
+            ...this.buildZvarsObject(),
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate
+          }),
+          Query: this.report.Query,
+          Completar: this.report.Completar
         }
       };
     }
 
-    this.RVService.GetReportByQuery(genericRequest).pipe(
+    this.RVService.TestReportQuery(genericRequest).pipe(
       catchError(error => {
-        console.error('Error al obtener datos:', error);
+
+        console.error('Error: La sentencia presenta errores: ' + error.message);
+        this.modal.error({
+          nzTitle: 'Se ejecuto la sentencia pero presento errores',
+          nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+
         this.isButtonDisabled = false;
         throw error;
       })
@@ -170,6 +194,16 @@ export class ReportEditorComponent {
     this.isButtonDisabled = false;
   }
 
+  private buildZvarsObject(): any {
+    const obj: any = {};
+    this.ListZVARsFromRule.forEach(v => {
+      if (v?.KeyZVar) {
+        obj[v.KeyZVar] = v.ValueZVar;
+      }
+    });
+    return obj;
+  }
+
   InsertReport() {
     this.isButtonDisabled = true;
 
@@ -180,6 +214,12 @@ export class ReportEditorComponent {
       genericRequest = {
         UserId: tokenData['userid'],
         Params: {
+          Zvars: JSON.stringify({
+            ...this.buildZvarsObject(),
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate
+          }),
+          ReportId: this.report.ID,
           query: this.report.Query,
           name: this.report.Name,
           description: this.report.Description,

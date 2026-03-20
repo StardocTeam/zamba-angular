@@ -188,10 +188,6 @@ export class ReportComponentComponent {
         var data = JSON.parse(data);
         if (data) {
           this.ViewPermission = true;
-          //this.UpdatePermission = true;
-          //this.DeletePermission = true;
-          //this.CreatePermission = true;
-          //this.ConsultPermission = true;
 
           this.cdr.detectChanges();
         } else {
