@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, inject, ViewChild, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, inject, ViewChild, ElementRef, Inject, ViewEncapsulation } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
+import { DOCUMENT } from '@angular/common';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,13 +12,17 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { firstValueFrom } from 'rxjs';
+import { asBlob } from 'html-docx-js-typescript';
+import * as mammoth from 'mammoth';
+import JSZip from 'jszip';
 
 const SELF_HOSTED_ASSET_PATH = 'assets/tinymce';
-const SELF_HOSTED_BASE_URL = resolveTinyMceAssetUrl();
-const SELF_HOSTED_SCRIPT_SRC = resolveTinyMceAssetUrl('tinymce.min.js');
 const LICENSE_KEY = 'gpl';
 const BLANK_DOCUMENT = '<p></p>';
 const DOCX_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+// Declare TinyMCE interface for global access
+declare const tinymce: any;
 
 type IdentifierInputValue = number | string | null | undefined;
 
@@ -38,18 +43,6 @@ const DEFAULT_SETTINGS: TinyMceSettings = {
   readonly: false
 };
 
-function resolveTinyMceAssetUrl(pathSuffix?: string): string {
-  const relativePath = pathSuffix ? `${SELF_HOSTED_ASSET_PATH}/${pathSuffix}` : `${SELF_HOSTED_ASSET_PATH}/`;
-  const baseUri = globalThis.document?.baseURI ?? globalThis.location?.href;
-
-  if (!baseUri) {
-    return pathSuffix ? `${SELF_HOSTED_ASSET_PATH}/${pathSuffix}` : SELF_HOSTED_ASSET_PATH;
-  }
-
-  const resolvedUrl = new URL(relativePath, baseUri).toString();
-  return pathSuffix ? resolvedUrl : resolvedUrl.replace(/\/$/, '');
-}
-
 @Component({
   selector: 'app-tinymce-premium-editor',
   standalone: true,
@@ -63,15 +56,21 @@ function resolveTinyMceAssetUrl(pathSuffix?: string): string {
     NzMessageModule,
     NzSwitchModule
   ],
-  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: SELF_HOSTED_SCRIPT_SRC }],
   templateUrl: './tinymce-premium-editor.component.html',
   styleUrls: ['./tinymce-premium-editor.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   @Input() userId?: IdentifierInputValue;
   @Input() documentId?: IdentifierInputValue;
   @Input() entityId?: IdentifierInputValue;
+
+  /**
+   * Base URL for TinyMCE assets. Defaults to 'assets/tinymce' for local development.
+   * Override this when using the web component in a different environment.
+   */
+  @Input() assetsUrl: string = 'assets/tinymce';
 
   @ViewChild('localDocxInput') localDocxInput!: ElementRef<HTMLInputElement>;
 
@@ -80,18 +79,20 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   settings: TinyMceSettings = { ...DEFAULT_SETTINGS };
   documentTitle = this.buildDefaultDocumentName();
   editorContent = BLANK_DOCUMENT;
-  editorInit!: Record<string, unknown>;
+  editorInit: Record<string, unknown> = {};
   loading = false;
   openingLocalDocx = false;
   exporting = false;
   saving = false;
   statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
   errorMessage = '';
+  isTinymceLoaded = false;
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly message = inject(NzMessageService);
   private readonly zambaService = inject(ZambaService);
   private readonly tokenService = inject(DA_SERVICE_TOKEN);
+  private readonly document = inject(DOCUMENT);
 
   get hasDocumentContext(): boolean {
     return this.resolveDocumentRequest() !== null;
@@ -103,7 +104,11 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
 
   ngOnInit(): void {
     // Inicializamos una sola vez
-    this.editorInit = this.buildEditorInit();
+    this.loadTinyMce().then(() => {
+      this.isTinymceLoaded = true;
+      this.editorInit = this.buildEditorInit();
+      this.cdr.markForCheck();
+    });
 
     // TEST: Limpiar token para forzar obtención
     //this.tokenService.clear();
@@ -131,6 +136,42 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       }
     });
   }
+
+  private loadTinyMce(): Promise<void> {
+    if (typeof tinymce !== 'undefined') {
+      return Promise.resolve();
+    }
+
+    const scriptUrl = this.resolveAssetUrl('tinymce.min.js');
+
+    return new Promise((resolve, reject) => {
+      const script = this.document.createElement('script');
+      script.src = scriptUrl;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`Could not load TinyMCE from ${scriptUrl}`));
+      this.document.head.appendChild(script);
+    });
+  }
+
+  private resolveAssetUrl(pathSuffix?: string): string {
+    const assetsUrl = this.assetsUrl || 'assets/tinymce';
+    const basePath = assetsUrl.endsWith('/') ? assetsUrl : `${assetsUrl}/`;
+    const relativePath = pathSuffix ? `${basePath}${pathSuffix}` : basePath;
+    const baseUri = this.document.baseURI ?? globalThis.location?.href;
+
+    if (!baseUri) {
+      return relativePath;
+    }
+
+    if (basePath.startsWith('/') || basePath.startsWith('http')) {
+      const url = new URL(relativePath, baseUri).toString();
+      return pathSuffix ? url : url.replace(/\/$/, '');
+    }
+
+    const resolvedUrl = new URL(relativePath, baseUri).toString();
+    return pathSuffix ? resolvedUrl : resolvedUrl.replace(/\/$/, '');
+  }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['userId'] || changes['documentId'] || changes['entityId']) {
@@ -403,7 +444,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
     ];
 
     return {
-      base_url: SELF_HOSTED_BASE_URL,
+      base_url: this.resolveAssetUrl(),
       branding: false,
       content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; }',
       height: 720,
@@ -526,14 +567,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   }
 
   private async convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<MammothResult> {
-    const mammothModule = (await import('mammoth')) as unknown as {
-      default?: {
-        convertToHtml?: (input: { arrayBuffer: ArrayBuffer }, options?: { includeDefaultStyleMap?: boolean }) => Promise<MammothResult>;
-      };
-      convertToHtml?: (input: { arrayBuffer: ArrayBuffer }, options?: { includeDefaultStyleMap?: boolean }) => Promise<MammothResult>;
-    };
-
-    const convertToHtml = mammothModule.default?.convertToHtml ?? mammothModule.convertToHtml;
+    const convertToHtml = mammoth.convertToHtml;
 
     if (!convertToHtml) {
       throw new Error('No se pudo inicializar el conversor de DOCX.');
@@ -562,41 +596,23 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
 
   private async extractAltChunkHtml(arrayBuffer: ArrayBuffer): Promise<string | null> {
     try {
-      console.log('Iniciando extracción manual de AltChunk con JSZip...');
-      const JSZip = (await import('jszip')).default;
       const zip = await JSZip.loadAsync(arrayBuffer);
-
       const files = Object.keys(zip.files);
-      console.log('Archivos encontrados en el DOCX:', files);
-
-      const htmlFiles = files.filter(filename => filename.endsWith('.html') || filename.endsWith('.htm'));
-      console.log('Archivos HTML candidatos:', htmlFiles);
+      const htmlFiles = files.filter(f => f.endsWith('.html') || f.endsWith('.htm'));
 
       if (htmlFiles.length === 0) {
-        console.warn('No se encontraron archivos HTML dentro del DOCX.');
         return null;
       }
 
-      // Intentar leer el contenido del archivo que parezca ser el chunk principal
-      // Priorizamos nombres comunes de altChunk generados por librerías
       const contentFile = htmlFiles.find(f => f.includes('htmlChunk') || f.includes('content') || f.includes('document')) || htmlFiles[0];
-
-      console.log('Intentando extraer contenido de:', contentFile);
-      const content = await zip.file(contentFile)?.async('string');
-
-      if (content) {
-        console.log('Contenido extraído (longitud):', content.length);
-        return content;
-      }
-      return null;
+      return await zip.file(contentFile)?.async('string') ?? null;
     } catch (e) {
-      console.error('Error crítico al intentar extraer altChunk HTML:', e);
+      console.error('[tinymce-premium-editor] Error extracting altChunk HTML:', e);
       return null;
     }
   }
 
   private async generateDocxWithAltChunk(htmlContent: string): Promise<Blob> {
-    const JSZip = (await import('jszip')).default;
     const zip = new JSZip();
 
     // 1. [Content_Types].xml
@@ -645,7 +661,6 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
 
   // Se mantiene como fallback o referencia, pero ya no se usa en saveDocument
   private async convertHtmlToDocx(html: string): Promise<Blob> {
-    const { asBlob } = await import('html-docx-js-typescript');
     const file = await asBlob(html);
     return file instanceof Blob ? file : new Blob([file as BlobPart], { type: DOCX_MIME_TYPE });
   }

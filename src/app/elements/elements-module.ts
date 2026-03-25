@@ -11,7 +11,12 @@ import { DefaultInterceptor } from '@core';
 import { DelonAuthModule, TokenService } from '@delon/auth';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { FormsModule } from '@angular/forms';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
 import { GlobalConfigModule } from 'src/app/global-config.module';
 import { SharedModule } from '@shared';
@@ -25,8 +30,25 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ChecklistComponent, TinymceElementComponent],
-  imports: [CommonModule, BrowserModule, BrowserAnimationsModule, DelonAuthModule, HttpClientModule, GlobalConfigModule.forRoot(), CoreModule, SharedModule,
-    FormsModule, NzIconModule, EditorModule, RouterModule.forRoot(routes)],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    DelonAuthModule,
+    HttpClientModule,
+    GlobalConfigModule.forRoot(),
+    CoreModule,
+    SharedModule,
+    FormsModule,
+    NzAlertModule,
+    NzButtonModule,
+    NzCardModule,
+    NzIconModule,
+    NzMessageModule,
+    NzSwitchModule,
+    EditorModule,
+    RouterModule.forRoot(routes)
+  ],
   providers: [HttpClientModule, ReportViewerService, TokenService, { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }],
   exports: [ChecklistComponent, TinymceElementComponent, NzIconModule],
 })

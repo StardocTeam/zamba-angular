@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { DOCUMENT } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
+import { asBlob } from 'html-docx-js-typescript';
 import * as mammoth from 'mammoth';
 import JSZip from 'jszip';
-import { asBlob } from 'html-docx-js-typescript';
 
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
 
-// Default to a public CDN if no local assets are provided. This ensures the component works
-// out-of-the-box in any hosting environment without 404s on plugins/skins.
-const DEFAULT_CDN_BASE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2';
 const LICENSE_KEY = 'gpl';
 const BLANK_DOCUMENT = '<p></p>';
 const DOCX_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+// Declare TinyMCE interface for global access
+declare const tinymce: any;
 
 type ElementInputValue = number | string | null | undefined;
 type BooleanLike = boolean | string | null | undefined;
@@ -31,21 +31,23 @@ interface MammothResult {
   selector: 'app-tinymce-element',
   templateUrl: './tinymce-editor.component.html',
   styleUrls: ['./tinymce-editor.component.less'],
-  // IMPORTANT: When hosting as a web component, remove the providers that force a local script src
-  // if you want to use the CDN, or configure the path correctly for the target environment.
-  // providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: SELF_HOSTED_SCRIPT_SRC }],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class TinymceElementComponent implements OnChanges, OnInit {
   @Input() userId?: ElementInputValue;
   @Input() documentId?: ElementInputValue;
   @Input() entityId?: ElementInputValue;
   @Input() token?: string | null;
+  /**
+   * Base URL for TinyMCE assets. Defaults to 'assets/tinymce' for local development.
+   * Override this when using the web component in a different environment.
+   */
+  @Input() assetsUrl: string = 'assets/tinymce';
 
   @Input()
   set readOnly(value: BooleanLike) {
     this._readOnly = this.toBoolean(value);
-    this.editorInit = this.buildEditorInit();
     this.cdr.markForCheck();
   }
 
@@ -58,7 +60,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   readonly licenseKey = LICENSE_KEY;
 
   editorContent = BLANK_DOCUMENT;
-  editorInit = this.buildEditorInit();
+  editorInit: Record<string, unknown> = {};
   documentName = this.buildDefaultDocumentName();
   loading = false;
   openingLocalDocx = false;
@@ -66,13 +68,15 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   saving = false;
   statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
   errorMessage = '';
+  isTinymceLoaded = false;
 
   private _readOnly = false;
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
     @Optional() private readonly zambaService: ZambaService | null,
-    @Optional() @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService | null
+    @Optional() @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService | null,
+    @Inject(DOCUMENT) private readonly document: Document
   ) { }
 
   get hasDocumentContext(): boolean {
@@ -92,11 +96,16 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       return;
     }
     this._readOnly = !value;
-    this.editorInit = this.buildEditorInit();
     this.cdr.markForCheck();
   }
 
   ngOnInit(): void {
+    this.loadTinyMce().then(() => {
+      this.isTinymceLoaded = true;
+      this.editorInit = this.buildEditorInit();
+      this.cdr.markForCheck();
+    });
+
     if (!this.zambaService) {
       return;
     }
@@ -122,6 +131,41 @@ export class TinymceElementComponent implements OnChanges, OnInit {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  private loadTinyMce(): Promise<void> {
+    if (typeof tinymce !== 'undefined') {
+      return Promise.resolve();
+    }
+
+    const scriptUrl = this.resolveAssetUrl('tinymce.min.js');
+
+    return new Promise((resolve, reject) => {
+      const script = this.document.createElement('script');
+      script.src = scriptUrl;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`Could not load TinyMCE from ${scriptUrl}`));
+      this.document.head.appendChild(script);
+    });
+  }
+
+  private resolveAssetUrl(pathSuffix?: string): string {
+    const assetsUrl = this.assetsUrl || 'assets/tinymce';
+    const basePath = assetsUrl.endsWith('/') ? assetsUrl : `${assetsUrl}/`;
+    const relativePath = pathSuffix ? `${basePath}${pathSuffix}` : basePath;
+    const baseUri = this.document.baseURI ?? globalThis.location?.href;
+
+    if (!baseUri) {
+      return relativePath;
+    }
+
+    if (basePath.startsWith('/') || basePath.startsWith('http')) {
+      const url = new URL(relativePath, baseUri).toString();
+      return pathSuffix ? url : url.replace(/\/$/, '');
+    }
+
+    const resolvedUrl = new URL(relativePath, baseUri).toString();
+    return pathSuffix ? resolvedUrl : resolvedUrl.replace(/\/$/, '');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -416,8 +460,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     ];
 
     return {
-      // If base_url is removed, TinyMCE Cloud or default CDN will be used.
-      // base_url: SELF_HOSTED_BASE_URL,
+      base_url: this.resolveAssetUrl(),
       branding: false,
       content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; }',
       height: 720,
@@ -566,8 +609,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private async convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<MammothResult> {
-    // @ts-ignore
-    const convertToHtml = mammoth.convertToHtml || mammoth.default?.convertToHtml;
+    const convertToHtml = mammoth.convertToHtml;
 
     if (!convertToHtml) {
       throw new Error('No se pudo inicializar el conversor de DOCX.');
@@ -580,6 +622,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       }
     );
 
+    // Si Mammoth detecta altChunk y el resultado está vacío, intentamos extraer manualmente
     if (!result.value.trim() && result.messages.some(m => m.message.includes('altChunk'))) {
       const fallbackHtml = await this.extractAltChunkHtml(arrayBuffer);
       if (fallbackHtml) {

@@ -11,7 +11,7 @@
       accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       (change)="onLocalDocxSelected($event)" />
 
-    <div class="editor-host">
+    <div class="editor-host" *ngIf="isTinymceLoaded">
       <editor [licenseKey]="licenseKey" [disabled]="settings.readonly" [init]="editorInit" [(ngModel)]="editorContent">
       </editor>
     </div>

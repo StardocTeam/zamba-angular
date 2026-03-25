@@ -1,18 +1,19 @@
-<div class="tinymce-element-shell">
-    <div class="intro" *ngIf="statusMessage || errorMessage">
-        <div *ngIf="statusMessage" class="message info">{{ statusMessage }}</div>
-        <div *ngIf="errorMessage" class="message error">{{ errorMessage }}</div>
-    </div>
+<div class="editor-page">
+    <nz-card [nzBordered]="false">
+        <div class="intro" *ngIf="statusMessage || errorMessage">
+            <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage" nzCloseable
+                (nzOnClose)="statusMessage = ''"></nz-alert>
+            <nz-alert *ngIf="errorMessage" nzType="error" nzShowIcon [nzMessage]="errorMessage" nzCloseable
+                (nzOnClose)="errorMessage = ''"></nz-alert>
+        </div>
 
-    <input #localDocxInput hidden type="file"
-        accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        (change)="onLocalDocxSelected($event)" />
+        <input #localDocxInput hidden type="file"
+            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            (change)="onLocalDocxSelected($event)" />
 
-    <div class="editor-wrapper">
-        <div *ngIf="loading" class="loading-overlay">Cargando documento...</div>
-
-        <editor [licenseKey]="licenseKey" [disabled]="readOnly" [init]="editorInit" [(ngModel)]="editorContent"
-            (ngModelChange)="onContentChange($event)">
-        </editor>
-    </div>
+        <div class="editor-host" *ngIf="isTinymceLoaded">
+            <editor [licenseKey]="licenseKey" [disabled]="readOnly" [init]="editorInit" [(ngModel)]="editorContent">
+            </editor>
+        </div>
+    </nz-card>
 </div>

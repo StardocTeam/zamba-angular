@@ -1,102 +1,68 @@
+/* Import necessary NG-ZORRO styles for the standalone component */
+@import "../../../../node_modules/ng-zorro-antd/style/index.min.css";
+/* Base styles and variables */
+@import "../../../../node_modules/ng-zorro-antd/alert/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/button/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/card/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/message/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/icon/style/index.min.css";
+
+/* Ensure hidden input is actually hidden if global styles are missing */
+input[hidden] {
+  display: none !important;
+}
+
 :host {
   display: block;
+  /* Reset some basic properties to ensure consistent rendering */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  line-height: 1.5;
 }
 
-.tinymce-element-shell {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.editor-wrapper {
-  position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.loading-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(2px);
-  color: #1e293b;
-  font-weight: 600;
-  font-size: 14px;
+.editor-page {
+  padding: 24px;
 }
 
 .intro {
+  margin-bottom: 16px;
+}
+
+.intro p {
   margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.75);
 }
 
-.message {
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 8px;
-}
-
-.message.info {
-  background: #eff6ff;
-  color: #1e40af;
-  border: 1px solid #dbeafe;
-}
-
-.message.error {
-  background: #fef2f2;
-  color: #991b1b;
-  border: 1px solid #fee2e2;
-}
-
-/* Ensure editor takes full available height in flex container */
-:host ::ng-deep .tox-tinymce {
-  height: 100% !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 8px !important;
-}
-
-.message {
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 12px;
-  font-size: 13px;
-}
-
-.message.info {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-.message.error {
-  background: #fef2f2;
-  color: #b91c1c;
-}
-
-.editor-wrapper {
-  position: relative;
-  overflow: visible;
-}
-
-.loading-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
+.tags {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  color: #0f172a;
-  font-size: 14px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.field span {
   font-weight: 600;
 }
 
-:host ::ng-deep .tox.tox-tinymce {
-  border-radius: 10px;
-  overflow: visible;
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
 }
