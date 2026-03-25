@@ -5,6 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { asBlob } from 'html-docx-js-typescript';
 import * as mammoth from 'mammoth';
 import JSZip from 'jszip';
+import { toDocx } from 'docshift';
 
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
 
@@ -44,6 +45,18 @@ export class TinymceElementComponent implements OnChanges, OnInit {
    * Override this when using the web component in a different environment.
    */
   @Input() assetsUrl: string = 'assets/tinymce';
+
+  /**
+   * Altura del editor. Puede ser un número (píxeles) o string ('100%', '500px').
+   * Si no se especifica, usa el valor por defecto: 720.
+   */
+  @Input() height?: ElementInputValue;
+
+  /**
+   * Ancho del editor. Puede ser un número (píxeles) o string ('100%', '500px').
+   * Si no se especifica, usa el ancho disponible (width: '100%').
+   */
+  @Input() width?: ElementInputValue;
 
   @Input()
   set readOnly(value: BooleanLike) {
@@ -96,7 +109,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       return;
     }
     this._readOnly = !value;
-    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
@@ -182,7 +195,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     this.editorContent = BLANK_DOCUMENT;
     this.documentName = this.buildDefaultDocumentName(this.documentId);
     this.errorMessage = '';
-    this.statusMessage = 'Nuevo documento.';
+    // SILENT NEW DOC: No message shown
+    this.statusMessage = '';
     this.cdr.markForCheck();
   }
 
@@ -252,9 +266,9 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     this.cdr.markForCheck();
 
     try {
-      const blob = await this.convertHtmlToDocx(this.buildHtmlDocument(this.editorContent));
+      const blob = await toDocx(this.editorContent);
       this.downloadBlob(blob, this.ensureExtension(this.documentName, 'docx'));
-      this.statusMessage = 'Se descargó el documento como DOCX.';
+      this.statusMessage = 'Se descargó el documento como DOCX (DocShift).';
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error exporting DOCX', error);
       this.errorMessage = 'No se pudo exportar el documento en formato DOCX.';
@@ -302,16 +316,25 @@ export class TinymceElementComponent implements OnChanges, OnInit {
         })
       );
 
-      this.statusMessage = 'Documento guardado correctamente en Zamba.';
+      this.statusMessage = 'El documento se guardó correctamente en Zamba.';
       this.errorMessage = '';
+      this.autoCloseStatusMessage();
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error saving document', error);
       this.errorMessage = 'No se pudo guardar el documento en Zamba.';
       this.statusMessage = 'Ocurrió un error durante el guardado.';
+      this.autoCloseStatusMessage();
     } finally {
       this.saving = false;
       this.cdr.markForCheck();
     }
+  }
+
+  private autoCloseStatusMessage(): void {
+    globalThis.setTimeout(() => {
+      this.statusMessage = '';
+      this.cdr.markForCheck();
+    }, 2000);
   }
 
   private async loadDocumentFromInputs(): Promise<void> {
@@ -341,7 +364,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
     this.loading = true;
     this.errorMessage = '';
-    this.statusMessage = 'Cargando documento...';
+    // SILENT LOADING: No message shown
+    this.statusMessage = '';
     this.cdr.markForCheck();
 
     try {
@@ -350,12 +374,14 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
       this.editorContent = editorDocument.html;
       this.documentName = editorDocument.fileName;
-      this.statusMessage = 'Documento cargado correctamente.';
+      // SILENT SUCCESS: Message removed
+      this.statusMessage = '';
       this.errorMessage = '';
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error loading document', error);
-      this.errorMessage = 'No se pudo cargar el documento solicitado.';
-      this.statusMessage = 'Se dejó un documento en blanco para continuar editando.';
+      // SILENT ERROR
+      this.errorMessage = '';
+      this.statusMessage = '';
       this.editorContent = BLANK_DOCUMENT;
       this.documentName = this.buildDefaultDocumentName(request.documentId);
     } finally {
@@ -463,7 +489,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       base_url: this.resolveAssetUrl(),
       branding: false,
       content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; }',
-      height: 720,
+      height: this.height ?? 720,
+      width: this.width ?? '100%',
       menubar: 'file edit view insert format tools table help',
       promotion: false,
       plugins,
@@ -657,35 +684,48 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   private async generateDocxWithAltChunk(htmlContent: string): Promise<Blob> {
     const zip = new JSZip();
 
-    zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 1. [Content_Types].xml
+    // Added Override for htmlChunk.html for better Word compatibility
+    const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
   <Default Extension="html" ContentType="text/html"/>
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
-</Types>`);
+  <Override PartName="/word/htmlChunk.html" ContentType="text/html"/>
+</Types>`;
+    zip.file('[Content_Types].xml', contentTypes);
 
-    zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 2. _rels/.rels
+    const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
-</Relationships>`);
+</Relationships>`;
+    zip.file('_rels/.rels', rels);
 
-    zip.folder('word')?.file('document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 3. word/document.xml
+    const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <w:body>
     <w:altChunk r:id="htmlChunk" />
   </w:body>
-</w:document>`);
+</w:document>`;
+    zip.file('word/document.xml', documentXml);
 
-    zip.folder('word')?.folder('_rels')?.file('document.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 4. word/_rels/document.xml.rels
+    const documentRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="htmlChunk" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk" Target="htmlChunk.html"/>
-</Relationships>`);
+</Relationships>`;
+    zip.file('word/_rels/document.xml.rels', documentRels);
 
-    // IMPORTANT: Add BOM for UTF-8 support
+    // 5. word/htmlChunk.html
     const fullHtml = this.buildHtmlDocument(htmlContent);
+    console.log('[TinymceEditor] generateDocxWithAltChunk. HTML size:', fullHtml.length);
+    console.log('[TinymceEditor] HTML sample:', fullHtml.substring(0, 100));
+
     const htmlBlob = new Blob(['\uFEFF', fullHtml], { type: 'text/html;charset=utf-8' });
-    zip.folder('word')?.file('htmlChunk.html', htmlBlob);
+    zip.file('word/htmlChunk.html', htmlBlob);
 
     return await zip.generateAsync({ type: 'blob', mimeType: DOCX_MIME_TYPE });
   }
@@ -696,6 +736,11 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private buildHtmlDocument(body: string): string {
+    // Si el contenido ya parece ser un documento HTML completo, no lo volvemos a envolver
+    if (body.trim().match(/^<!DOCTYPE html>/i) || body.includes('<html')) {
+      return body;
+    }
+
     return `<!DOCTYPE html>
 <html lang="es">
   <head>

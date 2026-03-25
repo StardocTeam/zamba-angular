@@ -1,5 +1,5 @@
 <div class="editor-page">
-    <nz-card [nzBordered]="false">
+    <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '0px' }">
         <div class="intro" *ngIf="statusMessage || errorMessage">
             <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage" nzCloseable
                 (nzOnClose)="statusMessage = ''"></nz-alert>

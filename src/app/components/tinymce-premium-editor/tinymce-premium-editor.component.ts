@@ -198,7 +198,8 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
     this.editorContent = BLANK_DOCUMENT;
     this.documentTitle = this.buildDefaultDocumentName();
     this.errorMessage = '';
-    this.statusMessage = 'Nuevo documento.';
+    // SILENT NEW DOC: No message shown
+    this.statusMessage = '';
     this.cdr.markForCheck();
   }
 
@@ -217,7 +218,8 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
     this.cdr.markForCheck();
 
     try {
-      const blob = await this.convertHtmlToDocx(this.buildHtmlDocument(this.editorContent));
+      // Usamos el metodo manual con JSZip y AltChunk
+      const blob = await this.generateDocxWithAltChunk(this.editorContent);
       this.downloadBlob(blob, this.ensureExtension(this.documentTitle, 'docx'));
       this.statusMessage = 'Se descargó el documento como DOCX.';
       this.message.success('Se descargó el documento como DOCX.');
@@ -305,13 +307,23 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       );
 
       this.statusMessage = 'El documento se guardó correctamente en Zamba.';
+      this.autoCloseStatusMessage();
     } catch (error) {
       console.error('[tinymce-premium-editor] Error saving document', error);
       this.statusMessage = 'Ocurrió un error durante el guardado.';
+      // Tambien cerramos error despues de un tiempo si se desea, o lo dejamos fijo
+      this.autoCloseStatusMessage();
     } finally {
       this.saving = false;
       this.cdr.markForCheck();
     }
+  }
+
+  private autoCloseStatusMessage(): void {
+    globalThis.setTimeout(() => {
+      this.statusMessage = '';
+      this.cdr.markForCheck();
+    }, 2000);
   }
 
   private async loadDocument(): Promise<void> {
@@ -328,7 +340,8 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
 
     this.loading = true;
     this.errorMessage = '';
-    this.statusMessage = 'Cargando documento...';
+    // SILENT LOADING: No message shown
+    this.statusMessage = '';
     this.cdr.markForCheck();
 
     try {
@@ -337,14 +350,17 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
 
       this.editorContent = editorDocument.html;
       this.documentTitle = editorDocument.fileName;
-
+      // SILENT SUCCESS
+      this.statusMessage = '';
     } catch (error) {
+      console.error('[tinymce-premium-editor] Error loading document', error);
       this.editorContent = BLANK_DOCUMENT;
       this.documentTitle = this.buildDefaultDocumentName(request.documentId);
+      // SILENT ERROR
+      this.statusMessage = '';
+      this.errorMessage = '';
     } finally {
       this.loading = false;
-      // No reinicializamos editorInit aqui
-      this.statusMessage = '';
       this.cdr.markForCheck();
     }
   }
@@ -616,12 +632,14 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
     const zip = new JSZip();
 
     // 1. [Content_Types].xml
+    // Definimos explicitamente los tipos de contenido para asegurar que Word reconozca el HTML
     const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
   <Default Extension="html" ContentType="text/html"/>
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+  <Override PartName="/word/htmlChunk.html" ContentType="text/html"/>
 </Types>`;
     zip.file('[Content_Types].xml', contentTypes);
 
@@ -632,28 +650,31 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
 </Relationships>`;
     zip.file('_rels/.rels', rels);
 
-    // 3. word/window.xml
+    // 3. word/window.xml -> word/document.xml
     const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <w:body>
     <w:altChunk r:id="htmlChunk" />
   </w:body>
 </w:document>`;
-    zip.folder('word')?.file('document.xml', documentXml);
+    // Usamos rutaa completa para evitar ambigüedades con .folder()
+    zip.file('word/document.xml', documentXml);
 
     // 4. word/_rels/document.xml.rels (Map HTML file)
     const documentRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="htmlChunk" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk" Target="htmlChunk.html"/>
 </Relationships>`;
-    zip.folder('word')?.folder('_rels')?.file('document.xml.rels', documentRels);
+    zip.file('word/_rels/document.xml.rels', documentRels);
 
     // 5. word/htmlChunk.html (El contenido real)
-    // Aseguramos una estructura basica de HTML para que Word lo interprete mejor
     const fullHtml = this.buildHtmlDocument(htmlContent);
+    console.log('[generateDocxWithAltChunk] HTML construido (longitud):', fullHtml.length);
+    console.log('[generateDocxWithAltChunk] Primeros 200 caracteres del fullHtml:', fullHtml.substring(0, 200));
+
     // IMPORTANTE: Aseguramos UTF-8 y Byte-Order-Mark (BOM) para que Word reconozca caracteres especiales
     const htmlBlob = new Blob(['\uFEFF', fullHtml], { type: 'text/html;charset=utf-8' });
-    zip.folder('word')?.file('htmlChunk.html', htmlBlob);
+    zip.file('word/htmlChunk.html', htmlBlob);
 
     // Generar Blob
     return await zip.generateAsync({ type: 'blob', mimeType: DOCX_MIME_TYPE });
@@ -666,6 +687,11 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   }
 
   private buildHtmlDocument(body: string): string {
+    // Si el contenido ya parece ser un documento HTML completo, no lo volvemos a envolver
+    if (body.trim().match(/^<!DOCTYPE html>/i) || body.includes('<html')) {
+      return body;
+    }
+
     return `<!DOCTYPE html>
 <html lang="es">
   <head>
