@@ -110,14 +110,19 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
 
     this.zambaService.ensureAuthToken().subscribe(hasToken => {
       if (hasToken) {
-        const documentRequest = this.zambaService.getDocument(window.location.href);
-        console.log('ZambaService.getDocument result:', documentRequest);
-
-        if (documentRequest) {
-          this.userId = documentRequest.userId;
-          this.documentId = documentRequest.documentId;
-          this.entityId = documentRequest.entityId;
+        // Prioritize Inputs if they are already set
+        if (this.userId && this.documentId && this.entityId) {
           void this.loadDocument();
+        } else {
+          const documentRequest = this.zambaService.getDocument(window.location.href);
+          console.log('ZambaService.getDocument result:', documentRequest);
+
+          if (documentRequest) {
+            this.userId = documentRequest.userId;
+            this.documentId = documentRequest.documentId;
+            this.entityId = documentRequest.entityId;
+            void this.loadDocument();
+          }
         }
       } else {
         console.error('No se pudo obtener el token de autenticación.');

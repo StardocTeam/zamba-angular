@@ -1,13 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { firstValueFrom } from 'rxjs';
+import * as mammoth from 'mammoth';
+import JSZip from 'jszip';
+import { asBlob } from 'html-docx-js-typescript';
 
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
 
-const SELF_HOSTED_ASSET_PATH = 'assets/tinymce';
-const SELF_HOSTED_BASE_URL = resolveTinyMceAssetUrl();
-const SELF_HOSTED_SCRIPT_SRC = resolveTinyMceAssetUrl('tinymce.min.js');
+// Default to a public CDN if no local assets are provided. This ensures the component works
+// out-of-the-box in any hosting environment without 404s on plugins/skins.
+const DEFAULT_CDN_BASE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.2';
 const LICENSE_KEY = 'gpl';
 const BLANK_DOCUMENT = '<p></p>';
 const DOCX_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
@@ -24,23 +27,13 @@ interface MammothResult {
   messages: MammothMessage[];
 }
 
-function resolveTinyMceAssetUrl(pathSuffix?: string): string {
-  const relativePath = pathSuffix ? `${SELF_HOSTED_ASSET_PATH}/${pathSuffix}` : `${SELF_HOSTED_ASSET_PATH}/`;
-  const baseUri = globalThis.document?.baseURI ?? globalThis.location?.href;
-
-  if (!baseUri) {
-    return pathSuffix ? `${SELF_HOSTED_ASSET_PATH}/${pathSuffix}` : SELF_HOSTED_ASSET_PATH;
-  }
-
-  const resolvedUrl = new URL(relativePath, baseUri).toString();
-  return pathSuffix ? resolvedUrl : resolvedUrl.replace(/\/$/, '');
-}
-
 @Component({
   selector: 'app-tinymce-element',
   templateUrl: './tinymce-editor.component.html',
   styleUrls: ['./tinymce-editor.component.less'],
-  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: SELF_HOSTED_SCRIPT_SRC }],
+  // IMPORTANT: When hosting as a web component, remove the providers that force a local script src
+  // if you want to use the CDN, or configure the path correctly for the target environment.
+  // providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: SELF_HOSTED_SCRIPT_SRC }],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TinymceElementComponent implements OnChanges, OnInit {
@@ -59,6 +52,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   get readOnly(): boolean {
     return this._readOnly;
   }
+
+  @ViewChild('localDocxInput') localDocxInput!: ElementRef<HTMLInputElement>;
 
   readonly licenseKey = LICENSE_KEY;
 
@@ -92,20 +87,41 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     return this.normaliseTextInput(this.entityId);
   }
 
+  setEditable(value: boolean): void {
+    if (this._readOnly === !value) {
+      return;
+    }
+    this._readOnly = !value;
+    this.editorInit = this.buildEditorInit();
+    this.cdr.markForCheck();
+  }
+
   ngOnInit(): void {
     if (!this.zambaService) {
       return;
     }
 
-    const documentRequest = this.zambaService.getDocument(window.location.href);
-    console.log('ZambaService.getDocument result:', documentRequest);
+    this.zambaService.ensureAuthToken().subscribe(hasToken => {
+      if (hasToken) {
+        if (this.userId && this.documentId && this.entityId) {
+          void this.loadDocumentFromInputs();
+        } else {
+          const documentRequest = this.zambaService!.getDocument(window.location.href);
+          console.log('ZambaService.getDocument result:', documentRequest);
 
-    if (documentRequest) {
-      this.userId = documentRequest.userId;
-      this.documentId = documentRequest.documentId;
-      this.entityId = documentRequest.entityId;
-      void this.loadDocumentFromInputs();
-    }
+          if (documentRequest) {
+            this.userId = documentRequest.userId;
+            this.documentId = documentRequest.documentId;
+            this.entityId = documentRequest.entityId;
+            void this.loadDocumentFromInputs();
+          }
+        }
+      } else {
+        console.error('No se pudo obtener el token de autenticación.');
+        this.errorMessage = 'No se pudo obtener el token de autenticación.';
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -380,38 +396,95 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private buildEditorInit(): Record<string, unknown> {
+    const plugins = [
+      'advlist',
+      'anchor',
+      'autolink',
+      'charmap',
+      'code',
+      'fullscreen',
+      'help',
+      'image',
+      'link',
+      'lists',
+      'media',
+      'preview',
+      'searchreplace',
+      'table',
+      'visualblocks',
+      'wordcount'
+    ];
+
     return {
-      base_url: SELF_HOSTED_BASE_URL,
+      // If base_url is removed, TinyMCE Cloud or default CDN will be used.
+      // base_url: SELF_HOSTED_BASE_URL,
       branding: false,
       content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; }',
-      height: 640,
+      height: 720,
       menubar: 'file edit view insert format tools table help',
       promotion: false,
-      plugins: [
-        'advlist',
-        'anchor',
-        'autolink',
-        'charmap',
-        'code',
-        'fullscreen',
-        'help',
-        'image',
-        'link',
-        'lists',
-        'media',
-        'preview',
-        'searchreplace',
-        'table',
-        'visualblocks',
-        'wordcount'
-      ],
+      plugins,
       quickbars_selection_toolbar: 'bold italic underline | blocks | quicklink blockquote',
       readonly: this.readOnly,
       skin: 'oxide',
       suffix: '.min',
-      toolbar:
-        'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
-      toolbar_sticky: true
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
+      toolbar_sticky: true,
+      setup: (editor: any) => {
+        editor.on('Change KeyUp', () => {
+          this.editorContent = editor.getContent();
+          this.cdr.markForCheck();
+        });
+
+        editor.ui.registry.addButton('reload_doc', {
+          icon: 'reload',
+          tooltip: 'Recargar documento',
+          onAction: () => this.reload()
+        });
+
+        editor.ui.registry.addButton('open_docx', {
+          icon: 'upload',
+          tooltip: 'Abrir DOCX local',
+          onAction: () => this.localDocxInput?.nativeElement.click()
+        });
+
+        editor.ui.registry.addButton('new_doc', {
+          icon: 'new-document',
+          tooltip: 'Nuevo documento en blanco',
+          onAction: () => this.createBlankDocument()
+        });
+
+        editor.ui.registry.addButton('save_zamba', {
+          icon: 'save',
+          tooltip: 'Guardar en Zamba',
+          onAction: () => this.saveDocument()
+        });
+
+        editor.ui.registry.addButton('download_docx', {
+          icon: 'export',
+          tooltip: 'Descargar DOCX',
+          onAction: () => this.downloadDocx()
+        });
+
+        editor.ui.registry.addToggleButton('toggle_edit', {
+          icon: 'lock',
+          tooltip: 'Bloquear/Desbloquear edición',
+          onAction: (api: any) => {
+            const isCurrentlyLocked = api.isActive();
+            const newLockedState = !isCurrentlyLocked; // Si estaba Locked, ahora Unlocked.
+
+            api.setActive(newLockedState); // Actualizamos estado visual
+            this.setEditable(!newLockedState); // Si newLockedState=TRUE (Locked) -> editable=FALSE
+          },
+          onSetup: (api: any) => {
+            api.setActive(this._readOnly);
+            const forceEnable = () => api.setEnabled(true);
+            setTimeout(forceEnable, 0);
+            editor.on('SwitchMode', forceEnable);
+            return () => editor.off('SwitchMode', forceEnable);
+          }
+        });
+      }
     };
   }
 
@@ -493,14 +566,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private async convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<MammothResult> {
-    const mammothModule = (await import('mammoth')) as unknown as {
-      default?: {
-        convertToHtml?: (input: { arrayBuffer: ArrayBuffer }, options?: { includeDefaultStyleMap?: boolean }) => Promise<MammothResult>;
-      };
-      convertToHtml?: (input: { arrayBuffer: ArrayBuffer }, options?: { includeDefaultStyleMap?: boolean }) => Promise<MammothResult>;
-    };
-
-    const convertToHtml = mammothModule.default?.convertToHtml ?? mammothModule.convertToHtml;
+    // @ts-ignore
+    const convertToHtml = mammoth.convertToHtml || mammoth.default?.convertToHtml;
 
     if (!convertToHtml) {
       throw new Error('No se pudo inicializar el conversor de DOCX.');
@@ -528,7 +595,6 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
   private async extractAltChunkHtml(arrayBuffer: ArrayBuffer): Promise<string | null> {
     try {
-      const JSZip = (await import('jszip')).default;
       const zip = await JSZip.loadAsync(arrayBuffer);
       const files = Object.keys(zip.files);
       const htmlFiles = files.filter(f => f.endsWith('.html') || f.endsWith('.htm'));
@@ -546,7 +612,6 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private async generateDocxWithAltChunk(htmlContent: string): Promise<Blob> {
-    const JSZip = (await import('jszip')).default;
     const zip = new JSZip();
 
     zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -583,7 +648,6 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private async convertHtmlToDocx(html: string): Promise<Blob> {
-    const { asBlob } = await import('html-docx-js-typescript');
     const file = await asBlob(html);
     return file instanceof Blob ? file : new Blob([file as BlobPart], { type: DOCX_MIME_TYPE });
   }
