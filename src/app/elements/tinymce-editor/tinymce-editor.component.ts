@@ -129,7 +129,6 @@ export class TinymceElementComponent implements OnChanges, OnInit {
           void this.loadDocumentFromInputs();
         } else {
           const documentRequest = this.zambaService!.getDocument(window.location.href);
-          console.log('ZambaService.getDocument result:', documentRequest);
 
           if (documentRequest) {
             this.userId = documentRequest.userId;
@@ -262,13 +261,12 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   async downloadDocx(): Promise<void> {
     this.exporting = true;
     this.errorMessage = '';
-    this.statusMessage = 'Generando archivo DOCX...';
     this.cdr.markForCheck();
 
     try {
       const blob = await toDocx(this.editorContent);
       this.downloadBlob(blob, this.ensureExtension(this.documentName, 'docx'));
-      this.statusMessage = 'Se descargó el documento como DOCX (DocShift).';
+      this.statusMessage = '';
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error exporting DOCX', error);
       this.errorMessage = 'No se pudo exportar el documento en formato DOCX.';
@@ -493,6 +491,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       width: this.width ?? '100%',
       menubar: 'file edit view insert format tools table help',
       promotion: false,
+      automatic_uploads: false,
+      paste_data_images: true,
       plugins,
       quickbars_selection_toolbar: 'bold italic underline | blocks | quicklink blockquote',
       readonly: this.readOnly,
@@ -500,6 +500,31 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       suffix: '.min',
       toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
       toolbar_sticky: true,
+      file_picker_callback: (callback: any, value: any, meta: any) => {
+        if (meta.filetype === 'image') {
+          const input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          input.setAttribute('accept', 'image/*');
+
+          input.onchange = (e: Event) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = () => {
+                const id = 'blobid' + (new Date()).getTime();
+                const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                const base64 = (reader.result as string).split(',')[1];
+                const blobInfo = blobCache.create(id, file, base64);
+                blobCache.add(blobInfo);
+                callback(blobInfo.blobUri(), { title: file.name });
+              };
+              reader.readAsDataURL(file);
+            }
+          };
+
+          input.click();
+        }
+      },
       setup: (editor: any) => {
         editor.on('Change KeyUp', () => {
           this.editorContent = editor.getContent();
@@ -721,8 +746,6 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
     // 5. word/htmlChunk.html
     const fullHtml = this.buildHtmlDocument(htmlContent);
-    console.log('[TinymceEditor] generateDocxWithAltChunk. HTML size:', fullHtml.length);
-    console.log('[TinymceEditor] HTML sample:', fullHtml.substring(0, 100));
 
     const htmlBlob = new Blob(['\uFEFF', fullHtml], { type: 'text/html;charset=utf-8' });
     zip.file('word/htmlChunk.html', htmlBlob);
