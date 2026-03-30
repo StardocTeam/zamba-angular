@@ -79,7 +79,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   openingLocalDocx = false;
   exporting = false;
   saving = false;
-  statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
+  statusMessage = '';
   errorMessage = '';
   isTinymceLoaded = false;
 
@@ -245,7 +245,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
       this.editorContent = this.normaliseLoadedHtml(result.value);
       this.documentName = this.stripExtension(file.name);
-      this.statusMessage = this.buildLocalDocxStatusMessage();
+      // SILENT SUCCESS: Message removed
+      this.statusMessage = '';
       this.errorMessage = '';
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error opening local DOCX', error);
@@ -342,7 +343,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       this.editorContent = BLANK_DOCUMENT;
       this.documentName = this.buildDefaultDocumentName(this.documentId);
       this.errorMessage = '';
-      this.statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
+      this.statusMessage = '';
       this.cdr.markForCheck();
       return;
     }
