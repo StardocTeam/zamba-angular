@@ -1,141 +1,69 @@
+/* Import necessary NG-ZORRO styles for the standalone component */
+@import "../../../../node_modules/ng-zorro-antd/style/index.min.css";
+/* Base styles and variables */
+@import "../../../../node_modules/ng-zorro-antd/alert/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/button/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/card/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/message/style/index.min.css";
+@import "../../../../node_modules/ng-zorro-antd/icon/style/index.min.css";
+
+/* Ensure hidden input is actually hidden if global styles are missing */
+input[hidden] {
+  display: none !important;
+}
+
 :host {
   display: block;
-  box-sizing: border-box;
-  color: #1f2937;
-  font-family: Arial, Helvetica, sans-serif;
+  /* Reset some basic properties to ensure consistent rendering */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  line-height: 1.5;
 }
 
-.tinymce-element-shell {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 16px;
-  border: 1px solid #d9e2f1;
-  border-radius: 12px;
-  background: #ffffff;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+.editor-page {
+  /* Removed padding to avoid extra spacing when embedded as Web Component */
+  padding: 0;
 }
 
-.toolbar {
+.intro {
+  margin-bottom: 1px;
+}
+
+.intro p {
+  margin-bottom: 12px;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.tags {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 12px;
+  margin: 16px 0;
 }
 
-.document-meta {
-  min-width: 220px;
-}
-
-.document-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: #0f172a;
-}
-
-.document-state {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 4px;
-  color: #64748b;
-  font-size: 12px;
-}
-
-.mode-pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #dcfce7;
-  color: #166534;
-  font-weight: 600;
-}
-
-.mode-pill.readonly {
-  background: #e5e7eb;
-  color: #374151;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
+.field {
+  display: grid;
   gap: 8px;
 }
 
-.actions button {
-  appearance: none;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background: #ffffff;
-  color: #0f172a;
-  cursor: pointer;
-  font-size: 13px;
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.field span {
   font-weight: 600;
-  padding: 8px 12px;
-  transition: all 0.2s ease;
 }
 
-.actions button:hover:not(:disabled) {
-  border-color: #94a3b8;
-  background: #f8fafc;
-}
-
-.actions button.primary {
-  border-color: #1677ff;
-  background: #1677ff;
-  color: #ffffff;
-}
-
-.actions button.primary:hover:not(:disabled) {
-  border-color: #0958d9;
-  background: #0958d9;
-}
-
-.actions button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.message {
-  border-radius: 8px;
+.field input,
+.field textarea {
+  width: 100%;
   padding: 10px 12px;
-  margin-bottom: 12px;
-  font-size: 13px;
-}
-
-.message.info {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-
-.message.error {
-  background: #fef2f2;
-  color: #b91c1c;
-}
-
-.editor-wrapper {
-  position: relative;
-  overflow: visible;
-}
-
-.loading-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  color: #0f172a;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-:host ::ng-deep .tox.tox-tinymce {
-  border-radius: 10px;
-  overflow: visible;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
 }

@@ -18,6 +18,7 @@ import { TaskHistoryComponent } from '../components/task-history/task-history.co
 import { TinymcePremiumEditorComponent } from '../components/tinymce-premium-editor/tinymce-premium-editor.component';
 import { ViewFormComponent } from './widgets/view-form/view-form.component';
 import { environment } from '@env/environment';
+import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
 
 // Lazy-load CheckListModule below; remove static import
 
@@ -51,7 +52,7 @@ const routes: Routes = [
       },
       {
         path: 'editor-tinymce-premium',
-        component: TinymcePremiumEditorComponent,
+        component: TinymceElementComponent,
         data: { title: 'TinyMCE Self-hosted' },
         pathMatch: 'full'
       },

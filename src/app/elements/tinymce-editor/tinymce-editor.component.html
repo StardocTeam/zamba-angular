@@ -1,42 +1,19 @@
-<div class="tinymce-element-shell">
-    <div class="toolbar">
-        <div class="document-meta">
-            <div class="document-name">{{ documentName }}</div>
-            <div class="document-state">
-                <span *ngIf="documentIdLabel">Documento {{ documentIdLabel }}</span>
-                <span *ngIf="entityIdLabel">Entidad {{ entityIdLabel }}</span>
-                <span class="mode-pill" [class.readonly]="readOnly">{{ readOnly ? 'Solo lectura' : 'Editable' }}</span>
-            </div>
+<div class="editor-page">
+    <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '0px' }">
+        <div class="intro" *ngIf="statusMessage || errorMessage">
+            <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage" nzCloseable
+                (nzOnClose)="statusMessage = ''"></nz-alert>
+            <nz-alert *ngIf="errorMessage" nzType="error" nzShowIcon [nzMessage]="errorMessage" nzCloseable
+                (nzOnClose)="errorMessage = ''"></nz-alert>
         </div>
 
-        <div class="actions">
-            <input #localDocxInput hidden type="file"
-                accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                (change)="onLocalDocxSelected($event)" />
-            <button type="button" (click)="reload()"
-                [disabled]="loading || openingLocalDocx || !hasDocumentContext">Recargar</button>
-            <button type="button" (click)="localDocxInput.click()"
-                [disabled]="loading || saving || exporting || openingLocalDocx">{{
-                openingLocalDocx ? 'Abriendo...' : 'Abrir DOCX local' }}</button>
-            <button type="button" (click)="createBlankDocument()">Nuevo</button>
-            <button type="button" class="primary" (click)="saveDocument()"
-                [disabled]="loading || openingLocalDocx || saving || readOnly">{{
-                saving ? 'Guardando...' : 'Guardar' }}</button>
-            <button type="button" (click)="downloadDocx()"
-                [disabled]="loading || openingLocalDocx || exporting">Descargar DOCX</button>
-            <button type="button" (click)="downloadHtml()" [disabled]="loading || openingLocalDocx">Descargar
-                HTML</button>
+        <input #localDocxInput hidden type="file"
+            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            (change)="onLocalDocxSelected($event)" />
+
+        <div class="editor-host" *ngIf="isTinymceLoaded">
+            <editor [licenseKey]="licenseKey" [disabled]="readOnly" [init]="editorInit" [(ngModel)]="editorContent">
+            </editor>
         </div>
-    </div>
-
-    <div *ngIf="statusMessage" class="message info">{{ statusMessage }}</div>
-    <div *ngIf="errorMessage" class="message error">{{ errorMessage }}</div>
-
-    <div class="editor-wrapper">
-        <div *ngIf="loading" class="loading-overlay">Cargando documento...</div>
-
-        <editor [licenseKey]="licenseKey" [disabled]="readOnly" [init]="editorInit" [(ngModel)]="editorContent"
-            (ngModelChange)="onContentChange($event)">
-        </editor>
-    </div>
+    </nz-card>
 </div>

@@ -21,6 +21,7 @@ import { SignatureContainerComponent } from '../signature-container/signature-co
 import { TaskHistoryComponent } from '../components/task-history/task-history.component';
 import { TinymcePremiumEditorComponent } from '../components/tinymce-premium-editor/tinymce-premium-editor.component';
 import { environment } from '@env/environment';
+import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
 
 // layout
 
@@ -120,7 +121,7 @@ const routes: Routes = [
       },
       {
         path: 'editor-tinymce-premium',
-        component: TinymcePremiumEditorComponent,
+        component: TinymceElementComponent,
         data: { title: 'TinyMCE Self-hosted' },
         pathMatch: 'full'
       },

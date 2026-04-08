@@ -1,16 +1,20 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { DOCUMENT } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
+import { asBlob } from 'html-docx-js-typescript';
+import * as mammoth from 'mammoth';
+import JSZip from 'jszip';
+import { toDocx } from 'docshift';
 
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
 
-const SELF_HOSTED_ASSET_PATH = 'assets/tinymce';
-const SELF_HOSTED_BASE_URL = resolveTinyMceAssetUrl();
-const SELF_HOSTED_SCRIPT_SRC = resolveTinyMceAssetUrl('tinymce.min.js');
 const LICENSE_KEY = 'gpl';
 const BLANK_DOCUMENT = '<p></p>';
 const DOCX_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+// Declare TinyMCE interface for global access
+declare const tinymce: any;
 
 type ElementInputValue = number | string | null | undefined;
 type BooleanLike = boolean | string | null | undefined;
@@ -24,35 +28,39 @@ interface MammothResult {
   messages: MammothMessage[];
 }
 
-function resolveTinyMceAssetUrl(pathSuffix?: string): string {
-  const relativePath = pathSuffix ? `${SELF_HOSTED_ASSET_PATH}/${pathSuffix}` : `${SELF_HOSTED_ASSET_PATH}/`;
-  const baseUri = globalThis.document?.baseURI ?? globalThis.location?.href;
-
-  if (!baseUri) {
-    return pathSuffix ? `${SELF_HOSTED_ASSET_PATH}/${pathSuffix}` : SELF_HOSTED_ASSET_PATH;
-  }
-
-  const resolvedUrl = new URL(relativePath, baseUri).toString();
-  return pathSuffix ? resolvedUrl : resolvedUrl.replace(/\/$/, '');
-}
-
 @Component({
   selector: 'app-tinymce-element',
   templateUrl: './tinymce-editor.component.html',
   styleUrls: ['./tinymce-editor.component.less'],
-  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: SELF_HOSTED_SCRIPT_SRC }],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class TinymceElementComponent implements OnChanges, OnInit {
   @Input() userId?: ElementInputValue;
   @Input() documentId?: ElementInputValue;
   @Input() entityId?: ElementInputValue;
   @Input() token?: string | null;
+  /**
+   * Base URL for TinyMCE assets. Defaults to 'assets/tinymce' for local development.
+   * Override this when using the web component in a different environment.
+   */
+  @Input() assetsUrl: string = 'assets/tinymce';
+
+  /**
+   * Altura del editor. Puede ser un número (píxeles) o string ('100%', '500px').
+   * Si no se especifica, usa el valor por defecto: 720.
+   */
+  @Input() height?: ElementInputValue;
+
+  /**
+   * Ancho del editor. Puede ser un número (píxeles) o string ('100%', '500px').
+   * Si no se especifica, usa el ancho disponible (width: '100%').
+   */
+  @Input() width?: ElementInputValue;
 
   @Input()
   set readOnly(value: BooleanLike) {
     this._readOnly = this.toBoolean(value);
-    this.editorInit = this.buildEditorInit();
     this.cdr.markForCheck();
   }
 
@@ -60,24 +68,28 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     return this._readOnly;
   }
 
+  @ViewChild('localDocxInput') localDocxInput!: ElementRef<HTMLInputElement>;
+
   readonly licenseKey = LICENSE_KEY;
 
   editorContent = BLANK_DOCUMENT;
-  editorInit = this.buildEditorInit();
+  editorInit: Record<string, unknown> = {};
   documentName = this.buildDefaultDocumentName();
   loading = false;
   openingLocalDocx = false;
   exporting = false;
   saving = false;
-  statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
+  statusMessage = '';
   errorMessage = '';
+  isTinymceLoaded = false;
 
   private _readOnly = false;
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
     @Optional() private readonly zambaService: ZambaService | null,
-    @Optional() @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService | null
+    @Optional() @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService | null,
+    @Inject(DOCUMENT) private readonly document: Document
   ) { }
 
   get hasDocumentContext(): boolean {
@@ -92,20 +104,81 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     return this.normaliseTextInput(this.entityId);
   }
 
+  setEditable(value: boolean): void {
+    if (this._readOnly === !value) {
+      return;
+    }
+    this._readOnly = !value;
+    this.cdr.detectChanges();
+  }
+
   ngOnInit(): void {
+    this.loadTinyMce().then(() => {
+      this.registerSpanishUiTexts();
+      this.isTinymceLoaded = true;
+      this.editorInit = this.buildEditorInit();
+      this.cdr.markForCheck();
+    });
+
     if (!this.zambaService) {
       return;
     }
 
-    const documentRequest = this.zambaService.getDocument(window.location.href);
-    console.log('ZambaService.getDocument result:', documentRequest);
+    this.zambaService.ensureAuthToken().subscribe(hasToken => {
+      if (hasToken) {
+        if (this.userId && this.documentId && this.entityId) {
+          void this.loadDocumentFromInputs();
+        } else {
+          const documentRequest = this.zambaService!.getDocument(window.location.href);
 
-    if (documentRequest) {
-      this.userId = documentRequest.userId;
-      this.documentId = documentRequest.documentId;
-      this.entityId = documentRequest.entityId;
-      void this.loadDocumentFromInputs();
+          if (documentRequest) {
+            this.userId = documentRequest.userId;
+            this.documentId = documentRequest.documentId;
+            this.entityId = documentRequest.entityId;
+            void this.loadDocumentFromInputs();
+          }
+        }
+      } else {
+        console.error('No se pudo obtener el token de autenticación.');
+        this.errorMessage = 'No se pudo obtener el token de autenticación.';
+        this.cdr.markForCheck();
+      }
+    });
+  }
+
+  private loadTinyMce(): Promise<void> {
+    if (typeof tinymce !== 'undefined') {
+      return Promise.resolve();
     }
+
+    const scriptUrl = this.resolveAssetUrl('tinymce.min.js');
+
+    return new Promise((resolve, reject) => {
+      const script = this.document.createElement('script');
+      script.src = scriptUrl;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`Could not load TinyMCE from ${scriptUrl}`));
+      this.document.head.appendChild(script);
+    });
+  }
+
+  private resolveAssetUrl(pathSuffix?: string): string {
+    const assetsUrl = this.assetsUrl || 'assets/tinymce';
+    const basePath = assetsUrl.endsWith('/') ? assetsUrl : `${assetsUrl}/`;
+    const relativePath = pathSuffix ? `${basePath}${pathSuffix}` : basePath;
+    const baseUri = this.document.baseURI ?? globalThis.location?.href;
+
+    if (!baseUri) {
+      return relativePath;
+    }
+
+    if (basePath.startsWith('/') || basePath.startsWith('http')) {
+      const url = new URL(relativePath, baseUri).toString();
+      return pathSuffix ? url : url.replace(/\/$/, '');
+    }
+
+    const resolvedUrl = new URL(relativePath, baseUri).toString();
+    return pathSuffix ? resolvedUrl : resolvedUrl.replace(/\/$/, '');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -122,7 +195,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     this.editorContent = BLANK_DOCUMENT;
     this.documentName = this.buildDefaultDocumentName(this.documentId);
     this.errorMessage = '';
-    this.statusMessage = 'Nuevo documento.';
+    // SILENT NEW DOC: No message shown
+    this.statusMessage = '';
     this.cdr.markForCheck();
   }
 
@@ -172,7 +246,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
       this.editorContent = this.normaliseLoadedHtml(result.value);
       this.documentName = this.stripExtension(file.name);
-      this.statusMessage = this.buildLocalDocxStatusMessage();
+      // SILENT SUCCESS: Message removed
+      this.statusMessage = '';
       this.errorMessage = '';
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error opening local DOCX', error);
@@ -188,13 +263,12 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   async downloadDocx(): Promise<void> {
     this.exporting = true;
     this.errorMessage = '';
-    this.statusMessage = 'Generando archivo DOCX...';
     this.cdr.markForCheck();
 
     try {
-      const blob = await this.convertHtmlToDocx(this.buildHtmlDocument(this.editorContent));
+      const blob = await toDocx(this.editorContent);
       this.downloadBlob(blob, this.ensureExtension(this.documentName, 'docx'));
-      this.statusMessage = 'Se descargó el documento como DOCX.';
+      this.statusMessage = '';
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error exporting DOCX', error);
       this.errorMessage = 'No se pudo exportar el documento en formato DOCX.';
@@ -242,16 +316,25 @@ export class TinymceElementComponent implements OnChanges, OnInit {
         })
       );
 
-      this.statusMessage = 'Documento guardado correctamente en Zamba.';
+      this.statusMessage = 'El documento se guardó correctamente en Zamba.';
       this.errorMessage = '';
+      this.autoCloseStatusMessage();
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error saving document', error);
       this.errorMessage = 'No se pudo guardar el documento en Zamba.';
       this.statusMessage = 'Ocurrió un error durante el guardado.';
+      this.autoCloseStatusMessage();
     } finally {
       this.saving = false;
       this.cdr.markForCheck();
     }
+  }
+
+  private autoCloseStatusMessage(): void {
+    globalThis.setTimeout(() => {
+      this.statusMessage = '';
+      this.cdr.markForCheck();
+    }, 2000);
   }
 
   private async loadDocumentFromInputs(): Promise<void> {
@@ -261,7 +344,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       this.editorContent = BLANK_DOCUMENT;
       this.documentName = this.buildDefaultDocumentName(this.documentId);
       this.errorMessage = '';
-      this.statusMessage = 'Esperando userId, documentId y entityId para cargar el documento.';
+      this.statusMessage = '';
       this.cdr.markForCheck();
       return;
     }
@@ -281,7 +364,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
     this.loading = true;
     this.errorMessage = '';
-    this.statusMessage = 'Cargando documento...';
+    // SILENT LOADING: No message shown
+    this.statusMessage = '';
     this.cdr.markForCheck();
 
     try {
@@ -290,12 +374,14 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
       this.editorContent = editorDocument.html;
       this.documentName = editorDocument.fileName;
-      this.statusMessage = 'Documento cargado correctamente.';
+      // SILENT SUCCESS: Message removed
+      this.statusMessage = '';
       this.errorMessage = '';
     } catch (error) {
       console.error('[zamba-tinymce-editor] Error loading document', error);
-      this.errorMessage = 'No se pudo cargar el documento solicitado.';
-      this.statusMessage = 'Se dejó un documento en blanco para continuar editando.';
+      // SILENT ERROR
+      this.errorMessage = '';
+      this.statusMessage = '';
       this.editorContent = BLANK_DOCUMENT;
       this.documentName = this.buildDefaultDocumentName(request.documentId);
     } finally {
@@ -379,39 +465,258 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     return /<\/?[a-z][\s\S]*>/i.test(value);
   }
 
+  private registerSpanishUiTexts(): void {
+    if (typeof tinymce === 'undefined' || typeof tinymce.addI18n !== 'function') {
+      return;
+    }
+
+    tinymce.addI18n('en', {
+      'File': 'Archivo',
+      'Edit': 'Editar',
+      'View': 'Ver',
+      'Insert': 'Insertar',
+      'Format': 'Formato',
+      'Tools': 'Herramientas',
+      'Table': 'Tabla',
+      'Help': 'Ayuda',
+      'New document': 'Nuevo documento',
+      'New Document': 'Nuevo documento',
+      'Print': 'Imprimir',
+      'Print...': 'Imprimir...',
+      'Save': 'Guardar',
+      'Restore last draft': 'Restaurar ultimo borrador',
+      'Open help dialog': 'Abrir ayuda',
+      'Undo': 'Deshacer',
+      'Redo': 'Rehacer',
+      'Cut': 'Cortar',
+      'Copy': 'Copiar',
+      'Paste': 'Pegar',
+      'Paste as text': 'Pegar como texto',
+      'Paste as text...': 'Pegar como texto...',
+      'Select all': 'Seleccionar todo',
+      'Find and replace': 'Buscar y reemplazar',
+      'Find and replace...': 'Buscar y reemplazar...',
+      'Bold': 'Negrita',
+      'Italic': 'Cursiva',
+      'Underline': 'Subrayado',
+      'Strikethrough': 'Tachado',
+      'Superscript': 'Superindice',
+      'Subscript': 'Subindice',
+      'Blocks': 'Bloques',
+      'Headings': 'Encabezados',
+      'Heading 1': 'Encabezado 1',
+      'Heading 2': 'Encabezado 2',
+      'Heading 3': 'Encabezado 3',
+      'Heading 4': 'Encabezado 4',
+      'Heading 5': 'Encabezado 5',
+      'Heading 6': 'Encabezado 6',
+      'Paragraph': 'Parrafo',
+      'Inline': 'En linea',
+      'Div': 'Division',
+      'Pre': 'Preformateado',
+      'Code': 'Codigo',
+      'Font': 'Fuente',
+      'Font family': 'Familia tipografica',
+      'Fonts': 'Fuentes',
+      'Size': 'Tamano',
+      'Font sizes': 'Tamanos de fuente',
+      'Text color': 'Color de texto',
+      'Background color': 'Color de fondo',
+      'Align left': 'Alinear a la izquierda',
+      'Align center': 'Centrar',
+      'Align right': 'Alinear a la derecha',
+      'No alignment': 'Sin alineacion',
+      'Justify': 'Justificar',
+      'Bullet list': 'Lista con viñetas',
+      'Disc': 'Disco',
+      'Circle': 'Circulo',
+      'Square': 'Cuadrado',
+      'Numbered list': 'Lista numerada',
+      'Lower Alpha': 'Alfabetica minuscula',
+      'Lower Greek': 'Griego minusculo',
+      'Lower Roman': 'Romano minusculo',
+      'Upper Alpha': 'Alfabetica mayuscula',
+      'Upper Roman': 'Romano mayusculo',
+      'Increase indent': 'Aumentar sangría',
+      'Decrease indent': 'Disminuir sangría',
+      'Line height': 'Altura de linea',
+      'Formats': 'Formatos',
+      'Remove': 'Quitar',
+      'Insert/edit link': 'Insertar/editar enlace',
+      'Link': 'Enlace',
+      'Anchor': 'Ancla',
+      'Insert/edit media': 'Insertar/editar multimedia',
+      'Insert/edit image': 'Insertar/editar imagen',
+      'Insert image': 'Insertar imagen',
+      'Insert table': 'Insertar tabla',
+      'Special character': 'Caracter especial',
+      'Special Character': 'Caracter especial',
+      'Horizontal line': 'Linea horizontal',
+      'Page break': 'Salto de pagina',
+      'Nonbreaking space': 'Espacio de no separacion',
+      'Clear formatting': 'Quitar formato',
+      'Source code': 'Código fuente',
+      'Preview': 'Vista previa',
+      'Visual aids': 'Ayudas visuales',
+      'Visual blocks': 'Bloques visuales',
+      'Show blocks': 'Mostrar bloques',
+      'Fullscreen': 'Pantalla completa',
+      'Align': 'Alineacion',
+      'Left': 'Izquierda',
+      'Center': 'Centrado',
+      'Right': 'Derecha',
+      'Word count': 'Recuento de palabras',
+      'Search': 'Buscar',
+      'Replace': 'Reemplazar',
+      'Source': 'Origen',
+      'Alternative description': 'Descripcion alternativa',
+      'Width': 'Ancho',
+      'Height': 'Alto',
+      'Reveal or hide additional toolbar items': 'Mostrar más opciones',
+      'Reveal or hide additional toolbar items.': 'Mostrar más opciones.',
+      'Table properties': 'Propiedades de tabla',
+      'Delete table': 'Eliminar tabla',
+      'Cell': 'Celda',
+      'Row': 'Fila',
+      'Column': 'Columna',
+      'Cell properties': 'Propiedades de celda',
+      'Merge cells': 'Combinar celdas',
+      'Split cell': 'Dividir celda',
+      'Insert row before': 'Insertar fila antes',
+      'Insert row after': 'Insertar fila despues',
+      'Delete row': 'Eliminar fila',
+      'Row properties': 'Propiedades de fila',
+      'Cut row': 'Cortar fila',
+      'Copy row': 'Copiar fila',
+      'Paste row before': 'Pegar fila antes',
+      'Paste row after': 'Pegar fila despues',
+      'Insert column before': 'Insertar columna antes',
+      'Insert column after': 'Insertar columna despues',
+      'Delete column': 'Eliminar columna',
+      'Cut column': 'Cortar columna',
+      'Copy column': 'Copiar columna',
+      'Paste column before': 'Pegar columna antes',
+      'Paste column after': 'Pegar columna despues'
+    });
+  }
+
   private buildEditorInit(): Record<string, unknown> {
+    const plugins = [
+      'advlist',
+      'anchor',
+      'autolink',
+      'charmap',
+      'code',
+      'fullscreen',
+      'help',
+      'image',
+      'link',
+      'lists',
+      'media',
+      'preview',
+      'searchreplace',
+      'table',
+      'visualblocks',
+      'wordcount'
+    ];
+
     return {
-      base_url: SELF_HOSTED_BASE_URL,
+      base_url: this.resolveAssetUrl(),
       branding: false,
       content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; }',
-      height: 640,
+      height: this.height ?? 720,
+      width: this.width ?? '100%',
       menubar: 'file edit view insert format tools table help',
       promotion: false,
-      plugins: [
-        'advlist',
-        'anchor',
-        'autolink',
-        'charmap',
-        'code',
-        'fullscreen',
-        'help',
-        'image',
-        'link',
-        'lists',
-        'media',
-        'preview',
-        'searchreplace',
-        'table',
-        'visualblocks',
-        'wordcount'
-      ],
+      automatic_uploads: false,
+      paste_data_images: true,
+      plugins,
       quickbars_selection_toolbar: 'bold italic underline | blocks | quicklink blockquote',
       readonly: this.readOnly,
       skin: 'oxide',
       suffix: '.min',
-      toolbar:
-        'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
-      toolbar_sticky: true
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
+      toolbar_sticky: true,
+      file_picker_callback: (callback: any, value: any, meta: any) => {
+        if (meta.filetype === 'image') {
+          const input = document.createElement('input');
+          input.setAttribute('type', 'file');
+          input.setAttribute('accept', 'image/*');
+
+          input.onchange = (e: Event) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = () => {
+                const id = 'blobid' + (new Date()).getTime();
+                const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                const base64 = (reader.result as string).split(',')[1];
+                const blobInfo = blobCache.create(id, file, base64);
+                blobCache.add(blobInfo);
+                callback(blobInfo.blobUri(), { title: file.name });
+              };
+              reader.readAsDataURL(file);
+            }
+          };
+
+          input.click();
+        }
+      },
+      setup: (editor: any) => {
+        editor.on('Change KeyUp', () => {
+          this.editorContent = editor.getContent();
+          this.cdr.markForCheck();
+        });
+
+        editor.ui.registry.addButton('reload_doc', {
+          icon: 'reload',
+          tooltip: 'Recargar documento',
+          onAction: () => this.reload()
+        });
+
+        editor.ui.registry.addButton('open_docx', {
+          icon: 'upload',
+          tooltip: 'Abrir DOCX local',
+          onAction: () => this.localDocxInput?.nativeElement.click()
+        });
+
+        editor.ui.registry.addButton('new_doc', {
+          icon: 'new-document',
+          tooltip: 'Nuevo documento en blanco',
+          onAction: () => this.createBlankDocument()
+        });
+
+        editor.ui.registry.addButton('save_zamba', {
+          icon: 'save',
+          tooltip: 'Guardar en Zamba',
+          onAction: () => this.saveDocument()
+        });
+
+        editor.ui.registry.addButton('download_docx', {
+          icon: 'export',
+          tooltip: 'Descargar DOCX',
+          onAction: () => this.downloadDocx()
+        });
+
+        editor.ui.registry.addToggleButton('toggle_edit', {
+          icon: 'lock',
+          tooltip: 'Bloquear/Desbloquear edición',
+          onAction: (api: any) => {
+            const isCurrentlyLocked = api.isActive();
+            const newLockedState = !isCurrentlyLocked; // Si estaba Locked, ahora Unlocked.
+
+            api.setActive(newLockedState); // Actualizamos estado visual
+            this.setEditable(!newLockedState); // Si newLockedState=TRUE (Locked) -> editable=FALSE
+          },
+          onSetup: (api: any) => {
+            api.setActive(this._readOnly);
+            const forceEnable = () => api.setEnabled(true);
+            setTimeout(forceEnable, 0);
+            editor.on('SwitchMode', forceEnable);
+            return () => editor.off('SwitchMode', forceEnable);
+          }
+        });
+      }
     };
   }
 
@@ -493,14 +798,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private async convertDocxToHtml(arrayBuffer: ArrayBuffer): Promise<MammothResult> {
-    const mammothModule = (await import('mammoth')) as unknown as {
-      default?: {
-        convertToHtml?: (input: { arrayBuffer: ArrayBuffer }, options?: { includeDefaultStyleMap?: boolean }) => Promise<MammothResult>;
-      };
-      convertToHtml?: (input: { arrayBuffer: ArrayBuffer }, options?: { includeDefaultStyleMap?: boolean }) => Promise<MammothResult>;
-    };
-
-    const convertToHtml = mammothModule.default?.convertToHtml ?? mammothModule.convertToHtml;
+    const convertToHtml = mammoth.convertToHtml;
 
     if (!convertToHtml) {
       throw new Error('No se pudo inicializar el conversor de DOCX.');
@@ -513,6 +811,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       }
     );
 
+    // Si Mammoth detecta altChunk y el resultado está vacío, intentamos extraer manualmente
     if (!result.value.trim() && result.messages.some(m => m.message.includes('altChunk'))) {
       const fallbackHtml = await this.extractAltChunkHtml(arrayBuffer);
       if (fallbackHtml) {
@@ -528,7 +827,6 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
   private async extractAltChunkHtml(arrayBuffer: ArrayBuffer): Promise<string | null> {
     try {
-      const JSZip = (await import('jszip')).default;
       const zip = await JSZip.loadAsync(arrayBuffer);
       const files = Object.keys(zip.files);
       const htmlFiles = files.filter(f => f.endsWith('.html') || f.endsWith('.htm'));
@@ -546,49 +844,63 @@ export class TinymceElementComponent implements OnChanges, OnInit {
   }
 
   private async generateDocxWithAltChunk(htmlContent: string): Promise<Blob> {
-    const JSZip = (await import('jszip')).default;
     const zip = new JSZip();
 
-    zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 1. [Content_Types].xml
+    // Added Override for htmlChunk.html for better Word compatibility
+    const contentTypes = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
   <Default Extension="html" ContentType="text/html"/>
   <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
-</Types>`);
+  <Override PartName="/word/htmlChunk.html" ContentType="text/html"/>
+</Types>`;
+    zip.file('[Content_Types].xml', contentTypes);
 
-    zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 2. _rels/.rels
+    const rels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
-</Relationships>`);
+</Relationships>`;
+    zip.file('_rels/.rels', rels);
 
-    zip.folder('word')?.file('document.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 3. word/document.xml
+    const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <w:body>
     <w:altChunk r:id="htmlChunk" />
   </w:body>
-</w:document>`);
+</w:document>`;
+    zip.file('word/document.xml', documentXml);
 
-    zip.folder('word')?.folder('_rels')?.file('document.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    // 4. word/_rels/document.xml.rels
+    const documentRels = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="htmlChunk" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk" Target="htmlChunk.html"/>
-</Relationships>`);
+</Relationships>`;
+    zip.file('word/_rels/document.xml.rels', documentRels);
 
-    // IMPORTANT: Add BOM for UTF-8 support
+    // 5. word/htmlChunk.html
     const fullHtml = this.buildHtmlDocument(htmlContent);
+
     const htmlBlob = new Blob(['\uFEFF', fullHtml], { type: 'text/html;charset=utf-8' });
-    zip.folder('word')?.file('htmlChunk.html', htmlBlob);
+    zip.file('word/htmlChunk.html', htmlBlob);
 
     return await zip.generateAsync({ type: 'blob', mimeType: DOCX_MIME_TYPE });
   }
 
   private async convertHtmlToDocx(html: string): Promise<Blob> {
-    const { asBlob } = await import('html-docx-js-typescript');
     const file = await asBlob(html);
     return file instanceof Blob ? file : new Blob([file as BlobPart], { type: DOCX_MIME_TYPE });
   }
 
   private buildHtmlDocument(body: string): string {
+    // Si el contenido ya parece ser un documento HTML completo, no lo volvemos a envolver
+    if (body.trim().match(/^<!DOCTYPE html>/i) || body.includes('<html')) {
+      return body;
+    }
+
     return `<!DOCTYPE html>
 <html lang="es">
   <head>
