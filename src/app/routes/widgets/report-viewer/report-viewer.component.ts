@@ -370,18 +370,18 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       if (ObjectData.RowHashtable && ObjectData.ListColumns.length > 0) {
         this.cdr.detectChanges();
 
-        ObjectData.ListColumns.forEach((element: any) => {
+        ObjectData.ListColumns.forEach((ColumnName: string) => {
           var baseWidth = 10; // Factor base para el ancho (puedes ajustarlo según el diseño)
           const maxWidth = 800; // Ancho máximo permitido para una columna
 
 
           // Calcular el ancho basado en el nombre de la columna
-          let columnWidth = element.ColumnName.length * baseWidth;
-          columnWidth -= Math.floor(element.ColumnName.length / 10) * baseWidth;
+          let columnWidth = ColumnName.length * baseWidth;
+          columnWidth -= Math.floor(ColumnName.length / 10) * baseWidth;
 
           // Calcular el ancho basado en el valor más largo de los datos
           ObjectData.RowHashtable.forEach((row: any) => {
-            const cellValue = row[element.ColumnName] ? row[element.ColumnName].toString() : '';
+            const cellValue = row[ColumnName] ? row[ColumnName].toString() : '';
             var cellWidth = cellValue.length * baseWidth;
 
             cellWidth -= Math.floor(cellValue.length / 10) * baseWidth;
@@ -400,10 +400,10 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           columnWidth = Math.min(columnWidth, maxWidth);
 
           var newColumn: ColumnItem = {
-            name: element.ColumnName,
+            name: ColumnName,
             sortOrder: null,
-            sortFn: this.getSortFn(element.ColumnName),
-            sortDirections: this.getSortDirection(element.ColumnName),
+            sortFn: this.getSortFn(ColumnName),
+            sortDirections: this.getSortDirection(ColumnName),
             filterMultiple: false,
             listOfFilter: [],
             filterFn: null,
@@ -421,8 +421,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
         ObjectData.RowHashtable.forEach((element: any) => {
           var newRow: any = [];
-          ObjectData.ListColumns.forEach((column: any) => {
-            newRow[column.ColumnName] = element[column.ColumnName];
+          ObjectData.ListColumns.forEach((ColumnName: string) => {
+            newRow[ColumnName] = element[ColumnName];
           });
 
           this.listOfData.push(newRow);
