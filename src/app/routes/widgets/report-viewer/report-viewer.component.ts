@@ -351,11 +351,12 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     if (!data) {
       this.isButtonExcelDisabled = true;
 
-      console.error('Error: Ocurrio un error al cargar el reporte');
+      console.error('Error al cargar el reporte');
+
       this.modal.error({
-        nzTitle: 'Ocurrio un error al intentar cargar el reporte',
-        nzContent: '<p>Verifique que el reporte no contenga errores y que la base de datos este bien configurada.</p>',
-        nzOkText: 'OK',
+        nzTitle: 'No pudimos cargar el reporte',
+        nzContent: '<p>Ocurrió un problema al intentar mostrar el reporte.</p><p>Por favor, intentá nuevamente en unos momentos. Si el problema continúa, contactá a soporte.</p>',
+        nzOkText: 'Entendido',
         nzOkType: 'primary',
         nzOnOk: () => console.log('OK'),
       });

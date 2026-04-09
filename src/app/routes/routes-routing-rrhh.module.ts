@@ -104,57 +104,57 @@ const routes: Routes = [
       {
         path: 'taskhistory',
         component: TaskHistoryComponent,
-        data: { title: 'Historial de Tareas' },
+        data: { title: 'Zamba - Historial de Tareas' },
         pathMatch: 'full'
       },
       {
         path: 'editor-docx',
         component: DocxEditorComponent,
-        data: { title: 'Editor DOCX' },
+        data: { title: 'Zamba - Editor DOCX' },
         pathMatch: 'full'
       },
       {
         path: 'editor-onlyoffice',
         component: OnlyofficeEditorComponent,
-        data: { title: 'OnlyOffice Docs' },
+        data: { title: 'Zamba - OnlyOffice Docs' },
         pathMatch: 'full'
       },
       {
         path: 'editor-tinymce-premium',
         component: TinymceElementComponent,
-        data: { title: 'TinyMCE Self-hosted' },
+        data: { title: 'Zamba - TinyMCE Self-hosted' },
         pathMatch: 'full'
       },
       {
         path: 'editor-ckeditor5-premium',
         component: Ckeditor5PremiumEditorComponent,
-        data: { title: 'CKEditor 5 Premium' },
+        data: { title: 'Zamba - CKEditor 5 Premium' },
         pathMatch: 'full'
       },
       {
         path: 'reports',
         component: ReportComponentComponent,
-        data: { title: 'Reportes' },
+        data: { title: 'Zamba - Reportes' },
         children: [
           {
             path: 'create',
             component: ReportEditorComponent,
-            data: { title: 'Crear reporte' }
+            data: { title: 'Zamba - Crear reporte' }
           },
           {
             path: 'edit/:id',
             component: ReportEditorComponent,
-            data: { title: 'Editar reporte' }
+            data: { title: 'Zamba - Editar reporte' }
           },
           {
             path: 'view/:id',
             component: ReportViewerComponent,
-            data: { title: 'Reporte' }
+            data: { title: 'Zamba - Reporte' }
           },
           {
             path: 'chartcontainer/:id',
             component: ChartContainerComponent,
-            data: { title: 'Vista de graficos' },
+            data: { title: 'Zamba - Vista de graficos' },
             pathMatch: 'full'
           },
         ]
@@ -174,7 +174,7 @@ const routes: Routes = [
       {
         path: 'permisos',
         component: PermissionsUserGroupComponent,
-        data: { title: 'Gestión de grupos y usuarios' },
+        data: { title: 'Zamba - Gestión de grupos y usuarios' },
       }
     ]
   },
