@@ -354,9 +354,9 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       console.error('Error al cargar el reporte');
 
       this.modal.error({
-        nzTitle: 'No pudimos cargar el reporte',
-        nzContent: '<p>Ocurrió un problema al intentar mostrar el reporte.</p><p>Por favor, intentá nuevamente en unos momentos. Si el problema continúa, contactá a soporte.</p>',
-        nzOkText: 'Entendido',
+        nzTitle: 'No se pudo cargar el reporte',
+        nzContent: '<p>Lo sentimos — no pudimos mostrar el reporte en este momento. Por favor intenta nuevamente en unos minutos.</p><p>Si el problema continúa, contactá a soporte indicando el nombre del reporte y la acción que realizaste.</p>',
+        nzOkText: 'Aceptar',
         nzOkType: 'primary',
         nzOnOk: () => console.log('OK'),
       });
@@ -392,7 +392,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             }
           });
 
-          //Umbral de tamaño (0 a 150)
+          //Umbral de tamaño (0 to 150)
           if (columnWidth < 150) {
             columnWidth += columnWidth * 0.20;
           }
@@ -464,9 +464,9 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
       console.error('Error: Ocurrio un error al cargar el reporte');
       this.modal.error({
-        nzTitle: 'Ocurrio un error al intentar cargar el reporte',
-        nzContent: '<p>' + data + '</p>',
-        nzOkText: 'OK',
+        nzTitle: 'Error al cargar el reporte',
+        nzContent: '<p>Ocurrió un error al intentar cargar el reporte. Por favor verifica los filtros e intenta nuevamente.</p><p>Si persiste, contacta a soporte con el nombre del reporte.</p>',
+        nzOkText: 'Aceptar',
         nzOkType: 'primary',
         nzOnOk: () => console.log('OK'),
       });
@@ -545,9 +545,9 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           console.error('Error: No data received for export.');
 
           this.modal.error({
-            nzTitle: 'Ocurrio un error',
-            nzContent: '<p>No hay resultados</p>',
-            nzOkText: 'OK',
+            nzTitle: 'No hay datos para exportar',
+            nzContent: '<p>El reporte no contiene resultados para exportar. </p>',
+            nzOkText: 'Aceptar',
             nzOkType: 'primary',
             nzOnOk: () => console.log('OK'),
           });
