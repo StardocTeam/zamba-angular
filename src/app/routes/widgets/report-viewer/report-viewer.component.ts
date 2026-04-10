@@ -393,7 +393,11 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           });
 
           //Umbral de tamaño (0 to 150)
-          if (columnWidth < 150) {
+          if (columnWidth < 80) {
+            columnWidth += columnWidth * 0.30;
+          }
+          //Umbral de tamaño (0 to 150)
+          if (columnWidth > 80 && columnWidth < 150) {
             columnWidth += columnWidth * 0.20;
           }
 
@@ -414,7 +418,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           this.listOfColumns.push(newColumn);
         });
 
-        // Simplified: set FlagOnClick if any column named TASKID exists (case-insensitive)
         this.FlagOnClick = this.listOfColumns.some(c => (c.name || '').toString().toUpperCase() === 'TASKID');
 
         ObjectData.RowHashtable.forEach((element: any) => {
