@@ -79,9 +79,9 @@ export class TaskService {
     }
   }
 
-  openDocTask(genericRequest: {}) {
+  getTaskByTaskId(genericRequest: {}) {
     return this.http.post(
-      `${environment['restApi']}/Taskservice/openDocTask`,
+      `${environment['restApi']}/Tasks/getTaskByTaskId`,
       genericRequest,
       { context: new HttpContext().set(ALLOW_ANONYMOUS, true) }
     );

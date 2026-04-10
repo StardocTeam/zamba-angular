@@ -414,11 +414,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           this.listOfColumns.push(newColumn);
         });
 
-        const SystemColumns = ['DOCID', 'ENTITYID', 'TASKID', 'STEPID'];
-
-        this.FlagOnClick = SystemColumns.every(SC =>
-          this.listOfColumns.some(c => c.name === SC)
-        );
+        // Simplified: set FlagOnClick if any column named TASKID exists (case-insensitive)
+        this.FlagOnClick = this.listOfColumns.some(c => (c.name || '').toString().toUpperCase() === 'TASKID');
 
         ObjectData.RowHashtable.forEach((element: any) => {
           var newRow: any = [];
@@ -647,7 +644,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           "&docid=" + data['DOCID'] +
           "&taskid=" + data['TASKID'] +
           "&wfstepid=" + data['STEPID'] +
-          "&user=" + tokenData['user'] +
+          "&user=" + tokenData['userid'] +
           "&t=" + tokenData['token']);
 
         window.open(Url, '_blank');
@@ -658,22 +655,45 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   //#endregion
 
   onRowDblClick(row: any): void {
-    if (row && row.TaskId) {
-      // Llama a tu servicio para ejecutar el endpoint
-      this.TService.openDocTask(row.TaskId).pipe(
-        catchError(error => {
-          console.error('Error al obtener datos:', error);
-          throw error;
-        })
-      )
-        .subscribe((data: any) => {
-          console.log('Respuesta del servicio:', data);
-          if (data && data.url) {
-            window.open(data.url, '_blank');
-          } else {
-            console.error('URL no encontrada en la respuesta del servicio');
+
+    if (row && row.TASKID) {
+      const tokenData = this.tokenService.get();
+
+      if (tokenData) {
+        var genericRequest = {
+          UserId: tokenData['userid'],
+          token: tokenData['token'],
+          Params: {
+            taskId: row.TASKID
           }
-        });
+        };
+
+        this.TService.getTaskByTaskId(genericRequest).pipe(
+          catchError(error => {
+            console.error('Error al obtener datos:', error);
+
+            throw error;
+          })
+        )
+          .subscribe((data: any) => {
+            console.log('Respuesta del servicio:', data);
+            if (data && data.url) {
+              var thisDomain = environment['zambaWeb'];
+              const tokenData = this.tokenService.get();
+
+              if (thisDomain && tokenData != null) {
+                const Url = (thisDomain + data.url +
+                  "&user=" + tokenData['userid'] +
+                  "&t=" + tokenData['token']);
+
+                window.open(Url, '_blank');
+              }
+            } else {
+              console.error('URL no encontrada en la respuesta del servicio');
+
+            }
+          });
+      }
     }
   }
 
