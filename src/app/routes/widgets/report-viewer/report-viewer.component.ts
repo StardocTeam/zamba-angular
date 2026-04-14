@@ -419,6 +419,11 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           this.listOfColumns.push(newColumn);
         });
 
+        // Si solo existe TASKID como columna, no la ocultes
+        if (this.listOfColumns.length === 1 && (this.listOfColumns[0].name || '').toUpperCase() === 'TASKID') {
+          this.listOfColumns[0].visible = true;
+        }
+
         this.FlagOnClick = this.listOfColumns.some(c => (c.name || '').toString().toUpperCase() === 'TASKID');
 
         ObjectData.RowHashtable.forEach((element: any) => {
