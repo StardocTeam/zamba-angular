@@ -412,7 +412,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             filterMultiple: false,
             listOfFilter: [],
             filterFn: null,
-            width: `${columnWidth}px`
+            width: `${columnWidth}px`,
+            visible: ColumnName !== "TASKID"
           };
 
           this.listOfColumns.push(newColumn);
@@ -744,6 +745,12 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   objectKeys(obj: any): string[] {
     return Object.keys(obj);
   }
+
+  isColumnVisible(key: string): boolean {
+    const col = this.listOfColumns.find(c => c.name === key);
+    return col ? col.visible : true;
+  }
+
   //#endregion
 }
 
@@ -756,5 +763,5 @@ interface ColumnItem {
   filterMultiple: boolean;
   sortDirections: NzTableSortOrder[];
   width: string;
-
+  visible: boolean;
 }
