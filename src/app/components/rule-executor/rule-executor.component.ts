@@ -245,14 +245,20 @@ export class RuleExecutorComponent implements OnInit {
       const asDoc = false;
       const name = Vars["nuevatarea.name"];
       const userid = Vars["nuevatarea.currentuserid"];
-      const taskurl = "../WF/TaskViewer.aspx?doctype=" + entityId + "&docid=" + generateddocid + "&taskid=" + taskId + "&userid=" + userid;
       const idnotificacionaasociar = Vars["idnotificacionaasociar"];
       const openMode = Params?.openMode || '0';
       const tareaId = Vars["nuevatarea.id"];
       const wfstepid = Vars["nuevatarea.stepid"];
       const scriptToExecute = Vars["scripttoexecute"];
 
-      console.log(`${environment['zambaWeb']}`.toLocaleLowerCase());
+      // Obtener el token del tokenService
+      let token = '';
+      try {
+        const tokenObj = this.tokenService.get();
+        token = tokenObj?.token || '';
+      } catch (e) {
+        console.warn('No se pudo obtener el token:', e);
+      }
 
       let Url = (
         `${environment['zambaWeb']}/views/WF/TaskViewer.aspx?` +
@@ -260,11 +266,10 @@ export class RuleExecutorComponent implements OnInit {
         `&docid=${generateddocid}` +
         `&taskid=${taskId}` +
         `&wfstepid=${wfstepid}` +
-        `&user=${userid}`
+        `&user=${userid}` +
+        (token ? `&t=${encodeURIComponent(token)}` : '')
       );
       window.open(Url, '_blank');
-
-
     } catch (error) {
       console.error('Error opening task:', error);
     }
