@@ -49,8 +49,8 @@
                     <div *ngIf="startDateVisible || endDateVisible" nz-col nzXs="4" nzMd="4"
                         style="display:flex; align-items:end;">
                         <button nz-button nzType="primary" (click)="OpenReport(currentReport)"
-                            [disabled]="(startDateVisible && !ZVARstartDate) || (endDateVisible && !ZVARendDate)">Aplicar
-                            filtros</button>
+                            [disabled]="(startDateVisible && !ZVARstartDate) || (endDateVisible && !ZVARendDate)">
+                            Aplicar filtros</button>
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                 <thead>
                     <tr>
                         <ng-container *ngFor="let column of listOfColumns;">
-                            <th [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
+                            <th *ngIf="column.visible" [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
                                 [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
                                 [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
                                 {{ column.name }}
@@ -80,7 +80,9 @@
                     <ng-container *ngFor="let data of filterTable.data;">
                         <tr (dblclick)="onRowDblClick(data)" [class.clickable]="FlagOnClick">
                             <td *ngFor="let key of objectKeys(data)">
-                                {{ data[key] }}
+                                <ng-container *ngIf="isColumnVisible(key)">
+                                    {{ data[key] }}
+                                </ng-container>
                             </td>
                         </tr>
                     </ng-container>
