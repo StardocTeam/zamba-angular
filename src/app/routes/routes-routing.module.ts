@@ -19,6 +19,7 @@ import { TinymcePremiumEditorComponent } from '../components/tinymce-premium-edi
 import { ViewFormComponent } from './widgets/view-form/view-form.component';
 import { environment } from '@env/environment';
 import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
+import { GlobalSearchElementComponent } from '../elements/global-search/global-search.component';
 
 // Lazy-load CheckListModule below; remove static import
 
@@ -60,6 +61,12 @@ const routes: Routes = [
         path: 'editor-ckeditor5-premium',
         component: Ckeditor5PremiumEditorComponent,
         data: { title: 'CKEditor 5 Premium' },
+        pathMatch: 'full'
+      },
+      {
+        path: 'global-search',
+        component: GlobalSearchElementComponent,
+        data: { title: 'Buscador Zamba', EntityId: 'HB Documentos', IndexId: 'GlobalSearch' },
         pathMatch: 'full'
       },
       {

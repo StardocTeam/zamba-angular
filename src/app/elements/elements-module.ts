@@ -21,15 +21,17 @@ import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/servic
 import { GlobalConfigModule } from 'src/app/global-config.module';
 import { SharedModule } from '@shared';
 import { TinymceElementComponent } from './tinymce-editor/tinymce-editor.component';
+import { GlobalSearchElementComponent } from './global-search/global-search.component';
 import { createCustomElement } from '@angular/elements';
 
 const routes: Routes = [
   { path: '', component: ChecklistComponent },
-  { path: 'tinymce-editor', component: TinymceElementComponent }
+  { path: 'tinymce-editor', component: TinymceElementComponent },
+  { path: 'global-search', component: GlobalSearchElementComponent, data: { EntityId: 'HB Documentos', IndexId: 'GlobalSearch' } }
 ];
 
 @NgModule({
-  declarations: [ChecklistComponent, TinymceElementComponent],
+  declarations: [ChecklistComponent, TinymceElementComponent, GlobalSearchElementComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -50,7 +52,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes)
   ],
   providers: [HttpClientModule, ReportViewerService, TokenService, { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }],
-  exports: [ChecklistComponent, TinymceElementComponent, NzIconModule],
+  exports: [ChecklistComponent, TinymceElementComponent, GlobalSearchElementComponent, NzIconModule],
 })
 export class ElementsModule implements DoBootstrap {
 
@@ -68,6 +70,12 @@ export class ElementsModule implements DoBootstrap {
     if (!customElements.get('zamba-tinymce-editor')) {
       customElements.define('zamba-tinymce-editor', TinymceEditorElement);
     }
+
+    const GlobalSearchElement = createCustomElement(GlobalSearchElementComponent, { injector: this.injector });
+    if (!customElements.get('zamba-global-search')) {
+      customElements.define('zamba-global-search', GlobalSearchElement);
+    }
+
   }
 
 }

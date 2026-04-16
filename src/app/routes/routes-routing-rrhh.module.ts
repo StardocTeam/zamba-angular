@@ -22,6 +22,7 @@ import { TaskHistoryComponent } from '../components/task-history/task-history.co
 import { TinymcePremiumEditorComponent } from '../components/tinymce-premium-editor/tinymce-premium-editor.component';
 import { environment } from '@env/environment';
 import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
+import { GlobalSearchElementComponent } from '../elements/global-search/global-search.component';
 
 // layout
 
@@ -129,6 +130,12 @@ const routes: Routes = [
         path: 'editor-ckeditor5-premium',
         component: Ckeditor5PremiumEditorComponent,
         data: { title: 'Zamba - CKEditor 5 Premium' },
+        pathMatch: 'full'
+      },
+      {
+        path: 'global-search',
+        component: GlobalSearchElementComponent,
+        data: { title: 'Zamba - Buscador', EntityId: 'HB Documentos', IndexId: 'GlobalSearch' },
         pathMatch: 'full'
       },
       {
