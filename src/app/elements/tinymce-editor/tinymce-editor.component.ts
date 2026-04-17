@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, SimpleChanges, ViewChild, ElementRef, ViewEncapsulation, HostListener } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { DOCUMENT } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
@@ -35,7 +35,7 @@ interface MammothResult {
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class TinymceElementComponent implements OnChanges, OnInit {
+export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
   @Input() userId?: ElementInputValue;
   @Input() documentId?: ElementInputValue;
   @Input() entityId?: ElementInputValue;
@@ -87,10 +87,13 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
+    private readonly hostElementRef: ElementRef<HTMLElement>,
     @Optional() private readonly zambaService: ZambaService | null,
     @Optional() @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService | null,
     @Inject(DOCUMENT) private readonly document: Document
-  ) { }
+  ) {
+    (this.hostElementRef.nativeElement as HTMLElement & { reload?: () => void }).reload = () => this.reload();
+  }
 
   get hasDocumentContext(): boolean {
     return this.resolveDocumentRequest() !== null;
@@ -185,6 +188,16 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     if (changes['userId'] || changes['documentId'] || changes['entityId'] || changes['token']) {
       void this.loadDocumentFromInputs();
     }
+  }
+
+  ngOnDestroy(): void {
+    delete (this.hostElementRef.nativeElement as HTMLElement & { reload?: () => void }).reload;
+  }
+
+  @HostListener('document:documentAdded', ['$event'])
+  onDocumentAdded(event?: CustomEvent<{ mensaje?: string }>): void {
+    console.log('[zamba-tinymce-editor] documentAdded recibido', event?.detail);
+    this.reload();
   }
 
   reload(): void {
