@@ -648,7 +648,7 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
       readonly: this.readOnly,
       skin: 'oxide',
       suffix: '.min',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
+      toolbar: 'save_zamba open_docx download_docx reload_doc new_doc toggle_edit | undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
       toolbar_sticky: true,
       file_picker_callback: (callback: any, value: any, meta: any) => {
         if (meta.filetype === 'image') {
@@ -688,7 +688,7 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
         });
 
         editor.ui.registry.addButton('open_docx', {
-          icon: 'upload',
+          icon: 'folder',
           tooltip: 'Abrir DOCX local',
           onAction: () => this.localDocxInput?.nativeElement.click()
         });
@@ -700,13 +700,13 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
         });
 
         editor.ui.registry.addButton('save_zamba', {
-          icon: 'save',
+          icon: 'selected',
           tooltip: 'Guardar en Zamba',
           onAction: () => this.saveDocument()
         });
 
         editor.ui.registry.addButton('download_docx', {
-          icon: 'export',
+          icon: 'save',
           tooltip: 'Descargar DOCX',
           onAction: () => this.downloadDocx()
         });
