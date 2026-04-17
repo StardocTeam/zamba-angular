@@ -504,7 +504,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
         });
 
         editor.ui.registry.addButton('download_docx', {
-          icon: 'export',
+          icon: 'export-word',
           tooltip: 'Descargar DOCX',
           onAction: () => this.downloadDocx()
         });
