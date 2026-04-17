@@ -686,8 +686,22 @@ export class TinymceElementComponent implements OnChanges, OnInit {
           onAction: () => this.createBlankDocument()
         });
 
+        editor.ui.registry.addIcon(
+          'floppy',
+          `<svg width="24" height="24">
+            <g transform="scale(0.24)">
+              <path d="M 8.955 10.021 L 71.81 10.021 L 89.552 27.763 L 89.552 90.618 L 8.955 90.618 Z"
+                    style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 6px; stroke-linejoin: round; stroke-linecap: round;" />
+              <rect x="24.844" y="9.917" width="39.393" height="28.046"
+                    style="stroke: rgb(0, 0, 0); stroke-width: 0px;" />
+              <path d="M 27.352 57.938 L 73.128 57.938 L 73.128 90.635 L 27.352 90.635 L 27.352 57.938 Z"
+                    style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-linejoin: round; stroke-width: 6px;" />
+            </g>
+          </svg>`
+        );
+
         editor.ui.registry.addButton('save_zamba', {
-          icon: 'selected',
+          icon: 'floppy',
           tooltip: 'Guardar en Zamba',
           onAction: () => this.saveDocument()
         });
