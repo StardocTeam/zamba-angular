@@ -58,7 +58,9 @@ export class StartupService {
         //this.settingService.setUser(appData.user);
         //this.aclService.setFull(true);
         //this.menuService.add(appData.menu);
-        //this.titleService.default = '';
+
+        this.titleService.default = 'Zamba';
+        this.titleService.prefix = 'Zamba';
         //this.titleService.suffix = appData.app.name;
       })
     );

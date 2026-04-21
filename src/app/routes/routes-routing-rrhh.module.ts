@@ -53,7 +53,7 @@ const routes: Routes = [
       {
         path: 'main',
         component: MainPageComponent,
-        data: { title: 'Main Page' },
+        data: { title: 'Inicio' },
         pathMatch: 'full'
       },
       {
@@ -105,63 +105,63 @@ const routes: Routes = [
       {
         path: 'taskhistory',
         component: TaskHistoryComponent,
-        data: { title: 'Zamba - Historial de Tareas' },
+        data: { title: 'Historial de Tareas' },
         pathMatch: 'full'
       },
       {
         path: 'editor-docx',
         component: DocxEditorComponent,
-        data: { title: 'Zamba - Editor DOCX' },
+        data: { title: 'Editor DOCX' },
         pathMatch: 'full'
       },
       {
         path: 'editor-onlyoffice',
         component: OnlyofficeEditorComponent,
-        data: { title: 'Zamba - OnlyOffice Docs' },
+        data: { title: 'OnlyOffice Docs' },
         pathMatch: 'full'
       },
       {
         path: 'editor-tinymce-premium',
         component: TinymceElementComponent,
-        data: { title: 'Zamba - TinyMCE Self-hosted' },
+        data: { title: 'TinyMCE Self-hosted' },
         pathMatch: 'full'
       },
       {
         path: 'editor-ckeditor5-premium',
         component: Ckeditor5PremiumEditorComponent,
-        data: { title: 'Zamba - CKEditor 5 Premium' },
+        data: { title: 'CKEditor 5 Premium' },
         pathMatch: 'full'
       },
       {
         path: 'global-search',
         component: GlobalSearchElementComponent,
-        data: { title: 'Zamba - Buscador', EntityId: 'HB Documentos', IndexId: 'GlobalSearch' },
+        data: { title: 'Buscador', EntityId: 'HB Documentos', IndexId: 'GlobalSearch' },
         pathMatch: 'full'
       },
       {
         path: 'reports',
         component: ReportComponentComponent,
-        data: { title: 'Zamba - Reportes' },
+        data: { title: 'Reportes' },
         children: [
           {
             path: 'create',
             component: ReportEditorComponent,
-            data: { title: 'Zamba - Crear reporte' }
+            data: { title: 'Crear reporte' }
           },
           {
             path: 'edit/:id',
             component: ReportEditorComponent,
-            data: { title: 'Zamba - Editar reporte' }
+            data: { title: 'Editar reporte' }
           },
           {
             path: 'view/:id',
             component: ReportViewerComponent,
-            data: { title: 'Zamba - Reporte' }
+            data: { title: 'Reporte' }
           },
           {
             path: 'chartcontainer/:id',
             component: ChartContainerComponent,
-            data: { title: 'Zamba - Vista de graficos' },
+            data: { title: 'Vista de graficos' },
             pathMatch: 'full'
           },
         ]
@@ -169,6 +169,7 @@ const routes: Routes = [
       {
         path: 'gestion',
         component: QuickActionsComponent,
+        data: { title: 'Gestión' },
       },
       {
         path: 'doshowtable',
@@ -181,7 +182,7 @@ const routes: Routes = [
       {
         path: 'permisos',
         component: PermissionsUserGroupComponent,
-        data: { title: 'Zamba - Gestión de grupos y usuarios' },
+        data: { title: 'Gestión de grupos y usuarios' },
       }
     ]
   },
