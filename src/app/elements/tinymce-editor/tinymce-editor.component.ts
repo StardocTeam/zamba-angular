@@ -720,7 +720,7 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
         });
 
         editor.ui.registry.addButton('download_docx', {
-          icon: 'save',
+          icon: 'export-word',
           tooltip: 'Descargar DOCX',
           onAction: () => this.downloadDocx()
         });
