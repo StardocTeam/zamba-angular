@@ -127,6 +127,12 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'chart-viewer-premium',
+        component: ChartContainerComponent,
+        data: { title: 'ChartViewer Self-hosted' },
+        pathMatch: 'full'
+      },
+      {
         path: 'editor-ckeditor5-premium',
         component: Ckeditor5PremiumEditorComponent,
         data: { title: 'CKEditor 5 Premium' },
