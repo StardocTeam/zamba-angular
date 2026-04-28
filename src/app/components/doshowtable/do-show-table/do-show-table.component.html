@@ -21,6 +21,7 @@
     </tbody>
 </nz-table>
 <div class="center-btn">
+    <button nz-button nzType="default" nzSize="large" (click)="cancel()" style="margin-right: 8px;">Cancelar</button>
     <button nz-button nzType="primary" nzSize="large" (click)="logSelected()"
         [disabled]="setOfCheckedId.size === 0">Aceptar</button>
 </div>
