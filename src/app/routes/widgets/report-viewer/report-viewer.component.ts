@@ -585,20 +585,27 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   }
 
   // Navega al contenedor de gráficos del mismo reporte (botón "volver")
-  returnToCharts(report: Report): void {
+  goToCharts(report: Report): void {
     if (!report) return;
     // Intento de usar un identificador; si el objeto ya trae ID lo usamos
     const anyReport: any = report as any;
     const reportId = anyReport.ID || anyReport.Id || anyReport.id; // tolerante a distintas propiedades
     if (!reportId) {
-      console.warn('returnToCharts: No se encontró el ID del reporte.');
+      console.warn('goToCharts: No se encontró el ID del reporte.');
       return;
     }
     const tokenData = this.tokenService.get();
     const queryParams: any = {};
+
     if (tokenData && tokenData['token']) {
       queryParams.t = tokenData['token'];
+      queryParams.params = JSON.stringify({
+        ...this.buildZvarsObject(),
+        FechaDesde: this.ZVARstartDate,
+        FechaHasta: this.ZVARendDate
+      });
     }
+
     this.router.navigate(['/tools/reports/chartcontainer', reportId], { queryParams });
   }
 

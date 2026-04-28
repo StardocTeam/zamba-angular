@@ -47,7 +47,7 @@ export class ChartComponent {
   }
 
   ngOnInit() {
-
+    debugger;
 
 
 

@@ -7,7 +7,7 @@
                 </div>
                 <div nz-col nzXs="4" style="margin-top: 5px;">
                     <button *ngIf="CanGoToCharts" id="returnToCharts" nz-button anchorBtn nzType="default"
-                        (click)="returnToCharts(currentReport)" [disabled]=" isButtonExcelDisabled"
+                        (click)="goToCharts(currentReport)" [disabled]=" isButtonExcelDisabled"
                         style="margin-bottom: 5px;">
                         <i nz-icon nzTooltipPlacement="right" nzType="area-chart" nzTheme="outline"></i>
                     </button>

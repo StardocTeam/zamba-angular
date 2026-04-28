@@ -61,26 +61,36 @@ export class ChartContainerComponent {
   ngOnInit() {
     const tokenData = this.tokenService.get();
 
-    this.route.params.subscribe(params => {
-      this.isLoading = true;
-      let genericRequest = {};
+    this.route.paramMap.subscribe(routeParams => {
+      const reportId = routeParams.get('id');
+      const rawParams = this.route.snapshot.queryParamMap.get('params');
 
-      if (tokenData) {
-        genericRequest = {
+      let parsedParams: any = null;
+
+      this.isLoading = true;
+
+      try {
+        parsedParams = rawParams ? JSON.parse(rawParams) : null;
+      } catch (error) {
+        this.modal.error({
+          nzTitle: 'Error',
+          nzContent: '<p>El parámetro params no tiene un JSON válido.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary'
+        });
+        return;
+      }
+
+
+      if (tokenData && reportId) {
+        const genericRequest = {
           UserId: tokenData['userid'],
           token: tokenData['token'],
           Params: {
-            ReportId: params['id'],
-            Zvars: "meme"
+            ReportId: reportId,
+            Zvars: rawParams
           }
         };
-
-        debugger;
-        if (true) {
-          console.log('Token Data:', tokenData);
-          console.log('Generic Request:', genericRequest);
-        }
-
 
         this.CService._GetChartContainer(genericRequest).pipe(
           catchError(error => {
@@ -101,24 +111,39 @@ export class ChartContainerComponent {
           this.DimX = JSON.parse(data)[0].DimX;
         });
 
+        debugger;
+
         this.RViewService.GetResultsByReportId(genericRequest).pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
           })
         ).subscribe((data: any) => {
-          this.currentReport = JSON.parse(data)[0];
-          this.ReportData = JSON.parse(data);
+          if (data != null || data != '[]') {
+            this.ReportData = JSON.parse(data);
 
-          var GRequest = {
-            UserId: tokenData['userid'],
-            token: tokenData['token'],
-            Params: {
-              ReportId: this.currentReport.ID
-            }
-          };
+            var GRequest = {
+              UserId: tokenData['userid'],
+              token: tokenData['token'],
+              Params: {
+                ReportId: Number.parseInt(reportId)
+              }
+            };
 
-          this.GetChartsByReportId(GRequest);
+            this.GetChartsByReportId(GRequest);
+          } else {
+            console.error('No hay datos para el grafico');
+
+            this.modal.error({
+              nzTitle: 'Error',
+              nzContent: '<p>No se encontro ningun grafico.</p>',
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => console.log('OK'),
+            });
+
+          }
+
         });
 
       }
@@ -155,11 +180,11 @@ export class ChartContainerComponent {
           nzOkType: 'primary',
           nzOnOk: () => {
             console.log('OK');
-            this.goToReportViewer();
+            //this.goToReportViewer();
           },
           nzOnCancel: () => {
             console.log('Modal cerrado por la X');
-            this.goToReportViewer();
+            //this.goToReportViewer();
           }
         });
       } else {
