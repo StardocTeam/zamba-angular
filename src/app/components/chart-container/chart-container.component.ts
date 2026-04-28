@@ -70,7 +70,8 @@ export class ChartContainerComponent {
           UserId: tokenData['userid'],
           token: tokenData['token'],
           Params: {
-            Id: params['id']
+            ReportId: params['id'],
+            Zvars: "meme"
           }
         };
 
@@ -100,106 +101,90 @@ export class ChartContainerComponent {
           this.DimX = JSON.parse(data)[0].DimX;
         });
 
-        this.RViewService.GetReportById(genericRequest).pipe(
+        this.RViewService.GetResultsByReportId(genericRequest).pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
             throw error;
           })
         ).subscribe((data: any) => {
-
           this.currentReport = JSON.parse(data)[0];
+          this.ReportData = JSON.parse(data);
 
-          let genericRequest = {
+          var GRequest = {
             UserId: tokenData['userid'],
+            token: tokenData['token'],
             Params: {
-              Query: this.currentReport.Query
+              ReportId: this.currentReport.ID
             }
           };
 
-          this.RViewService.GetReportByQuery(genericRequest).pipe(
-            catchError(error => {
-              console.error('Error al obtener datos:', error);
-              throw error;
-            })
-          )
-            .subscribe((data: any) => {
-              this.ReportData = JSON.parse(data);
-
-              var GRequest = {
-                UserId: tokenData['userid'],
-                token: tokenData['token'],
-                Params: {
-                  ReportId: this.currentReport.ID
-                }
-              };
-
-
-              this.CService._GetChartsByReportId(GRequest).pipe(
-                catchError(error => {
-                  console.error('Error al obtener configuración:', error);
-
-                  this.modal.error({
-                    nzTitle: 'Error',
-                    nzContent: '<p>No se encontro ningun grafico.</p>',
-                    nzOkText: 'OK',
-                    nzOkType: 'primary',
-                    nzOnOk: () => console.log('OK'),
-                  });
-
-                  throw error;
-                })
-              ).subscribe((data: any) => {
-                console.log(JSON.parse(data));
-
-                if (data == null || data == '[]') {
-                  console.info('No hay resultados');
-
-                  this.modal.info({
-                    nzTitle: 'No hay resultados',
-                    nzContent: '<p>No se encontro ningun grafico valido</p>',
-                    nzOkText: 'OK',
-                    nzOkType: 'primary',
-                    nzOnOk: () => {
-                      console.log('OK');
-                      this.goToReportViewer();
-                    },
-                    nzOnCancel: () => {
-                      console.log('Modal cerrado por la X');
-                      this.goToReportViewer();
-                    }
-                  });
-                } else {
-                  this.chartList = JSON.parse(data);
-                  this.isButtonExcelDisabled = false;
-                  this.isLoading = false;
-
-                  const tokenData = this.tokenService.get();
-
-                  if (tokenData != null) {
-                    var genericRequestToSaveView = {
-                      UserId: tokenData['userid'],
-                      token: tokenData['token'],
-                      Params: {
-                        ReportId: this.currentReport.ID,
-                        ViewMode: "Chart"
-                      }
-                    };
-
-                    this.RVService.SaveLastReportViewed(genericRequestToSaveView).subscribe();
-                  }
-                }
-              }, error => {
-                this.isButtonExcelDisabled = false;
-                this.isLoading = false;
-              });
-            });
+          this.GetChartsByReportId(GRequest);
         });
-
-
-
 
       }
 
+    });
+
+  }
+
+  private GetChartsByReportId(GRequest: { UserId: any; token: string | null | undefined; Params: { ReportId: number; }; }) {
+    this.CService._GetChartsByReportId(GRequest).pipe(
+      catchError(error => {
+        console.error('Error al obtener configuración:', error);
+
+        this.modal.error({
+          nzTitle: 'Error',
+          nzContent: '<p>No se encontro ningun grafico.</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => console.log('OK'),
+        });
+
+        throw error;
+      })
+    ).subscribe((data: any) => {
+      console.log(JSON.parse(data));
+
+      if (data == null || data == '[]') {
+        console.info('No hay resultados');
+
+        this.modal.info({
+          nzTitle: 'No hay resultados',
+          nzContent: '<p>No se encontro ningun grafico valido</p>',
+          nzOkText: 'OK',
+          nzOkType: 'primary',
+          nzOnOk: () => {
+            console.log('OK');
+            this.goToReportViewer();
+          },
+          nzOnCancel: () => {
+            console.log('Modal cerrado por la X');
+            this.goToReportViewer();
+          }
+        });
+      } else {
+        this.chartList = JSON.parse(data);
+        this.isButtonExcelDisabled = false;
+        this.isLoading = false;
+
+        const tokenData = this.tokenService.get();
+
+        if (tokenData != null) {
+          var genericRequestToSaveView = {
+            UserId: tokenData['userid'],
+            token: tokenData['token'],
+            Params: {
+              ReportId: this.currentReport.ID,
+              ViewMode: "Chart"
+            }
+          };
+
+          this.RVService.SaveLastReportViewed(genericRequestToSaveView).subscribe();
+        }
+      }
+    }, error => {
+      this.isButtonExcelDisabled = false;
+      this.isLoading = false;
     });
   }
 
