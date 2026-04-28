@@ -65,7 +65,6 @@ export class ChartContainerComponent {
       this.isLoading = true;
       let genericRequest = {};
 
-
       if (tokenData) {
         genericRequest = {
           UserId: tokenData['userid'],
@@ -74,6 +73,13 @@ export class ChartContainerComponent {
             Id: params['id']
           }
         };
+
+        debugger;
+        if (true) {
+          console.log('Token Data:', tokenData);
+          console.log('Generic Request:', genericRequest);
+        }
+
 
         this.CService._GetChartContainer(genericRequest).pipe(
           catchError(error => {
@@ -92,8 +98,6 @@ export class ChartContainerComponent {
         ).subscribe((data: any) => {
           this.DimY = JSON.parse(data)[0].DimY;
           this.DimX = JSON.parse(data)[0].DimX;
-
-
         });
 
         this.RViewService.GetReportById(genericRequest).pipe(
@@ -190,7 +194,12 @@ export class ChartContainerComponent {
               });
             });
         });
+
+
+
+
       }
+
     });
   }
 
