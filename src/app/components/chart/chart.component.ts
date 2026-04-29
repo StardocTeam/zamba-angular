@@ -47,17 +47,6 @@ export class ChartComponent {
   }
 
   ngOnInit() {
-    debugger;
-
-
-
-    // if (true) {
-    //   this.fetchUserIdWithToken(this.tokenService.get()?.token || null, this.chartConfigId);
-    // }
-
-
-
-
     const attributes = this.AttrSelected.split(',');
     const XAttribute = attributes[0];
     const YAttribute = attributes.length > 1 ? attributes[1] : undefined;

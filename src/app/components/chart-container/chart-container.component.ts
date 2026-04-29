@@ -111,8 +111,6 @@ export class ChartContainerComponent {
           this.DimX = JSON.parse(data)[0].DimX;
         });
 
-        debugger;
-
         this.RViewService.GetResultsByReportId(genericRequest).pipe(
           catchError(error => {
             console.error('Error al obtener datos:', error);
