@@ -119,116 +119,132 @@ export class RuleExecutorComponent implements OnInit {
     this.taskService.executeTaskRule(ruleid, null, null)
       .subscribe({
         next: (response: any) => {
-
-          const responseObject = JSON.parse(response);
-          const accion: string = this.taskService.checkAccion(responseObject);
-          console.log(responseObject);
-
-          const hasError = this.errorOnRuleExecutionHandler(responseObject);
-
-          //si hay error 
-          if (hasError) {
-
-            const errorRuleId = responseObject.Vars["errorruleid"] || "";
-            const errorMessage = responseObject.Vars["errormessage"] || "";
-            const error = responseObject.Vars["error"] || "";
-
-            //evaluo si hay que ejecutar una regla en caso de error
-            if (errorRuleId !== undefined && errorRuleId !== "" && !isNaN(Number(errorRuleId)) && Number(errorRuleId) > 0) {
-              this.executeRule(Number(errorRuleId));
-              return;
-
-            } else if (errorMessage !== undefined && errorMessage !== "") { //evaluo si hay que mostrar un mensaje de error
-              swal("Error", errorMessage, "error");
-              this.SendExecutedEvent(responseObject, true);
-              return;
-            } else if (error !== undefined && error !== "") { //evaluo si hay que mostrar el error de la exception directamente
-              swal("Error", error, "error");
-              this.SendExecutedEvent(responseObject, true);
-              return;
+          let responseObject = response;
+          if (typeof response === 'string') {
+            try {
+              responseObject = JSON.parse(response);
+            } catch (e) {
+              console.error(e);
             }
-
-
-            this.SendExecutedEvent(responseObject, true);
-            return;
           }
-
-
-          switch (accion) {
-            case 'doshowtable':
-              this.doShowTableParams = responseObject.Params || [];
-              this.doShowTablePendingChildRules = responseObject.PendingChildRules || [];
-              this.hiddenDoShowTable = false;
-              //this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
-              //this.SendExecutedEvent(responseObject, true);
-
-              break;
-            case 'executescript':
-              if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopentask")) {
-                this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
-                this.SendExecutedEvent(responseObject, true);
-                break;
-              }
-
-              if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopenurl")) {
-                this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
-                this.SendExecutedEvent(responseObject, true);
-                break;
-              }
-
-              if (responseObject.Vars?.scripttoexecute?.toLowerCase().includes("opendoc")) {
-                this.OpenTask(responseObject.Vars, responseObject.Params);
-                this.SendExecutedEvent(responseObject, true);
-                break;
-              }
-
-              if (responseObject.Vars?.ruleclass?.toLowerCase() === "doexecutescript") {
-                const script = responseObject.Vars?.scripttoexecute;
-                if (script) {
-                  try {
-                    // Hacer disponibles variables comunes en el contexto del script
-                    (window as any).swal = swal;
-                    eval(script);
-                  } catch (e) {
-                    console.error('Error ejecutando script:', e);
-                  }
-                }
-                this.SendExecutedEvent(responseObject, true);
-              }
-
-              if (responseObject.Params?.RuleTypeName?.toLowerCase() === "doscreenmessage") {
-                const script = responseObject.Params?.['Nuevo Mensaje'] || "";
-                if (script) {
-                  try {
-                    // Hacer disponibles variables comunes en el contexto del script
-                    swal("", script, "info");
-                  } catch (e) {
-                    console.error('Error ejecutando script:', e);
-                  }
-                }
-                this.SendExecutedEvent(responseObject, true);
-              }
-
-              this.SendExecutedEvent(responseObject, true);
-              break;
-
-            default:
-              this.SendExecutedEvent(responseObject, true);
-              break;
-
-          }
-
-          this.isLoadingAction = false;
-          this.cdr.markForCheck();
+          this.processRuleResponse(responseObject);
         },
         error: () => {
           this.SendExecutedEvent({}, false);
         }
       });
   }
+
+  processRuleResponse(responseObject: any) {
+    const accion: string = this.taskService.checkAccion(responseObject);
+    console.log(responseObject);
+
+    const hasError = this.errorOnRuleExecutionHandler(responseObject);
+
+    //si hay error 
+    if (hasError) {
+
+      const errorRuleId = responseObject.Vars["errorruleid"] || "";
+      const errorMessage = responseObject.Vars["errormessage"] || "";
+      const error = responseObject.Vars["error"] || "";
+
+      //evaluo si hay que ejecutar una regla en caso de error
+      if (errorRuleId !== undefined && errorRuleId !== "" && !isNaN(Number(errorRuleId)) && Number(errorRuleId) > 0) {
+        this.executeRule(Number(errorRuleId));
+        return;
+
+      } else if (errorMessage !== undefined && errorMessage !== "") { //evaluo si hay que mostrar un mensaje de error
+        swal("Error", errorMessage, "error");
+        this.SendExecutedEvent(responseObject, true);
+        return;
+      } else if (error !== undefined && error !== "") { //evaluo si hay que mostrar el error de la exception directamente
+        swal("Error", error, "error");
+        this.SendExecutedEvent(responseObject, true);
+        return;
+      }
+
+
+      this.SendExecutedEvent(responseObject, true);
+      return;
+    }
+
+
+    switch (accion) {
+      case 'doshowtable':
+        this.doShowTableParams = responseObject.Params || [];
+        this.doShowTablePendingChildRules = responseObject.PendingChildRules || [];
+        this.hiddenDoShowTable = false;
+        //this.router.navigate(['/tools/doshowtable'], { state: { Params: responseObject.Params, PendingChildRules: responseObject.PendingChildRules } });
+        //this.SendExecutedEvent(responseObject, true);
+
+        break;
+      case 'executescript':
+        if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopentask")) {
+          this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
+          this.SendExecutedEvent(responseObject, true);
+          break;
+        }
+
+        if (responseObject.Params?.RuleClass?.toLowerCase().includes("doopenurl")) {
+          this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
+          this.SendExecutedEvent(responseObject, true);
+          break;
+        }
+
+        if (responseObject.Vars?.scripttoexecute?.toLowerCase().includes("opendoc")) {
+          this.OpenTask(responseObject.Vars, responseObject.Params);
+          this.SendExecutedEvent(responseObject, true);
+          break;
+        }
+
+        if (responseObject.Vars?.ruleclass?.toLowerCase() === "doexecutescript") {
+          const script = responseObject.Vars?.scripttoexecute;
+          if (script) {
+            try {
+              // Hacer disponibles variables comunes en el contexto del script
+              (window as any).swal = swal;
+              eval(script);
+            } catch (e) {
+              console.error('Error ejecutando script:', e);
+            }
+          }
+          this.SendExecutedEvent(responseObject, true);
+        }
+
+        if (responseObject.Params?.RuleTypeName?.toLowerCase() === "doscreenmessage") {
+          const script = responseObject.Params?.['Nuevo Mensaje'] || "";
+          if (script) {
+            try {
+              // Hacer disponibles variables comunes en el contexto del script
+              swal("", script, "info");
+            } catch (e) {
+              console.error('Error ejecutando script:', e);
+            }
+          }
+          this.SendExecutedEvent(responseObject, true);
+        }
+
+        this.SendExecutedEvent(responseObject, true);
+        break;
+
+      default:
+        this.SendExecutedEvent(responseObject, true);
+        break;
+
+    }
+
+    this.isLoadingAction = false;
+    this.cdr.markForCheck();
+  }
+
   onDoShowTableHasFinished(event: any) {
     this.hiddenDoShowTable = true;
-    this.SendExecutedEvent(event, event.success);
+    if (event && event.success && event.response) {
+      // Reprocesamos el objeto de respuesta devuelto por la regla hija ejecutada en doShowTable
+      this.processRuleResponse(event.response);
+    } else {
+      this.SendExecutedEvent(event, false);
+    }
   }
 
   SendExecutedEvent(responseObject: any, ExecutedSuccessfully: boolean) {

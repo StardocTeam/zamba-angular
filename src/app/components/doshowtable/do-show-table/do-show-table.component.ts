@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +23,7 @@ interface ItemData {
   templateUrl: './do-show-table.component.html',
   styleUrls: ['./do-show-table.component.less']
 })
-export class DoShowTableComponent implements OnInit {
+export class DoShowTableComponent implements OnInit, OnChanges {
   isLoading = false;
   searchText: string = '';
   originalListOfData: readonly ItemData[] = [];
@@ -66,15 +66,33 @@ export class DoShowTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.Params != null && this.Params != undefined) {
-      this.listOfData = this.Params.tableToView;
-      this.originalListOfData = this.Params.tableToView;
+    this.initializeTable();
+  }
 
-      this.columns = Object.keys(this.listOfData[0]);
-      this.title = this.Params.tableTitle || '';
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['Params']) {
+      this.initializeTable();
     }
   }
 
+  initializeTable(): void {
+    if (this.Params != null && this.Params != undefined) {
+      this.listOfData = this.Params.tableToView || [];
+      this.originalListOfData = this.Params.tableToView || [];
+
+      if (this.listOfData.length > 0) {
+        this.columns = Object.keys(this.listOfData[0]);
+      } else {
+        this.columns = [];
+      }
+      this.title = this.Params.tableTitle || '';
+
+      // Limpia los estados por si se está reutilizando el componente
+      this.searchText = '';
+      this.setOfCheckedId.clear();
+      this.isLoading = false;
+    }
+  }
 
   applyFilter(value?: string): void {
     const search = (value || '').toLowerCase();
@@ -85,6 +103,11 @@ export class DoShowTableComponent implements OnInit {
     );
     this.setOfCheckedId.clear();
   }
+
+  cancel(): void {
+    this.doShowTableHasFinished.emit({ success: false, message: 'Operación cancelada por el usuario' });
+  }
+
   logSelected(): void {
     this.isLoading = true;
     // Obtiene los elementos seleccionados usando los índices guardados en setOfCheckedId
@@ -137,28 +160,9 @@ export class DoShowTableComponent implements OnInit {
                     return;
                   }
                 }
-                const action = this.taskService.checkAccion(respObj);
-                switch (action.toLowerCase()) {
-                  case 'executescript':
-                    if (respObj?.Params?.RuleTypeName.toLowerCase() === 'doscreenmessage') {
-                      const nuevoMensaje = respObj.Params["Nuevo Mensaje"]?.replace(/\n/g, '<br>');
-                      console.log(nuevoMensaje);
-                      this.modal.info({
-                        nzTitle: nuevoMensaje,
-                        nzWidth: 500,
-                        nzOnOk: () => {
-                          this.isLoading = false;
-                          if (respObj.PendingChildRules && respObj.PendingChildRules.length === 0) {
-                            this.doShowTableHasFinished.emit({ success: true, response: respObj });
-                          }
-                        }
-                      });
-                    }
-                    break;
-                  default:
-                    this.doShowTableHasFinished.emit({ success: true, response: respObj });
-                    break;
-                }
+
+                // Emitimos la respuesta directamente para que el rule-executor decida qué acción tomar
+                this.doShowTableHasFinished.emit({ success: true, response: respObj });
               },
               error: (err) => {
                 this.isLoading = false;
