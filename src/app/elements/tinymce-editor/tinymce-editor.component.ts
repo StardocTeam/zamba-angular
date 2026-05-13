@@ -555,7 +555,7 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
       'Line height': 'Altura de linea',
       'Formats': 'Formatos',
       'Remove': 'Quitar',
-      'Insert/edit link': 'Insertar/editar enlace',
+      'Insert/edit link': 'Enlace',
       'Link': 'Enlace',
       'Anchor': 'Ancla',
       'Insert/edit media': 'Insertar/editar multimedia',
@@ -569,6 +569,8 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
       'Nonbreaking space': 'Espacio de no separacion',
       'Clear formatting': 'Quitar formato',
       'Source code': 'Código fuente',
+      'Text to display': 'Texto a mostrar',
+      'Title': 'Título',
       'Preview': 'Vista previa',
       'Visual aids': 'Ayudas visuales',
       'Visual blocks': 'Bloques visuales',
@@ -641,8 +643,13 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
       width: this.width ?? '100%',
       menubar: 'file edit view insert format tools table help',
       promotion: false,
+      convert_urls: false,
       automatic_uploads: false,
       paste_data_images: true,
+      file_picker_types: 'image',
+      link_target_list: false,
+      default_link_target: '_blank',
+      link_title: false,
       plugins,
       quickbars_selection_toolbar: 'bold italic underline | blocks | quicklink blockquote',
       readonly: this.readOnly,
@@ -677,6 +684,14 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
       },
       setup: (editor: any) => {
         editor.on('Change KeyUp', () => {
+          const links = editor.dom.select('a');
+          links.forEach((link: HTMLAnchorElement) => {
+            const text = link.innerText || link.textContent;
+            if (text && link.getAttribute('title') !== text) {
+              link.setAttribute('title', text);
+            }
+          });
+
           this.editorContent = editor.getContent();
           this.cdr.markForCheck();
         });

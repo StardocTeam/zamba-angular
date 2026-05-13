@@ -466,6 +466,11 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       height: 720,
       menubar: 'file edit view insert format tools table help',
       promotion: false,
+      convert_urls: false,
+      file_picker_types: 'image',
+      link_target_list: false,
+      default_link_target: '_blank',
+      link_title: false,
       plugins,
       quickbars_selection_toolbar: 'bold italic underline | blocks | quicklink blockquote',
       readonly: this.settings.readonly,
@@ -475,6 +480,14 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       toolbar_sticky: true,
       setup: (editor: any) => {
         editor.on('Change KeyUp', () => {
+          const links = editor.dom.select('a');
+          links.forEach((link: HTMLAnchorElement) => {
+            const text = link.innerText || link.textContent;
+            if (text && link.getAttribute('title') !== text) {
+              link.setAttribute('title', text);
+            }
+          });
+
           this.editorContent = editor.getContent();
           this.cdr.markForCheck();
         });

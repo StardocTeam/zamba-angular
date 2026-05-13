@@ -121,9 +121,9 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'editor-tinymce-premium',
+        path: 'word-editor',
         component: TinymceElementComponent,
-        data: { title: 'TinyMCE Self-hosted' },
+        data: { title: 'Editor de archivos Word' },
         pathMatch: 'full'
       },
       {
