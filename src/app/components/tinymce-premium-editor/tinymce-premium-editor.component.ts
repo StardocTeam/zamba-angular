@@ -1,20 +1,32 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, inject, ViewChild, ElementRef, Inject, ViewEncapsulation } from '@angular/core';
+import { DOCUMENT, CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  inject,
+  ViewChild,
+  ElementRef,
+  Inject,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { EditorModule } from '@tinymce/tinymce-angular';
-import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
-import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
-import { DOCUMENT } from '@angular/common';
-
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { asBlob } from 'html-docx-js-typescript';
+import JSZip from 'jszip';
+import * as mammoth from 'mammoth';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { firstValueFrom } from 'rxjs';
-import { asBlob } from 'html-docx-js-typescript';
-import * as mammoth from 'mammoth';
-import JSZip from 'jszip';
+
+import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
 
 const SELF_HOSTED_ASSET_PATH = 'assets/tinymce';
 const LICENSE_KEY = 'gpl';
@@ -40,26 +52,17 @@ interface TinyMceSettings {
 }
 
 const DEFAULT_SETTINGS: TinyMceSettings = {
-  readonly: false
+  readonly: false,
 };
 
 @Component({
   selector: 'app-tinymce-premium-editor',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    EditorModule,
-    NzAlertModule,
-    NzButtonModule,
-    NzCardModule,
-    NzMessageModule,
-    NzSwitchModule
-  ],
+  imports: [CommonModule, FormsModule, EditorModule, NzAlertModule, NzButtonModule, NzCardModule, NzMessageModule, NzSwitchModule],
   templateUrl: './tinymce-premium-editor.component.html',
   styleUrls: ['./tinymce-premium-editor.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
   @Input() userId?: IdentifierInputValue;
@@ -171,7 +174,6 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
     const resolvedUrl = new URL(relativePath, baseUri).toString();
     return pathSuffix ? resolvedUrl : resolvedUrl.replace(/\/$/, '');
   }
-
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['userId'] || changes['documentId'] || changes['entityId']) {
@@ -302,8 +304,8 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
         this.zambaService.replaceDocument({
           ...request,
           base64,
-          fileName: this.ensureExtension(this.documentTitle, 'docx')
-        })
+          fileName: this.ensureExtension(this.documentTitle, 'docx'),
+        }),
       );
 
       this.statusMessage = 'El documento se guardó correctamente en Zamba.';
@@ -377,13 +379,13 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
     return {
       userId,
       documentId,
-      entityId
+      entityId,
     };
   }
 
   private async mapPayloadToEditorDocument(
     payload: ZambaDocumentPayload,
-    fallbackDocumentId: string
+    fallbackDocumentId: string,
   ): Promise<{ html: string; fileName: string }> {
     const bytes = this.base64ToBytes(payload.base64);
     const fileName = this.stripExtension(payload.fileName ?? this.buildDefaultDocumentName(fallbackDocumentId));
@@ -392,13 +394,13 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       const result = await this.convertDocxToHtml(Uint8Array.from(bytes).buffer);
       return {
         html: this.normaliseLoadedHtml(result.value),
-        fileName
+        fileName,
       };
     }
 
     return {
       html: this.normaliseLoadedHtml(this.decodeText(bytes)),
-      fileName
+      fileName,
     };
   }
 
@@ -456,7 +458,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       'searchreplace',
       'table',
       'visualblocks',
-      'wordcount'
+      'wordcount',
     ];
 
     return {
@@ -476,7 +478,8 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       readonly: this.settings.readonly,
       skin: 'oxide',
       suffix: '.min',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
+      toolbar:
+        'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
       toolbar_sticky: true,
       setup: (editor: any) => {
         editor.on('Change KeyUp', () => {
@@ -495,31 +498,31 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
         editor.ui.registry.addButton('reload_doc', {
           icon: 'reload',
           tooltip: 'Recargar documento',
-          onAction: () => this.reload()
+          onAction: () => this.reload(),
         });
 
         editor.ui.registry.addButton('open_docx', {
           icon: 'upload',
           tooltip: 'Abrir DOCX local',
-          onAction: () => this.localDocxInput?.nativeElement.click()
+          onAction: () => this.localDocxInput?.nativeElement.click(),
         });
 
         editor.ui.registry.addButton('new_doc', {
           icon: 'new-document',
           tooltip: 'Nuevo documento en blanco',
-          onAction: () => this.createBlankDocument()
+          onAction: () => this.createBlankDocument(),
         });
 
         editor.ui.registry.addButton('save_zamba', {
           icon: 'save',
           tooltip: 'Guardar en Zamba',
-          onAction: () => this.saveDocument()
+          onAction: () => this.saveDocument(),
         });
 
         editor.ui.registry.addButton('download_docx', {
           icon: 'export-word',
           tooltip: 'Descargar DOCX',
-          onAction: () => this.downloadDocx()
+          onAction: () => this.downloadDocx(),
         });
 
         editor.ui.registry.addToggleButton('toggle_edit', {
@@ -538,9 +541,9 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
             setTimeout(forceEnable, 0);
             editor.on('SwitchMode', forceEnable);
             return () => editor.off('SwitchMode', forceEnable);
-          }
+          },
         });
-      }
+      },
     };
   }
 
@@ -605,8 +608,8 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
     const result = await convertToHtml(
       { arrayBuffer },
       {
-        includeDefaultStyleMap: true
-      }
+        includeDefaultStyleMap: true,
+      },
     );
 
     // Si Mammoth detecta altChunk y el resultado está vacío, intentamos extraer manualmente
@@ -615,7 +618,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       if (fallbackHtml) {
         return {
           value: fallbackHtml,
-          messages: result.messages
+          messages: result.messages,
         };
       }
     }
@@ -634,7 +637,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       }
 
       const contentFile = htmlFiles.find(f => f.includes('htmlChunk') || f.includes('content') || f.includes('document')) || htmlFiles[0];
-      return await zip.file(contentFile)?.async('string') ?? null;
+      return (await zip.file(contentFile)?.async('string')) ?? null;
     } catch (e) {
       console.error('[tinymce-premium-editor] Error extracting altChunk HTML:', e);
       return null;
@@ -723,7 +726,7 @@ export class TinymcePremiumEditorComponent implements OnChanges, OnInit {
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      "'": '&#39;'
+      "'": '&#39;',
     };
 
     return Array.from(value, character => entityMap[character] ?? character).join('');

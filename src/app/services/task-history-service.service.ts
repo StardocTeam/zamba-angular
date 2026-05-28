@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
 
 declare var ZambaWebRestApiURL: string;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskHistoryService {
-
   private serviceBase: string;
   private apiUrl: string;
   private apiUrl2: string;
@@ -26,15 +25,14 @@ export class TaskHistoryService {
     console.log('Service Base URL:', this.serviceBase); // Sacar por consola el valor de ZambaWebRestApiURL
   }
 
-
   getTaskName(docId: any, taskId: any): Observable<any> {
     const genericRequest = {
       UserId: 0,
-      Params: { docid: docId, taskid: taskId }
+      Params: { docid: docId, taskid: taskId },
     };
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http.post<any>(this.apiUrl3, genericRequest, { headers });
@@ -42,11 +40,11 @@ export class TaskHistoryService {
   getTaskHistory(docId: any, taskId: any): Observable<any> {
     const genericRequest = {
       UserId: 0,
-      Params: { docid: docId, taskid: taskId }
+      Params: { docid: docId, taskid: taskId },
     };
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http.post<any>(this.apiUrl, genericRequest, { headers });
@@ -55,11 +53,11 @@ export class TaskHistoryService {
   getIndexesHistory(docId: any): Observable<any> {
     const genericRequest = {
       UserId: 0,
-      Params: { docId: docId }
+      Params: { docId: docId },
     };
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http.post<any>(this.apiUrl2, genericRequest, { headers });

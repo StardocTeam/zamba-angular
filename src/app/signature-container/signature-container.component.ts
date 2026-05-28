@@ -1,6 +1,6 @@
 import { Component, inject, ChangeDetectorRef } from '@angular/core';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
@@ -8,8 +8,8 @@ import { ModalHelper } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { SignatureService } from '../signature/signature.service';
 import { catchError, finalize } from 'rxjs';
+import { SignatureService } from '../signature/signature.service';
 
 @Component({
   selector: 'app-signature-container',
@@ -20,14 +20,18 @@ import { catchError, finalize } from 'rxjs';
     NzIconModule,
     NzSpinModule,
   ],
-  styleUrls: ['./signature-container.component.less']
+  styleUrls: ['./signature-container.component.less'],
 })
 export class SignatureContainerComponent {
 
   pdfUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
   private modalHelper = inject(ModalHelper);
   private msg = inject(NzMessageService);
-  constructor(private sanitizer: DomSanitizer, private signatureService: SignatureService, private cdr: ChangeDetectorRef) {
+  constructor(
+    private sanitizer: DomSanitizer,
+    private signatureService: SignatureService,
+    private cdr: ChangeDetectorRef,
+  ) {
     this.getPDFBase64PayStub();
   }
 
@@ -35,30 +39,28 @@ export class SignatureContainerComponent {
     var genericRequest = {
       UserId: 0,
       token: 0,
-      Params: {}
+      Params: {},
     };
-    this.signatureService.GetPDFBase64PayStub(genericRequest).pipe(
-      finalize(() => {
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + result);
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-      }
-    });
+    this.signatureService
+      .GetPDFBase64PayStub(genericRequest)
+      .pipe(finalize(() => { }))
+      .subscribe({
+        next: result => {
+          this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl('data:application/pdf;base64,' + result);
+          this.cdr.detectChanges();
+        },
+        error: error => { },
+      });
   }
   open(): void {
     console.log('click');
     /*
     this.modalHelper.create(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'md' }).subscribe(res => {
-
     });
     */
   }
 
-  static(): void {
+  openStatic(): void {
     /*
     this.modalHelper.createStatic(SignatureComponent, { record: { a: 1, b: '2', c: new Date() } }, { size: 'lg' }).subscribe(res => {
       if (res != '') {

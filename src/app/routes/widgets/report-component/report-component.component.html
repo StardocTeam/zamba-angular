@@ -1,66 +1,74 @@
 <div class="firstDiv" [style.height.px]="height">
-    <nz-layout>
-        <nz-sider [nzWidth]="290">
-            <div class="search-anchor" nz-row [nzGutter]="4">
+  <nz-layout>
+    <nz-sider [nzWidth]="290">
+      <div class="search-anchor" nz-row [nzGutter]="4">
+        <div nz-col nzXs="20" nzFlex="auto">
+          <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%">
+            <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" (ngModelChange)="search($event)" />
+          </nz-input-group>
 
-                <div nz-col nzXs="20" nzFlex="auto">
-                    <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%;">
-                        <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
-                            (ngModelChange)="search($event)" />
-                    </nz-input-group>
+          <ng-template #prefixTemplateUser>
+            <i nz-icon class="iconSetting" nzType="search"></i>
+          </ng-template>
+        </div>
 
-                    <ng-template #prefixTemplateUser>
-                        <i nz-icon class="iconSetting" nzType="search"></i>
-                    </ng-template>
-                </div>
+        <div nz-col nzXs="4">
+          <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission" (click)="navigateToCreate()" routerLinkActive="active">
+            <i nz-icon nzType="plus"></i>
+          </button>
+        </div>
+      </div>
 
-                <div nz-col nzXs="4">
-                    <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission"
-                        (click)="navigateToCreate()" routerLinkActive="active">
-                        <i nz-icon nzType="plus"></i>
-                    </button>
-                </div>
-            </div>
+      <div *ngIf="isLoading" class="spinner-overlay">
+        <nz-spin [nzSize]="'large'" />
+      </div>
 
-            <div *ngIf="isLoading" class="spinner-overlay">
-                <nz-spin [nzSize]="'large'"></nz-spin>
-            </div>
+      <div *ngIf="!isLoading">
+        <ul class="ulContainer-menu" nz-menu nzMode="inline">
+          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzOpen nzIcon="file">
+            <ng-template #titleTpl>
+              <b class="boldMenuTittle">{{ itemTree.name }}</b>
+            </ng-template>
 
-            <div *ngIf="!isLoading">
-                <ul class="ulContainer-menu" nz-menu nzMode="inline">
-                    <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzOpen
-                        nzIcon="file">
-                        <ng-template #titleTpl>
-                            <b class="boldMenuTittle">{{ itemTree.name }}</b>
-                        </ng-template>
+            <ul class="ulContainer-menu" nz-menu nzMode="inline">
+              <div *ngFor="let itemLeaf of itemTree.currentReport | filter: searchValue">
+                <div nz-row>
+                  <div nz-col nzSpan="24">
+                    <li
+                      #itemLeaf
+                      class="li-line-height move-up"
+                      nz-menu-item
+                      routerLinkActive="active"
+                      (click)="switchView('viewer'); navigateToView(itemLeaf.ID)"
+                    >
+                      <div nz-row>
+                        <div nz-col>
+                          <span
+                            [nzTooltipTitle]="itemLeaf.Name"
+                            class="ellipsis BlackColor"
+                            nzTooltipPlacement="right"
+                            nz-button
+                            nz-tooltip
+                            >{{ itemLeaf.Name }}</span
+                          >
+                          <br />
+                          <span
+                            [nzTooltipTitle]="itemLeaf.Description"
+                            nz-typography
+                            nzType="secondary"
+                            class="ellipsis"
+                            nzTooltipPlacement="right"
+                            nz-button
+                            nz-tooltip
+                          >
+                            {{ itemLeaf.Description }}
+                          </span>
+                        </div>
+                      </div>
+                    </li>
+                  </div>
 
-                        <ul class="ulContainer-menu" nz-menu nzMode="inline">
-
-                            <div *ngFor="let itemLeaf of (itemTree.currentReport | filter:searchValue)">
-                                <div nz-row>
-
-                                    <div nz-col nzSpan="24">
-                                        <li #itemLeaf class="li-line-height move-up " nz-menu-item
-                                            routerLinkActive="active"
-                                            (click)="switchView('viewer');navigateToView(itemLeaf.ID)">
-
-                                            <div nz-row>
-                                                <div nz-col>
-                                                    <span [nzTooltipTitle]="itemLeaf.Name" class="ellipsis BlackColor"
-                                                        nzTooltipPlacement="right" nz-button nz-tooltip>{{ itemLeaf.Name
-                                                        }}</span>
-                                                    <br>
-                                                    <span [nzTooltipTitle]="itemLeaf.Description" nz-typography
-                                                        nzType="secondary" class="ellipsis" nzTooltipPlacement="right"
-                                                        nz-button nz-tooltip>
-                                                        {{itemLeaf.Description}}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </div>
-
-                                    <!-- <div nz-col nzSpan="2">
+                  <!-- <div nz-col nzSpan="2">
                                         <div>
                                             <button class="right-align btnSetting" nz-button nzShape="circle"
                                                 nzSize="small">
@@ -93,21 +101,18 @@
                                             </ul>
                                         </nz-dropdown-menu>
                                     </div> -->
-                                </div>
+                </div>
+              </div>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nz-sider>
 
-                            </div>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
-        </nz-sider>
-
-        <nz-layout>
-            <nz-content [style.height.px]="height" class="content-container">
-                <router-outlet #outlet="outlet" (activate)="onChildActivate($event)"></router-outlet>
-            </nz-content>
-        </nz-layout>
-
+    <nz-layout>
+      <nz-content [style.height.px]="height" class="content-container">
+        <router-outlet #outlet="outlet" (activate)="onChildActivate($event)" />
+      </nz-content>
     </nz-layout>
+  </nz-layout>
 </div>

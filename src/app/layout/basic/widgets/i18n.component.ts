@@ -23,9 +23,9 @@ import { BooleanInput, InputBoolean } from '@delon/util/decorator';
     </nz-dropdown-menu>
   `,
   host: {
-    '[class.flex-1]': 'true'
+    '[class.flex-1]': 'true',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderI18nComponent {
   static ngAcceptInputType_showLangText: BooleanInput;
@@ -43,7 +43,7 @@ export class HeaderI18nComponent {
   constructor(
     private settings: SettingsService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
-    @Inject(DOCUMENT) private doc: any
+    @Inject(DOCUMENT) private doc: any,
   ) {}
 
   change(lang: string): void {

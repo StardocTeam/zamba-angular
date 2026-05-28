@@ -13,20 +13,20 @@ import { catchError, finalize, throwError } from 'rxjs';
   selector: 'resend-verificationemail',
   templateUrl: './resend-verificationemail.component.html',
   styleUrls: ['./resend-verificationemail.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResendVerificationEmailComponent implements OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   // #region fields
 
   form = this.fb.nonNullable.group({
-    mail: ['', [Validators.required, Validators.email, Validators.maxLength(50)]]
+    mail: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
   });
 
   disableSubmitButton = true;
@@ -40,7 +40,7 @@ export class ResendVerificationEmailComponent implements OnDestroy {
   passwordProgressMap: { [key: string]: 'success' | 'normal' | 'exception' } = {
     ok: 'success',
     pass: 'normal',
-    pool: 'exception'
+    pool: 'exception',
   };
 
   body: String = '';
@@ -96,7 +96,7 @@ export class ResendVerificationEmailComponent implements OnDestroy {
     const data = this.form.value;
     const genericRequest = {
       UserId: 0,
-      Params: data
+      Params: data,
     };
 
     this.serverError = false;
@@ -106,7 +106,7 @@ export class ResendVerificationEmailComponent implements OnDestroy {
       .post(`${environment['apiRestBasePath']}/ResendVerificationEmail`, genericRequest, null, {
         observe: 'response',
         responseType: 'json',
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
         catchError(error => {
@@ -117,7 +117,7 @@ export class ResendVerificationEmailComponent implements OnDestroy {
         finalize(() => {
           this.loading = false;
           this.cdr.detectChanges();
-        })
+        }),
       )
       .subscribe(response => {
         this.router.navigate(['passport', 'resend-result'], { queryParams: { email: data.mail } });

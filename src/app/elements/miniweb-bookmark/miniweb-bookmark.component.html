@@ -1,0 +1,59 @@
+﻿<div class="mini-web-bookmark-container">
+  <div class="bookmark-header">
+    <button class="add-link-btn" (click)="toggleInput()"
+      *ngIf="!showInput && (!singleLinkMode || bookmarks.length === 0)"> <span class="icon">+</span> Agregar URL
+    </button>
+  </div>
+
+  <!-- Estado INPUT (Formulario) -->
+  <div class="bookmark-input-view" *ngIf="showInput">
+    <div class="bookmark-input-wrapper">
+      <input type="text" [(ngModel)]="linkTitle" placeholder="Título (opcional)" class="bookmark-input" autofocus />
+      <span *ngIf="linkTitle" class="clear-icon" (click)="linkTitle = ''">&times;</span>
+    </div>
+    <div class="bookmark-input-wrapper">
+      <input type="text" [(ngModel)]="linkUrl" placeholder="Pegar URL aquí" (keyup.enter)="crearMarcador()"
+        class="bookmark-input" />
+      <span *ngIf="linkUrl" class="clear-icon" (click)="linkUrl = ''">&times;</span>
+    </div>
+    <div class="bookmark-actions">
+      <button class="bookmark-btn-cancel" (click)="toggleInput()">Cancelar</button>
+      <button class="bookmark-btn" (click)="crearMarcador()" [disabled]="!linkUrl"
+        [class.disabled-btn]="!linkUrl">Guardar</button>
+    </div>
+  </div>
+
+  <!-- Estado LOADING -->
+  <div class="bookmark-loading" *ngIf="isLoading">
+    <nz-spin nzSimple nzSize="small" />
+    <span class="loading-text">Cargando...</span>
+  </div>
+
+  <!-- LISTA DE ENLACES -->
+  <div class="bookmarks-list" *ngIf="!isLoading && !showInput">
+    <a class="bookmark-preview-mini" *ngFor="let linkData of bookmarks" [href]="linkData.url" target="_blank"
+      rel="noopener noreferrer">
+      <div class="bookmark-icon">
+        <img *ngIf="linkData.image" [src]="linkData.image" alt="Preview" referrerpolicy="no-referrer" />
+        <div class="mock-icon" *ngIf="!linkData.image">
+          <span nz-icon nzType="global" nzTheme="outline" *ngIf="linkData.title !== 'YouTube'"></span>
+          <span nz-icon nzType="youtube" nzTheme="fill" *ngIf="linkData.title === 'YouTube'" style="color: red"></span>
+        </div>
+      </div>
+      <div class="bookmark-content">
+        <div class="title" [title]="linkData.title">{{ linkData.title }}</div>
+        <div class="url-text" [title]="linkData.url">{{ linkData.url }}</div>
+      </div>
+      <div class="bookmark-actions-hover">
+        <button class="action-btn" (click)="copiarEnlace($event, linkData.url)" title="Copiar enlace">
+          <span nz-icon nzType="copy" nzTheme="outline"></span>
+        </button>
+        <button class="action-btn action-delete" (click)="eliminarMarcador($event, linkData.id)"
+          title="Eliminar marcador">
+          <span nz-icon nzType="delete" nzTheme="outline"></span>
+        </button>
+      </div>
+    </a>
+    <div class="empty-state" *ngIf="bookmarks.length === 0"> No hay URLs guardadas. </div>
+  </div>
+</div>

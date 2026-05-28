@@ -1,30 +1,43 @@
 import { CommonModule, NgForOf } from '@angular/common';
 import { Component, Inject, Input, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardComponent, NzCardModule } from 'ng-zorro-antd/card';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzMarks, NzSliderModule } from 'ng-zorro-antd/slider';
-import { ChartComponent } from '../chart/chart.component';
-import { ChartService } from '../chart/service/chart.service';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { catchError } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
+
 import { ChartItem } from './ChartItem';
+
 import { ReportService } from 'src/app/routes/widgets/report-component/service/report.service';
 import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
 
-import { Report } from "../../routes/widgets/report-component/entitie/report";
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { Report } from '../../routes/widgets/report-component/entitie/report';
+import { ChartComponent } from '../chart/chart.component';
+import { ChartService } from '../chart/service/chart.service';
 
 @Component({
   selector: 'app-chart-container',
   templateUrl: './chart-container.component.html',
   styleUrls: ['./chart-container.component.less'],
   standalone: true,
-  imports: [FormsModule, NzGridModule, NzSliderModule, NzCardModule, NgForOf, ChartComponent, CommonModule, NzIconModule, NzButtonModule, NzSpinModule]
+  imports: [
+    FormsModule,
+    NzGridModule,
+    NzSliderModule,
+    NzCardModule,
+    NgForOf,
+    ChartComponent,
+    CommonModule,
+    NzIconModule,
+    NzButtonModule,
+    NzSpinModule,
+  ],
 })
 export class ChartContainerComponent {
   //a
@@ -50,13 +63,15 @@ export class ChartContainerComponent {
   /**
    *
    */
-  constructor(@Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private CService: ChartService, private modal: NzModalService, private route: ActivatedRoute, private RViewService: ReportViewerService,
-    private router: Router, private RVService: ReportViewerService) {
-
-  }
-
-
+  constructor(
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private CService: ChartService,
+    private modal: NzModalService,
+    private route: ActivatedRoute,
+    private RViewService: ReportViewerService,
+    private router: Router,
+    private RVService: ReportViewerService,
+  ) {}
 
   ngOnInit() {
     const tokenData = this.tokenService.get();
@@ -76,11 +91,10 @@ export class ChartContainerComponent {
           nzTitle: 'Error',
           nzContent: '<p>El parámetro params no tiene un JSON válido.</p>',
           nzOkText: 'OK',
-          nzOkType: 'primary'
+          nzOkType: 'primary',
         });
         return;
       }
-
 
       if (tokenData && reportId) {
         const genericRequest = {
@@ -88,127 +102,131 @@ export class ChartContainerComponent {
           token: tokenData['token'],
           Params: {
             ReportId: reportId,
-            Zvars: rawParams
-          }
+            Zvars: rawParams,
+          },
         };
 
-        this.CService._GetChartContainer(genericRequest).pipe(
-          catchError(error => {
-            console.error('Error al obtener configuración:', error);
+        this.CService._GetChartContainer(genericRequest)
+          .pipe(
+            catchError(error => {
+              console.error('Error al obtener configuración:', error);
 
-            this.modal.error({
-              nzTitle: 'Error',
-              nzContent: '<p>No se encontro ningun grafico.</p>',
-              nzOkText: 'OK',
-              nzOkType: 'primary',
-              nzOnOk: () => console.log('OK'),
-            });
+              this.modal.error({
+                nzTitle: 'Error',
+                nzContent: '<p>No se encontro ningun grafico.</p>',
+                nzOkText: 'OK',
+                nzOkType: 'primary',
+                nzOnOk: () => console.log('OK'),
+              });
 
-            throw error;
-          })
-        ).subscribe((data: any) => {
-          this.DimY = JSON.parse(data)[0].DimY;
-          this.DimX = JSON.parse(data)[0].DimX;
-        });
+              throw error;
+            }),
+          )
+          .subscribe((data: any) => {
+            this.DimY = JSON.parse(data)[0].DimY;
+            this.DimX = JSON.parse(data)[0].DimX;
+          });
 
-        this.RViewService.GetResultsByReportId(genericRequest).pipe(
-          catchError(error => {
-            console.error('Error al obtener datos:', error);
-            throw error;
-          })
-        ).subscribe((data: any) => {
-          if (data != null || data != '[]') {
-            this.ReportData = JSON.parse(data);
+        this.RViewService.GetResultsByReportId(genericRequest)
+          .pipe(
+            catchError(error => {
+              console.error('Error al obtener datos:', error);
+              throw error;
+            }),
+          )
+          .subscribe((data: any) => {
+            if (data != null || data != '[]') {
+              this.ReportData = JSON.parse(data);
 
-            var GRequest = {
-              UserId: tokenData['userid'],
-              token: tokenData['token'],
-              Params: {
-                ReportId: Number.parseInt(reportId)
-              }
-            };
+              var GRequest = {
+                UserId: tokenData['userid'],
+                token: tokenData['token'],
+                Params: {
+                  ReportId: Number.parseInt(reportId),
+                },
+              };
 
-            this.GetChartsByReportId(GRequest);
-          } else {
-            console.error('No hay datos para el grafico');
+              this.GetChartsByReportId(GRequest);
+            } else {
+              console.error('No hay datos para el grafico');
 
-            this.modal.error({
-              nzTitle: 'Error',
-              nzContent: '<p>No se encontro ningun grafico.</p>',
-              nzOkText: 'OK',
-              nzOkType: 'primary',
-              nzOnOk: () => console.log('OK'),
-            });
-
-          }
-
-        });
-
+              this.modal.error({
+                nzTitle: 'Error',
+                nzContent: '<p>No se encontro ningun grafico.</p>',
+                nzOkText: 'OK',
+                nzOkType: 'primary',
+                nzOnOk: () => console.log('OK'),
+              });
+            }
+          });
       }
-
     });
-
   }
 
-  private GetChartsByReportId(GRequest: { UserId: any; token: string | null | undefined; Params: { ReportId: number; }; }) {
-    this.CService._GetChartsByReportId(GRequest).pipe(
-      catchError(error => {
-        console.error('Error al obtener configuración:', error);
+  private GetChartsByReportId(GRequest: { UserId: any; token: string | null | undefined; Params: { ReportId: number } }) {
+    this.CService._GetChartsByReportId(GRequest)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener configuración:', error);
 
-        this.modal.error({
-          nzTitle: 'Error',
-          nzContent: '<p>No se encontro ningun grafico.</p>',
-          nzOkText: 'OK',
-          nzOkType: 'primary',
-          nzOnOk: () => console.log('OK'),
-        });
+          this.modal.error({
+            nzTitle: 'Error',
+            nzContent: '<p>No se encontro ningun grafico.</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
 
-        throw error;
-      })
-    ).subscribe((data: any) => {
-      console.log(JSON.parse(data));
+          throw error;
+        }),
+      )
+      .subscribe(
+        (data: any) => {
+          console.log(JSON.parse(data));
 
-      if (data == null || data == '[]') {
-        console.info('No hay resultados');
+          if (data == null || data == '[]') {
+            console.info('No hay resultados');
 
-        this.modal.info({
-          nzTitle: 'No hay resultados',
-          nzContent: '<p>No se encontro ningun grafico valido</p>',
-          nzOkText: 'OK',
-          nzOkType: 'primary',
-          nzOnOk: () => {
-            console.log('OK');
-            //this.goToReportViewer();
-          },
-          nzOnCancel: () => {
-            console.log('Modal cerrado por la X');
-            //this.goToReportViewer();
-          }
-        });
-      } else {
-        this.chartList = JSON.parse(data);
-        this.isButtonExcelDisabled = false;
-        this.isLoading = false;
+            this.modal.info({
+              nzTitle: 'No hay resultados',
+              nzContent: '<p>No se encontro ningun grafico valido</p>',
+              nzOkText: 'OK',
+              nzOkType: 'primary',
+              nzOnOk: () => {
+                console.log('OK');
+                //this.goToReportViewer();
+              },
+              nzOnCancel: () => {
+                console.log('Modal cerrado por la X');
+                //this.goToReportViewer();
+              },
+            });
+          } else {
+            this.chartList = JSON.parse(data);
+            this.isButtonExcelDisabled = false;
+            this.isLoading = false;
 
-        const tokenData = this.tokenService.get();
+            const tokenData = this.tokenService.get();
 
-        if (tokenData != null) {
-          var genericRequestToSaveView = {
-            UserId: tokenData['userid'],
-            token: tokenData['token'],
-            Params: {
-              ReportId: this.currentReport.ID,
-              ViewMode: "Chart"
+            if (tokenData != null) {
+              var genericRequestToSaveView = {
+                UserId: tokenData['userid'],
+                token: tokenData['token'],
+                Params: {
+                  ReportId: this.currentReport.ID,
+                  ViewMode: 'Chart',
+                },
+              };
+
+              this.RVService.SaveLastReportViewed(genericRequestToSaveView).subscribe();
             }
-          };
-
-          this.RVService.SaveLastReportViewed(genericRequestToSaveView).subscribe();
-        }
-      }
-    }, error => {
-      this.isButtonExcelDisabled = false;
-      this.isLoading = false;
-    });
+          }
+        },
+        error => {
+          this.isButtonExcelDisabled = false;
+          this.isLoading = false;
+        },
+      );
   }
 
   getChartAt(PosY: number, PosX: number) {
@@ -217,18 +235,19 @@ export class ChartContainerComponent {
   }
 
   isCellCovered(rowY: number, colX: number): boolean {
-    return this.chartList.some(b =>
-      rowY >= b.PosY &&
-      rowY <= b.PosY + b.DimY - 1 &&
-      colX >= b.PosX &&
-      colX <= b.PosX + b.DimX - 1 &&
-      !(rowY === b.PosY && colX === b.PosX) // excluir celda inicial
+    return this.chartList.some(
+      b =>
+        rowY >= b.PosY &&
+        rowY <= b.PosY + b.DimY - 1 &&
+        colX >= b.PosX &&
+        colX <= b.PosX + b.DimX - 1 &&
+        !(rowY === b.PosY && colX === b.PosX), // excluir celda inicial
     );
   }
   //#endregion
 
   getCoordinates(index: number) {
-    const x = (index % this.count) + 1;          // columna
+    const x = (index % this.count) + 1; // columna
     const y = Math.floor(index / this.count) + 1; // fila
     return { x, y };
   }
@@ -246,7 +265,6 @@ export class ChartContainerComponent {
     if (tokenData?.token && !currentQueryParams['t']) {
       currentQueryParams['t'] = tokenData.token;
     }
-
 
     this.router.navigate(['/tools/reports/view', reportId], { queryParams: currentQueryParams });
   }

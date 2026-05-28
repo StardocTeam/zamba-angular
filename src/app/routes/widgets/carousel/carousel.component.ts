@@ -12,7 +12,7 @@ import {
   ViewChild,
   ViewChildren,
   AfterViewInit,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { GridsterItem } from 'angular-gridster2';
@@ -25,7 +25,7 @@ import { CarouselService } from './service/carousel.service';
   selector: 'app-carousel',
   styles: [],
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.less']
+  styleUrls: ['./carousel.component.less'],
 })
 export class CarouselComponent implements OnInit, OnDestroy {
   @Input() showImages: boolean = false;
@@ -39,7 +39,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
     rows: 0,
     x: 0,
     y: 0,
-    resizeEvent: new EventEmitter<GridsterItem>()
+    resizeEvent: new EventEmitter<GridsterItem>(),
   };
 
   @Input()
@@ -67,7 +67,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
   carouselItems = [
     { image: 'path/to/image1.jpg', caption: 'Caption 1' },
     { image: 'path/to/image2.jpg', caption: 'Caption 2' },
-    { image: 'path/to/image3.jpg', caption: 'Caption 3' }
+    { image: 'path/to/image3.jpg', caption: 'Caption 3' },
     // Agrega más elementos según sea necesario
   ];
 
@@ -75,7 +75,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private carouselService: CarouselService,
     private cdr: ChangeDetectorRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) {}
 
   ChangeFlag() {
@@ -147,7 +147,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
       UserId: 0,
       token: tokenData['token'],
 
-      Params: ''
+      Params: '',
     };
 
     this.carouselService
@@ -159,7 +159,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
           console.error('Error al obtener datos:', error);
           throw error; // Puedes relanzar el error o retornar un valor por defecto
-        })
+        }),
       )
       .subscribe(
         data => {
@@ -177,7 +177,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
           this.images = false;
           this.cdr.detectChanges();
           console.error('Error al obtener datos:', error);
-        }
+        },
       );
   }
 
@@ -188,7 +188,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
     genericRequest = {
       UserId: 0,
       token: tokenData['token'],
-      Params: ''
+      Params: '',
     };
 
     this.carouselService
@@ -200,7 +200,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
           console.error('Error al obtener datos:', error);
           throw error; // Puedes relanzar el error o retornar un valor por defecto
-        })
+        }),
       )
       .subscribe(
         data => {
@@ -219,7 +219,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
           this.images = false;
           this.cdr.detectChanges();
           console.error('Error al obtener datos:', error);
-        }
+        },
       );
   }
 

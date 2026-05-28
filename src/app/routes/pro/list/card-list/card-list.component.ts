@@ -10,10 +10,10 @@ import { NzMessageService } from 'ng-zorro-antd/message';
       :host ::ng-deep .ant-card-meta-title {
         margin-bottom: 12px;
       }
-    `
+    `,
   ],
   encapsulation: ViewEncapsulation.Emulated,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProCardListComponent implements OnInit {
   list: Array<{ id: number; title: string; avatar: string; description: string } | null> = [null];
@@ -23,7 +23,7 @@ export class ProCardListComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private msg: NzMessageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {

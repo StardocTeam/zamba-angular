@@ -8,7 +8,7 @@ describe('ReportEditorComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReportEditorComponent]
+      declarations: [ReportEditorComponent],
     });
     fixture = TestBed.createComponent(ReportEditorComponent);
     component = fixture.componentInstance;

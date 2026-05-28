@@ -1,25 +1,27 @@
+﻿import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
-import { Ckeditor5PremiumEditorComponent } from '../components/ckeditor5-premium-editor/ckeditor5-premium-editor.component';
-import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
-import { DocxEditorComponent } from '../components/docx-editor/docx-editor.component';
-import { LayoutSimpleComponent } from '../layout/simple/simple.component';
-import { NgModule } from '@angular/core';
-import { OnlyofficeEditorComponent } from '../components/onlyoffice-editor/onlyoffice-editor.component';
-import { PermissionsUserGroupComponent } from '../components/permissions-user-group/permissions-user-group';
 import { PreloadOptionalModules } from '@delon/theme';
-import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
-import { ReportComponentComponent } from "./widgets/report-component/report-component.component";
+import { environment } from '@env/environment';
+
+import { ReportComponentComponent } from './widgets/report-component/report-component.component';
 import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
 import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
-import { SignatureContainerComponent } from '../signature-container/signature-container.component';
+import { ViewFormComponent } from './widgets/view-form/view-form.component';
+import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
+import { Ckeditor5PremiumEditorComponent } from '../components/ckeditor5-premium-editor/ckeditor5-premium-editor.component';
+import { DocxEditorComponent } from '../components/docx-editor/docx-editor.component';
+import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
+import { OnlyofficeEditorComponent } from '../components/onlyoffice-editor/onlyoffice-editor.component';
+import { PermissionsUserGroupComponent } from '../components/permissions-user-group/permissions-user-group';
+import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
 import { TaskHistoryComponent } from '../components/task-history/task-history.component';
 import { TinymcePremiumEditorComponent } from '../components/tinymce-premium-editor/tinymce-premium-editor.component';
-import { ViewFormComponent } from './widgets/view-form/view-form.component';
-import { environment } from '@env/environment';
-import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
 import { GlobalSearchElementComponent } from '../elements/global-search/global-search.component';
+import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
+import { WebBookmarkComponent } from '../elements/web-bookmark/web-bookmark.component';
+import { MiniwebBookmarkComponent } from '../elements/miniweb-bookmark/miniweb-bookmark.component';
+import { LayoutSimpleComponent } from '../layout/simple/simple.component';
+import { SignatureContainerComponent } from '../signature-container/signature-container.component';
 
 // Lazy-load CheckListModule below; remove static import
 
@@ -31,49 +33,55 @@ const routes: Routes = [
       {
         path: 'elements',
         loadChildren: () => import('../elements/elements-module').then(m => m.ElementsModule),
-        data: { title: 'Zamba Elements' }
+        data: { title: 'Zamba Elements' },
       },
       {
         path: 'taskhistory',
         component: TaskHistoryComponent,
         data: { title: 'Historial de Tareas' },
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'editor-docx',
         component: DocxEditorComponent,
         data: { title: 'Editor DOCX' },
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'editor-onlyoffice',
         component: OnlyofficeEditorComponent,
         data: { title: 'OnlyOffice Docs' },
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'editor-tinymce-premium',
         component: TinymceElementComponent,
         data: { title: 'TinyMCE Self-hosted' },
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'chart-viewer-premium',
         component: ChartContainerComponent,
         data: { title: 'ChartViewer Self-hosted' },
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'editor-ckeditor5-premium',
         component: Ckeditor5PremiumEditorComponent,
         data: { title: 'CKEditor 5 Premium' },
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'global-search',
         component: GlobalSearchElementComponent,
         data: { title: 'Buscador Zamba', EntityId: 'HB Documentos', IndexId: 'GlobalSearch' },
-        pathMatch: 'full'
+        pathMatch: 'full',
+      },
+      {
+        path: 'miniweb-bookmark',
+        component: MiniwebBookmarkComponent,
+        data: { title: 'Mini Web Bookmark' },
+        pathMatch: 'full',
       },
       {
         path: 'reports',
@@ -83,25 +91,25 @@ const routes: Routes = [
           {
             path: 'create',
             component: ReportEditorComponent,
-            data: { title: 'Crear reporte' }
+            data: { title: 'Crear reporte' },
           },
           {
             path: 'edit/:id',
             component: ReportEditorComponent,
-            data: { title: 'Editar reporte' }
+            data: { title: 'Editar reporte' },
           },
           {
             path: 'view/:id',
             component: ReportViewerComponent,
-            data: { title: 'Reporte' }
+            data: { title: 'Reporte' },
           },
           {
             path: 'chartcontainer/:id',
             component: ChartContainerComponent,
             data: { title: 'Vista de graficos' },
-            pathMatch: 'full'
+            pathMatch: 'full',
           },
-        ]
+        ],
       },
       {
         path: 'gestion',
@@ -123,8 +131,8 @@ const routes: Routes = [
         path: 'permisos',
         component: PermissionsUserGroupComponent,
         data: { title: 'Grupos y Usuarios' },
-      }
-    ]
+      },
+    ],
   },
   { path: 'exception', loadChildren: () => import('./exception/exception.module').then(m => m.ExceptionModule) },
   { path: '**', redirectTo: 'exception/404' },
@@ -138,9 +146,9 @@ const routes: Routes = [
       scrollPositionRestoration: 'top',
       preloadingStrategy: PreloadOptionalModules,
       bindToComponentInputs: true,
-      onSameUrlNavigation: 'ignore'
-    })
+      onSameUrlNavigation: 'ignore',
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class RouteRoutingModule { }
+export class RouteRoutingModule {}

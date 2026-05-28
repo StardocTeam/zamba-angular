@@ -12,14 +12,14 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   selector: 'app-dashboard-analysis',
   templateUrl: './analysis.component.html',
   styleUrls: ['./analysis.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardAnalysisComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     public msg: NzMessageService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
   data: any = {};
   loading = true;
@@ -31,27 +31,27 @@ export class DashboardAnalysisComponent implements OnInit {
     .map((_, i) => {
       return {
         title: this.i18n.fanyi('app.analysis.test', { no: i }),
-        total: 323234
+        total: 323234,
       };
     });
   titleMap = {
     y1: this.i18n.fanyi('app.analysis.traffic'),
-    y2: this.i18n.fanyi('app.analysis.payments')
+    y2: this.i18n.fanyi('app.analysis.payments'),
   };
   searchColumn: STColumn[] = [
     { title: { text: '排名', i18n: 'app.analysis.table.rank' }, index: 'index' },
     {
       title: { text: '搜索关键词', i18n: 'app.analysis.table.search-keyword' },
       index: 'keyword',
-      click: item => this.msg.success(item.keyword)
+      click: item => this.msg.success(item.keyword),
     },
     {
       type: 'number',
       title: { text: '用户数', i18n: 'app.analysis.table.users' },
       index: 'count',
       sort: {
-        compare: (a, b) => a.count - b.count
-      }
+        compare: (a, b) => a.count - b.count,
+      },
     },
     {
       type: 'number',
@@ -59,9 +59,9 @@ export class DashboardAnalysisComponent implements OnInit {
       index: 'range',
       render: 'range',
       sort: {
-        compare: (a, b) => a.range - b.range
-      }
-    }
+        compare: (a, b) => a.range - b.range,
+      },
+    },
   ];
 
   salesType = 'all';

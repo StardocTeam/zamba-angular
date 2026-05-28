@@ -12,7 +12,7 @@ interface UserForm {
 @Component({
   selector: 'app-advanced-form',
   templateUrl: './advanced-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdvancedFormComponent implements OnInit {
   editIndex = -1;
@@ -30,11 +30,11 @@ export class AdvancedFormComponent implements OnInit {
     approver2: new FormControl('', { validators: [Validators.required] }),
     time: new FormControl('', { validators: [Validators.required] }),
     type2: new FormControl('', { validators: [Validators.required] }),
-    items: new FormArray<FormGroup<UserForm>>([])
+    items: new FormArray<FormGroup<UserForm>>([]),
   });
   users: Array<{ value: string; label: string }> = [
     { value: 'xiao', label: '付晓晓' },
-    { value: 'mao', label: '周毛毛' }
+    { value: 'mao', label: '周毛毛' },
   ];
 
   ngOnInit(): void {
@@ -43,20 +43,20 @@ export class AdvancedFormComponent implements OnInit {
         key: '1',
         workId: '00001',
         name: 'John Brown',
-        department: 'New York No. 1 Lake Park'
+        department: 'New York No. 1 Lake Park',
       },
       {
         key: '2',
         workId: '00002',
         name: 'Jim Green',
-        department: 'London No. 1 Lake Park'
+        department: 'London No. 1 Lake Park',
       },
       {
         key: '3',
         workId: '00003',
         name: 'Joe Black',
-        department: 'Sidney No. 1 Lake Park'
-      }
+        department: 'Sidney No. 1 Lake Park',
+      },
     ];
     userList.forEach(i => {
       const field = this.createUser();
@@ -70,7 +70,7 @@ export class AdvancedFormComponent implements OnInit {
       key: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       workId: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-      department: new FormControl('', { nonNullable: true, validators: [Validators.required] })
+      department: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
     });
   }
 

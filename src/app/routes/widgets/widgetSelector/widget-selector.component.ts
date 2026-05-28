@@ -15,7 +15,7 @@ import { WidgetCComponent } from './widgetC.component';
   styleUrls: ['widget-selector.component.css'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: [NgIf, WidgetsModule]
+  imports: [NgIf, WidgetsModule],
 })
 export class WidgetSelectorComponent {
   @Input()
@@ -26,7 +26,7 @@ export class WidgetSelectorComponent {
     rows: 0,
     x: 0,
     y: 0,
-    resizeEvent: new EventEmitter<GridsterItem>()
+    resizeEvent: new EventEmitter<GridsterItem>(),
   };
   @Input()
   resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();

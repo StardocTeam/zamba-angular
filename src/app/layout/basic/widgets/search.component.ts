@@ -8,7 +8,7 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  Output
+  Output,
 } from '@angular/core';
 import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
 
@@ -38,7 +38,7 @@ import { BehaviorSubject, debounceTime, distinctUntilChanged, tap } from 'rxjs';
       <nz-auto-option *ngFor="let i of options" [nzValue]="i">{{ i }}</nz-auto-option>
     </nz-autocomplete>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
   q = '';
@@ -67,7 +67,7 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private el: ElementRef<HTMLElement>,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngAfterViewInit(): void {
@@ -79,8 +79,8 @@ export class HeaderSearchComponent implements AfterViewInit, OnDestroy {
         tap({
           complete: () => {
             this.loading = true;
-          }
-        })
+          },
+        }),
       )
       .subscribe(value => {
         this.options = value ? [value, value + value, value + value + value] : [];

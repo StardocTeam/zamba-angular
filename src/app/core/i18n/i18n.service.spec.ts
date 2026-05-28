@@ -12,15 +12,15 @@ describe('Service: I18n', () => {
   let srv: I18NService;
   const MockSettingsService: NzSafeAny = {
     layout: {
-      lang: null
-    }
+      lang: null,
+    },
   };
   const MockNzI18nService = {
     setLocale: () => {},
-    setDateLocale: () => {}
+    setDateLocale: () => {},
   };
   const MockDelonLocaleService = {
-    setLocale: () => {}
+    setLocale: () => {},
   };
   const MockTranslateService = {
     getBrowserLang: jasmine.createSpy('getBrowserLang'),
@@ -28,7 +28,7 @@ describe('Service: I18n', () => {
     setLocale: () => {},
     getDefaultLang: () => '',
     use: (lang: string) => of(lang),
-    instant: jasmine.createSpy('instant')
+    instant: jasmine.createSpy('instant'),
   };
 
   function genModule(): void {
@@ -38,8 +38,8 @@ describe('Service: I18n', () => {
         I18NService,
         { provide: SettingsService, useValue: MockSettingsService },
         { provide: NzI18nService, useValue: MockNzI18nService },
-        { provide: DelonLocaleService, useValue: MockDelonLocaleService }
-      ]
+        { provide: DelonLocaleService, useValue: MockDelonLocaleService },
+      ],
     });
     srv = TestBed.inject(I18NService);
   }

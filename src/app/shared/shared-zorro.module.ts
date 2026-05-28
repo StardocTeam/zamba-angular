@@ -15,6 +15,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzListModule } from 'ng-zorro-antd/list';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
@@ -23,6 +24,7 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -32,13 +34,11 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
-import { NzMenuModule } from 'ng-zorro-antd/menu';
-import { NzSliderModule } from 'ng-zorro-antd/slider';
-
 export const SHARED_ZORRO_MODULES = [
   NzButtonModule,
   NzMessageModule,
-  NzDropDownModule, NzMenuModule,
+  NzDropDownModule,
+  NzMenuModule,
   NzGridModule,
   NzCheckboxModule,
   NzToolTipModule,
@@ -68,5 +68,5 @@ export const SHARED_ZORRO_MODULES = [
   NzProgressModule,
   NzPopconfirmModule,
   NzUploadModule,
-  NzResultModule
+  NzResultModule,
 ];

@@ -8,14 +8,14 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   selector: 'app-account-settings-default',
   templateUrl: './default.component.html',
   styleUrls: ['default.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DefaultComponent implements OnInit {
   constructor(
     public msg: NzMessageService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
   ngOnInit(): void {
     const tokenData = this.tokenService.get();
   }

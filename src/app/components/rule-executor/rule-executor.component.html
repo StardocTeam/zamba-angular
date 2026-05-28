@@ -1,11 +1,14 @@
 <div *ngIf="isLoadingAction" class="spinner-overlay-rule-executor">
-    <div class="custom-spinner"></div>
-    <p>Cargando...</p>
+  <div class="custom-spinner"></div>
+  <p>Cargando...</p>
 </div>
 <ng-container *ngIf="!hiddenDoShowTable" class="doshowtable-container">
-    <app-do-show-table [Params]="doShowTableParams" [PendingChildRules]="doShowTablePendingChildRules"
-        (doShowTableHasFinished)="onDoShowTableHasFinished($event)"></app-do-show-table>
+  <app-do-show-table
+    [Params]="doShowTableParams"
+    [PendingChildRules]="doShowTablePendingChildRules"
+    (doShowTableHasFinished)="onDoShowTableHasFinished($event)"
+  />
 </ng-container>
 <ng-template #iframeModal>
-    <iframe [src]="safeIframeUrl" width="100%" height="500" frameborder="0"></iframe>
+  <iframe [src]="safeIframeUrl" width="100%" height="500" frameborder="0"></iframe>
 </ng-template>

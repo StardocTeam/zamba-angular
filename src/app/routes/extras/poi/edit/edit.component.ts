@@ -5,7 +5,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-extras-poi-edit',
-  templateUrl: './edit.component.html'
+  templateUrl: './edit.component.html',
 })
 export class ExtrasPoiEditComponent implements OnInit {
   i: any;
@@ -14,7 +14,7 @@ export class ExtrasPoiEditComponent implements OnInit {
   constructor(
     private modal: NzModalRef,
     public msgSrv: NzMessageService,
-    public http: _HttpClient
+    public http: _HttpClient,
   ) {}
 
   ngOnInit(): void {

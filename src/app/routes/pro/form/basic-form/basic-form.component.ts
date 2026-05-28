@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-basic-form',
   templateUrl: './basic-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BasicFormComponent {
   form = new FormGroup({
@@ -17,13 +17,13 @@ export class BasicFormComponent {
     invites: new FormControl(''),
     weight: new FormControl(''),
     public: new FormControl(1, [Validators.min(1), Validators.max(3)]),
-    publicUsers: new FormControl('')
+    publicUsers: new FormControl(''),
   });
   submitting = false;
 
   constructor(
     private msg: NzMessageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   submit(): void {

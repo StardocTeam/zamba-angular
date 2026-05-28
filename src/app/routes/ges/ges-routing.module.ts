@@ -8,6 +8,6 @@ const routes: Routes = [{ path: 'empleado', component: EmpleadoComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class GesRoutingModule {}

@@ -1,0 +1,336 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.web-bookmark-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    /* Centrado horizontal (auto) con margen superior/inferior */
+    color: #333;
+}
+
+/* Header / Add Button */
+.bookmark-header {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.add-link-btn {
+    background: transparent;
+    border: 1px solid #d9d9d9;
+    color: #595959;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+
+    &:hover {
+        background: #f5f5f5;
+        color: #333;
+        border-color: #ccc;
+    }
+}
+
+/* Input View */
+.bookmark-input-view {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    .bookmark-input-wrapper {
+        position: relative;
+        margin-bottom: 12px;
+
+        .bookmark-input {
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            padding: 8px 30px 8px 12px;
+            color: #333;
+            outline: none;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.2s;
+
+            &:focus {
+                border-color: #1890ff;
+                box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+            }
+
+            &::placeholder {
+                color: #bfbfbf;
+            }
+        }
+
+        .clear-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            cursor: pointer;
+            background: #f0f0f0;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+
+            &:hover {
+                background: #e0e0e0;
+                color: #666;
+            }
+        }
+    }
+
+    .bookmark-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .bookmark-btn-cancel {
+        flex: 1;
+        background-color: #f5f5f5;
+        color: #595959;
+        border: 1px solid #d9d9d9;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+
+        &:hover {
+            background-color: #e8e8e8;
+        }
+    }
+
+    .bookmark-btn {
+        flex: 2;
+        background-color: #1890ff;
+        /* Primary blue */
+        color: white;
+        border: none;
+        padding: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.2s, opacity 0.2s;
+
+        &:hover:not(.disabled-btn) {
+            background-color: #096dd9;
+        }
+
+        &.disabled-btn {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .bookmark-help {
+        margin-top: 12px;
+        margin-bottom: 0;
+        font-size: 12px;
+        color: #8c8c8c;
+        text-align: center;
+    }
+}
+
+/* Loading */
+.bookmark-loading {
+    padding: 20px;
+    text-align: center;
+    color: #8c8c8c;
+    margin-bottom: 24px;
+}
+
+/* List */
+.bookmarks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 8px;
+    /* Espacio para la barra de scroll */
+
+    /* Scrollbar personalizada */
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+}
+
+/* Preview View (Card) */
+.bookmark-preview-view {
+    display: flex;
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    height: 106px;
+    /* Altura fija más parecida a Notion */
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s, border-color 0.2s;
+
+    &:hover {
+        background-color: #fafafa;
+        border-color: #d9d9d9;
+    }
+
+    .bookmark-content {
+        flex: 1;
+        padding: 12px 14px;
+        /* Menos margen interno */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        /* Distribuye el espacio si es necesario */
+        overflow: hidden;
+        /* Evita que los textos desborden a los lados */
+
+        .title {
+            color: #262626;
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* Corta el texto largo del título con ... */
+        }
+
+        .description {
+            color: #595959;
+            font-size: 12px;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .url-info {
+            color: #8c8c8c;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+
+            .url-icon {
+                color: #8c8c8c;
+                margin-right: 6px;
+                font-size: 10px;
+                flex-shrink: 0;
+            }
+
+            .url-text {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-right: 8px;
+            }
+
+            .copy-url-btn {
+                background: transparent;
+                border: none;
+                color: #8c8c8c;
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background-color 0.2s, color 0.2s;
+                opacity: 1;
+                flex-shrink: 0;
+
+                &:hover {
+                    background-color: #e8e8e8;
+                    color: #1890ff;
+                    /* Se pinta de azul al pasar el mouse */
+                }
+            }
+
+            .delete-url-btn {
+                background: transparent;
+                border: none;
+                color: #8c8c8c;
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background-color 0.2s, color 0.2s;
+                opacity: 1;
+                flex-shrink: 0;
+                margin-left: 4px;
+
+                &:hover {
+                    background-color: #ffebeb;
+                    color: #ff4d4f;
+                    /* Se pinta de rojo al pasar el mouse */
+                }
+            }
+        }
+    }
+
+    .bookmark-image {
+        width: 170px;
+        /* Un poco más angosto como la vista previa de Notion */
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-left: 1px solid #e8e8e8;
+
+        .mock-yt-logo {
+            color: #262626;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            letter-spacing: -1px;
+
+            &::before {
+                content: "▶";
+                color: #ff0000;
+                margin-right: 4px;
+                font-size: 28px;
+            }
+        }
+
+        .mock-generic-logo {
+            font-size: 40px;
+            color: #bfbfbf;
+        }
+    }
+}

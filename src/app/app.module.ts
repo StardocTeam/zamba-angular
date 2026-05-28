@@ -24,14 +24,14 @@ const LANG = {
   ng: localeEs,
   zorro: zorroLang,
   date: es,
-  delon: delonLang
+  delon: delonLang,
 };
 
 const LANG_PROVIDES = [
   { provide: LOCALE_ID, useValue: LANG.abbr },
   provideNzI18n(LANG.zorro),
   { provide: NZ_DATE_LOCALE, useValue: LANG.date },
-  { provide: DELON_LOCALE, useValue: LANG.delon }
+  { provide: DELON_LOCALE, useValue: LANG.delon },
 ];
 // #endregion
 
@@ -60,7 +60,7 @@ import { DefaultInterceptor } from '@core';
 
 const INTERCEPTOR_PROVIDES = [
   //{ provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true }
+  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
 ];
 // #endregion
 
@@ -75,8 +75,8 @@ const APPINIT_PROVIDES = [
     provide: APP_INITIALIZER,
     useFactory: StartupServiceFactory,
     deps: [StartupService],
-    multi: true
-  }
+    multi: true,
+  },
 ];
 // #endregion
 
@@ -89,7 +89,6 @@ import { SharedModule } from './shared/shared.module';
 import { STWidgetModule } from './shared/st-widget/st-widget.module';
 import { Observable } from 'rxjs';
 import { WidgetsModule } from './routes/widgets/widgets.module';
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -108,9 +107,8 @@ import { WidgetsModule } from './routes/widgets/widgets.module';
     WidgetsModule,
     ...GLOBAL_THIRD_MODULES,
     ...FORM_MODULES,
-
   ],
   providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18NSERVICE_PROVIDES, ...APPINIT_PROVIDES, TokenService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

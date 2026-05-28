@@ -1,33 +1,58 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
-import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TaskHistoryService } from '../../services/task-history-service.service';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { catchError, of, tap } from 'rxjs';
-import { SpanishPaginatorIntl } from './spanish-paginator';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  Renderer2,
+  ChangeDetectorRef,
+  Inject,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
 import { NzBreadCrumbModule } from 'ng-zorro-antd/breadcrumb';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { catchError, of, tap } from 'rxjs';
+
+import { SpanishPaginatorIntl } from './spanish-paginator';
+import { TaskHistoryService } from '../../services/task-history-service.service';
 
 @Component({
   selector: 'app-task-history',
   standalone: true,
-  imports: [MatTableModule, MatPaginatorModule, HttpClientModule, CommonModule, MatCardModule, MatButtonModule, MatIconModule,
-    MatDividerModule, NzSpinModule, MatSortModule, MatFormFieldModule, MatInputModule, NzBreadCrumbModule],
+  imports: [
+    MatTableModule,
+    MatPaginatorModule,
+    HttpClientModule,
+    CommonModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    NzSpinModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    NzBreadCrumbModule,
+  ],
   templateUrl: './task-history.component.html',
   styleUrls: ['./task-history.component.css'],
   providers: [TaskHistoryService, { provide: MatPaginatorIntl, useClass: SpanishPaginatorIntl }],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.Emulated
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class TaskHistoryComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort | undefined;
@@ -46,14 +71,12 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
 
   private fontLink: HTMLLinkElement | null = null;
 
-
   constructor(
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-    private router: Router) {
-
-  }
+    private router: Router,
+  ) {}
 
   ngAfterViewInit() {
     if (this.paginator) {
@@ -70,9 +93,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
     }
   }
 
-
   ngOnInit(): void {
-
     this.route.queryParamMap.subscribe(params => {
       const docIdParam = params.get('docid');
       const taskIdParam = params.get('taskid');
@@ -88,11 +109,7 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
       }
       this.taskHistoryOnClick();
       this.getTaskName();
-
     });
-
-
-
 
     this.fontLink = this.renderer.createElement('link');
     if (this.fontLink) {
@@ -103,7 +120,8 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
   }
 
   getTaskName(): void {
-    this.taskHistoryService.getTaskName(this.docId, this.taskId)
+    this.taskHistoryService
+      .getTaskName(this.docId, this.taskId)
       .pipe(
         tap(response => {
           this.taskName = response;
@@ -112,8 +130,9 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
         catchError(error => {
           console.error('Error fetching task name:', error);
           return of([]);
-        })
-      ).subscribe();
+        }),
+      )
+      .subscribe();
   }
   taskHistoryOnClick(): void {
     this.isLoading = true; // Inicia el spinner
@@ -123,7 +142,8 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
 
     this.lastSelectedButton = 'taskHistory';
 
-    this.taskHistoryService.getTaskHistory(this.docId, this.taskId)
+    this.taskHistoryService
+      .getTaskHistory(this.docId, this.taskId)
       .pipe(
         tap(response => {
           if (response != undefined) {
@@ -146,8 +166,9 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
           this.showNoDataMessage = true;
           this.cd.detectChanges();
           return of([]);
-        })
-      ).subscribe();
+        }),
+      )
+      .subscribe();
   }
 
   indexesHistoryOnClick(): void {
@@ -158,7 +179,8 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
 
     this.lastSelectedButton = 'indexesHistory';
 
-    this.taskHistoryService.getIndexesHistory(this.docId)
+    this.taskHistoryService
+      .getIndexesHistory(this.docId)
       .pipe(
         tap(response => {
           console.log(response);
@@ -180,7 +202,8 @@ export class TaskHistoryComponent implements AfterViewInit, OnInit {
           this.cd.detectChanges();
           return of([]);
         }),
-      ).subscribe();
+      )
+      .subscribe();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

@@ -1,12 +1,13 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, HostListener, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { PendingTasksService } from '../../service/pending-tasks.service';
-import { HttpClient } from '@angular/common/http';
-import { ZambaService } from 'src/app/services/zamba/zamba.service';
-import { catchError, delay, finalize } from 'rxjs/operators';
 import { Subscription, of, throwError } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { catchError, delay, finalize } from 'rxjs/operators';
+import { ZambaService } from 'src/app/services/zamba/zamba.service';
+
+import { PendingTasksService } from '../../service/pending-tasks.service';
 
 @Component({
   selector: 'app-layout-pending-task-item',
@@ -27,7 +28,7 @@ export class LayoutPendingTaskItemComponent {
     private router: Router,
     private pendingTasksService: PendingTasksService,
     private cdr: ChangeDetectorRef,
-    private zambaService: ZambaService
+    private zambaService: ZambaService,
   ) {
     this.GetTaskCount();
   }
@@ -49,7 +50,7 @@ export class LayoutPendingTaskItemComponent {
       genericRequest = {
         UserId: 0,
         token: tokenData['token'],
-        Params: ''
+        Params: '',
       };
 
       this.pendingTasksService
@@ -61,12 +62,11 @@ export class LayoutPendingTaskItemComponent {
           }),
           finalize(() => {
             this.cdr.detectChanges();
-          })
+          }),
         )
         .subscribe(res => {
           try {
             this.count = res;
-
           } catch (error) {
             console.error('Error en la solicitud:', error);
           }
@@ -80,7 +80,9 @@ export class LayoutPendingTaskItemComponent {
   }
 
   timer() {
-    this.timerSubscription = of(null).pipe(delay(2000)).subscribe(() => this.PTDropDownOpened = false);
+    this.timerSubscription = of(null)
+      .pipe(delay(2000))
+      .subscribe(() => (this.PTDropDownOpened = false));
   }
 
   keepOpened() {

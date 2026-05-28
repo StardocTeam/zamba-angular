@@ -9,14 +9,14 @@ import { NzModalService } from 'ng-zorro-antd/modal';
     {{ 'menu.clear.local.storage' | i18n }}
   `,
   host: {
-    '[class.flex-1]': 'true'
+    '[class.flex-1]': 'true',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderClearStorageComponent {
   constructor(
     private modalSrv: NzModalService,
-    private messageSrv: NzMessageService
+    private messageSrv: NzMessageService,
   ) {}
 
   @HostListener('click')
@@ -26,7 +26,7 @@ export class HeaderClearStorageComponent {
       nzOnOk: () => {
         localStorage.clear();
         this.messageSrv.success('Clear Finished!');
-      }
+      },
     });
   }
 }

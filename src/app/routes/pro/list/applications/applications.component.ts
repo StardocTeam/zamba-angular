@@ -12,7 +12,7 @@ interface ProListApplicationListItem {
   selector: 'app-list-applications',
   templateUrl: './applications.component.html',
   styleUrls: ['./applications.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProListApplicationsComponent implements OnInit {
   q = {
@@ -20,7 +20,7 @@ export class ProListApplicationsComponent implements OnInit {
     user: null,
     rate: null,
     categories: [],
-    owners: ['zxx']
+    owners: ['zxx'],
   };
 
   list: ProListApplicationListItem[] = [];
@@ -41,7 +41,7 @@ export class ProListApplicationsComponent implements OnInit {
     { id: 9, text: '类目九', value: false },
     { id: 10, text: '类目十', value: false },
     { id: 11, text: '类目十一', value: false },
-    { id: 12, text: '类目十二', value: false }
+    { id: 12, text: '类目十二', value: false },
   ];
 
   changeCategory(status: boolean, idx: number): void {
@@ -56,7 +56,7 @@ export class ProListApplicationsComponent implements OnInit {
 
   constructor(
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {

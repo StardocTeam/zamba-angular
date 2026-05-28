@@ -30,13 +30,13 @@ interface ProAccountSettingsCity {
   selector: 'app-account-settings-base',
   templateUrl: './base.component.html',
   styleUrls: ['./base.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountSettingsBaseComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-    private msg: NzMessageService
+    private msg: NzMessageService,
   ) {}
   avatar = '';
   userLoading = true;
@@ -55,7 +55,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
         this.provinces = province;
         this.choProvince(user.geographic.province.key, false);
         this.cdr.detectChanges();
-      }
+      },
     );
   }
 

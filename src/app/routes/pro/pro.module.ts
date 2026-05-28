@@ -6,7 +6,9 @@ import { TagSelectModule } from '@delon/abc/tag-select';
 import { CurrencyPipeModule } from '@delon/util/pipes/currency';
 import { SharedModule } from '@shared';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 
 import { ProAccountCenterApplicationsComponent } from './account/center/applications/applications.component';
@@ -37,8 +39,6 @@ import { ProProfileAdvancedComponent } from './profile/advanced/advanced.compone
 import { ProProfileBaseComponent } from './profile/basic/basic.component';
 import { ProResultFailComponent } from './result/fail/fail.component';
 import { ProResultSuccessComponent } from './result/success/success.component';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 const COMPONENTS = [
   BasicFormComponent,
@@ -67,7 +67,7 @@ const COMPONENTS = [
   Step1Component,
   Step2Component,
   Step3Component,
-  ProBasicListEditComponent
+  ProBasicListEditComponent,
 ];
 
 @NgModule({
@@ -83,8 +83,8 @@ const COMPONENTS = [
     NzStepsModule,
     CurrencyPipeModule,
     NzDatePickerModule,
-    NzLayoutModule
+    NzLayoutModule,
   ],
-  declarations: COMPONENTS
+  declarations: COMPONENTS,
 })
-export class ProModule { }
+export class ProModule {}

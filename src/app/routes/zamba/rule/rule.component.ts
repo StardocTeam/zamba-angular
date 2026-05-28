@@ -24,8 +24,8 @@ import { ZambaService } from '../../../services/zamba/zamba.service';
         left: 50%;
         transform: translate(-50%, -50%);
       }
-    `
-  ]
+    `,
+  ],
 })
 export class RuleComponent implements OnInit {
   WebUrl = environment['zambaWeb'];
@@ -44,7 +44,7 @@ export class RuleComponent implements OnInit {
     private cdr: ChangeDetectorRef,
 
     private modalSrv: NzModalService,
-    private router: Router
+    private router: Router,
   ) {
     this.result = false;
 
@@ -67,7 +67,7 @@ export class RuleComponent implements OnInit {
           }
           break;
       }
-    } catch (error) { }
+    } catch (error) {}
   }
 
   ngOnInit(): void {
@@ -83,7 +83,7 @@ export class RuleComponent implements OnInit {
         genericRequest = {
           UserId: 0, //  tokenData['userID'],
           token: tokenData['token'],
-          Params: params
+          Params: params,
         };
       }
 
@@ -134,9 +134,9 @@ export class RuleComponent implements OnInit {
               : `Ver：${JSON.stringify(error)}`,
             nzCancelDisabled: true,
             nzOkText: 'OK',
-            nzOnOk: () => this.cdr.detectChanges()
+            nzOnOk: () => this.cdr.detectChanges(),
           });
-        }
+        },
       });
     });
   }

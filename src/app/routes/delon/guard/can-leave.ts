@@ -20,7 +20,7 @@ export const canLeave: CanDeactivateFn<GuardComponent> = (): Observable<boolean>
       nzOnCancel: () => {
         observer.next(false);
         observer.complete();
-      }
+      },
     });
   });
 };

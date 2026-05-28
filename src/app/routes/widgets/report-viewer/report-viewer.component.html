@@ -1,109 +1,136 @@
 <div class="container">
-    <ng-container *ngIf="!executingRule">
-        <div class="report-details">
-            <div nz-row [nzGutter]="4">
-                <div nz-col nzXs="20" nzFlex="auto">
-                    <div id="report-name" style="font-size: 24px !important;">{{currentReport.Name}}</div>
-                </div>
-                <div nz-col nzXs="4" style="margin-top: 5px;">
-                    <button *ngIf="CanGoToCharts" id="returnToCharts" nz-button anchorBtn nzType="default"
-                        (click)="goToCharts(currentReport)" [disabled]=" isButtonExcelDisabled"
-                        style="margin-bottom: 5px;">
-                        <i nz-icon nzTooltipPlacement="right" nzType="area-chart" nzTheme="outline"></i>
-                    </button>
-                    <button id="exportToExcelBtn" nz-button anchorBtn nzType="default"
-                        (click)="exportToExcel(currentReport)" [disabled]=" isButtonExcelDisabled"
-                        style="margin-bottom: 5px;">
-                        <i nz-icon nzTooltipPlacement="right" nzType="download" nzTheme="outline"></i>
-                    </button>
-                </div>
-            </div>
-            <p id="report-description">{{currentReport.Description}}</p>
-            <div id="ZVarsPanel">
-                <!-- Contenedor único para que todo quede en la misma fila -->
-                <div nz-row [nzGutter]="8" style="margin-bottom:8px; align-items:end;">
-                    <div nz-col nzXs="20" nzMd="20">
-                        <div nz-row [nzGutter]="8">
-                            <!-- TODO:Aca van los inputs dinamicos por ZVARs -->
-                            <div *ngIf="startDateVisible" nz-col nzXs="24" nzSm="6">
-                                <label for="startDate">Fecha de inicio:</label>
-                                <nz-date-picker [(ngModel)]="ZVARstartDate" [nzFormat]="'dd-MM-yyyy'"
-                                    style="width: 100%"></nz-date-picker>
-                            </div>
+  <ng-container *ngIf="!executingRule">
+    <div class="report-details">
+      <div nz-row [nzGutter]="4">
+        <div nz-col nzXs="20" nzFlex="auto">
+          <div id="report-name" style="font-size: 24px !important">{{ currentReport.Name }}</div>
+        </div>
+        <div nz-col nzXs="4" style="margin-top: 5px">
+          <button
+            *ngIf="CanGoToCharts"
+            id="returnToCharts"
+            nz-button
+            anchorBtn
+            nzType="default"
+            (click)="goToCharts(currentReport)"
+            [disabled]="isButtonExcelDisabled"
+            style="margin-bottom: 5px"
+          >
+            <i nz-icon nzTooltipPlacement="right" nzType="area-chart" nzTheme="outline"></i>
+          </button>
+          <button
+            id="exportToExcelBtn"
+            nz-button
+            anchorBtn
+            nzType="default"
+            (click)="exportToExcel(currentReport)"
+            [disabled]="isButtonExcelDisabled"
+            style="margin-bottom: 5px"
+          >
+            <i nz-icon nzTooltipPlacement="right" nzType="download" nzTheme="outline"></i>
+          </button>
+        </div>
+      </div>
+      <p id="report-description">{{ currentReport.Description }}</p>
+      <div id="ZVarsPanel">
+        <!-- Contenedor único para que todo quede en la misma fila -->
+        <div nz-row [nzGutter]="8" style="margin-bottom: 8px; align-items: end">
+          <div nz-col nzXs="20" nzMd="20">
+            <div nz-row [nzGutter]="8">
+              <!-- TODO:Aca van los inputs dinamicos por ZVARs -->
+              <div *ngIf="startDateVisible" nz-col nzXs="24" nzSm="6">
+                <label for="startDate">Fecha de inicio:</label>
+                <nz-date-picker [(ngModel)]="ZVARstartDate" [nzFormat]="'dd-MM-yyyy'" style="width: 100%" />
+              </div>
 
-                            <div *ngIf="endDateVisible" nz-col nzXs="24" nzSm="6">
-                                <label for="endDate">Fecha hasta:</label>
-                                <nz-date-picker [(ngModel)]="ZVARendDate" [nzFormat]="'dd-MM-yyyy'"
-                                    style="width: 100%"></nz-date-picker>
-                            </div>
-                            <!-- <div *ngFor="let zvar of ListZVARsFromDB" nz-col nzXs="24" nzSm="6">
+              <div *ngIf="endDateVisible" nz-col nzXs="24" nzSm="6">
+                <label for="endDate">Fecha hasta:</label>
+                <nz-date-picker [(ngModel)]="ZVARendDate" [nzFormat]="'dd-MM-yyyy'" style="width: 100%" />
+              </div>
+              <!-- <div *ngFor="let zvar of ListZVARsFromDB" nz-col nzXs="24" nzSm="6">
                                 <label>{{zvar.KeyZVar}}:</label>
                                 <input nz-input type="text" [(ngModel)]="zvar.ValueZVar">
                             </div> -->
-                        </div>
-                    </div>
-
-                    <!-- [disabled]="ZVARstartDate || ZVARendDate" -->
-
-                    <!-- Botón separado pero en la misma fila -->
-                    <div *ngIf="startDateVisible || endDateVisible" nz-col nzXs="4" nzMd="4"
-                        style="display:flex; align-items:end;">
-                        <button nz-button nzType="primary" (click)="OpenReport(currentReport)"
-                            [disabled]="(startDateVisible && !ZVARstartDate) || (endDateVisible && !ZVARendDate)">
-                            Aplicar filtros</button>
-                    </div>
-                </div>
             </div>
+          </div>
+
+          <!-- [disabled]="ZVARstartDate || ZVARendDate" -->
+
+          <!-- Botón separado pero en la misma fila -->
+          <div *ngIf="startDateVisible || endDateVisible" nz-col nzXs="4" nzMd="4" style="display: flex; align-items: end">
+            <button
+              nz-button
+              nzType="primary"
+              (click)="OpenReport(currentReport)"
+              [disabled]="(startDateVisible && !ZVARstartDate) || (endDateVisible && !ZVARendDate)"
+            >
+              Aplicar filtros</button
+            >
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div *ngIf="isLoading" class="spinner-overlay">
-            <nz-spin [nzSize]="'large'"></nz-spin>
-        </div>
+    <div *ngIf="isLoading" class="spinner-overlay">
+      <nz-spin [nzSize]="'large'" />
+    </div>
 
-        <div class="table-container">
-            <nz-table *ngIf="!isLoading" #filterTable [nzData]="listOfData" nzSize="small" [nzTotal]="listOfData.length"
-                [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'" [nzShowSizeChanger]="false"
-                [nzShowPagination]="nzShowPagination" [nzShowSizeChanger]="true" [nzScroll]="{y: height }"
-                [nzPageSize]="20">
-                <thead>
-                    <tr>
-                        <ng-container *ngFor="let column of listOfColumns;">
-                            <th *ngIf="column.visible" [nzSortOrder]="column.sortOrder" [nzSortFn]="column.sortFn"
-                                [nzSortDirections]="column.sortDirections" [nzWidth]="column.width"
-                                [nzFilterMultiple]="column.filterMultiple" [nzFilterFn]="column.filterFn">
-                                {{ column.name }}
-                            </th>
-                        </ng-container>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ng-container *ngFor="let data of filterTable.data;">
-                        <tr (dblclick)="onRowDblClick(data)" [class.clickable]="FlagOnClick">
-                            <td *ngFor="let key of objectKeys(data)">
-                                <ng-container *ngIf="isColumnVisible(key)">
-                                    {{ data[key] }}
-                                </ng-container>
-                            </td>
-                        </tr>
-                    </ng-container>
-                </tbody>
-            </nz-table>
+    <div class="table-container">
+      <nz-table
+        *ngIf="!isLoading"
+        #filterTable
+        [nzData]="listOfData"
+        nzSize="small"
+        [nzTotal]="listOfData.length"
+        [nzPaginationType]="'small'"
+        [nzPaginationPosition]="'bottom'"
+        [nzShowSizeChanger]="false"
+        [nzShowPagination]="nzShowPagination"
+        [nzShowSizeChanger]="true"
+        [nzScroll]="{ y: height }"
+        [nzPageSize]="20"
+      >
+        <thead>
+          <tr>
+            <ng-container *ngFor="let column of listOfColumns">
+              <th
+                *ngIf="column.visible"
+                [nzSortOrder]="column.sortOrder"
+                [nzSortFn]="column.sortFn"
+                [nzSortDirections]="column.sortDirections"
+                [nzWidth]="column.width"
+                [nzFilterMultiple]="column.filterMultiple"
+                [nzFilterFn]="column.filterFn"
+              >
+                {{ column.name }}
+              </th>
+            </ng-container>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of filterTable.data">
+            <tr (dblclick)="onRowDblClick(data)" [class.clickable]="FlagOnClick">
+              <td *ngFor="let key of objectKeys(data)">
+                <ng-container *ngIf="isColumnVisible(key)">
+                  {{ data[key] }}
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
 
-            <div *ngIf="listOfData.length > 0" class="table-record-count">
-                {{ listOfData.length }} registros encontrados
-            </div>
-        </div>
+      <div *ngIf="listOfData.length > 0" class="table-record-count"> {{ listOfData.length }} registros encontrados </div>
+    </div>
+  </ng-container>
 
-    </ng-container>
-
-    <!-- <ng-container *ngIf="loading">
+  <!-- <ng-container *ngIf="loading">
         <div class="loading-overlay">
             <nz-spin nzTip="Cargando..." [nzSize]="'large'"></nz-spin>
         </div>
     </ng-container> -->
 
-    <ng-container *ngIf="executingRule">
-        <app-rule-executor [ruleId]="ruleId" (ruleExecuted)="executeRule($event)">
-        </app-rule-executor>
-    </ng-container>
+  <ng-container *ngIf="executingRule">
+    <app-rule-executor [ruleId]="ruleId" (ruleExecuted)="executeRule($event)" />
+  </ng-container>
 </div>

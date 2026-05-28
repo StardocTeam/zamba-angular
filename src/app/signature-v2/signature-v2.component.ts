@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { SignatureService } from '../signature/signature.service';
@@ -8,7 +9,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -58,9 +58,14 @@ export class SignatureV2Component implements OnInit {
 
   saveSign = true;
 
-  constructor(private router: Router, private route: ActivatedRoute, private modalRef: NzModalRef, private signatureService: SignatureService, private tokenService: TokenService, private sanitizer: DomSanitizer) {
-
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalRef: NzModalRef,
+    private signatureService: SignatureService,
+    private tokenService: TokenService,
+    private sanitizer: DomSanitizer,
+  ) { }
   ngOnInit(): void {
     if (this.modalRef.getContentComponent().record) {
       this.docType = this.modalRef.getContentComponent().record.docType;
@@ -69,21 +74,19 @@ export class SignatureV2Component implements OnInit {
       this.isSignedIndexID = this.modalRef.getContentComponent().record.isSignedIndexID;
       this.taskId = this.modalRef.getContentComponent().record.taskId;
     }
-    this.signatureService.UserHasSignature({
-      UserId: 0,
-      token: 0,
-      Params: {
-      }
-    }).pipe(
-      finalize(() => {
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.hasSignature = result.hasSignature;
-      },
-      error: (error) => {
-      }
-    });
+    this.signatureService
+      .UserHasSignature({
+        UserId: 0,
+        token: 0,
+        Params: {},
+      })
+      .pipe(finalize(() => { }))
+      .subscribe({
+        next: result => {
+          this.hasSignature = result.hasSignature;
+        },
+        error: error => { },
+      });
   }
 
 
@@ -172,7 +175,7 @@ export class SignatureV2Component implements OnInit {
   }
 
   closeModal(): void {
-    this.modalRef.close("reload");
+    this.modalRef.close('reload');
   }
   confirmSign(): void {
     this.confirm = true;
@@ -210,26 +213,29 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         taskId: this.taskId,
-        useLastSign: "false",
+        useLastSign: 'false',
         saveSign: this.saveSign,
         isSignedIndexID: this.isSignedIndexID,
-        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates)
-      }
-    };
-    this.signatureService.SignTask(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.signatureSuccess = true;
-        this.signatureError = false;
+        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates),
       },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    };
+    this.signatureService
+      .SignTask(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        }),
+      )
+      .subscribe({
+        next: result => {
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        },
+      });
   }
 
   DoSign(wayToSign: string): void {
@@ -267,7 +273,7 @@ export class SignatureV2Component implements OnInit {
 
       let x = (tempCanvas.width - textWidth) / 2;
 
-      let y = (tempCanvas.height / 2) + (30 / 2); // 30px es el tamaño de la fuente
+      let y = tempCanvas.height / 2 + 30 / 2; // 30px es el tamaño de la fuente
 
       ctx.fillText(this.keyboardSignature, x, y); // Usa las posiciones x e y calculadas
     }
@@ -280,31 +286,34 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         taskId: this.taskId,
-        useLastSign: "false",
+        useLastSign: 'false',
         saveSign: this.saveSign,
         isSignedIndexID: this.isSignedIndexID,
-        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates)
-      }
-    };
-    this.signatureService.SignTask(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.signatureSuccess = true;
-        this.signatureError = false;
+        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates),
       },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    };
+    this.signatureService
+      .SignTask(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        }),
+      )
+      .subscribe({
+        next: result => {
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        },
+      });
   }
 
   UseLastSignature(): void {
     this.showSpinner = true;
-    let dataUrl = ""
+    let dataUrl = '';
     var genericRequest = {
       UserId: 0,
       token: 0,
@@ -313,26 +322,29 @@ export class SignatureV2Component implements OnInit {
         DocType: this.docType,
         DocId: this.docId,
         taskId: this.taskId,
-        useLastSign: "true",
+        useLastSign: 'true',
         saveSign: this.saveSign,
         isSignedIndexID: this.isSignedIndexID,
-        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates)
-      }
-    };
-    this.signatureService.SignTask(genericRequest).pipe(
-      finalize(() => {
-        this.showSpinner = false;
-      }),
-    ).subscribe({
-      next: (result) => {
-        this.signatureSuccess = true;
-        this.signatureError = false;
+        DocIdSignatureCoordinates: JSON.stringify(this.DocIdSignatureCoordinates),
       },
-      error: (error) => {
-        this.signatureError = true;
-        this.signatureSuccess = false;
-      }
-    });
+    };
+    this.signatureService
+      .SignTask(genericRequest)
+      .pipe(
+        finalize(() => {
+          this.showSpinner = false;
+        }),
+      )
+      .subscribe({
+        next: result => {
+          this.signatureSuccess = true;
+          this.signatureError = false;
+        },
+        error: error => {
+          this.signatureError = true;
+          this.signatureSuccess = false;
+        },
+      });
   }
 
   reload(): void {
@@ -342,7 +354,7 @@ export class SignatureV2Component implements OnInit {
       this.router.navigate([], {
         relativeTo: this.route,
         queryParams: params,
-        replaceUrl: true // Opcional: reemplaza la URL actual en el historial para no crear una entrada adicional
+        replaceUrl: true, // Opcional: reemplaza la URL actual en el historial para no crear una entrada adicional
       });
     });
   }
