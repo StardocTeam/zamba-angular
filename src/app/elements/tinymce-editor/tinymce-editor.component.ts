@@ -215,6 +215,24 @@ export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
     this.reload();
   }
 
+  @HostListener('document:bookmarkSingleLinkChanged', ['$event'])
+  onSingleLinkBookmarkChanged(event?: CustomEvent<{ action?: string; docId?: string | number; doctypeId?: string | number }>): void {
+    const eventDocId = event?.detail?.docId !== undefined && event?.detail?.docId !== null ? String(event.detail.docId) : '';
+    const eventDoctypeId =
+      event?.detail?.doctypeId !== undefined && event?.detail?.doctypeId !== null ? String(event.detail.doctypeId) : '';
+
+    const currentDocumentId = this.normaliseTextInput(this.documentId);
+    const currentEntityId = this.normaliseTextInput(this.entityId);
+
+    if (!eventDocId || !eventDoctypeId || !currentDocumentId || !currentEntityId) {
+      return;
+    }
+
+    if (eventDocId === currentDocumentId && eventDoctypeId === currentEntityId) {
+      this.reload();
+    }
+  }
+
   reload(): void {
     void this.loadDocumentFromInputs();
   }

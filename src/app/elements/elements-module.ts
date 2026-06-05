@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: 'tinymce-editor', component: TinymceElementComponent },
   { path: 'global-search', component: GlobalSearchElementComponent, data: { EntityId: 'HB Documentos', IndexId: 'GlobalSearch' } },
   { path: 'web-bookmark', component: WebBookmarkComponent },
+  { path: 'miniweb-bookmark', component: MiniwebBookmarkComponent },
 ];
 
 @NgModule({
@@ -71,7 +72,7 @@ const routes: Routes = [
   ],
 })
 export class ElementsModule implements DoBootstrap {
-  constructor(private readonly injector: Injector) {}
+  constructor(private readonly injector: Injector) { }
 
   ngDoBootstrap(): void {
     const ChecklistElement = createCustomElement(ChecklistComponent, { injector: this.injector });

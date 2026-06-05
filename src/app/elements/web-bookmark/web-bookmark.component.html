@@ -19,8 +19,9 @@
     </div>
 
     <div class="bookmark-actions">
-      <button class="bookmark-btn-cancel" (click)="toggleInput()">Cancelar</button>
-      <button class="bookmark-btn" (click)="crearMarcador()" [disabled]="!linkUrl" [class.disabled-btn]="!linkUrl">Crear
+      <button class="bookmark-btn-cancel" (click)="toggleInput()" [disabled]="isLoading">Cancelar</button>
+      <button class="bookmark-btn" (click)="crearMarcador()" [disabled]="!linkUrl || isLoading"
+        [class.disabled-btn]="!linkUrl || isLoading">Crear
         marcador</button>
     </div>
     <p class="bookmark-help">Crea un marcador visual a partir de un enlace.</p>

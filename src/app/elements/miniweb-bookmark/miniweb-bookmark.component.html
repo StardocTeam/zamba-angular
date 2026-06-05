@@ -17,9 +17,10 @@
       <span *ngIf="linkUrl" class="clear-icon" (click)="linkUrl = ''">&times;</span>
     </div>
     <div class="bookmark-actions">
-      <button class="bookmark-btn-cancel" (click)="toggleInput()">Cancelar</button>
-      <button class="bookmark-btn" (click)="crearMarcador()" [disabled]="!linkUrl"
-        [class.disabled-btn]="!linkUrl">Guardar</button>
+      <input type="button" class="bookmark-btn-cancel" (click)="toggleInput()" [disabled]="isLoading"
+        value="Cancelar" />
+      <input type="button" class="bookmark-btn" (click)="crearMarcador()" [disabled]="!linkUrl || isLoading"
+        [class.disabled-btn]="!linkUrl || isLoading" value="Guardar" />
     </div>
   </div>
 
