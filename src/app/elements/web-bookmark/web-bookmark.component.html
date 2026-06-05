@@ -35,28 +35,29 @@
 
   <!-- LISTA DE ENLACES (LIFO) -->
   <div class="bookmarks-list">
-    <a class="bookmark-preview-view" *ngFor="let linkData of bookmarks" [href]="linkData.url" target="_blank"
-      rel="noopener noreferrer">
-      <div class="bookmark-content">
-        <div class="title">{{ linkData.title }}</div>
-        <div class="description">{{ linkData.description }}</div>
-        <div class="url-info">
-          <span class="url-icon">▶</span>
-          <span class="url-text">{{ linkData.url }}</span>
-          <button class="copy-url-btn" (click)="copiarEnlace($event, linkData.url)" title="Copiar enlace">
-            <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em" data-icon="copy"
-              aria-hidden="true">
-              <path
-                d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 172.7c6 6 14.1 9.4 22.6 9.4H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM382 896h-.2L232 746.2v-.2h150v150zM664 888H424V712c0-4.4-3.6-8-8-8H192V264h472v624z" />
-            </svg>
-          </button>
-          <button class="delete-url-btn" (click)="eliminarMarcador($event, linkData.id)" title="Eliminar marcador">
-            <i nz-icon nzType="delete" nzTheme="outline"></i>
-          </button>
+    <ng-container *ngFor="let linkData of bookmarks">
+      <a class="bookmark-preview-view" *ngIf="pendingDeleteBookmarkId !== linkData.id" [href]="linkData.url"
+        target="_blank" rel="noopener noreferrer">
+        <div class="bookmark-content">
+          <div class="title">{{ linkData.title }}</div>
+          <div class="description">{{ linkData.description }}</div>
+          <div class="url-info">
+            <span class="url-icon">▶</span>
+            <span class="url-text">{{ linkData.url }}</span>
+            <button class="copy-url-btn" (click)="copiarEnlace($event, linkData.url)" title="Copiar enlace">
+              <svg viewBox="64 64 896 896" focusable="false" fill="currentColor" width="1em" height="1em"
+                data-icon="copy" aria-hidden="true">
+                <path
+                  d="M832 64H296c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h496v688c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V96c0-17.7-14.3-32-32-32zM704 192H192c-17.7 0-32 14.3-32 32v530.7c0 8.5 3.4 16.6 9.4 22.6l173.3 172.7c6 6 14.1 9.4 22.6 9.4H704c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32zM382 896h-.2L232 746.2v-.2h150v150zM664 888H424V712c0-4.4-3.6-8-8-8H192V264h472v624z" />
+              </svg>
+            </button>
+            <button class="delete-url-btn" (click)="eliminarMarcador($event, linkData.id)" title="Eliminar marcador">
+              <i nz-icon nzType="delete" nzTheme="outline"></i>
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="bookmark-image">
-        <img *ngIf="linkData.image" [src]="linkData.image" alt="Preview" referrerpolicy="no-referrer" style="
+        <div class="bookmark-image">
+          <img *ngIf="linkData.image" [src]="linkData.image" alt="Preview" referrerpolicy="no-referrer" style="
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -64,9 +65,20 @@
             backface-visibility: hidden;
             image-rendering: high-quality;
           " />
-        <div class="mock-yt-logo" *ngIf="!linkData.image && linkData.title === 'YouTube'">YouTube</div>
-        <div class="mock-generic-logo" *ngIf="!linkData.image && linkData.title !== 'YouTube'">🔗</div>
+          <div class="mock-yt-logo" *ngIf="!linkData.image && linkData.title === 'YouTube'">YouTube</div>
+          <div class="mock-generic-logo" *ngIf="!linkData.image && linkData.title !== 'YouTube'">🔗</div>
+        </div>
+      </a>
+
+      <div class="bookmark-preview-view bookmark-delete-confirm" *ngIf="pendingDeleteBookmarkId === linkData.id">
+        <div class="bookmark-delete-question">Desea borrar este enlace?</div>
+        <div class="bookmark-delete-actions">
+          <button class="confirm-btn confirm-cancel" (click)="cancelarEliminarMarcador($event)"
+            [disabled]="isDeletingBookmark">Cancelar</button>
+          <button class="confirm-btn confirm-delete" (click)="confirmarEliminarMarcador($event, linkData.id)"
+            [disabled]="isDeletingBookmark">Eliminar</button>
+        </div>
       </div>
-    </a>
+    </ng-container>
   </div>
 </div>

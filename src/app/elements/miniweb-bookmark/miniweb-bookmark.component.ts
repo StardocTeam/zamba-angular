@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Optional, Input, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { DOCUMENT } from '@angular/common';
 
 import { ZambaService } from '../../services/zamba/zamba.service';
@@ -28,6 +27,8 @@ export class MiniwebBookmarkComponent implements OnInit, OnDestroy {
   bookmarks: LinkData[] = [];
   showInput: boolean = false;
   isLoading: boolean = false;
+  isDeletingBookmark: boolean = false;
+  pendingDeleteBookmarkId: number | null = null;
   linkUrl: string = '';
   linkTitle: string = '';
 
@@ -37,7 +38,6 @@ export class MiniwebBookmarkComponent implements OnInit, OnDestroy {
 
   constructor(
     private msg: NzMessageService,
-    private modalSrv: NzModalService,
     private route: ActivatedRoute,
     @Optional() private readonly zambaService: ZambaService | null,
     @Inject(DOCUMENT) private readonly document: Document
@@ -259,6 +259,9 @@ export class MiniwebBookmarkComponent implements OnInit, OnDestroy {
 
   toggleInput() {
     this.showInput = !this.showInput;
+    if (this.showInput) {
+      this.pendingDeleteBookmarkId = null;
+    }
     if (!this.showInput) {
       this.linkUrl = '';
       this.linkTitle = '';
@@ -313,27 +316,46 @@ export class MiniwebBookmarkComponent implements OnInit, OnDestroy {
   eliminarMarcador(event: MouseEvent, bookmarkId: number | undefined) {
     event.preventDefault();
     event.stopPropagation();
-    if (!bookmarkId) return;
+    if (!bookmarkId || this.isDeletingBookmark) return;
 
-    this.modalSrv.confirm({
-      nzTitle: 'Confirmar eliminación',
-      nzContent: '¿Desea borrar este marcador?',
-      nzOnOk: () => {
-        if (!this.zambaService) {
-          this.bookmarks = this.bookmarks.filter(b => b.id !== bookmarkId);
-          this.emitSingleLinkBookmarkChanged('deleted');
-          return;
-        }
+    this.pendingDeleteBookmarkId = bookmarkId;
+  }
 
-        this.zambaService.deleteBookmark(bookmarkId, this.getContextData()).subscribe({
-          next: () => {
-            this.bookmarks = this.bookmarks.filter(b => b.id !== bookmarkId);
-            this.emitSingleLinkBookmarkChanged('deleted');
-          },
-          error: err => {
-            console.error(err);
-          },
-        });
+  cancelarEliminarMarcador(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (this.isDeletingBookmark) return;
+
+    this.pendingDeleteBookmarkId = null;
+  }
+
+  confirmarEliminarMarcador(event: MouseEvent, bookmarkId: number | undefined) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!bookmarkId || this.isDeletingBookmark) return;
+
+    this.isDeletingBookmark = true;
+
+    if (!this.zambaService) {
+      this.bookmarks = this.bookmarks.filter(b => b.id !== bookmarkId);
+      this.emitSingleLinkBookmarkChanged('deleted');
+      this.pendingDeleteBookmarkId = null;
+      this.isDeletingBookmark = false;
+      return;
+    }
+
+    this.zambaService.deleteBookmark(bookmarkId, this.getContextData()).subscribe({
+      next: () => {
+        this.bookmarks = this.bookmarks.filter(b => b.id !== bookmarkId);
+        this.emitSingleLinkBookmarkChanged('deleted');
+        this.pendingDeleteBookmarkId = null;
+        this.isDeletingBookmark = false;
+      },
+      error: err => {
+        console.error(err);
+        this.isDeletingBookmark = false;
       },
     });
   }

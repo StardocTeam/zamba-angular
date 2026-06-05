@@ -32,29 +32,42 @@
 
   <!-- LISTA DE ENLACES -->
   <div class="bookmarks-list" *ngIf="!isLoading && !showInput">
-    <a class="bookmark-preview-mini" *ngFor="let linkData of bookmarks" [href]="linkData.url" target="_blank"
-      rel="noopener noreferrer">
-      <div class="bookmark-icon">
-        <img *ngIf="linkData.image" [src]="linkData.image" alt="Preview" referrerpolicy="no-referrer" />
-        <div class="mock-icon" *ngIf="!linkData.image">
-          <span nz-icon nzType="global" nzTheme="outline" *ngIf="linkData.title !== 'YouTube'"></span>
-          <span nz-icon nzType="youtube" nzTheme="fill" *ngIf="linkData.title === 'YouTube'" style="color: red"></span>
+    <ng-container *ngFor="let linkData of bookmarks">
+      <a class="bookmark-preview-mini" *ngIf="pendingDeleteBookmarkId !== linkData.id" [href]="linkData.url"
+        target="_blank" rel="noopener noreferrer">
+        <div class="bookmark-icon">
+          <img *ngIf="linkData.image" [src]="linkData.image" alt="Preview" referrerpolicy="no-referrer" />
+          <div class="mock-icon" *ngIf="!linkData.image">
+            <span nz-icon nzType="global" nzTheme="outline" *ngIf="linkData.title !== 'YouTube'"></span>
+            <span nz-icon nzType="youtube" nzTheme="fill" *ngIf="linkData.title === 'YouTube'"
+              style="color: red"></span>
+          </div>
+        </div>
+        <div class="bookmark-content">
+          <div class="title" [title]="linkData.title">{{ linkData.title }}</div>
+          <div class="url-text" [title]="linkData.url">{{ linkData.url }}</div>
+        </div>
+        <div class="bookmark-actions-hover">
+          <button class="action-btn" (click)="copiarEnlace($event, linkData.url)" title="Copiar enlace">
+            <span nz-icon nzType="copy" nzTheme="outline"></span>
+          </button>
+          <button class="action-btn action-delete" (click)="eliminarMarcador($event, linkData.id)"
+            title="Eliminar marcador">
+            <span nz-icon nzType="delete" nzTheme="outline"></span>
+          </button>
+        </div>
+      </a>
+
+      <div class="bookmark-preview-mini bookmark-delete-confirm" *ngIf="pendingDeleteBookmarkId === linkData.id">
+        <div class="bookmark-delete-question">Desea borrar este enlace?</div>
+        <div class="bookmark-delete-actions">
+          <button class="confirm-btn confirm-cancel" (click)="cancelarEliminarMarcador($event)"
+            [disabled]="isDeletingBookmark">Cancelar</button>
+          <button class="confirm-btn confirm-delete" (click)="confirmarEliminarMarcador($event, linkData.id)"
+            [disabled]="isDeletingBookmark">Eliminar</button>
         </div>
       </div>
-      <div class="bookmark-content">
-        <div class="title" [title]="linkData.title">{{ linkData.title }}</div>
-        <div class="url-text" [title]="linkData.url">{{ linkData.url }}</div>
-      </div>
-      <div class="bookmark-actions-hover">
-        <button class="action-btn" (click)="copiarEnlace($event, linkData.url)" title="Copiar enlace">
-          <span nz-icon nzType="copy" nzTheme="outline"></span>
-        </button>
-        <button class="action-btn action-delete" (click)="eliminarMarcador($event, linkData.id)"
-          title="Eliminar marcador">
-          <span nz-icon nzType="delete" nzTheme="outline"></span>
-        </button>
-      </div>
-    </a>
+    </ng-container>
     <div class="empty-state" *ngIf="bookmarks.length === 0"> No hay URLs guardadas. </div>
   </div>
 </div>
