@@ -8,12 +8,12 @@ export const environment = {
     production: false,
     useHash: true,
 
-    restApi: 'http://ZambaCESRestApi/api',
-    apiRestBasePath: 'http://ZambaCESRestApi/api/Dashboard',
-    charts: 'http://ZambaCESRestApi/api/charts',
-    externalSearchApi: 'http://ZambaCESRestApi/api/ExternalSearch',
-    searchApi: 'http://ZambaCESRestApi/api/search',
-    zambaWeb: 'http://ZambaCES',
+    restApi: 'http://localhost/ZambaCESRestApi/api',
+    apiRestBasePath: 'http://localhost/ZambaCESRestApi/api/Dashboard',
+    charts: 'http://localhost/ZambaCESRestApi/api/charts',
+    externalSearchApi: 'http://localhost/ZambaCESRestApi/api/ExternalSearch',
+    searchApi: 'http://localhost/ZambaCESRestApi/api/search',
+    zambaWeb: 'http://localhost/ZambaCES',
 
     cliente: 'zamba',
     api: {
