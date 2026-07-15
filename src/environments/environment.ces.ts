@@ -5,23 +5,23 @@ import * as MOCKDATA from '@_mock';
 import { DelonMockModule } from '@delon/mock';
 import { Environment } from '@delon/theme';
 export const environment = {
-  production: false,
-  useHash: true,
+    production: false,
+    useHash: true,
 
-  restApi: 'http://imageapp/Zamba.Api/api',
-  apiRestBasePath: 'http://imageapp/Zamba.Api/api/Dashboard',
-  charts: 'http://imageapp/Zamba.Api/api/charts',
-  externalSearchApi: 'http://imageapp/Zamba.Api/api/ExternalSearch',
-  searchApi: 'http://imageapp/Zamba.Api/api/search',
-  zambaWeb: 'http://imageapp/Zamba.Web',
+    restApi: 'http://ZambaCESRestApi/api',
+    apiRestBasePath: 'http://ZambaCESRestApi/api/Dashboard',
+    charts: 'http://ZambaCESRestApi/api/charts',
+    externalSearchApi: 'http://ZambaCESRestApi/api/ExternalSearch',
+    searchApi: 'http://ZambaCESRestApi/api/search',
+    zambaWeb: 'http://ZambaCES',
 
-  cliente: 'zamba',
-  api: {
-    baseUrl: './',
-    refreshTokenEnabled: true,
-    refreshTokenType: 'auth-refresh',
-  },
-  modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
+    cliente: 'zamba',
+    api: {
+        baseUrl: './',
+        refreshTokenEnabled: true,
+        refreshTokenType: 'auth-refresh',
+    },
+    modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
 } as Environment;
 /*
  * In development mode, to ignore zone related error stack frames such as
