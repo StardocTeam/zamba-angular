@@ -45,7 +45,7 @@ export class ReportComponentComponent {
   isDashboardVisible: boolean = true;
 
   ViewPermission: boolean = false;
-  UpdatePermission: boolean = false;
+  UpdatePermission: boolean = true;
   DeletePermission: boolean = false;
   CreatePermission: boolean = true;
   ConsultPermission: boolean = false;
@@ -67,7 +67,7 @@ export class ReportComponentComponent {
     private modal: NzModalService,
     private zambaService: ZambaService,
     private GService: GridService,
-  ) {}
+  ) { }
 
   private initialized = false;
 

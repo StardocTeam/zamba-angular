@@ -25,6 +25,7 @@ export class ReportEditorComponent {
 
   report: Report = {
     Category: '',
+    Categoryid: 0,
     Description: '',
     Name: '',
     Query: '',
@@ -50,15 +51,19 @@ export class ReportEditorComponent {
     private router: Router,
     private modal: NzModalService,
     private RVService: ReportViewerService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     const tokenData = this.tokenService.get();
+    const reportId = this.route.snapshot.paramMap.get('id');
+
+
 
     const oneMonthAgo = new Date();
     oneMonthAgo.setFullYear(oneMonthAgo.getFullYear() - 5);
     this.ZVARstartDate = oneMonthAgo;
     this.ZVARendDate = new Date();
+
 
     let genericRequest = {};
 
@@ -66,10 +71,13 @@ export class ReportEditorComponent {
       genericRequest = {
         UserId: tokenData['userid'],
         token: tokenData['token'],
+        Params: {
+          Id: reportId,
+        },
       };
-    }
 
-    if (tokenData != null) {
+      this.report.ID = reportId ? parseInt(reportId) : 0;
+
       this.zambaService
         .getUserId(genericRequest)
         .pipe(
@@ -89,12 +97,51 @@ export class ReportEditorComponent {
         )
         .subscribe();
     } else {
-      this.getCategories(genericRequest);
       this.cdr.detectChanges();
     }
   }
+  getCurrentReport(genericRequest: {}) {
+    this.RVService.GetReportById(genericRequest)
+      .pipe(
+        catchError(error => {
+          const apiError = error?.error ?? error?.message ?? error;
 
-  private getCategories(genericRequest: {}) {
+          console.error('Error al traer el reporte desde REST API:', apiError, error);
+
+          this.modal.error({
+            nzTitle: 'No se pudo cargar el reporte',
+            nzContent:
+              '<p>Ocurrio un error al obtener la informacion del reporte. Verifique que el reporte exista o intente nuevamente en unos minutos.</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+
+          return of(null);
+        }),
+      )
+      .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
+
+        const currentReport: Report = JSON.parse(data)[0];
+
+        this.report.Name = currentReport.Name;
+        this.report.Categoryid = currentReport.Categoryid;
+
+        this.report.Completar = currentReport.Completar;
+        this.report.RuleId = currentReport.RuleId;
+        this.report.Description = currentReport.Description;
+        this.report.Query = currentReport.Query;
+        this.report.Aditional = currentReport.Aditional;
+        this.report.GroupExpression = currentReport.GroupExpression;
+
+        this.cdr.detectChanges();
+      });
+  }
+
+  private getCategories(genericRequest: any) {
     this.REService.getCategories(genericRequest)
       .pipe(
         catchError(error => {
@@ -104,6 +151,10 @@ export class ReportEditorComponent {
       )
       .subscribe((data: any) => {
         this.CategoryList = JSON.parse(data);
+
+        if (genericRequest.Params["Id"] != null && genericRequest.Params["Id"] != undefined) {
+          this.getCurrentReport(genericRequest);
+        }
       });
   }
 
@@ -209,6 +260,79 @@ export class ReportEditorComponent {
     return obj;
   }
 
+  UpdateReport() {
+    this.isButtonDisabled = true;
+
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        Params: {
+          Zvars: JSON.stringify({
+            ...this.buildZvarsObject(),
+            FechaDesde: this.ZVARstartDate,
+            FechaHasta: this.ZVARendDate,
+          }),
+          ReportId: this.report.ID,
+          query: this.report.Query,
+          name: this.report.Name,
+          description: this.report.Description,
+          groupExpression: this.report.GroupExpression,
+          categoryId: this.report.Categoryid,
+          completar: this.report.Completar,
+          Aditional: this.report.Aditional,
+          ruleId: this.report.RuleId,
+        },
+      };
+    }
+
+    //TODO: TestQuery o sobrecarga del mismo para validar que no se inserte una query erronea
+
+    this.REService.UpdateReport(genericRequest)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          this.isButtonDisabled = false;
+          throw error;
+        }),
+      )
+      .subscribe((data: any) => {
+        var result = JSON.parse(data);
+
+        if (data) {
+          console.log('Insertado correctamente', this.report);
+
+          this.modal.success({
+            nzTitle: 'Insertado correctamente',
+            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.report.RuleId != null ? this.report.RuleId : 'ninguna'
+              } </p>`,
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+
+          this.createTerminated.emit();
+          //this.navigateToListReport();
+          this.clearForm();
+        } else if (data == null) {
+          console.log('No se ha insertado correctamente', data);
+
+          console.error('Error: Ocurrio un error al insertar el reporte');
+          this.modal.error({
+            nzTitle: 'Ocurrio un error al insertar el reporte',
+            nzContent: '<p>Verifique los datos ingresados.</p>',
+            nzOkText: 'OK',
+            nzOkType: 'primary',
+            nzOnOk: () => console.log('OK'),
+          });
+        }
+      });
+
+    this.isButtonDisabled = false;
+  }
+
   InsertReport() {
     this.isButtonDisabled = true;
 
@@ -229,7 +353,7 @@ export class ReportEditorComponent {
           name: this.report.Name,
           description: this.report.Description,
           groupExpression: this.report.GroupExpression,
-          category: this.report.Category,
+          categoryId: this.report.Categoryid,
           completar: this.report.Completar,
           Aditional: this.report.Aditional,
           ruleId: this.report.RuleId,
@@ -255,9 +379,8 @@ export class ReportEditorComponent {
 
           this.modal.success({
             nzTitle: 'Insertado correctamente',
-            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${
-              this.report.RuleId != null ? this.report.RuleId : 'ninguna'
-            } </p>`,
+            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.report.RuleId != null ? this.report.RuleId : 'ninguna'
+              } </p>`,
             nzOkText: 'OK',
             nzOkType: 'primary',
             nzOnOk: () => console.log('OK'),
@@ -286,6 +409,7 @@ export class ReportEditorComponent {
   clearForm() {
     this.report = {
       Category: '',
+      Categoryid: 0,
       Description: '',
       Name: '',
       Query: '',
@@ -301,8 +425,9 @@ export class ReportEditorComponent {
     return (
       this.report.Name.trim() !== '' &&
       this.report.Query.trim() !== '' &&
-      this.report.Description.trim() !== '' &&
-      this.report.Category.trim() !== ''
+      this.report.Description.trim() !== ''
+      //  &&
+      // this.report.Category.trim() !== ''
     );
   }
 

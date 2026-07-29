@@ -1,7 +1,8 @@
 export class Report {
   ID: number = 0;
   Name: string = '';
-  Category: string = ''; //TODO: convertir esto de string a Category, y que esta el uso de esta variable sea Category.name en lugar de Category.id
+  Category: string = '';
+  Categoryid: number = 0;
   Query: string = '';
   Description: string = '';
   Aditional: number = 0;
@@ -10,12 +11,14 @@ export class Report {
   RuleId: string | null = null;
 
   constructor(data: any) {
-    this.Aditional = data.Aditional;
+    debugger;
+    this.Aditional = parseInt(data.Aditional, 10);
     this.Completar = data.Completar;
-    this.ID = data.ID;
+    this.ID = parseInt(data.ID, 10);
     this.Name = data.Name;
     this.Query = data.Query;
     this.Category = data.Category;
+    this.Categoryid = parseInt(data.Categoryid, 10);
     this.Description = data.Description;
     this.RuleId = data.RuleId;
   }

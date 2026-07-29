@@ -65,7 +65,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private router: Router,
     private TService: TaskService,
-  ) {}
+  ) { }
 
   ngOnDestroy(): void {
     try {
@@ -258,7 +258,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
                 },
               };
               this.cdr.detectChanges();
-
+              debugger;
               this.GetResultsByReportId(genericRequest);
             });
         } else {
@@ -274,7 +274,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
               ReportId: this.currentReport.ID,
             },
           };
-
+          debugger;
           this.GetResultsByReportId(genericRequest);
         }
       });
@@ -311,7 +311,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           ReportId: this.currentReport.ID,
         },
       };
-
+      debugger;
       this.GetResultsByReportId(genericRequest);
     }
   }
@@ -675,7 +675,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       }
     }
   }
-  //#endregion
 
   onRowDblClick(row: any): void {
     if (row && row.TASKID) {
@@ -716,6 +715,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       }
     }
   }
+  //#endregion
 
   //#region Visual Management
   @HostListener('window:resize', ['$event'])
@@ -775,7 +775,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   //#endregion
 }
-
 interface ColumnItem {
   name: string;
   sortOrder: NzTableSortOrder | null;

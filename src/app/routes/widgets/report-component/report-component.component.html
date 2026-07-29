@@ -4,7 +4,8 @@
       <div class="search-anchor" nz-row [nzGutter]="4">
         <div nz-col nzXs="20" nzFlex="auto">
           <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%">
-            <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" (ngModelChange)="search($event)" />
+            <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue"
+              (ngModelChange)="search($event)" />
           </nz-input-group>
 
           <ng-template #prefixTemplateUser>
@@ -13,7 +14,8 @@
         </div>
 
         <div nz-col nzXs="4">
-          <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission" (click)="navigateToCreate()" routerLinkActive="active">
+          <button nz-button nzType="primary" nzBlock [disabled]="!CreatePermission" (click)="navigateToCreate()"
+            routerLinkActive="active">
             <i nz-icon nzType="plus"></i>
           </button>
         </div>
@@ -33,34 +35,16 @@
             <ul class="ulContainer-menu" nz-menu nzMode="inline">
               <div *ngFor="let itemLeaf of itemTree.currentReport | filter: searchValue">
                 <div nz-row>
-                  <div nz-col nzSpan="24">
-                    <li
-                      #itemLeaf
-                      class="li-line-height move-up"
-                      nz-menu-item
-                      routerLinkActive="active"
-                      (click)="switchView('viewer'); navigateToView(itemLeaf.ID)"
-                    >
+                  <div nz-col nzSpan="22">
+                    <li #itemLeaf class="li-line-height move-up" nz-menu-item routerLinkActive="active"
+                      (click)="switchView('viewer'); navigateToView(itemLeaf.ID)">
                       <div nz-row>
                         <div nz-col>
-                          <span
-                            [nzTooltipTitle]="itemLeaf.Name"
-                            class="ellipsis BlackColor"
-                            nzTooltipPlacement="right"
-                            nz-button
-                            nz-tooltip
-                            >{{ itemLeaf.Name }}</span
-                          >
+                          <span [nzTooltipTitle]="itemLeaf.Name" class="ellipsis BlackColor" nzTooltipPlacement="right"
+                            nz-button nz-tooltip>{{ itemLeaf.Name }}</span>
                           <br />
-                          <span
-                            [nzTooltipTitle]="itemLeaf.Description"
-                            nz-typography
-                            nzType="secondary"
-                            class="ellipsis"
-                            nzTooltipPlacement="right"
-                            nz-button
-                            nz-tooltip
-                          >
+                          <span [nzTooltipTitle]="itemLeaf.Description" nz-typography nzType="secondary"
+                            class="ellipsis" nzTooltipPlacement="right" nz-button nz-tooltip>
                             {{ itemLeaf.Description }}
                           </span>
                         </div>
@@ -68,39 +52,36 @@
                     </li>
                   </div>
 
-                  <!-- <div nz-col nzSpan="2">
-                                        <div>
-                                            <button class="right-align btnSetting" nz-button nzShape="circle"
-                                                nzSize="small">
-                                                <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown
-                                                    nzTrigger="click" [nzDropdownMenu]="menu"> </i>
-                                            </button>
-                                        </div>
+                  <div nz-col nzSpan="2">
+                    <div>
+                      <button class="right-align btnSetting" nz-button nzShape="circle" nzSize="small">
+                        <i nz-icon class="iconSetting" nzType="menu" nzSize="small" nz-dropdown nzTrigger="click"
+                          [nzDropdownMenu]="menu"> </i>
+                      </button>
+                    </div>
 
-                                        <nz-dropdown-menu #menu="nzDropdownMenu">
-                                            <ul nz-menu>
-                                                <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)"
-                                                    [nzDisabled]="!UpdatePermission">
-                                                    <i nz-icon nzType="edit"></i> Editar
-                                                </li>
-                                                <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="">
-                                                    <i nz-icon nzType="arrow-down" nzTheme="outline"></i> Exportar excel
-                                                </li> 
+                    <nz-dropdown-menu #menu="nzDropdownMenu">
+                      <ul nz-menu>
+                        <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)" [nzDisabled]="">
+                          <i nz-icon nzType="edit"></i> Editar
+                        </li>
+                        <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="true">
+                          <i nz-icon nzType="arrow-down" nzTheme="outline"></i> Exportar excel
+                        </li>
 
-                                                <li nz-menu-item (click)="viewCharts(itemLeaf.ID)"
-                                                    [nzDisabled]="chartsDisabled">
-                                                    <i nz-icon nzType="bar-chart" nzTheme="outline"></i> Ver gráficos
-                                                </li>
+                        <li nz-menu-item (click)="viewCharts(itemLeaf.ID)" [nzDisabled]="chartsDisabled">
+                          <i nz-icon nzType="bar-chart" nzTheme="outline"></i> Ver gráficos
+                        </li>
 
-                                                <li nz-menu-divider></li>
-                                                <li nz-menu-item (click)="deleteReport(itemLeaf)"
-                                                    [nzDisabled]="!DeletePermission"
-                                                    [ngClass]="{'greycolor': !DeletePermission,'redcolor': DeletePermission }">
-                                                    <i nz-icon nzType="delete"></i> Eliminar
-                                                </li>
-                                            </ul>
-                                        </nz-dropdown-menu>
-                                    </div> -->
+                        <li nz-menu-divider></li>
+                        <li nz-menu-item (click)="deleteReport(itemLeaf)" [nzDisabled]="!DeletePermission"
+                          [ngClass]="{'greycolor': !DeletePermission,'redcolor': DeletePermission }">
+                          <i nz-icon nzType="delete"></i> Eliminar
+                        </li>
+                      </ul>
+                    </nz-dropdown-menu>
+                  </div>
+
                 </div>
               </div>
             </ul>
