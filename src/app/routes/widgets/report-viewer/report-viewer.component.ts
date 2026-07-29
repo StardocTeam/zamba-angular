@@ -106,6 +106,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             }),
           )
           .subscribe((data: any) => {
+            this.isLoading = true;
             var currentReport: Report = JSON.parse(data)[0];
             const oneMonthAgo = new Date();
             oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -258,7 +259,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
                 },
               };
               this.cdr.detectChanges();
-              debugger;
+
               this.GetResultsByReportId(genericRequest);
             });
         } else {
@@ -274,7 +275,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
               ReportId: this.currentReport.ID,
             },
           };
-          debugger;
+
           this.GetResultsByReportId(genericRequest);
         }
       });
@@ -311,7 +312,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           ReportId: this.currentReport.ID,
         },
       };
-      debugger;
+
       this.GetResultsByReportId(genericRequest);
     }
   }

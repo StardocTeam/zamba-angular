@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, inject, Inject, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, Observable, of, Subscription, tap } from 'rxjs';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 import { Category } from './entity/Category';
@@ -19,12 +19,15 @@ import { ReportViewerService } from '../report-viewer/service/report-viewer.serv
 })
 export class ReportEditorComponent {
   @Output() createTerminated: EventEmitter<string> = new EventEmitter<string>();
+  @Output() deleteTerminated: EventEmitter<string> = new EventEmitter<string>();
+  @Input() refresh$?: Observable<any>;
+  private refreshSub?: Subscription;
   private route = inject(ActivatedRoute);
   CategoryList: Category[] = [];
   inputValue?: string = '';
 
   report: Report = {
-    Category: '',
+    Categorydescription: '',
     Categoryid: 0,
     Description: '',
     Name: '',
@@ -55,50 +58,44 @@ export class ReportEditorComponent {
 
   ngOnInit() {
     const tokenData = this.tokenService.get();
-    const reportId = this.route.snapshot.paramMap.get('id');
-
-
 
     const oneMonthAgo = new Date();
     oneMonthAgo.setFullYear(oneMonthAgo.getFullYear() - 5);
     this.ZVARstartDate = oneMonthAgo;
     this.ZVARendDate = new Date();
 
+    this.route.params.subscribe(params => {
+      const reportId = params['id'];
 
-    let genericRequest = {};
+      this.report.ID = reportId ? parseInt(reportId, 10) : 0;
 
-    if (tokenData) {
-      genericRequest = {
-        UserId: tokenData['userid'],
-        token: tokenData['token'],
+      const genericRequest = {
+        UserId: tokenData?.['userid'],
+        token: tokenData?.['token'],
         Params: {
           Id: reportId,
         },
       };
 
-      this.report.ID = reportId ? parseInt(reportId) : 0;
-
-      this.zambaService
-        .getUserId(genericRequest)
-        .pipe(
-          tap(response => {
-            response = JSON.parse(response);
-
-            this.userId = response;
-            this.tokenService.set({ token: tokenData['token'], userid: response });
-
-            this.getCategories(genericRequest);
-            this.cdr.detectChanges();
-          }),
-          catchError(error => {
-            console.error('Error fetching task name:', error);
-            return of([]);
-          }),
-        )
-        .subscribe();
-    } else {
-      this.cdr.detectChanges();
-    }
+      if (tokenData) {
+        this.zambaService
+          .getUserId(genericRequest)
+          .pipe(
+            tap(response => {
+              response = JSON.parse(response);
+              this.userId = response;
+              this.tokenService.set({ token: tokenData['token'], userid: response });
+              this.getCategories(genericRequest);
+              this.cdr.detectChanges();
+            }),
+            catchError(error => {
+              console.error('Error fetching task name:', error);
+              return of([]);
+            }),
+          )
+          .subscribe();
+      }
+    });
   }
   getCurrentReport(genericRequest: {}) {
     this.RVService.GetReportById(genericRequest)
@@ -129,6 +126,8 @@ export class ReportEditorComponent {
 
         this.report.Name = currentReport.Name;
         this.report.Categoryid = currentReport.Categoryid;
+        debugger;
+        this.report.Categorydescription = currentReport.Categorydescription;
 
         this.report.Completar = currentReport.Completar;
         this.report.RuleId = currentReport.RuleId;
@@ -306,7 +305,7 @@ export class ReportEditorComponent {
 
           this.modal.success({
             nzTitle: 'Insertado correctamente',
-            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.report.RuleId != null ? this.report.RuleId : 'ninguna'
+            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Categoryid}<br> Regla: ${this.report.RuleId != null ? this.report.RuleId : 'ninguna'
               } </p>`,
             nzOkText: 'OK',
             nzOkType: 'primary',
@@ -314,7 +313,6 @@ export class ReportEditorComponent {
           });
 
           this.createTerminated.emit();
-          //this.navigateToListReport();
           this.clearForm();
         } else if (data == null) {
           console.log('No se ha insertado correctamente', data);
@@ -379,7 +377,7 @@ export class ReportEditorComponent {
 
           this.modal.success({
             nzTitle: 'Insertado correctamente',
-            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Category}<br> Regla: ${this.report.RuleId != null ? this.report.RuleId : 'ninguna'
+            nzContent: `<p>Reporte: ${this.report.Name}<br> ID: ${data}<br> Categoria: ${this.report.Categoryid}<br> Regla: ${this.report.RuleId != null ? this.report.RuleId : 'ninguna'
               } </p>`,
             nzOkText: 'OK',
             nzOkType: 'primary',
@@ -408,7 +406,7 @@ export class ReportEditorComponent {
 
   clearForm() {
     this.report = {
-      Category: '',
+      Categorydescription: '',
       Categoryid: 0,
       Description: '',
       Name: '',
@@ -423,11 +421,10 @@ export class ReportEditorComponent {
 
   isFormValid(): boolean {
     return (
-      this.report.Name.trim() !== '' &&
-      this.report.Query.trim() !== '' &&
-      this.report.Description.trim() !== ''
-      //  &&
-      // this.report.Category.trim() !== ''
+      !!this.report.Name?.trim() &&
+      !!this.report.Query?.trim() &&
+      !!this.report.Description?.trim() &&
+      Number(this.report.Categoryid) > 0
     );
   }
 
@@ -435,7 +432,6 @@ export class ReportEditorComponent {
     this.report.Name = 'TEST select: ';
     this.report.Query = "select * from zopt where item like '%test%'";
     this.report.Description = 'Prueba ';
-    this.report.Category = '1';
   }
 
   navigateToListReport() {
