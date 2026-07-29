@@ -6,12 +6,12 @@
 </ng-container>
 
 <mat-card class="task-history-container" appearance="outlined">
-  <mat-card-header>
+  <mat-card-header class="history-toolbar">
     <mat-form-field>
       <mat-label>Filtro</mat-label>
       <input maxlength="33" matInput (keyup)="applyFilter($event)" #input />
     </mat-form-field>
-    <mat-card-actions>
+    <mat-card-actions class="history-actions">
       <button mat-raised-button (click)="taskHistoryOnClick()" [ngClass]="{ 'selected-button': lastSelectedButton === 'taskHistory' }">
         Historial de acciones
       </button>
@@ -22,7 +22,18 @@
       >
         Historial de datos
       </button>
+      <button
+        mat-raised-button
+        (click)="generalHistoryOnClick()"
+        [ngClass]="{ 'selected-button': lastSelectedButton === 'generalHistory' }"
+      >
+        Historial general
+      </button>
     </mat-card-actions>
+    <button mat-raised-button class="refresh-button" (click)="refreshHistoryData()" [disabled]="isLoading">
+      <span class="refresh-icon" aria-hidden="true">↻</span>
+      Actualizar datos
+    </button>
   </mat-card-header>
 
   <nz-spin [nzSpinning]="isLoading" nzSize="large">
@@ -41,7 +52,14 @@
         </tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons />
+      <mat-paginator
+        [length]="totalRecords"
+        [pageIndex]="currentPageIndex"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+      />
     </div>
   </nz-spin>
 

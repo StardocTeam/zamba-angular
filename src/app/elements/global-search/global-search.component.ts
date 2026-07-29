@@ -14,10 +14,11 @@ import {
 import { ZambaService } from '../../services/zamba/zamba.service';
 
 type ElementInputValue = number | string | null | undefined;
+type IndexIdsInputValue = ElementInputValue | Array<number | string>;
 
 interface GlobalSearchPayload {
   EntityId: string;
-  IndexId: string;
+  IndexIds: string[];
   value: string;
 }
 
@@ -30,7 +31,7 @@ interface GlobalSearchPayload {
 })
 export class GlobalSearchElementComponent implements OnInit {
   @Input('entity-id') entityId?: ElementInputValue;
-  @Input('index-id') indexId?: ElementInputValue;
+  @Input('index-ids') indexIds?: IndexIdsInputValue;
   @Input() assetsUrl: string = 'assets/global-search';
 
   @Output() searchSubmitted = new EventEmitter<GlobalSearchPayload>();
@@ -59,14 +60,14 @@ export class GlobalSearchElementComponent implements OnInit {
     return this.normaliseValue(this.entityId) || 'No definido';
   }
 
-  get indexIdLabel(): string {
-    return this.normaliseValue(this.indexId) || 'No definido';
+  get indexIdsLabel(): string {
+    return this.normaliseIndexIds(this.indexIds).join(', ') || 'No definido';
   }
 
   private buildPayload(): GlobalSearchPayload {
     return {
       EntityId: this.normaliseValue(this.entityId),
-      IndexId: this.normaliseValue(this.indexId),
+      IndexIds: this.normaliseIndexIds(this.indexIds),
       value: this.searchValue.trim(),
     };
   }
@@ -78,8 +79,8 @@ export class GlobalSearchElementComponent implements OnInit {
       this.entityId = host?.getAttribute('entity-id') ?? host?.getAttribute('entityid') ?? undefined;
     }
 
-    if (!this.indexId) {
-      this.indexId = host?.getAttribute('index-id') ?? host?.getAttribute('indexid') ?? undefined;
+    if (!this.indexIds) {
+      this.indexIds = host?.getAttribute('index-ids') ?? host?.getAttribute('indexids') ?? undefined;
     }
   }
 
@@ -142,5 +143,16 @@ export class GlobalSearchElementComponent implements OnInit {
     }
 
     return String(value).trim();
+  }
+
+  private normaliseIndexIds(value: IndexIdsInputValue): string[] {
+    if (Array.isArray(value)) {
+      return value.map(indexId => this.normaliseValue(indexId)).filter(Boolean);
+    }
+
+    return this.normaliseValue(value)
+      .split(',')
+      .map(indexId => indexId.trim())
+      .filter(Boolean);
   }
 }

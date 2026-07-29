@@ -8,10 +8,13 @@ export class SpanishPaginatorIntl extends MatPaginatorIntl {
   override lastPageLabel = 'Última página';
   override getRangeLabel = (page: number, pageSize: number, length: number) => {
     if (length === 0 || pageSize === 0) {
-      return `0 de ${length}`;
+      return `0 registros`;
+    }
+    if (length === 1) {
+      return `1 registro`;
     }
     const startIndex = page * pageSize;
     const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-    return `${startIndex + 1} - ${endIndex} de ${length}`;
+    return `del ${startIndex + 1} al ${endIndex} de ${length} registros`;
   };
 }
