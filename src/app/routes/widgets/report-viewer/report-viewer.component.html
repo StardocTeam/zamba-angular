@@ -42,12 +42,12 @@
           <div nz-col nzXs="20" nzMd="20">
             <div nz-row [nzGutter]="8">
               <!-- TODO:Aca van los inputs dinamicos por ZVARs -->
-              <div *ngIf="true" nz-col nzXs="24" nzSm="6">
+              <div *ngIf="startDateVisible" nz-col nzXs="24" nzSm="6">
                 <label for="startDate">Fecha de inicio:</label>
                 <nz-date-picker [(ngModel)]="ZVARstartDate" [nzFormat]="'dd-MM-yyyy'" style="width: 100%" />
               </div>
 
-              <div *ngIf="true" nz-col nzXs="24" nzSm="6">
+              <div *ngIf="endDateVisible" nz-col nzXs="24" nzSm="6">
                 <label for="endDate">Fecha hasta:</label>
                 <nz-date-picker [(ngModel)]="ZVARendDate" [nzFormat]="'dd-MM-yyyy'" style="width: 100%" />
               </div>
