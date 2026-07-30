@@ -29,6 +29,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   isLoading: Boolean = true;
   currentReport: Report = new Report({});
+  allListOfData: any[] = [];
   listOfData: any[] = [];
   listOfColumns: ColumnItem[] = [];
   Description: string = '';
@@ -55,6 +56,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   private routeSub?: Subscription;
   private refreshSub?: Subscription;
   public FlagOnClick: boolean = false;
+  public searchValue: string = '';
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -200,6 +202,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     this.ruleId = 0;
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
+    this.allListOfData = [];
     this.listOfData = [];
 
     this.startDateVisible = false;
@@ -294,6 +297,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   rechargeReport() {
     this.isButtonExcelDisabled = true;
     this.listOfColumns = [];
+    this.allListOfData = [];
     this.listOfData = [];
     this.isLoading = true;
     this.cdr.detectChanges();
@@ -442,6 +446,9 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
           this.listOfData.push(newRow);
         });
+
+        this.allListOfData = [...this.listOfData];
+        this.applySearchFilter();
       } else {
         this.isButtonExcelDisabled = true;
         console.info('No se encontraron registros para mostrar');
@@ -492,35 +499,27 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     }
   }
   private getSortFn(ColumnName: any) {
-    if (ColumnName == 'TaskId' || ColumnName == 'Taskid') {
-      return (a: any, b: any) => {
-        const valA = a[ColumnName];
-        const valB = b[ColumnName];
+    return (a: any, b: any) => {
+      const valA = a[ColumnName];
+      const valB = b[ColumnName];
 
-        // Si ambos son números, compara como números
-        if (!isNaN(valA) && !isNaN(valB) && valA !== null && valB !== null && valA !== '' && valB !== '') {
-          return Number(valA) - Number(valB);
-        }
+      // Si ambos son números, compara como números
+      if (!isNaN(valA) && !isNaN(valB) && valA !== null && valB !== null && valA !== '' && valB !== '') {
+        return Number(valA) - Number(valB);
+      }
 
-        // Si ambos son fechas válidas
-        if (!isNaN(Date.parse(valA)) && !isNaN(Date.parse(valB))) {
-          return new Date(valA).getTime() - new Date(valB).getTime();
-        }
+      // Si ambos son fechas válidas
+      if (!isNaN(Date.parse(valA)) && !isNaN(Date.parse(valB))) {
+        return new Date(valA).getTime() - new Date(valB).getTime();
+      }
 
-        // Si ambos son strings, compara como strings
-        return String(valA ?? '').localeCompare(String(valB ?? ''));
-      };
-    } else {
-      return null;
-    }
+      // Si ambos son strings, compara como strings
+      return String(valA ?? '').localeCompare(String(valB ?? ''));
+    };
   }
 
   private getSortDirection(ColumnName: any) {
-    if (ColumnName == 'TaskId' || ColumnName == 'Taskid') {
-      return ['ascend', 'descend', null];
-    }
-
-    return [null];
+    return ['ascend', 'descend', null];
   }
 
   exportToExcel(report: Report): void {
@@ -716,6 +715,33 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  search(searchValue: string): void {
+    this.searchValue = searchValue;
+
+    this.applySearchFilter();
+  }
+
+  private applySearchFilter(): void {
+    const normalizedSearchValue = (this.searchValue || '').trim().toLowerCase();
+
+    if (!normalizedSearchValue) {
+      this.listOfData = [...this.allListOfData];
+      return;
+    }
+
+    const searchableColumns = this.listOfColumns.filter(column => column.visible).map(column => column.name);
+
+    this.listOfData = this.allListOfData.filter(row =>
+      searchableColumns.some(columnName => {
+        const cellValue = row?.[columnName];
+
+        return cellValue != null && cellValue.toString().toLowerCase().includes(normalizedSearchValue);
+      }),
+    );
+
+  }
+
   //#endregion
 
   //#region Visual Management

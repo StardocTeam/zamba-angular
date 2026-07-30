@@ -126,7 +126,7 @@ export class ReportEditorComponent {
 
         this.report.Name = currentReport.Name;
         this.report.Categoryid = currentReport.Categoryid;
-        debugger;
+
         this.report.Categorydescription = currentReport.Categorydescription;
 
         this.report.Completar = currentReport.Completar;

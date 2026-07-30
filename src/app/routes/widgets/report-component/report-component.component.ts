@@ -243,7 +243,7 @@ export class ReportComponentComponent {
         )
         .subscribe((data: any) => {
           var datos: Report[] = JSON.parse(data);
-          debugger;
+
           var Categories = datos.reduce(
             (acc, item) => {
               if (item.Categorydescription == null || item.Categorydescription == '') {
@@ -372,7 +372,7 @@ export class ReportComponentComponent {
         },
       };
 
-      debugger;
+
       this.modal.confirm({
         nzTitle: '¿Estás seguro de eliminar este reporte?',
         nzContent: '<b style="color: red;">Esta acción no se puede deshacer</b>',
@@ -380,7 +380,7 @@ export class ReportComponentComponent {
         nzOkType: 'primary',
         nzOkDanger: true,
         nzOnOk: () => {
-          debugger;
+
           this.RService.deleteReport(genericRequest).pipe().subscribe((data: any) => {
             var result = JSON.parse(data);
 
