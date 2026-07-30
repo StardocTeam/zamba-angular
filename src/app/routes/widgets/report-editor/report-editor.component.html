@@ -54,7 +54,8 @@
 
     <div nz-row style="padding-top: 8px; text-align: right">
       <div nz-col>
-        <button nz-button nzType="primary" nzDanger (click)="navigateToListReport()">Cancelar</button>
+        <button nz-button nzType="primary" nzDanger (click)="navigateToListReport()"
+          [disabled]="isButtonDisabled">Cancelar</button>
         <button nz-button nzType="default" (click)="TestQuery()"
           [disabled]="report.Query == '' || isButtonDisabled">Probar</button>
         <button *ngIf="report.ID === 0" nz-button nzType="primary" (click)="InsertReport()"

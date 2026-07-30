@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
-import { catchError, Observable, of, Subscription, tap } from 'rxjs';
+import { catchError, finalize, Observable, of, Subscription, tap } from 'rxjs';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
 
 import { Category } from './entity/Category';
@@ -193,14 +193,13 @@ export class ReportEditorComponent {
             nzOkType: 'primary',
             nzOnOk: () => console.log('OK'),
           });
-
-          this.isButtonDisabled = false;
           throw error;
+        }),
+        finalize(() => {
+          this.isButtonDisabled = false;
         }),
       )
       .subscribe((data: any) => {
-        this.isButtonDisabled = false;
-
         if (data == null) {
           console.log('Error: Ocurrio un error al ejecutar la sentencia', data);
 
@@ -228,25 +227,6 @@ export class ReportEditorComponent {
 
         result = false;
       });
-    //   ,
-    //   catchError(error => {
-    //     console.error('Error al obtener datos:', error);
-
-    //     console.error('Error: Ocurrio un error al ejecutar la sentencia');
-    //     this.modal.error({
-    //       nzTitle: 'Ocurrio un error al ejecutar la sentencia',
-    //       nzContent: '<p>Verifique que la sentencia no contenga errores y que la base de datos este bien configurada.</p>',
-    //       nzOkText: 'OK',
-    //       nzOkType: 'primary',
-    //       nzOnOk: () => console.log('OK'),
-    //     });
-
-    //     result = false;
-    //     throw error;
-    //   })
-    // ).subscribe();
-
-    this.isButtonDisabled = false;
   }
 
   private buildZvarsObject(): any {
@@ -293,8 +273,10 @@ export class ReportEditorComponent {
       .pipe(
         catchError(error => {
           console.error('Error al obtener datos:', error);
-          this.isButtonDisabled = false;
           throw error;
+        }),
+        finalize(() => {
+          this.isButtonDisabled = false;
         }),
       )
       .subscribe((data: any) => {
@@ -328,7 +310,6 @@ export class ReportEditorComponent {
         }
       });
 
-    this.isButtonDisabled = false;
   }
 
   InsertReport() {
@@ -365,8 +346,10 @@ export class ReportEditorComponent {
       .pipe(
         catchError(error => {
           console.error('Error al obtener datos:', error);
-          this.isButtonDisabled = false;
           throw error;
+        }),
+        finalize(() => {
+          this.isButtonDisabled = false;
         }),
       )
       .subscribe((data: any) => {
@@ -401,7 +384,6 @@ export class ReportEditorComponent {
         }
       });
 
-    this.isButtonDisabled = false;
   }
 
   clearForm() {
