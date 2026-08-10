@@ -204,6 +204,20 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+             },
+             "cesDesa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ces.desa.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
              }
           },
           "defaultConfiguration": "development"
