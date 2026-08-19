@@ -8,9 +8,9 @@ import screenfull from 'screenfull';
     {{ (status ? 'menu.fullscreen.exit' : 'menu.fullscreen') | i18n }}
   `,
   host: {
-    '[class.flex-1]': 'true'
+    '[class.flex-1]': 'true',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderFullScreenComponent {
   status = false;

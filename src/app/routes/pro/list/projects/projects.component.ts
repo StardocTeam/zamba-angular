@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   selector: 'app-list-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProListProjectsComponent implements OnInit {
   q = {
@@ -14,7 +14,7 @@ export class ProListProjectsComponent implements OnInit {
     categories: [],
     owners: ['zxx'],
     user: null,
-    rate: null
+    rate: null,
   };
   list: any[] = [];
   loading = true;
@@ -33,7 +33,7 @@ export class ProListProjectsComponent implements OnInit {
     { id: 9, text: '类目九', value: false },
     { id: 10, text: '类目十', value: false },
     { id: 11, text: '类目十一', value: false },
-    { id: 12, text: '类目十二', value: false }
+    { id: 12, text: '类目十二', value: false },
   ];
 
   changeCategory(status: boolean, idx: number): void {
@@ -49,7 +49,7 @@ export class ProListProjectsComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     public msg: NzMessageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {

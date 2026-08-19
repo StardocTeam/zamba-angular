@@ -14,6 +14,6 @@ const COMPONENTS = [RuleComponent];
 
 @NgModule({
   imports: [SharedModule, ZambaRoutingModule, DownFileModule, FullContentModule, QRModule, G2MiniBarModule, ViewFormComponent],
-  declarations: COMPONENTS
+  declarations: COMPONENTS,
 })
-export class ZambaModule { }
+export class ZambaModule {}

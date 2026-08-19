@@ -1,5 +1,16 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { TmplAstImmediateDeferredTrigger } from '@angular/compiler';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SettingsService, _HttpClient } from '@delon/theme';
@@ -7,17 +18,16 @@ import { Subscription, zip, filter, catchError, of } from 'rxjs';
 
 import { employeeUser } from './entitie/employeeUser';
 import { EmployeeUserService } from './service/employee-user.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-account-center',
   templateUrl: './center.component.html',
   styleUrls: ['./center.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountCenterComponent implements OnInit {
   user: employeeUser = new employeeUser();
-  avatarSize = "200px";
+  avatarSize = '200px';
   isMobile: any;
   private breakpointSubscription!: Subscription;
 
@@ -28,24 +38,21 @@ export class ProAccountCenterComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private employeeUserService: EmployeeUserService,
     private settings: SettingsService,
-    private breakpointObserver: BreakpointObserver
-  ) { }
+    private breakpointObserver: BreakpointObserver,
+  ) {}
 
   ngOnInit(): void {
     this.isMobile = this.breakpointObserver.isMatched([Breakpoints.Handset]);
 
-    if (this.settings.user.avatar != null && this.settings.user.avatar != '' && this.settings.user.avatar != "data:image/jpg;base64,") {
+    if (this.settings.user.avatar != null && this.settings.user.avatar != '' && this.settings.user.avatar != 'data:image/jpg;base64,') {
       this.user.avatar = this.settings.user.avatar;
     }
     this.getEmployeeUserInfo();
     this.cdr.detectChanges();
   }
 
-
   private SwitchViewMode() {
-    this.breakpointSubscription = this.breakpointObserver.observe([
-      Breakpoints.Handset
-    ]).subscribe(result => {
+    this.breakpointSubscription = this.breakpointObserver.observe([Breakpoints.Handset]).subscribe(result => {
       this.isMobile = result.matches;
     });
   }
@@ -64,17 +71,18 @@ export class ProAccountCenterComponent implements OnInit {
 
       Params: {
         EntityID: '258',
-        DoctypesId: '110'
-      }
+        DoctypesId: '110',
+      },
     };
 
-    this.employeeUserService.getEmployeeUser(genericRequest)
+    this.employeeUserService
+      .getEmployeeUser(genericRequest)
       .pipe(
         filter(data => data != '[]'),
         catchError(error => {
           console.error('An error occurred:', error);
           return of('[]');
-        })
+        }),
       )
       .subscribe(data => {
         var dataJson = JSON.parse(data)[0];
@@ -94,9 +102,6 @@ export class ProAccountCenterComponent implements OnInit {
         this.user.dateEmploymentEntry = dataJson.dateEmploymentEntry;
 
         this.cdr.detectChanges();
-
       });
-
-
   }
 }

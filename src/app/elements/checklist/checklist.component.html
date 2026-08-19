@@ -16,7 +16,7 @@
     <ul *ngIf="!collapsed" class="checklist" [ngStyle]="listStyle">
       <li *ngFor="let it of checklistItems; trackBy: trackById" class="item" [class.completed]="it.done">
         <div class="left">
-          <span class="icon" [ngClass]="{ 'success': it.done, 'pending': !it.done }">
+          <span class="icon" [ngClass]="{ success: it.done, pending: !it.done }">
             <i nz-icon [nzType]="it.done ? 'check' : 'clock-circle'" nzTheme="outline"></i>
           </span>
           <span class="title">{{ it.title }}</span>

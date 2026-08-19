@@ -6,14 +6,12 @@
     <nz-form-control [nzErrorTip]="companyNameErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
         <nz-form-label nzRequired="true">{{ 'app.register.form-company-name-placeholder' | i18n }}</nz-form-label>
-        <input nz-input formControlName="companyName"
-          placeholder="{{ 'app.register.form-company-name-placeholder' | i18n }}" />
+        <input nz-input formControlName="companyName" placeholder="{{ 'app.register.form-company-name-placeholder' | i18n }}" />
       </nz-input-group>
       <ng-template #companyNameErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{ 'validation.enterprise.required' | i18n }}</ng-container>
         <ng-container *ngIf="i.errors?.maxlength">{{ 'validation.enterprise.maxLength' | i18n }}</ng-container>
-        <ng-container *ngIf="i.errors?.companyNameTaken">{{ 'validation.enterprise.notAvailable' | i18n
-          }}</ng-container>
+        <ng-container *ngIf="i.errors?.companyNameTaken">{{ 'validation.enterprise.notAvailable' | i18n }}</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
@@ -33,8 +31,7 @@
     <nz-form-control [nzErrorTip]="lastnameErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
         <nz-form-label nzRequired="true">{{ 'app.register.form-lastname-placeholder' | i18n }}</nz-form-label>
-        <input nz-input formControlName="lastname"
-          placeholder="{{ 'app.register.form-lastname-placeholder' | i18n }}" />
+        <input nz-input formControlName="lastname" placeholder="{{ 'app.register.form-lastname-placeholder' | i18n }}" />
       </nz-input-group>
       <ng-template #lastnameErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{ 'validation.lastname.required' | i18n }}</ng-container>
@@ -47,10 +44,13 @@
     <nz-form-control [nzErrorTip]="departmentErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
         <nz-form-label nzRequired="true">{{ 'app.register.form-department-placeholder' | i18n }}</nz-form-label>
-        <nz-select nz-input formControlName="department" nzSize="large"
-          nzPlaceHolder="{{ 'app.register.form-department-placeholder' | i18n }}">
-          <nz-option *ngFor="let item of listDepartments" [nzValue]="item?.department_id"
-            [nzLabel]="item?.departmentname" />
+        <nz-select
+          nz-input
+          formControlName="department"
+          nzSize="large"
+          nzPlaceHolder="{{ 'app.register.form-department-placeholder' | i18n }}"
+        >
+          <nz-option *ngFor="let item of listDepartments" [nzValue]="item?.department_id" [nzLabel]="item?.departmentname" />
         </nz-select>
       </nz-input-group>
       <ng-template #departmentErrorTip let-i>
@@ -75,16 +75,28 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="passwordErrorTip">
       <nz-form-label nzRequired="true">{{ 'app.register.form-password-placeholder' | i18n }}</nz-form-label>
-      <nz-input-group [nzSuffix]="suffixTemplate" nzSize="large" nzAddonBeforeIcon="lock" nz-popover
-        nzPopoverPlacement="right" nzPopoverTrigger="focus" [(nzPopoverVisible)]="visible"
-        nzPopoverOverlayClassName="register-password-cdk" [nzPopoverOverlayStyle]="{ 'width.px': 240 }"
-        [nzPopoverContent]="pwdCdkTpl">
-        <input nz-input [type]="passwordVisible ? 'text' : 'password'" formControlName="password" maxlength="50"
-          placeholder="{{ 'app.register.form-password-placeholder' | i18n }}" />
+      <nz-input-group
+        [nzSuffix]="suffixTemplate"
+        nzSize="large"
+        nzAddonBeforeIcon="lock"
+        nz-popover
+        nzPopoverPlacement="right"
+        nzPopoverTrigger="focus"
+        [(nzPopoverVisible)]="visible"
+        nzPopoverOverlayClassName="register-password-cdk"
+        [nzPopoverOverlayStyle]="{ 'width.px': 240 }"
+        [nzPopoverContent]="pwdCdkTpl"
+      >
+        <input
+          nz-input
+          [type]="passwordVisible ? 'text' : 'password'"
+          formControlName="password"
+          maxlength="50"
+          placeholder="{{ 'app.register.form-password-placeholder' | i18n }}"
+        />
       </nz-input-group>
       <ng-template #suffixTemplate>
-        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-          (click)="passwordVisible = !passwordVisible"></span>
+        <span nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></span>
       </ng-template>
       <ng-template #pwdCdkTpl>
         <div style="padding: 4px 0">
@@ -94,8 +106,7 @@
             <div *ngSwitchDefault class="error">{{ 'validation.password.strength.short' | i18n }}</div>
           </ng-container>
           <div class="progress-{{ status }}">
-            <nz-progress [nzPercent]="progress" [nzStatus]="passwordProgressMap[status]" [nzStrokeWidth]="6"
-              [nzShowInfo]="false" />
+            <nz-progress [nzPercent]="progress" [nzStatus]="passwordProgressMap[status]" [nzStrokeWidth]="6" [nzShowInfo]="false" />
           </div>
           <p class="mt-sm">{{ 'validation.password.strength.msg' | i18n }}</p>
         </div>
@@ -114,8 +125,13 @@
     <nz-form-control [nzErrorTip]="confirmErrorTip">
       <nz-form-label nzRequired="true">{{ 'app.register.form-confirm-password-placeholder' | i18n }}</nz-form-label>
       <nz-input-group nzSize="large" nzAddonBeforeIcon="lock" [nzSuffix]="suffixTemplate">
-        <input nz-input [type]="passwordVisible ? 'text' : 'password'" formControlName="confirm" maxlength="50"
-          placeholder="{{ 'app.register.form-confirm-password-placeholder' | i18n }}" />
+        <input
+          nz-input
+          [type]="passwordVisible ? 'text' : 'password'"
+          formControlName="confirm"
+          maxlength="50"
+          placeholder="{{ 'app.register.form-confirm-password-placeholder' | i18n }}"
+        />
       </nz-input-group>
       <ng-template #confirmErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{ 'validation.confirm-password.required' | i18n }}</ng-container>
@@ -131,8 +147,11 @@
       <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate">
         <ng-template #addOnBeforeTemplate>
           <nz-select formControlName="mobilePrefix" style="width: 100px">
-            <nz-option *ngFor="let prefix of mobilePrefixes" [nzLabel]="prefix.code + ' ' + prefix.dial_code"
-              [nzValue]="prefix.dial_code" />
+            <nz-option
+              *ngFor="let prefix of mobilePrefixes"
+              [nzLabel]="prefix.code + ' ' + prefix.dial_code"
+              [nzValue]="prefix.dial_code"
+            />
           </nz-select>
         </ng-template>
         <input formControlName="mobile" nz-input placeholder="{{ 'app.register.form-phone-placeholder' | i18n }}" />
@@ -160,15 +179,25 @@
   </nz-form-item>
 
   <nz-form-item>
-    <button nz-button nzType="primary" nzSize="large" type="submit" [nzLoading]="loading" class="submit"
-      [disabled]="form.invalid || disableSubmitButton">
+    <button
+      nz-button
+      nzType="primary"
+      nzSize="large"
+      type="submit"
+      [nzLoading]="loading"
+      class="submit"
+      [disabled]="form.invalid || disableSubmitButton"
+    >
       {{ 'app.register.register' | i18n }}
     </button>
     <a class="login" routerLink="/passport/login">{{ 'app.register.sign-in' | i18n }}</a>
   </nz-form-item>
   <nz-form-item>
-    <p>{{ 'app.register.question-resend-verification' | i18n }}
-      <b><a routerLink="/passport/resendverificationemail">{{ 'app.register.do-click-here' | i18n }}</a></b>
+    <p
+      >{{ 'app.register.question-resend-verification' | i18n }}
+      <b
+        ><a routerLink="/passport/resendverificationemail">{{ 'app.register.do-click-here' | i18n }}</a></b
+      >
     </p>
   </nz-form-item>
 </form>

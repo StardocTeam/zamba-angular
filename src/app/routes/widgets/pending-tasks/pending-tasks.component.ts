@@ -28,7 +28,7 @@ interface Name {
 @Component({
   selector: 'pending-tasks',
   templateUrl: './pending-tasks.component.html',
-  styleUrls: ['pending-tasks.component.css']
+  styleUrls: ['pending-tasks.component.css'],
 })
 export class PendingTasksComponent implements OnInit, OnDestroy {
   @Input()
@@ -39,12 +39,12 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     rows: 0,
     x: 0,
     y: 0,
-    resizeEvent: new EventEmitter<GridsterItem>()
+    resizeEvent: new EventEmitter<GridsterItem>(),
   };
   @Input()
   resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
   @Input() divHeight: number = 600;
-  @Input() visualMode: string = "dashboard";
+  @Input() visualMode: string = 'dashboard';
 
   loading = false;
   data: any = [];
@@ -56,8 +56,8 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
     private pendingTasksService: PendingTasksService,
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
-    private zambaService: ZambaService
-  ) { }
+    private zambaService: ZambaService,
+  ) {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
@@ -69,12 +69,11 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
 
   getMyTasks() {
     if (this.resizeEvent != undefined) {
-      this.resizeEvent.subscribe((event: any) => {        
-        if (this.widget["id"] == event.item.id) {
+      this.resizeEvent.subscribe((event: any) => {
+        if (this.widget['id'] == event.item.id) {
           this.divHeight = event.itemComponent.height - 60;
           this.cdr.detectChanges();
         }
-        
       });
     }
 
@@ -86,7 +85,7 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
         UserId: 0,
         token: tokenData['token'],
 
-        Params: ''
+        Params: '',
       };
       this.pendingTasksService
         .getMyTasks(genericRequest)
@@ -98,7 +97,7 @@ export class PendingTasksComponent implements OnInit, OnDestroy {
           finalize(() => {
             this.loading = false;
             this.cdr.detectChanges();
-          })
+          }),
         )
         .subscribe(res => {
           try {

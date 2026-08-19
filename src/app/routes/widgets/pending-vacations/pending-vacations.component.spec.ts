@@ -8,7 +8,7 @@ describe('PendingVacationsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PendingVacationsComponent]
+      declarations: [PendingVacationsComponent],
     });
     fixture = TestBed.createComponent(PendingVacationsComponent);
     component = fixture.componentInstance;

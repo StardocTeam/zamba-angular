@@ -35,11 +35,11 @@ const COMPONENTS = [
   XlsxComponent,
   ZipComponent,
   DelonFormComponent,
-  QRComponent
+  QRComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, DelonRoutingModule, DownFileModule, FullContentModule, QRModule, G2MiniBarModule],
-  declarations: COMPONENTS
+  declarations: COMPONENTS,
 })
 export class DelonModule {}

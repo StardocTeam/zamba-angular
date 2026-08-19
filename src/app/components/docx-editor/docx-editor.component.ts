@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  ViewChild,
-  inject
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -38,7 +31,7 @@ interface LegacyRichTextDocument {
   imports: [CommonModule, FormsModule, NzButtonModule, NzCardModule, NzIconModule, NzInputModule, NzMessageModule, NzSpinModule],
   templateUrl: './docx-editor.component.html',
   styleUrls: ['./docx-editor.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocxEditorComponent {
   private editorSurface?: ElementRef<HTMLDivElement>;
@@ -211,8 +204,8 @@ export class DocxEditorComponent {
     return convertToHtml(
       { arrayBuffer },
       {
-        includeDefaultStyleMap: true
-      }
+        includeDefaultStyleMap: true,
+      },
     );
   }
 
@@ -277,7 +270,7 @@ export class DocxEditorComponent {
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      "'": '&#39;'
+      "'": '&#39;',
     };
 
     return Array.from(value, character => entityMap[character] ?? character).join('');

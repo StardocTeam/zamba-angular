@@ -5,7 +5,7 @@ import {
   HttpHeaders,
   HttpInterceptor,
   HttpRequest,
-  HttpResponseBase
+  HttpResponseBase,
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
@@ -30,7 +30,7 @@ const CODEMESSAGE: { [key: number]: string } = {
   500: '服务器发生错误，请检查服务器。',
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。'
+  504: '网关超时。',
 };
 
 /**
@@ -92,7 +92,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       return this.refreshToken$.pipe(
         filter(v => !!v),
         take(1),
-        switchMap(() => next.handle(this.reAttachToken(req)))
+        switchMap(() => next.handle(this.reAttachToken(req))),
       );
     }
     // 3、尝试调用刷新 Token
@@ -113,7 +113,7 @@ export class DefaultInterceptor implements HttpInterceptor {
         this.refreshToking = false;
         this.toLogin();
         return throwError(() => err);
-      })
+      }),
     );
   }
 
@@ -127,8 +127,8 @@ export class DefaultInterceptor implements HttpInterceptor {
     const token = this.tokenSrv.get()?.token;
     return req.clone({
       setHeaders: {
-        token: `Bearer ${token}`
-      }
+        token: `Bearer ${token}`,
+      },
     });
   }
 
@@ -147,7 +147,7 @@ export class DefaultInterceptor implements HttpInterceptor {
           console.log(res);
           this.refreshToking = true;
           return this.refreshTokenRequest();
-        })
+        }),
       )
       .subscribe({
         next: res => {
@@ -156,7 +156,7 @@ export class DefaultInterceptor implements HttpInterceptor {
           this.refreshToking = false;
           this.tokenSrv.set(res);
         },
-        error: () => this.toLogin()
+        error: () => this.toLogin(),
       });
   }
 
@@ -165,8 +165,6 @@ export class DefaultInterceptor implements HttpInterceptor {
   private toLogin(): void {
     this.goTo(this.tokenSrv.login_url!);
   }
-
-
 
   private handleData(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     this.checkStatus(ev);
@@ -241,8 +239,8 @@ export class DefaultInterceptor implements HttpInterceptor {
     const token = tokenServ && tokenServ['token'] ? tokenServ['token'] : null;
     const authReq = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     return next.handle(authReq).pipe(
       mergeMap(ev => {
@@ -257,7 +255,7 @@ export class DefaultInterceptor implements HttpInterceptor {
       }),
       catchError((err: HttpErrorResponse) => {
         return this.handleData(err, authReq, next);
-      })
+      }),
     );
   }
 }

@@ -35,15 +35,15 @@ export interface ZambaReplaceDocumentRequest extends ZambaDocumentRequest {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ZambaService {
   LOGIN_URL = environment['apiRestBasePath'];
-  private readonly apiUrlGetUserId: string = "";
+  private readonly apiUrlGetUserId: string = '';
   serverError = false;
   type = 0;
   loading = false;
-  token: string = "";
+  token: string = '';
 
   constructor(
     iconSrv: NzIconService,
@@ -55,19 +55,19 @@ export class ZambaService {
     private readonly http: _HttpClient,
     public sharedService: SharedService,
     @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService,
-    private readonly sanitizer: DomSanitizer
+    private readonly sanitizer: DomSanitizer,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
 
     let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
-    this.apiUrlGetUserId = restAPIUrl + "/getUserId";
+    this.apiUrlGetUserId = `${restAPIUrl}/getUserId`;
   }
 
   public getUserId(genericRequest: any) {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+        'Content-Type': 'application/json',
+      }),
     };
 
     return this.httpClient.post<any>(this.apiUrlGetUserId, genericRequest, httpOptions);
@@ -77,8 +77,8 @@ export class ZambaService {
     const url = `${this.LOGIN_URL}/GetProfileImage`;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+        'Content-Type': 'application/json',
+      }),
     };
     return this.httpClient.post(url, httpOptions);
   }
@@ -87,8 +87,8 @@ export class ZambaService {
     const url = `${this.LOGIN_URL}search/GetUserInfoForName?UserName=${data}`;
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+        'Content-Type': 'application/json',
+      }),
     };
     return this.httpClient.post(url, httpOptions);
   }
@@ -107,8 +107,8 @@ export class ZambaService {
         UserId: 0, // tokenData['userID'],
         token: tokenData['token'],
         Params: {
-          groups: groupsid.toString()
-        }
+          groups: groupsid.toString(),
+        },
       };
     }
     //TODO: este codigo carga la visualizacion de la sidbar pensar mas adelante en ponerlo asyncronico
@@ -144,12 +144,11 @@ export class ZambaService {
     var res: any = {};
     if (url != undefined) {
       if (url.indexOf('?') === -1) return res;
-      var pairs = url.split("?")[1].split("&");
+      var pairs = url.split('?')[1].split('&');
       var i, pair;
       for (i = 0; i < pairs.length; i++) {
         pair = pairs[i].toLowerCase().split('=');
-        if (pair[1])
-          res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        if (pair[1]) res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
       }
       return res;
     } else {
@@ -157,8 +156,7 @@ export class ZambaService {
       var i, pair;
       for (i = 0; i < pairs.length; i++) {
         pair = pairs[i].toLowerCase().split('=');
-        if (pair[1])
-          res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        if (pair[1]) res[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
       }
       return res;
     }
@@ -174,27 +172,25 @@ export class ZambaService {
     const userId = urlParams['userId'] || urlParams['UserId'] || urlParams['u'] || urlParams['user'];
 
     if (userId) {
-      return this.httpClient
-        .get(`${environment['restApi']}/auth/GetJwt?userId=${userId}`, { responseType: 'text' })
-        .pipe(
-          map((newToken: string) => {
-            if (newToken) {
-              this.tokenService.set({
-                token: newToken,
-                name: userId,
-                email: '',
-                id: 0,
-                time: +new Date()
-              });
-              return true;
-            }
-            return false;
-          }),
-          catchError(error => {
-            console.error('Error fetching JWT:', error);
-            return of(false);
-          })
-        );
+      return this.httpClient.get(`${environment['restApi']}/auth/GetJwt?userId=${userId}`, { responseType: 'text' }).pipe(
+        map((newToken: string) => {
+          if (newToken) {
+            this.tokenService.set({
+              token: newToken,
+              name: userId,
+              email: '',
+              id: 0,
+              time: +new Date(),
+            });
+            return true;
+          }
+          return false;
+        }),
+        catchError(error => {
+          console.error('Error fetching JWT:', error);
+          return of(false);
+        }),
+      );
     }
 
     return of(false);
@@ -231,7 +227,7 @@ export class ZambaService {
       return {
         userId: userid,
         documentId: docid,
-        entityId: doctypeid
+        entityId: doctypeid,
       };
     }
 
@@ -253,15 +249,15 @@ export class ZambaService {
           UserId: 0, // tokenData['userID'],
           token: tokenData['token'],
           Params: {
-            groups: groupsid.toString()
-          }
+            groups: groupsid.toString(),
+          },
         };
       }
     }
 
     this.http
       .post(`${environment['apiRestBasePath']}/getSidebarItems`, genericRequest, null, {
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
         catchError(res => {
@@ -277,15 +273,54 @@ export class ZambaService {
             this.titleService.default = '';
             this.titleService.suffix = appData.app.name;
           }
-        })
+        }),
       )
       .subscribe();
   }
 
   executeRule(genericRequest: any): Observable<any> {
     return this.http.post(`${environment['apiRestBasePath']}/executeRuleDashboard`, genericRequest, null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
+  }
+
+  // Web Bookmarks
+  public getBookmarks(contextData?: any): Observable<any> {
+    const tokenData = this.tokenService.get();
+    const genericRequest = {
+      UserId: tokenData?.['userID'] ?? 0,
+      token: tokenData?.['token'] ?? '',
+      Params: {
+        ...contextData
+      }
+    };
+    return this.httpClient.post(`${environment['restApi']}/WebBookmark/GetBookmarks`, genericRequest);
+  }
+
+  public saveBookmark(bookmarkData: any, contextData?: any): Observable<any> {
+    const tokenData = this.tokenService.get();
+    const genericRequest = {
+      UserId: tokenData?.['userID'] ?? 0,
+      token: tokenData?.['token'] ?? '',
+      Params: {
+        ...bookmarkData,
+        ...contextData
+      }
+    };
+    return this.httpClient.post(`${environment['restApi']}/WebBookmark/SaveBookmark`, genericRequest);
+  }
+
+  public deleteBookmark(bookmarkId: number, contextData?: any): Observable<any> {
+    const tokenData = this.tokenService.get();
+    const genericRequest = {
+      UserId: tokenData?.['userID'] ?? 0,
+      token: tokenData?.['token'] ?? '',
+      Params: {
+        id: bookmarkId,
+        ...contextData
+      }
+    };
+    return this.httpClient.post(`${environment['restApi']}/WebBookmark/DeleteBookmark`, genericRequest);
   }
 
   public getDocumentBase64(request: ZambaDocumentRequest): Observable<ZambaDocumentPayload> {
@@ -293,15 +328,15 @@ export class ZambaService {
     const genericRequest = {
       UserId: tokenData?.['userID'] ?? 0,
       token: tokenData?.['token'] ?? '',
-      Params: this.buildGetDocumentParams(request)
+      Params: this.buildGetDocumentParams(request),
     };
 
     return this.httpClient
       .post(`${environment['externalSearchApi']}/getDocument`, genericRequest, {
         headers: new HttpHeaders({
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         }),
-        responseType: 'text'
+        responseType: 'text',
       })
       .pipe(map((responseText: string) => this.extractDocumentPayload(responseText)));
   }
@@ -313,14 +348,14 @@ export class ZambaService {
       Id: request.entityId,
       Base64StringArray: this.buildBase64StringArray(request.base64, request.fileName),
       DocTypeId: request.entityId,
-      EncryptedData: false
+      EncryptedData: false,
     };
 
     return this.httpClient.post(`${environment['externalSearchApi']}/ReplaceDoc`, body, {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }),
-      responseType: 'text'
+      responseType: 'text',
     });
   }
 
@@ -329,7 +364,7 @@ export class ZambaService {
     let userid = tokenService ? tokenService['userID'] : null;
     let token = tokenService ? tokenService['token'] : null;
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `c=${userid}&t=${token}`
+      `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `c=${userid}&t=${token}`,
     );
   }
 
@@ -401,7 +436,18 @@ export class ZambaService {
     }
 
     const documentMetadata = this.extractDocumentMetadata(record);
-    const fileName = this.pickFirstString(record, ['fileName', 'FileName', 'filename', 'Filename', 'documentName', 'DocumentName', 'title', 'Title', 'name', 'Name']);
+    const fileName = this.pickFirstString(record, [
+      'fileName',
+      'FileName',
+      'filename',
+      'Filename',
+      'documentName',
+      'DocumentName',
+      'title',
+      'Title',
+      'name',
+      'Name',
+    ]);
     const extension = this.pickFirstString(record, ['extension', 'Extension', 'ext', 'Ext']);
     const mimeType = this.pickFirstString(record, ['mimeType', 'MimeType', 'contentType', 'ContentType', 'type', 'Type']);
 
@@ -415,7 +461,7 @@ export class ZambaService {
           mimeType: nestedPayload.mimeType ?? mimeType,
           userId: nestedPayload.userId ?? documentMetadata.userId,
           documentId: nestedPayload.documentId ?? documentMetadata.documentId,
-          entityId: nestedPayload.entityId ?? documentMetadata.entityId
+          entityId: nestedPayload.entityId ?? documentMetadata.entityId,
         };
       }
     }
@@ -435,7 +481,7 @@ export class ZambaService {
       'contentBase64',
       'ContentBase64',
       'payloadBase64',
-      'PayloadBase64'
+      'PayloadBase64',
     ]);
 
     if (!directBase64) {
@@ -445,12 +491,24 @@ export class ZambaService {
     const parsedDataUrl = this.parseDataUrl(directBase64);
     return {
       base64: parsedDataUrl?.base64 ?? directBase64,
-      fileName: this.pickFirstString(record, ['fileName', 'FileName', 'filename', 'Filename', 'documentName', 'DocumentName', 'title', 'Title', 'name', 'Name']),
+      fileName: this.pickFirstString(record, [
+        'fileName',
+        'FileName',
+        'filename',
+        'Filename',
+        'documentName',
+        'DocumentName',
+        'title',
+        'Title',
+        'name',
+        'Name',
+      ]),
       extension: this.pickFirstString(record, ['extension', 'Extension', 'ext', 'Ext']),
-      mimeType: parsedDataUrl?.mimeType ?? this.pickFirstString(record, ['mimeType', 'MimeType', 'contentType', 'ContentType', 'type', 'Type']),
+      mimeType:
+        parsedDataUrl?.mimeType ?? this.pickFirstString(record, ['mimeType', 'MimeType', 'contentType', 'ContentType', 'type', 'Type']),
       userId: documentMetadata.userId,
       documentId: documentMetadata.documentId,
-      entityId: documentMetadata.entityId
+      entityId: documentMetadata.entityId,
     };
   }
 
@@ -458,7 +516,19 @@ export class ZambaService {
     return {
       userId: this.pickFirstText(record, ['ExternUserID', 'ExternUserId', 'externUserId', 'UserId', 'userId', 'user', 'userid', 'u']),
       documentId: this.pickFirstText(record, ['IdDocument', 'idDocument', 'DocumentId', 'documentId', 'DocId', 'docId', 'docid']),
-      entityId: this.pickFirstText(record, ['EntityId', 'entityId', 'EntityID', 'DocType', 'DocTypeId', 'doctype', 'Id', 'id', 'TaskId', 'taskId', 'taskid'])
+      entityId: this.pickFirstText(record, [
+        'EntityId',
+        'entityId',
+        'EntityID',
+        'DocType',
+        'DocTypeId',
+        'doctype',
+        'Id',
+        'id',
+        'TaskId',
+        'taskId',
+        'taskid',
+      ]),
     };
   }
 
@@ -471,7 +541,7 @@ export class ZambaService {
       userId: userId,
       docid: documentId,
       doctypeId: entityId,
-      converttopdf: 'false'
+      converttopdf: 'false',
     };
   }
 
@@ -537,7 +607,7 @@ export class ZambaService {
 
     return {
       mimeType: matches[1],
-      base64: matches[2]
+      base64: matches[2],
     };
   }
 

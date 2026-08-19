@@ -9,7 +9,7 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
 @Component({
   selector: 'app-dashboard-v2',
   templateUrl: './v2.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardV1Component implements OnInit {
   todoData = [
@@ -17,38 +17,38 @@ export class DashboardV1Component implements OnInit {
       completed: true,
       avatar: '1',
       name: '苏先生',
-      content: `请告诉我，我应该说点什么好？`
+      content: `请告诉我，我应该说点什么好？`,
     },
     {
       completed: false,
       avatar: '2',
       name: 'はなさき',
-      content: `ハルカソラトキヘダツヒカリ`
+      content: `ハルカソラトキヘダツヒカリ`,
     },
     {
       completed: false,
       avatar: '3',
       name: 'cipchk',
-      content: `this world was never meant for one as beautiful as you.`
+      content: `this world was never meant for one as beautiful as you.`,
     },
     {
       completed: false,
       avatar: '4',
       name: 'Kent',
-      content: `my heart is beating with hers`
+      content: `my heart is beating with hers`,
     },
     {
       completed: false,
       avatar: '5',
       name: 'Are you',
-      content: `They always said that I love beautiful girl than my friends`
+      content: `They always said that I love beautiful girl than my friends`,
     },
     {
       completed: false,
       avatar: '6',
       name: 'Forever',
-      content: `Walking through green fields ，sunshine in my eyes.`
-    }
+      content: `Walking through green fields ，sunshine in my eyes.`,
+    },
   ];
 
   webSite!: any[];
@@ -60,7 +60,7 @@ export class DashboardV1Component implements OnInit {
     private cdr: ChangeDetectorRef,
     private obSrv: OnboardingService,
     private platform: Platform,
-    @Inject(DOCUMENT) private doc: NzSafeAny
+    @Inject(DOCUMENT) private doc: NzSafeAny,
   ) {
     // TODO: Wait for the page to load
     setTimeout(() => this.genOnboarding(), 1000);
@@ -71,8 +71,8 @@ export class DashboardV1Component implements OnInit {
 
     chart.theme({
       styleSheet: {
-        backgroundColor: 'transparent'
-      }
+        backgroundColor: 'transparent',
+      },
     });
   }
 

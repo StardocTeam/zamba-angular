@@ -15,7 +15,7 @@ import { finalize } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
   providers: [SocialService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserLoginComponent implements OnDestroy {
   constructor(
@@ -29,8 +29,8 @@ export class UserLoginComponent implements OnDestroy {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   // #region fields
 
@@ -39,7 +39,7 @@ export class UserLoginComponent implements OnDestroy {
     password: ['', [Validators.required, Validators.pattern(/^(ng\-alain\.com)$/)]],
     mobile: ['', [Validators.required, Validators.pattern(/^1\d{10}$/)]],
     captcha: ['', [Validators.required]],
-    remember: [true]
+    remember: [true],
   });
   error = '';
   type = 0;
@@ -104,18 +104,18 @@ export class UserLoginComponent implements OnDestroy {
         {
           type: this.type,
           userName: this.form.value.userName,
-          password: this.form.value.password
+          password: this.form.value.password,
         },
         null,
         {
-          context: new HttpContext().set(ALLOW_ANONYMOUS, true)
-        }
+          context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+        },
       )
       .pipe(
         finalize(() => {
           this.loading = false;
           this.cdr.detectChanges();
-        })
+        }),
       )
       .subscribe(res => {
         if (res.msg !== 'ok') {
@@ -152,7 +152,7 @@ export class UserLoginComponent implements OnDestroy {
         break;
       case 'github':
         url = `//github.com/login/oauth/authorize?client_id=9d6baae4b04a23fcafa2&response_type=code&redirect_uri=${decodeURIComponent(
-          callback
+          callback,
         )}`;
         break;
       case 'weibo':
@@ -162,7 +162,7 @@ export class UserLoginComponent implements OnDestroy {
     if (openType === 'window') {
       this.socialService
         .login(url, '/', {
-          type: 'window'
+          type: 'window',
         })
         .subscribe(res => {
           if (res) {
@@ -172,7 +172,7 @@ export class UserLoginComponent implements OnDestroy {
         });
     } else {
       this.socialService.login(url, '/', {
-        type: 'href'
+        type: 'href',
       });
     }
   }

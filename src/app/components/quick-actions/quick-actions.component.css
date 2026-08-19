@@ -244,28 +244,14 @@
 
     .selected-category-title {
         text-align: left;
-        font-size: 2.2rem;
+        font-size: 1rem;
         font-weight: 500;
         color: #234567;
         letter-spacing: 1px;
-        position: relative;
-        padding-left: 12px;
         margin-bottom: 0px;
         /* Sombra sutil */
         text-shadow: 0 2px 8px rgba(35, 69, 103, 0.08);
         /*background: linear-gradient(90deg, #daefff 0%, #f5f7fa 30%, #f5f7fa 100%);*/
-    }
-
-    .selected-category-title::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 4px;
-        height: 70%;
-        background: #1976d2;
-        border-radius: 2px;
     }
 
     .ant-card-meta-title {

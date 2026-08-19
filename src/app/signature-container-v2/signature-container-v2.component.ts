@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, ChangeDetectorRef, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { ModalHelper } from '@delon/theme';
@@ -8,7 +9,6 @@ import { SignatureService } from '../signature/signature.service';
 import { catchError, finalize } from 'rxjs';
 import { ZambaService } from '../services/zamba/zamba.service';
 import { SignatureV2Component } from '../signature-v2/signature-v2.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'signature-fab',
@@ -38,7 +38,12 @@ export class SignatureFABComponent implements OnInit {
   pdfUrl: SafeResourceUrl = this.sanitizer.bypassSecurityTrustResourceUrl('');
   private modalHelper = inject(ModalHelper);
   private msg = inject(NzMessageService);
-  constructor(private sanitizer: DomSanitizer, private zambaService: ZambaService, private signatureService: SignatureService, private cdr: ChangeDetectorRef) {
+  constructor(
+    private sanitizer: DomSanitizer,
+    private zambaService: ZambaService,
+    private signatureService: SignatureService,
+    private cdr: ChangeDetectorRef,
+  ) {
     this.zambaService.preFlightLogin();
     this.TaskViewerMessageHandler = this.TaskViewerMessageHandler.bind(this);
   }
@@ -54,30 +59,42 @@ export class SignatureFABComponent implements OnInit {
       token: 0,
       Params: {
         DocType: this.docType,
-        DocId: this.docId
-      }
-    };
-    this.signatureService.ValidateAlreadySigned(genericRequest).pipe(
-      finalize(() => {
-      }),
-    ).subscribe({
-      next: (result) => {
-        var objectResult = JSON.parse(result);
-        this.showFABButton = !objectResult.indexAlreadySigned;
+        DocId: this.docId,
       },
-      error: (error) => {
-      }
-    });
+    };
+    this.signatureService
+      .ValidateAlreadySigned(genericRequest)
+      .pipe(finalize(() => { }))
+      .subscribe({
+        next: result => {
+          var objectResult = JSON.parse(result);
+          this.showFABButton = !objectResult.indexAlreadySigned;
+        },
+        error: error => { },
+      });
   }
 
-
-  static(): void {
-    this.modalHelper.createStatic(SignatureV2Component, { record: { docType: this.docType, docId: this.docId, DocIdSignatureCoordinates: this.DocIdSignatureCoordinates, isSignedIndexID: this.isSignedIndexID, taskId: this.taskId } }, { size: 'lg' }).subscribe(res => {
-      if (res == "reload") {
-        this.cdr.detectChanges();
-        this.requestRefresh();
-      }
-    });
+  openStatic(): void {
+    this.modalHelper
+      .createStatic(
+        SignatureV2Component,
+        {
+          record: {
+            docType: this.docType,
+            docId: this.docId,
+            DocIdSignatureCoordinates: this.DocIdSignatureCoordinates,
+            isSignedIndexID: this.isSignedIndexID,
+            taskId: this.taskId,
+          },
+        },
+        { size: 'lg' },
+      )
+      .subscribe(res => {
+        if (res == 'reload') {
+          this.cdr.detectChanges();
+          this.requestRefresh();
+        }
+      });
   }
 
   requestRefresh() {

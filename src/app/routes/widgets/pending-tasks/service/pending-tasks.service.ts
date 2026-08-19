@@ -5,20 +5,20 @@ import { _HttpClient } from '@delon/theme';
 import { environment } from '@env/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PendingTasksService {
-  constructor(private http: _HttpClient) { }
+  constructor(private http: _HttpClient) {}
 
   getMyTasks(genericRequest: any) {
     return this.http.post(`${environment['apiRestBasePath']}/getMyTasks`, genericRequest, null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
 
   getMyTasksCount(genericRequest: any) {
     return this.http.post(`${environment['apiRestBasePath']}/getMyTasksCount`, genericRequest, null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
 }

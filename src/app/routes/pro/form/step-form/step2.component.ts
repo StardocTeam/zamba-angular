@@ -6,11 +6,11 @@ import { TransferService } from './transfer.service';
 @Component({
   selector: 'app-step2',
   templateUrl: './step2.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Step2Component implements OnInit {
   form = new FormGroup({
-    password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]))
+    password: new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)])),
   });
   loading = false;
   get item(): TransferService {

@@ -18,7 +18,7 @@ import { PassportService } from '../services/passport.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
   providers: [SocialService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserLoginVZambaComponent implements OnDestroy, OnInit {
   subscriptions: Subscription[] = [];
@@ -28,7 +28,7 @@ export class UserLoginVZambaComponent implements OnDestroy, OnInit {
     password: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/)]],
     mobile: ['', [Validators.required, Validators.pattern(/^1\d{10}$/)]],
     captcha: ['', [Validators.required]],
-    remember: [true]
+    remember: [true],
   });
   error = '';
   serverError = false;
@@ -57,8 +57,8 @@ export class UserLoginVZambaComponent implements OnDestroy, OnInit {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupService: StartupService,
     private cdr: ChangeDetectorRef,
-    private passportService: PassportService
-  ) { }
+    private passportService: PassportService,
+  ) {}
   ngOnInit(): void {
     window.addEventListener('message', event => {
       const response = JSON.parse(event.data);
@@ -103,7 +103,7 @@ export class UserLoginVZambaComponent implements OnDestroy, OnInit {
           finalize(() => {
             this.loading = false;
             this.cdr.detectChanges();
-          })
+          }),
         )
         .subscribe(res => {
           res = JSON.parse(res);
@@ -116,15 +116,13 @@ export class UserLoginVZambaComponent implements OnDestroy, OnInit {
             this.errorUserIsNotActive = true;
             this.cdr.detectChanges();
             return;
-          }
-          else if (res.isActive == true) {
+          } else if (res.isActive == true) {
             this.reuseTabService.clear();
 
             this.startupService.load().subscribe(() => {
               let url = this.tokenService.referrer!.url || '/';
 
-              if (url.includes('/passport'))
-                url = '/';
+              if (url.includes('/passport')) url = '/';
 
               let tokenService = this.tokenService.get();
               console.log(tokenService);
@@ -133,8 +131,7 @@ export class UserLoginVZambaComponent implements OnDestroy, OnInit {
               this.cdr.detectChanges();
             });
           }
-
-        })
+        }),
     );
   }
   ngOnDestroy(): void {

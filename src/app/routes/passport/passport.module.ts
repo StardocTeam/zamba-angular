@@ -9,18 +9,17 @@ import { ChangePasswordExpiredComponent } from './change-password-expired/change
 import { ChangePasswordResultComponent } from './change-password-result/change-password-result.component';
 import { UserLockComponent } from './lock/lock.component';
 import { UserLoginV2Component } from './loginV2/login.component';
+import { UserLoginVZambaComponent } from './loginVZamba/login.component';
 import { PassportRoutingModule } from './passport-routing.module';
 import { UserRegisterComponent } from './register/register.component';
 import { UserRegisterResultComponent } from './register-result/register-result.component';
+import { UserRegisterVZambaComponent } from './registerVZamba/register.component';
 import { ResendResultComponent } from './resend-result/resend-result.component';
 import { ResendVerificationEmailComponent } from './resend-verification-email/resend-verificationemail.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ResetResultComponent } from './reset-result/reset-result.component';
 import { ValidateComponent } from './validate.component';
 import { InitialPasswordWizardComponent } from '../welcome/initial-password-wizard/initial-password-wizard.component';
-
-import { UserLoginVZambaComponent } from './loginVZamba/login.component';
-import { UserRegisterVZambaComponent } from './registerVZamba/register.component';
 
 const COMPONENTS = [
   UserLoginV2Component,
@@ -38,11 +37,11 @@ const COMPONENTS = [
   ResetResultComponent,
   ChangePasswordExpiredComponent,
   ChangePasswordResultComponent,
-  InitialPasswordWizardComponent
+  InitialPasswordWizardComponent,
 ];
 
 @NgModule({
   imports: [SharedModule, PassportRoutingModule, RecaptchaModule, NzTypographyModule],
-  declarations: [...COMPONENTS]
+  declarations: [...COMPONENTS],
 })
-export class PassportModule { }
+export class PassportModule {}

@@ -1,23 +1,22 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 //import { SignatureComponent } from './signature.component';
-import { RouterModule, Routes } from '@angular/router';
-import { NzModalModule } from 'ng-zorro-antd/modal';
-import { SignatureContainerComponent } from '../signature-container/signature-container.component';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+
+import { SignatureComponent } from './signature.component';
+import { SignatureContainerComponent } from '../signature-container/signature-container.component';
 import { SignatureFABComponent } from '../signature-container-v2/signature-container-v2.component';
 import { SignatureV2Component } from '../signature-v2/signature-v2.component';
-import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { SignatureComponent } from './signature.component';
 
-const routes: Routes = [
-  { path: '', component: SignatureContainerComponent }
-];
+const routes: Routes = [{ path: '', component: SignatureContainerComponent }];
 
 @NgModule({
   declarations: [],
@@ -35,8 +34,8 @@ const routes: Routes = [
     SignatureComponent,
     SignatureV2Component,
     SignatureContainerComponent,
-    SignatureFABComponent
+    SignatureFABComponent,
   ],
-  exports: [SignatureV2Component, SignatureContainerComponent, SignatureFABComponent]
+  exports: [SignatureV2Component, SignatureContainerComponent, SignatureFABComponent],
 })
-export class SignatureModule { }
+export class SignatureModule {}

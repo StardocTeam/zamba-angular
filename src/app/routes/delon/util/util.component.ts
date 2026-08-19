@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-util',
-  templateUrl: './util.component.html'
+  templateUrl: './util.component.html',
 })
 export class UtilComponent {
   constructor(public messageSrv: NzMessageService) {}

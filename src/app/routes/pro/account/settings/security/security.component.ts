@@ -11,9 +11,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
         margin: 0 8px 10px 0;
         width: 100%;
       }
-    `
+    `,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountSettingsSecurityComponent {
   constructor(public msg: NzMessageService) {}
@@ -41,7 +41,7 @@ export class ProAccountSettingsSecurityComponent {
     Altura: 0,
     BeneficioSeguroDeVida: '',
     PersonaACargo: '',
-    ProcentajeDeduccionGanancia: 0
+    ProcentajeDeduccionGanancia: 0,
   };
 
   DocFamily: any = {
@@ -55,6 +55,6 @@ export class ProAccountSettingsSecurityComponent {
     TipoDocumento: '',
     NumeroDocumento: '',
     DocFamiliares: '',
-    Observaciones: ''
+    Observaciones: '',
   };
 }

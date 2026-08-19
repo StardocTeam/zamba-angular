@@ -14,13 +14,14 @@ export const environment = {
   externalSearchApi: 'http://imageapp/Zamba.Api/api/ExternalSearch',
   searchApi: 'http://imageapp/Zamba.Api/api/search',
   zambaWeb: 'http://imageapp/Zamba.Web',
+
   cliente: 'zamba',
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
-    refreshTokenType: 'auth-refresh'
+    refreshTokenType: 'auth-refresh',
   },
-  modules: [DelonMockModule.forRoot({ data: MOCKDATA })]
+  modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
 } as Environment;
 /*
  * In development mode, to ignore zone related error stack frames such as

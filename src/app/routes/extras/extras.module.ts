@@ -11,6 +11,6 @@ const COMPONENTS = [HelpCenterComponent, ExtrasSettingsComponent, ExtrasPoiCompo
 
 @NgModule({
   imports: [SharedModule, ExtrasRoutingModule],
-  declarations: [...COMPONENTS]
+  declarations: [...COMPONENTS],
 })
 export class ExtrasModule {}

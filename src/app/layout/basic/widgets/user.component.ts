@@ -26,7 +26,7 @@ import { ZambaService } from 'src/app/services/zamba/zamba.service';
       </div>
     </nz-dropdown-menu>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderUserComponent {
   avatar = '';
@@ -40,15 +40,14 @@ export class HeaderUserComponent {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private zambaService: ZambaService,
     private cdr: ChangeDetectorRef,
-    private userPermissionsService: UserPermissionsService
+    private userPermissionsService: UserPermissionsService,
   ) {
-    this.zambaService.GetProfileImage()
-      .subscribe((data: any) => {
-        let urlData = 'data:image/jpg;base64,' + data;
-        this.settings.user.avatar = urlData
-        this.avatar = urlData;
-        this.cdr.detectChanges();
-      });
+    this.zambaService.GetProfileImage().subscribe((data: any) => {
+      let urlData = `data:image/jpg;base64,${data}`;
+      this.settings.user.avatar = urlData;
+      this.avatar = urlData;
+      this.cdr.detectChanges();
+    });
   }
 
   logout(): void {

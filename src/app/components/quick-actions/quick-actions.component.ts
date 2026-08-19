@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
 import { TaskHistoryService } from '../../services/task-history-service.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, TemplateRef, ChangeDetectionStrategy, ViewEncapsulation, Renderer2, ChangeDetectorRef, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
@@ -13,8 +12,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { TaskService } from '../../services/task.service';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -22,12 +21,14 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { environment } from '@env/environment';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { RuleExecutorComponent } from '../rule-executor/rule-executor.component';
 
 @Component({
   selector: 'app-quick-actions',
   standalone: true,
-  imports: [NzMenuModule,
+  imports: [
+    NzMenuModule,
     HttpClientModule,
     CommonModule,
     MatCardModule,
@@ -43,13 +44,13 @@ import { RuleExecutorComponent } from '../rule-executor/rule-executor.component'
     NzSkeletonModule,
     NzSpaceModule,
     NzListModule,
-    RuleExecutorComponent
+    RuleExecutorComponent,
   ],
   templateUrl: './quick-actions.component.html',
   styleUrls: ['./quick-actions.component.css'],
   providers: [TaskHistoryService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.Emulated
+  encapsulation: ViewEncapsulation.Emulated,
 })
 export class QuickActionsComponent implements OnInit {
 
@@ -104,21 +105,21 @@ export class QuickActionsComponent implements OnInit {
           {
             name: 'Favoritos',
             icon: 'star',
-            actions: []
+            actions: [],
           },
-          ...categories
+          ...categories,
         ];
         this.categories = categories;
         this.updateFavouriteCategory();
-        this.clearSelectedCategories()
+        this.clearSelectedCategories();
         this.isLoading = false;
         this.cdr.markForCheck();
       },
-      error: (error) => {
+      error: error => {
         console.error('Error fetching dynamic buttons:', error);
         this.isLoading = false;
         this.cdr.markForCheck();
-      }
+      },
     });
   }
 
@@ -145,21 +146,20 @@ export class QuickActionsComponent implements OnInit {
 
                 break;
               case 'executescript':
-                if (responseObject.Params.RuleClass.toLowerCase().includes("doopentask")) {
+                if (responseObject.Params.RuleClass.toLowerCase().includes('doopentask')) {
                   this.DoOpenTaskHandler(responseObject.Vars, responseObject.Params);
                   this.isLoadingAction = false;
                   this.cdr.markForCheck();
                   break;
                 }
 
-                if (responseObject.Params.RuleClass.toLowerCase().includes("doopenurl")) {
+                if (responseObject.Params.RuleClass.toLowerCase().includes('doopenurl')) {
                   this.DoOpenUrlHandler(responseObject.Vars, responseObject.Params);
                   this.isLoadingAction = false;
                   this.cdr.markForCheck();
                   break;
-
                 }
-                if (responseObject.Vars.scripttoexecute.toLowerCase().includes("opendoc")) {
+                if (responseObject.Vars.scripttoexecute.toLowerCase().includes('opendoc')) {
                   this.OpenTask(responseObject.Vars, responseObject.Params);
                   this.isLoadingAction = false;
                   this.cdr.markForCheck();
@@ -168,7 +168,6 @@ export class QuickActionsComponent implements OnInit {
                 this.isLoadingAction = false;
                 this.cdr.markForCheck();
                 break;
-
             }
           }
           this.isLoadingAction = false;
@@ -177,7 +176,7 @@ export class QuickActionsComponent implements OnInit {
         error: () => {
           this.isLoadingAction = false;
           this.cdr.markForCheck();
-        }
+        },
       });
   }
 
@@ -208,13 +207,12 @@ export class QuickActionsComponent implements OnInit {
 
     const search = this.appliedSearchText.trim().toLowerCase();
     this.searchMatchedCategories = this.categories
-      .filter(cat =>
-        // Coincide el nombre de la categoría
-        (cat.name && cat.name.toLowerCase().includes(search)) ||
-        // O alguna acción coincide
-        (cat.actions && cat.actions.some((action: any) =>
-          action.name.toLowerCase().includes(search)
-        ))
+      .filter(
+        cat =>
+          // Coincide el nombre de la categoría
+          (cat.name && cat.name.toLowerCase().includes(search)) ||
+          // O alguna acción coincide
+          (cat.actions && cat.actions.some((action: any) => action.name.toLowerCase().includes(search))),
       )
       .map(cat => cat.name);
 
@@ -271,7 +269,7 @@ export class QuickActionsComponent implements OnInit {
       favCategory.actions = [];
       this.categories.forEach(cat => {
         if (cat.name !== 'Favoritos' && cat.actions) {
-          cat.actions.forEach((action: { isFavorite: any; }) => {
+          cat.actions.forEach((action: { isFavorite: any }) => {
             if (action.isFavorite) {
               favCategory.actions.push(action);
             }
@@ -288,7 +286,7 @@ export class QuickActionsComponent implements OnInit {
     this.taskService.updateUserFavoriteActions(ruleIdsString).subscribe({
       next: (response: any) => {
         console.log('Favorite actions updated successfully');
-      }
+      },
     });
   }
 
@@ -303,7 +301,7 @@ export class QuickActionsComponent implements OnInit {
 
   onRuleCompleted(event: any) {
 
-    console.log("Rule completed event received:", event);
+    console.log('Rule completed event received:', event);
     this.ruleExecutorWorking = false;
     this.pendingRuleId = 0;
     this.isLoadingAction = false;
@@ -311,29 +309,28 @@ export class QuickActionsComponent implements OnInit {
   }
   OpenTask(Vars: any, Params: any) {
     try {
-      const taskId = Vars["nuevatarea.taskid"];
-      const generateddocid = Vars["generateddocid"];
-      const entityId = Vars["nuevatarea.entityid"];
+      const taskId = Vars['nuevatarea.taskid'];
+      const generateddocid = Vars['generateddocid'];
+      const entityId = Vars['nuevatarea.entityid'];
       const asDoc = false;
-      const name = Vars["nuevatarea.name"];
-      const userid = Vars["nuevatarea.currentuserid"];
-      const taskurl = "../WF/TaskViewer.aspx?doctype=" + entityId + "&docid=" + generateddocid + "&taskid=" + taskId + "&userid=" + userid;
-      const idnotificacionaasociar = Vars["idnotificacionaasociar"];
+      const name = Vars['nuevatarea.name'];
+      const userid = Vars['nuevatarea.currentuserid'];
+      const taskurl = `../WF/TaskViewer.aspx?doctype=${entityId}&docid=${generateddocid}&taskid=${taskId}&userid=${userid}`;
+      const idnotificacionaasociar = Vars['idnotificacionaasociar'];
       const openMode = Params?.openMode || '0';
-      const tareaId = Vars["nuevatarea.id"];
-      const wfstepid = Vars["nuevatarea.stepid"];
-      const scriptToExecute = Vars["scripttoexecute"];
+      const tareaId = Vars['nuevatarea.id'];
+      const wfstepid = Vars['nuevatarea.stepid'];
+      const scriptToExecute = Vars['scripttoexecute'];
 
       console.log(`${environment['zambaWeb']}`.toLocaleLowerCase());
 
-      let Url = (
+      let Url =
         `${environment['zambaWeb']}/views/WF/TaskViewer.aspx?` +
         `DocTypeId=${entityId}` +
         `&docid=${generateddocid}` +
         `&taskid=${taskId}` +
         `&wfstepid=${wfstepid}` +
-        `&user=${userid}`
-      );
+        `&user=${userid}`;
       window.open(Url, '_blank');
 
 
@@ -343,22 +340,17 @@ export class QuickActionsComponent implements OnInit {
 
   }
   DoOpenTaskHandler(Vars: any, Params: any) {
-    const resultId = Params["DocID"] || 0;
-    const docTyopeId = Params["DocTypeId"] || 0;
-    const openMode = Params["OpenMode"] || 0;
-    const userid = Params["CurrentUser"] || 0;
-    let Url = (
-      `${environment['zambaWeb']}/views/WF/TaskViewer.aspx?` +
-      `DocTypeId=${docTyopeId}` +
-      `&docid=${resultId}` +
-      `&user=${userid}`
-    );
+    const resultId = Params['DocID'] || 0;
+    const docTyopeId = Params['DocTypeId'] || 0;
+    const openMode = Params['OpenMode'] || 0;
+    const userid = Params['CurrentUser'] || 0;
+    let Url = `${environment['zambaWeb']}/views/WF/TaskViewer.aspx?` + `DocTypeId=${docTyopeId}` + `&docid=${resultId}` + `&user=${userid}`;
     window.open(Url, '_blank');
   }
 
   DoOpenUrlHandler(Vars: any, Params: any) {
-    const urlToOpen = Params["url"] || '';
-    const openMode = Params["OpenMode"] || 0;
+    const urlToOpen = Params['url'] || '';
+    const openMode = Params['OpenMode'] || 0;
     switch (openMode) {
       case 0: // New Tab/Window
         window.open(urlToOpen, '_blank');
@@ -379,7 +371,7 @@ export class QuickActionsComponent implements OnInit {
       nzTitle: '',
       nzContent: this.iframeModal,
       nzWidth: 800,
-      nzFooter: null
+      nzFooter: null,
     });
   }
 }

@@ -15,7 +15,7 @@ import { catchError, finalize, throwError } from 'rxjs';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.less'],
   providers: [SocialService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangePasswordComponent implements OnDestroy, OnInit {
   token = '';
@@ -35,18 +35,18 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupSrv: StartupService,
     private http: _HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
   ngOnInit(): void {
     this.loadingSrv.open(this.LoadingType);
     this.token = this.route.snapshot.queryParams['token'] || '';
     const genericRequest = {
       UserId: 0,
-      Params: { tokendata: this.token }
+      Params: { tokendata: this.token },
     };
     this.http
       .post(`${environment['apiRestBasePath']}/ValidateResetToken`, genericRequest, null, {
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
         catchError(error => {
@@ -61,7 +61,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
           this.loading = false;
           this.validatingToken = false;
           this.cdr.detectChanges();
-        })
+        }),
       )
       .subscribe(res => {
         this.validatingToken = false;
@@ -78,9 +78,9 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
   form = this.fb.group(
     {
       password: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/)]],
-      repassword: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/)]]
+      repassword: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/)]],
     },
-    { validator: this.passwordMatchValidator }
+    { validator: this.passwordMatchValidator },
   );
   error = '';
   serverError = false;
@@ -117,15 +117,15 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
       UserId: 0,
       Params: {
         tokendata: this.token,
-        newpassword: data.password
-      }
+        newpassword: data.password,
+      },
     };
 
     this.loading = true;
     this.cdr.detectChanges();
     this.http
       .post(`${environment['apiRestBasePath']}/ResetPassword`, genericRequest, null, {
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
         catchError(error => {
@@ -136,7 +136,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
         finalize(() => {
           this.loading = false;
           this.cdr.detectChanges();
-        })
+        }),
       )
       .subscribe(res => {
         res = JSON.parse(res);

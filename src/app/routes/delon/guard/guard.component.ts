@@ -5,7 +5,7 @@ import { MenuService } from '@delon/theme';
 
 @Component({
   selector: 'app-guard',
-  templateUrl: './guard.component.html'
+  templateUrl: './guard.component.html',
 })
 export class GuardComponent {
   get data(): any {
@@ -15,7 +15,7 @@ export class GuardComponent {
   constructor(
     private aclSrv: ACLService,
     private menuSrv: MenuService,
-    private router: Router
+    private router: Router,
   ) {}
 
   setRole(value: string | boolean): void {

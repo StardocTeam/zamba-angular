@@ -15,7 +15,6 @@ import { WidgetCComponent } from './widgetC.component';
   styleUrls: ['dummy.component.css'],
   encapsulation: ViewEncapsulation.None,
   standalone: true,
-  imports: []
+  imports: [],
 })
-export class DummyComponent { }
-
+export class DummyComponent {}

@@ -7,7 +7,7 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'app-profile-basic',
   templateUrl: './basic.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProProfileBaseComponent {
   basicNum = 0;
@@ -18,20 +18,20 @@ export class ProProfileBaseComponent {
         this.basicNum += Number(item.num);
         this.amountNum += Number(item.amount);
       });
-    })
+    }),
   );
   goodsColumns: STColumn[] = [
     {
       title: '商品编号',
       index: 'id',
       type: 'link',
-      click: item => this.msg.success(`show ${item.id}`)
+      click: item => this.msg.success(`show ${item.id}`),
     },
     { title: '商品名称', index: 'name' },
     { title: '商品条码', index: 'barcode' },
     { title: '单价', index: 'price', type: 'currency' },
     { title: '数量（件）', index: 'num', className: 'text-right' },
-    { title: '金额', index: 'amount', type: 'currency' }
+    { title: '金额', index: 'amount', type: 'currency' },
   ];
   progress = this.http.get('/profile/progress');
   progressColumns: STColumn[] = [
@@ -43,15 +43,15 @@ export class ProProfileBaseComponent {
       type: 'badge',
       badge: {
         success: { text: '成功', color: 'success' },
-        processing: { text: '进行中', color: 'processing' }
-      }
+        processing: { text: '进行中', color: 'processing' },
+      },
     },
     { title: '操作员ID', index: 'operator' },
-    { title: '耗时', index: 'cost' }
+    { title: '耗时', index: 'cost' },
   ];
 
   constructor(
     private http: _HttpClient,
-    private msg: NzMessageService
+    private msg: NzMessageService,
   ) {}
 }

@@ -3,13 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 import * as MOCKDATA from '@_mock';
-
 import { DelonMockModule } from '@delon/mock';
 import { Environment } from '@delon/theme';
 
 // Load runtime config injected at startup (StartupService sets `window.appConfig` from /config.json)
 const runtimeConfig = (window as any).appConfig || {};
-const r = (key: string, def: any) => (runtimeConfig[key] ?? def);
+const r = (key: string, def: any) => runtimeConfig[key] ?? def;
 export const environment = {
   production: false,
   useHash: true,
@@ -24,9 +23,9 @@ export const environment = {
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
-    refreshTokenType: 'auth-refresh'
+    refreshTokenType: 'auth-refresh',
   },
-  modules: [DelonMockModule.forRoot({ data: MOCKDATA })]
+  modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
 } as Environment;
 /*
  * In development mode, to ignore zone related error stack frames such as

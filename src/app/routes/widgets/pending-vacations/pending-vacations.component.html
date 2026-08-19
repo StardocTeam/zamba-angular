@@ -2,35 +2,51 @@
 <div class="displayFlex alignCenter headerWidget" nz-row>
   <div nz-col nzSpan="20">
     <div class="">
-
-      <span nz-typography><strong>{{ 'app.pending-vacations.APPROVED_VACATIONS' | i18n }}</strong></span>
+      <span nz-typography
+        ><strong>{{ 'app.pending-vacations.APPROVED_VACATIONS' | i18n }}</strong></span
+      >
       <nz-badge [nzCount]="vacations.length" nzShowZero />
-
     </div>
   </div>
 
   <div nz-col class="displayFlex BtnEnd" nzSpan="4">
-    <button [nzLoading]="loading" nz-button nzType="default" nzShape="circle" [nzSize]="size_APPROVED_VACATIONS"
-      nz-tooltip nzTooltipTitle="{{ 'app.pending-vacations.RELOAD_TOOLTIP' | i18n }}">
+    <button
+      [nzLoading]="loading"
+      nz-button
+      nzType="default"
+      nzShape="circle"
+      [nzSize]="size_APPROVED_VACATIONS"
+      nz-tooltip
+      nzTooltipTitle="{{ 'app.pending-vacations.RELOAD_TOOLTIP' | i18n }}"
+    >
       <span nz-icon nzType="redo" (click)="PostExternalsearchInfo()"></span>
     </button>
   </div>
-
 </div>
 
 <!-- SubHeader -->
 <div class="displayFlex alignCenter subHeaderWidget" nz-row>
   <div nz-col nzSpan="17" class="truncate">
-    <span nz-typography><strong>
+    <span nz-typography
+      ><strong>
         {{ TotalDays }}
 
         {{ 'app.pending-vacations.DAYSAVAILABLE' | i18n }}
-      </strong></span>
+      </strong></span
+    >
   </div>
 
   <div nz-col class="displayFlex BtnEnd" nzSpan="7">
-    <button *ngIf="TotalDays != 0" nz-button nzType="default" nzShape="circle" [nzSize]="size_DAYS_AVAILABLE" nz-tooltip
-      nzTooltipTitle="{{ 'app.pending-vacations.ADD_TOOLTIP' | i18n }}" (click)="RequestVacation()">
+    <button
+      *ngIf="TotalDays != 0"
+      nz-button
+      nzType="default"
+      nzShape="circle"
+      [nzSize]="size_DAYS_AVAILABLE"
+      nz-tooltip
+      nzTooltipTitle="{{ 'app.pending-vacations.ADD_TOOLTIP' | i18n }}"
+      (click)="RequestVacation()"
+    >
       <span nz-icon nzType="plus"></span>
     </button>
   </div>
@@ -40,9 +56,14 @@
 
 <div id="vacationsList" class="item-container" [style.height.px]="divHeight">
   <ng-container *ngFor="let item of vacations" class="overflowY">
-    <nz-alert (dblclick)="GoToTask(item)" class="pointer" nzBanner nzMessage="
+    <nz-alert
+      (dblclick)="GoToTask(item)"
+      class="pointer"
+      nzBanner
+      nzMessage="
               {{ item.VacationFromOption | date: 'dd/MM/yyyy' }}
               {{ 'app.pending-vacations.VACATION_TO' | i18n }}
-              {{ item.VacationToOption | date: 'dd/MM/yyyy' }}" />
+              {{ item.VacationToOption | date: 'dd/MM/yyyy' }}"
+    />
   </ng-container>
 </div>

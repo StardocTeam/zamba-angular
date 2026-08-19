@@ -1,19 +1,20 @@
 <div class="editor-page">
-    <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '0px' }">
-        <div class="intro" *ngIf="statusMessage || errorMessage">
-            <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage" nzCloseable
-                (nzOnClose)="statusMessage = ''"></nz-alert>
-            <nz-alert *ngIf="errorMessage" nzType="error" nzShowIcon [nzMessage]="errorMessage" nzCloseable
-                (nzOnClose)="errorMessage = ''"></nz-alert>
-        </div>
+  <nz-card [nzBordered]="false" [nzBodyStyle]="{ padding: '0px' }">
+    <div class="intro" *ngIf="statusMessage || errorMessage">
+      <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage" nzCloseable (nzOnClose)="statusMessage = ''" />
+      <nz-alert *ngIf="errorMessage" nzType="error" nzShowIcon [nzMessage]="errorMessage" nzCloseable (nzOnClose)="errorMessage = ''" />
+    </div>
 
-        <input #localDocxInput hidden type="file"
-            accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            (change)="onLocalDocxSelected($event)" />
+    <input
+      #localDocxInput
+      hidden
+      type="file"
+      accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      (change)="onLocalDocxSelected($event)"
+    />
 
-        <div class="editor-host" *ngIf="isTinymceLoaded">
-            <editor [licenseKey]="licenseKey" [disabled]="readOnly" [init]="editorInit" [(ngModel)]="editorContent">
-            </editor>
-        </div>
-    </nz-card>
+    <div class="editor-host" *ngIf="isTinymceLoaded">
+      <editor [licenseKey]="licenseKey" [disabled]="readOnly" [init]="editorInit" [(ngModel)]="editorContent" />
+    </div>
+  </nz-card>
 </div>

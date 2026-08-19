@@ -4,14 +4,14 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-cache',
-  templateUrl: './cache.component.html'
+  templateUrl: './cache.component.html',
 })
 export class CacheComponent {
   KEY = 'user';
 
   constructor(
     private cache: CacheService,
-    private msg: NzMessageService
+    private msg: NzMessageService,
   ) {}
 
   set(): void {

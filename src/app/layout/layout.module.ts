@@ -1,12 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { GlobalFooterModule } from '@delon/abc/global-footer';
 import { HotkeyModule } from '@delon/abc/hotkey';
 import { NoticeIconModule } from '@delon/abc/notice-icon';
+import { G2BarModule } from '@delon/chart/bar';
 import { AlainThemeModule } from '@delon/theme';
 import { LayoutDefaultModule } from '@delon/theme/layout-default';
 import { SettingDrawerModule } from '@delon/theme/setting-drawer';
@@ -20,17 +22,12 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule, NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 // passport
-import { LayoutPassportComponent } from './passport/passport.component';
 
 import { LayoutBasicComponent } from './basic/basic.component';
-import { LayoutSimpleComponent } from './simple/simple.component';
-
-import { LayoutPendingTaskItemComponent } from '../routes/widgets/pending-tasks/layout-item/layout-pending-task-item/layout-pending-task-item.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { HeaderClearStorageComponent } from './basic/widgets/clear-storage.component';
 import { HeaderFullScreenComponent } from './basic/widgets/fullscreen.component';
 import { HeaderI18nComponent } from './basic/widgets/i18n.component';
@@ -40,12 +37,11 @@ import { HeaderRTLComponent } from './basic/widgets/rtl.component';
 import { HeaderSearchComponent } from './basic/widgets/search.component';
 import { HeaderTaskComponent } from './basic/widgets/task.component';
 import { HeaderUserComponent } from './basic/widgets/user.component';
-
 import { LayoutBlankComponent } from './blank/blank.component';
-
+import { LayoutPassportComponent } from './passport/passport.component';
+import { LayoutSimpleComponent } from './simple/simple.component';
+import { LayoutPendingTaskItemComponent } from '../routes/widgets/pending-tasks/layout-item/layout-pending-task-item/layout-pending-task-item.component';
 import { WidgetsModule } from '../routes/widgets/widgets.module';
-import { G2BarModule } from '@delon/chart/bar';
-import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 const COMPONENTS = [LayoutBasicComponent, LayoutSimpleComponent, LayoutBlankComponent, LayoutPendingTaskItemComponent];
 
@@ -58,10 +54,8 @@ const HEADERCOMPONENTS = [
   HeaderI18nComponent,
   HeaderClearStorageComponent,
   HeaderUserComponent,
-  HeaderRTLComponent
+  HeaderRTLComponent,
 ];
-
-
 
 const PASSPORT = [LayoutPassportComponent];
 const icons: IconDefinition[] = Object.values(AllIcons);
@@ -89,10 +83,10 @@ const icons: IconDefinition[] = Object.values(AllIcons);
     NzIconModule,
     NzCardModule,
     WidgetsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
   exports: [...COMPONENTS, ...PASSPORT],
-  providers: [{ provide: NZ_ICONS, useValue: icons }]
+  providers: [{ provide: NZ_ICONS, useValue: icons }],
 })
-export class LayoutModule { }
+export class LayoutModule {}

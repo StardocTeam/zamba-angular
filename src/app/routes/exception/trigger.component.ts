@@ -11,14 +11,14 @@ import { _HttpClient } from '@delon/theme';
         <button nz-button nzType="link" (click)="refresh()">触发刷新Token</button>
       </nz-card>
     </div>
-  `
+  `,
 })
 export class ExceptionTriggerComponent {
   types = [401, 403, 404, 500];
 
   constructor(
     private http: _HttpClient,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) {}
 
   go(type: number): void {
@@ -32,7 +32,7 @@ export class ExceptionTriggerComponent {
       next: res => console.warn('成功', res),
       error: err => {
         console.log('最后结果失败', err);
-      }
+      },
     });
   }
 }

@@ -7,11 +7,11 @@ import { SettingsService, User } from '@delon/theme';
 @Component({
   selector: 'passport-lock',
   templateUrl: './lock.component.html',
-  styleUrls: ['./lock.component.less']
+  styleUrls: ['./lock.component.less'],
 })
 export class UserLockComponent {
   f = new FormGroup({
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required] })
+    password: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
   });
 
   get user(): User {
@@ -21,7 +21,7 @@ export class UserLockComponent {
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private settings: SettingsService,
-    private router: Router
+    private router: Router,
   ) {}
 
   submit(): void {
@@ -31,7 +31,7 @@ export class UserLockComponent {
       console.log('Valid!');
       console.log(this.f.value);
       this.tokenService.set({
-        token: '123'
+        token: '123',
       });
       this.router.navigate(['dashboard']);
     }

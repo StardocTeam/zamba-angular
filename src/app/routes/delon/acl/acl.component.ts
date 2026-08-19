@@ -4,7 +4,7 @@ import { MenuService } from '@delon/theme';
 
 @Component({
   selector: 'app-acl',
-  templateUrl: './acl.component.html'
+  templateUrl: './acl.component.html',
 })
 export class ACLComponent {
   full = true;
@@ -21,7 +21,7 @@ export class ACLComponent {
 
   constructor(
     private aclSrv: ACLService,
-    private menuSrv: MenuService
+    private menuSrv: MenuService,
   ) {}
 
   private reMenu(): void {

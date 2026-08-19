@@ -1,11 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnInit, Optional, SimpleChanges, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { DOCUMENT } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
-import { asBlob } from 'html-docx-js-typescript';
-import * as mammoth from 'mammoth';
-import JSZip from 'jszip';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Optional,
+  SimpleChanges,
+  ViewChild,
+  ElementRef,
+  ViewEncapsulation,
+  HostListener,
+} from '@angular/core';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { toDocx } from 'docshift';
+import { asBlob } from 'html-docx-js-typescript';
+import JSZip from 'jszip';
+import * as mammoth from 'mammoth';
+import { firstValueFrom } from 'rxjs';
 
 import { ZambaDocumentPayload, ZambaDocumentRequest, ZambaService } from '../../services/zamba/zamba.service';
 
@@ -33,9 +48,9 @@ interface MammothResult {
   templateUrl: './tinymce-editor.component.html',
   styleUrls: ['./tinymce-editor.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class TinymceElementComponent implements OnChanges, OnInit {
+export class TinymceElementComponent implements OnChanges, OnInit, OnDestroy {
   @Input() userId?: ElementInputValue;
   @Input() documentId?: ElementInputValue;
   @Input() entityId?: ElementInputValue;
@@ -87,10 +102,13 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
   constructor(
     private readonly cdr: ChangeDetectorRef,
+    private readonly hostElementRef: ElementRef<HTMLElement>,
     @Optional() private readonly zambaService: ZambaService | null,
     @Optional() @Inject(DA_SERVICE_TOKEN) private readonly tokenService: ITokenService | null,
-    @Inject(DOCUMENT) private readonly document: Document
-  ) { }
+    @Inject(DOCUMENT) private readonly document: Document,
+  ) {
+    (this.hostElementRef.nativeElement as HTMLElement & { reload?: () => void }).reload = () => this.reload();
+  }
 
   get hasDocumentContext(): boolean {
     return this.resolveDocumentRequest() !== null;
@@ -187,6 +205,34 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    delete (this.hostElementRef.nativeElement as HTMLElement & { reload?: () => void }).reload;
+  }
+
+  @HostListener('document:documentAdded', ['$event'])
+  onDocumentAdded(event?: CustomEvent<{ mensaje?: string }>): void {
+    console.log('[zamba-tinymce-editor] documentAdded recibido', event?.detail);
+    this.reload();
+  }
+
+  @HostListener('document:bookmarkSingleLinkChanged', ['$event'])
+  onSingleLinkBookmarkChanged(event?: CustomEvent<{ action?: string; docId?: string | number; doctypeId?: string | number }>): void {
+    const eventDocId = event?.detail?.docId !== undefined && event?.detail?.docId !== null ? String(event.detail.docId) : '';
+    const eventDoctypeId =
+      event?.detail?.doctypeId !== undefined && event?.detail?.doctypeId !== null ? String(event.detail.doctypeId) : '';
+
+    const currentDocumentId = this.normaliseTextInput(this.documentId);
+    const currentEntityId = this.normaliseTextInput(this.entityId);
+
+    if (!eventDocId || !eventDoctypeId || !currentDocumentId || !currentEntityId) {
+      return;
+    }
+
+    if (eventDocId === currentDocumentId && eventDoctypeId === currentEntityId) {
+      this.reload();
+    }
+  }
+
   reload(): void {
     void this.loadDocumentFromInputs();
   }
@@ -205,9 +251,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
 
     if (!this.loading) {
       this.errorMessage = '';
-      this.statusMessage = this.readOnly
-        ? 'Documento cargado en modo solo lectura.'
-        : 'Cambios locales pendientes de guardar.';
+      this.statusMessage = this.readOnly ? 'Documento cargado en modo solo lectura.' : 'Cambios locales pendientes de guardar.';
       this.cdr.markForCheck();
     }
   }
@@ -312,8 +356,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
         this.zambaService.replaceDocument({
           ...request,
           base64,
-          fileName: this.ensureExtension(this.documentName, 'docx')
-        })
+          fileName: this.ensureExtension(this.documentName, 'docx'),
+        }),
       );
 
       this.statusMessage = 'El documento se guardó correctamente en Zamba.';
@@ -403,13 +447,13 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     return {
       userId,
       documentId,
-      entityId
+      entityId,
     };
   }
 
   private async mapPayloadToEditorDocument(
     payload: ZambaDocumentPayload,
-    fallbackDocumentId: string
+    fallbackDocumentId: string,
   ): Promise<{ html: string; fileName: string }> {
     const bytes = this.base64ToBytes(payload.base64);
     const fileName = this.stripExtension(payload.fileName ?? this.buildDefaultDocumentName(fallbackDocumentId));
@@ -418,13 +462,13 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       const result = await this.convertDocxToHtml(Uint8Array.from(bytes).buffer);
       return {
         html: this.normaliseLoadedHtml(result.value),
-        fileName
+        fileName,
       };
     }
 
     return {
       html: this.normaliseLoadedHtml(this.decodeText(bytes)),
-      fileName
+      fileName,
     };
   }
 
@@ -471,54 +515,54 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     }
 
     tinymce.addI18n('en', {
-      'File': 'Archivo',
-      'Edit': 'Editar',
-      'View': 'Ver',
-      'Insert': 'Insertar',
-      'Format': 'Formato',
-      'Tools': 'Herramientas',
-      'Table': 'Tabla',
-      'Help': 'Ayuda',
+      File: 'Archivo',
+      Edit: 'Editar',
+      View: 'Ver',
+      Insert: 'Insertar',
+      Format: 'Formato',
+      Tools: 'Herramientas',
+      Table: 'Tabla',
+      Help: 'Ayuda',
       'New document': 'Nuevo documento',
       'New Document': 'Nuevo documento',
-      'Print': 'Imprimir',
+      Print: 'Imprimir',
       'Print...': 'Imprimir...',
-      'Save': 'Guardar',
+      Save: 'Guardar',
       'Restore last draft': 'Restaurar ultimo borrador',
       'Open help dialog': 'Abrir ayuda',
-      'Undo': 'Deshacer',
-      'Redo': 'Rehacer',
-      'Cut': 'Cortar',
-      'Copy': 'Copiar',
-      'Paste': 'Pegar',
+      Undo: 'Deshacer',
+      Redo: 'Rehacer',
+      Cut: 'Cortar',
+      Copy: 'Copiar',
+      Paste: 'Pegar',
       'Paste as text': 'Pegar como texto',
       'Paste as text...': 'Pegar como texto...',
       'Select all': 'Seleccionar todo',
       'Find and replace': 'Buscar y reemplazar',
       'Find and replace...': 'Buscar y reemplazar...',
-      'Bold': 'Negrita',
-      'Italic': 'Cursiva',
-      'Underline': 'Subrayado',
-      'Strikethrough': 'Tachado',
-      'Superscript': 'Superindice',
-      'Subscript': 'Subindice',
-      'Blocks': 'Bloques',
-      'Headings': 'Encabezados',
+      Bold: 'Negrita',
+      Italic: 'Cursiva',
+      Underline: 'Subrayado',
+      Strikethrough: 'Tachado',
+      Superscript: 'Superindice',
+      Subscript: 'Subindice',
+      Blocks: 'Bloques',
+      Headings: 'Encabezados',
       'Heading 1': 'Encabezado 1',
       'Heading 2': 'Encabezado 2',
       'Heading 3': 'Encabezado 3',
       'Heading 4': 'Encabezado 4',
       'Heading 5': 'Encabezado 5',
       'Heading 6': 'Encabezado 6',
-      'Paragraph': 'Parrafo',
-      'Inline': 'En linea',
-      'Div': 'Division',
-      'Pre': 'Preformateado',
-      'Code': 'Codigo',
-      'Font': 'Fuente',
+      Paragraph: 'Parrafo',
+      Inline: 'En linea',
+      Div: 'Division',
+      Pre: 'Preformateado',
+      Code: 'Codigo',
+      Font: 'Fuente',
       'Font family': 'Familia tipografica',
-      'Fonts': 'Fuentes',
-      'Size': 'Tamano',
+      Fonts: 'Fuentes',
+      Size: 'Tamano',
       'Font sizes': 'Tamanos de fuente',
       'Text color': 'Color de texto',
       'Background color': 'Color de fondo',
@@ -526,11 +570,11 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       'Align center': 'Centrar',
       'Align right': 'Alinear a la derecha',
       'No alignment': 'Sin alineacion',
-      'Justify': 'Justificar',
+      Justify: 'Justificar',
       'Bullet list': 'Lista con viñetas',
-      'Disc': 'Disco',
-      'Circle': 'Circulo',
-      'Square': 'Cuadrado',
+      Disc: 'Disco',
+      Circle: 'Circulo',
+      Square: 'Cuadrado',
       'Numbered list': 'Lista numerada',
       'Lower Alpha': 'Alfabetica minuscula',
       'Lower Greek': 'Griego minusculo',
@@ -540,11 +584,11 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       'Increase indent': 'Aumentar sangría',
       'Decrease indent': 'Disminuir sangría',
       'Line height': 'Altura de linea',
-      'Formats': 'Formatos',
-      'Remove': 'Quitar',
-      'Insert/edit link': 'Insertar/editar enlace',
-      'Link': 'Enlace',
-      'Anchor': 'Ancla',
+      Formats: 'Formatos',
+      Remove: 'Quitar',
+      'Insert/edit link': 'Enlace',
+      Link: 'Enlace',
+      Anchor: 'Ancla',
       'Insert/edit media': 'Insertar/editar multimedia',
       'Insert/edit image': 'Insertar/editar imagen',
       'Insert image': 'Insertar imagen',
@@ -556,29 +600,31 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       'Nonbreaking space': 'Espacio de no separacion',
       'Clear formatting': 'Quitar formato',
       'Source code': 'Código fuente',
-      'Preview': 'Vista previa',
+      'Text to display': 'Texto a mostrar',
+      Title: 'Título',
+      Preview: 'Vista previa',
       'Visual aids': 'Ayudas visuales',
       'Visual blocks': 'Bloques visuales',
       'Show blocks': 'Mostrar bloques',
-      'Fullscreen': 'Pantalla completa',
-      'Align': 'Alineacion',
-      'Left': 'Izquierda',
-      'Center': 'Centrado',
-      'Right': 'Derecha',
+      Fullscreen: 'Pantalla completa',
+      Align: 'Alineacion',
+      Left: 'Izquierda',
+      Center: 'Centrado',
+      Right: 'Derecha',
       'Word count': 'Recuento de palabras',
-      'Search': 'Buscar',
-      'Replace': 'Reemplazar',
-      'Source': 'Origen',
+      Search: 'Buscar',
+      Replace: 'Reemplazar',
+      Source: 'Origen',
       'Alternative description': 'Descripcion alternativa',
-      'Width': 'Ancho',
-      'Height': 'Alto',
+      Width: 'Ancho',
+      Height: 'Alto',
       'Reveal or hide additional toolbar items': 'Mostrar más opciones',
       'Reveal or hide additional toolbar items.': 'Mostrar más opciones.',
       'Table properties': 'Propiedades de tabla',
       'Delete table': 'Eliminar tabla',
-      'Cell': 'Celda',
-      'Row': 'Fila',
-      'Column': 'Columna',
+      Cell: 'Celda',
+      Row: 'Fila',
+      Column: 'Columna',
       'Cell properties': 'Propiedades de celda',
       'Merge cells': 'Combinar celdas',
       'Split cell': 'Dividir celda',
@@ -596,7 +642,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       'Cut column': 'Cortar columna',
       'Copy column': 'Copiar columna',
       'Paste column before': 'Pegar columna antes',
-      'Paste column after': 'Pegar columna despues'
+      'Paste column after': 'Pegar columna despues',
     });
   }
 
@@ -617,7 +663,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       'searchreplace',
       'table',
       'visualblocks',
-      'wordcount'
+      'wordcount',
     ];
 
     return {
@@ -628,14 +674,20 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       width: this.width ?? '100%',
       menubar: 'file edit view insert format tools table help',
       promotion: false,
+      convert_urls: false,
       automatic_uploads: false,
       paste_data_images: true,
+      file_picker_types: 'image',
+      link_target_list: false,
+      default_link_target: '_blank',
+      link_title: false,
       plugins,
       quickbars_selection_toolbar: 'bold italic underline | blocks | quicklink blockquote',
       readonly: this.readOnly,
       skin: 'oxide',
       suffix: '.min',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen | reload_doc open_docx new_doc save_zamba download_docx toggle_edit',
+      toolbar:
+        'save_zamba open_docx download_docx reload_doc new_doc toggle_edit | undo redo | blocks fontfamily fontsize | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | removeformat code preview fullscreen',
       toolbar_sticky: true,
       file_picker_callback: (callback: any, value: any, meta: any) => {
         if (meta.filetype === 'image') {
@@ -648,7 +700,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
             if (file) {
               const reader = new FileReader();
               reader.onload = () => {
-                const id = 'blobid' + (new Date()).getTime();
+                const id = `blobid${new Date().getTime()}`;
                 const blobCache = tinymce.activeEditor.editorUpload.blobCache;
                 const base64 = (reader.result as string).split(',')[1];
                 const blobInfo = blobCache.create(id, file, base64);
@@ -664,6 +716,14 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       },
       setup: (editor: any) => {
         editor.on('Change KeyUp', () => {
+          const links = editor.dom.select('a');
+          links.forEach((link: HTMLAnchorElement) => {
+            const text = link.innerText || link.textContent;
+            if (text && link.getAttribute('title') !== text) {
+              link.setAttribute('title', text);
+            }
+          });
+
           this.editorContent = editor.getContent();
           this.cdr.markForCheck();
         });
@@ -671,31 +731,45 @@ export class TinymceElementComponent implements OnChanges, OnInit {
         editor.ui.registry.addButton('reload_doc', {
           icon: 'reload',
           tooltip: 'Recargar documento',
-          onAction: () => this.reload()
+          onAction: () => this.reload(),
         });
 
         editor.ui.registry.addButton('open_docx', {
-          icon: 'upload',
+          icon: 'folder',
           tooltip: 'Abrir DOCX local',
-          onAction: () => this.localDocxInput?.nativeElement.click()
+          onAction: () => this.localDocxInput?.nativeElement.click(),
         });
 
         editor.ui.registry.addButton('new_doc', {
           icon: 'new-document',
           tooltip: 'Nuevo documento en blanco',
-          onAction: () => this.createBlankDocument()
+          onAction: () => this.createBlankDocument(),
         });
 
+        editor.ui.registry.addIcon(
+          'floppy',
+          `<svg width="24" height="24">
+            <g transform="scale(0.24)">
+              <path d="M 8.955 10.021 L 71.81 10.021 L 89.552 27.763 L 89.552 90.618 L 8.955 90.618 Z"
+                    style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0); stroke-width: 6px; stroke-linejoin: round; stroke-linecap: round;" />
+              <rect x="24.844" y="9.917" width="39.393" height="28.046"
+                    style="stroke: rgb(0, 0, 0); stroke-width: 0px;" />
+              <path d="M 27.352 57.938 L 73.128 57.938 L 73.128 90.635 L 27.352 90.635 L 27.352 57.938 Z"
+                    style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-linejoin: round; stroke-width: 6px;" />
+            </g>
+          </svg>`,
+        );
+
         editor.ui.registry.addButton('save_zamba', {
-          icon: 'save',
+          icon: 'floppy',
           tooltip: 'Guardar en Zamba',
-          onAction: () => this.saveDocument()
+          onAction: () => this.saveDocument(),
         });
 
         editor.ui.registry.addButton('download_docx', {
-          icon: 'export',
+          icon: 'export-word',
           tooltip: 'Descargar DOCX',
-          onAction: () => this.downloadDocx()
+          onAction: () => this.downloadDocx(),
         });
 
         editor.ui.registry.addToggleButton('toggle_edit', {
@@ -714,9 +788,9 @@ export class TinymceElementComponent implements OnChanges, OnInit {
             setTimeout(forceEnable, 0);
             editor.on('SwitchMode', forceEnable);
             return () => editor.off('SwitchMode', forceEnable);
-          }
+          },
         });
-      }
+      },
     };
   }
 
@@ -807,8 +881,8 @@ export class TinymceElementComponent implements OnChanges, OnInit {
     const result = await convertToHtml(
       { arrayBuffer },
       {
-        includeDefaultStyleMap: true
-      }
+        includeDefaultStyleMap: true,
+      },
     );
 
     // Si Mammoth detecta altChunk y el resultado está vacío, intentamos extraer manualmente
@@ -817,7 +891,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       if (fallbackHtml) {
         return {
           value: fallbackHtml,
-          messages: result.messages
+          messages: result.messages,
         };
       }
     }
@@ -836,7 +910,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       }
 
       const contentFile = htmlFiles.find(f => f.includes('htmlChunk') || f.includes('content') || f.includes('document')) || htmlFiles[0];
-      return await zip.file(contentFile)?.async('string') ?? null;
+      return (await zip.file(contentFile)?.async('string')) ?? null;
     } catch (e) {
       console.error('[zamba-tinymce-editor] Error extracting altChunk HTML:', e);
       return null;
@@ -919,7 +993,7 @@ export class TinymceElementComponent implements OnChanges, OnInit {
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      "'": '&#39;'
+      "'": '&#39;',
     };
 
     return Array.from(value, character => entityMap[character] ?? character).join('');

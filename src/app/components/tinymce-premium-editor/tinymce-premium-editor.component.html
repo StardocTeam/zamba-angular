@@ -1,19 +1,20 @@
 <div class="editor-page">
   <nz-card [nzBordered]="false">
     <div class="intro" *ngIf="statusMessage || errorMessage">
-      <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage" nzCloseable
-        (nzOnClose)="statusMessage = ''"></nz-alert>
-      <nz-alert *ngIf="errorMessage" nzType="error" nzShowIcon [nzMessage]="errorMessage" nzCloseable
-        (nzOnClose)="errorMessage = ''"></nz-alert>
+      <nz-alert *ngIf="statusMessage" nzType="info" nzShowIcon [nzMessage]="statusMessage" nzCloseable (nzOnClose)="statusMessage = ''" />
+      <nz-alert *ngIf="errorMessage" nzType="error" nzShowIcon [nzMessage]="errorMessage" nzCloseable (nzOnClose)="errorMessage = ''" />
     </div>
 
-    <input #localDocxInput hidden type="file"
+    <input
+      #localDocxInput
+      hidden
+      type="file"
       accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      (change)="onLocalDocxSelected($event)" />
+      (change)="onLocalDocxSelected($event)"
+    />
 
     <div class="editor-host" *ngIf="isTinymceLoaded">
-      <editor [licenseKey]="licenseKey" [disabled]="settings.readonly" [init]="editorInit" [(ngModel)]="editorContent">
-      </editor>
+      <editor [licenseKey]="licenseKey" [disabled]="settings.readonly" [init]="editorInit" [(ngModel)]="editorContent" />
     </div>
   </nz-card>
 </div>

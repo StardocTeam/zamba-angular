@@ -18,7 +18,7 @@ import { PassportService } from '../services/passport.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
   providers: [SocialService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserLoginV2Component implements OnDestroy, OnInit {
   subscriptions: Subscription[] = [];
@@ -28,7 +28,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
     password: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/)]],
     mobile: ['', [Validators.required, Validators.pattern(/^1\d{10}$/)]],
     captcha: ['', [Validators.required]],
-    remember: [true]
+    remember: [true],
   });
   error = '';
   serverError = false;
@@ -57,8 +57,8 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private startupService: StartupService,
     private cdr: ChangeDetectorRef,
-    private passportService: PassportService
-  ) { }
+    private passportService: PassportService,
+  ) {}
   ngOnInit(): void {
     window.addEventListener('message', event => {
       const response = JSON.parse(event.data);
@@ -103,7 +103,7 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
           finalize(() => {
             this.loading = false;
             this.cdr.detectChanges();
-          })
+          }),
         )
         .subscribe(res => {
           res = JSON.parse(res);
@@ -128,11 +128,11 @@ export class UserLoginV2Component implements OnDestroy, OnInit {
             let userid = tokenService ? tokenService['userID'] : null;
             let token = tokenService ? tokenService['token'] : null;
             this.safeZambaUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-              `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `c=${userid}&t=${token}`
+              `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `c=${userid}&t=${token}`,
             );
             this.cdr.detectChanges();
           });
-        })
+        }),
     );
   }
   ngOnDestroy(): void {

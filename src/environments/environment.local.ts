@@ -10,6 +10,7 @@ export const environment = {
 
   restApi: 'http://imageapt/Zamba.Api/api',
   apiRestBasePath: 'http://imageapt/Zamba.Api/api/Dashboard',
+  charts: 'http://imageapt/Zamba.Api/api/charts',
   externalSearchApi: 'http://imageapt/Zamba.Api/api/ExternalSearch',
   searchApi: 'http://imageapt/Zamba.Api/api/search',
   zambaWeb: 'http://imageapt/Zamba.WebDesa',
@@ -18,9 +19,9 @@ export const environment = {
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
-    refreshTokenType: 'auth-refresh'
+    refreshTokenType: 'auth-refresh',
   },
-  modules: [DelonMockModule.forRoot({ data: MOCKDATA })]
+  modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
 } as Environment;
 /*
  * In development mode, to ignore zone related error stack frames such as

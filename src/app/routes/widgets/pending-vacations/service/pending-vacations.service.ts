@@ -8,20 +8,20 @@ import { Observable } from 'rxjs';
 import { Generic } from '../entitie/generic';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PendingVacationsService {
   constructor(private http: _HttpClient) {}
 
   _GetVacation(genericRequest: any) {
     return this.http.post(`${environment['apiRestBasePath']}/getVacation`, genericRequest, null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
 
   _PostExternalsearchInfo(genericRequest: any) {
     return this.http.post(`${environment['apiRestBasePath']}/postExternalsearchInfo`, genericRequest, null, {
-      context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
 

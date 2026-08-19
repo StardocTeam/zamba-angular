@@ -1,4 +1,4 @@
 export class Zvars {
-    public KeyZVar: string = '';
-    public ValueZVar: string = '';
+  public KeyZVar: string = '';
+  public ValueZVar: string = '';
 }
