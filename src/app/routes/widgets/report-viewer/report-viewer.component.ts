@@ -741,8 +741,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   }
 
-  //#endregion
-
   ViewAllRegisters(): void {
     this.ZVARstartDate = new Date(Date.UTC(0, 0, 1, 0, 0, 0, 0));
     this.ZVARendDate = new Date(Date.UTC(3000, 11, 31, 23, 59, 59, 999));
