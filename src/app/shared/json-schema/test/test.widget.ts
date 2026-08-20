@@ -9,7 +9,7 @@ import { ControlWidget } from '@delon/form';
     </sf-item-wrap>
   `,
   preserveWhitespaces: false,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestWidget extends ControlWidget implements OnInit {
   static readonly KEY = 'test';

@@ -1,190 +1,201 @@
 <!doctype html>
 <html lang="en" xml:lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Zamba Elements Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 20px;
+      }
 
-<head>
-  <meta charset="utf-8" />
-  <title>Zamba Elements Demo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      padding: 20px;
-    }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
+      .card {
+        border: 1px solid #ddd;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
 
-    .card {
-      border: 1px solid #ddd;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
+      .link-button {
+        display: inline-block;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: #0f766e;
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+      }
 
-    .link-button {
-      display: inline-block;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: #0f766e;
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-    }
+      .link-button:hover {
+        background: #115e59;
+      }
+    </style>
+  </head>
 
-    .link-button:hover {
-      background: #115e59;
-    }
-  </style>
-</head>
+  <body>
+    <div class="container">
+      <h1>Zamba Elements Demo</h1>
 
-<body>
-  <div class="container">
-    <h1>Zamba Elements Demo</h1>
+      <div class="card">
+        <p
+          >Note: this demo expects the element bundle files to be served from <code>./dist/elements/</code> alongside this page (runtime.js,
+          polyfills.js, main.js).</p
+        >
+        <p
+          >If you built with `--output-hashing=none`, the filenames will be stable. Adjust the script src paths below to match your build
+          output.</p
+        >
+      </div>
 
-    <div class="card">
-      <p>Note: this demo expects the element bundle files to be served from <code>./dist/elements/</code>
-        alongside this page (runtime.js, polyfills.js, main.js).</p>
-      <p>If you built with `--output-hashing=none`, the filenames will be stable. Adjust the script src paths below to
-        match your build output.</p>
-    </div>
+      <div class="card">
+        <h3>Dedicated TinyMCE test page</h3>
+        <p>
+          For a focused TinyMCE-only test harness with controls for <code>userId</code>, <code>documentId</code>, <code>entityId</code>,
+          <code>token</code>, and <code>readOnly</code>, open the dedicated page below.
+        </p>
+        <p>
+          <a class="link-button" href="../tinymce-elements-demo.html" target="_blank" rel="noopener noreferrer">Open TinyMCE test page</a>
+        </p>
+      </div>
 
-    <div class="card">
-      <h3>Dedicated TinyMCE test page</h3>
-      <p>
-        For a focused TinyMCE-only test harness with controls for <code>userId</code>, <code>documentId</code>,
-        <code>entityId</code>, <code>token</code>, and <code>readOnly</code>, open the dedicated page below.
-      </p>
-      <p>
-        <a class="link-button" href="../tinymce-elements-demo.html" target="_blank" rel="noopener noreferrer">Open
-          TinyMCE test page</a>
-      </p>
-    </div>
+      <div class="card">
+        <h3>Example usage</h3>
 
-    <div class="card">
-      <h3>Example usage</h3>
-
-      <!--
+        <!--
         Demo-only mocks: provide window-backed services so the webcomponent does not
         make real HTTP calls (avoids CORS issues while debugging the element).
       -->
-      <script>
-        // Minimal mock token service
-        window.__DA_SERVICE_TOKEN = { get: () => ({ userid: 1 }) };
+        <script>
+          // Minimal mock token service
+          window.__DA_SERVICE_TOKEN = { get: () => ({ userid: 1 }) };
 
-        // Minimal mock ReportViewerService compatible with the component's usage
-        window.__ReportViewerService = {
-          GetResultsByReportId: function (genericRequest) {
-            return {
-              pipe: function () { return this; },
-              subscribe: function (cb) {
-                // return mock data after a short delay
-                setTimeout(() => cb([
-                  { id: 100, title: 'Mock remote A', done: false },
-                  { id: 101, title: 'Mock remote B', done: true }
-                ]), 120);
-              }
-            };
-          }
-        };
-      </script>
+          // Minimal mock ReportViewerService compatible with the component's usage
+          window.__ReportViewerService = {
+            GetResultsByReportId: function (genericRequest) {
+              return {
+                pipe: function () {
+                  return this;
+                },
+                subscribe: function (cb) {
+                  // return mock data after a short delay
+                  setTimeout(
+                    () =>
+                      cb([
+                        { id: 100, title: 'Mock remote A', done: false },
+                        { id: 101, title: 'Mock remote B', done: true },
+                      ]),
+                    120,
+                  );
+                },
+              };
+            },
+          };
+        </script>
 
-      <!-- Load the Angular-generated bundle files for the custom elements build -->
-      <script src="../dist/elements/runtime.js"></script>
-      <script src="../dist/elements/polyfills.js"></script>
-      <script src="../dist/elements/vendor.js"></script>
-      <script src="../dist/elements/main.js"></script>
+        <!-- Load the Angular-generated bundle files for the custom elements build -->
+        <script src="../dist/elements/runtime.js"></script>
+        <script src="../dist/elements/polyfills.js"></script>
+        <script src="../dist/elements/vendor.js"></script>
+        <script src="../dist/elements/main.js"></script>
 
-      <!-- Insert the custom element into the page -->
-      <zamba-checklist id="demoChecklist"></zamba-checklist>
+        <!-- Insert the custom element into the page -->
+        <zamba-checklist id="demoChecklist" />
 
-      <div style="margin-top:12px">
-        <button id="refresh">Trigger refresh (recreate element)</button>
-      </div>
+        <div style="margin-top: 12px">
+          <button id="refresh">Trigger refresh (recreate element)</button>
+        </div>
 
-      <script>
-        // Wait until the custom element is defined
-        customElements.whenDefined('zamba-checklist').then(() => {
-          const el = document.getElementById('demoChecklist');
+        <script>
+          // Wait until the custom element is defined
+          customElements
+            .whenDefined('zamba-checklist')
+            .then(() => {
+              const el = document.getElementById('demoChecklist');
 
-          // Set numeric inputs as properties (keeps types)
-          el.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25uZWN0aW9uSWQiOiI4OTMiLCJPa3RhQWNjZXNzVG9rZW4iOiIiLCJPa3RhSWRUb2tlbiI6IiIsIlphbWJhVXNlcklkIjoiMjAyIiwiVXNlcklkIjoiMjAyIiwibmFtZSI6InJyaGhhZG1pbkBzdGFyZG9jLmNvbS5hciIsImVtYWlsIjoicnJoaGFkbWluQHN0YXJkb2MuY29tLmFyIiwianRpIjoiZDUzMGI4OGUtNzA5Yi00MDNiLTg3ZGItNmIxMTg5MjNlNGY1IiwibmJmIjoxNzYwNDc5NzQyLCJleHAiOjE3NjMwNzE3NDIsImlhdCI6MTc2MDQ3OTc0MiwiaXNzIjoiU3RhcmRvY1JSSEgiLCJhdWQiOiJaYW1iYURhc2hib2FyZFJSSEgifQ.PMbRr3cL9VlPPkt_tSBgWaJ8OzVRWNePvSK1KCSOP-Y';
-          el.reportId = 148031;
-          el.taskId = 202;
-          el.userId = 183;
-          // You can also set width/height
-          el.width = '420px';
-          el.height = '320px';
+              // Set numeric inputs as properties (keeps types)
+              el.token =
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb25uZWN0aW9uSWQiOiI4OTMiLCJPa3RhQWNjZXNzVG9rZW4iOiIiLCJPa3RhSWRUb2tlbiI6IiIsIlphbWJhVXNlcklkIjoiMjAyIiwiVXNlcklkIjoiMjAyIiwibmFtZSI6InJyaGhhZG1pbkBzdGFyZG9jLmNvbS5hciIsImVtYWlsIjoicnJoaGFkbWluQHN0YXJkb2MuY29tLmFyIiwianRpIjoiZDUzMGI4OGUtNzA5Yi00MDNiLTg3ZGItNmIxMTg5MjNlNGY1IiwibmJmIjoxNzYwNDc5NzQyLCJleHAiOjE3NjMwNzE3NDIsImlhdCI6MTc2MDQ3OTc0MiwiaXNzIjoiU3RhcmRvY1JSSEgiLCJhdWQiOiJaYW1iYURhc2hib2FyZFJSSEgifQ.PMbRr3cL9VlPPkt_tSBgWaJ8OzVRWNePvSK1KCSOP-Y';
+              el.reportId = 148031;
+              el.taskId = 202;
+              el.userId = 183;
+              // You can also set width/height
+              el.width = '420px';
+              el.height = '320px';
 
+              // If you want to trigger a refresh, the component currently reloads on init.
+              // This demo recreates the element to perform a fresh init.
 
-          // If you want to trigger a refresh, the component currently reloads on init.
-          // This demo recreates the element to perform a fresh init.
+              document.getElementById('refresh').addEventListener('click', () => {
+                try {
+                  // Prefer calling a provided refresh$ Subject/Observable with next()
+                  // This supports host pages that set a Subject on the element: el.refresh$ = new Subject();
+                  // If refresh$ is a Subject-like object expose a next() method, call it.
+                  if (el && el.refresh$ && typeof el.refresh$.next === 'function') {
+                    el.refresh$.next(undefined);
+                    return;
+                  }
 
-          document.getElementById('refresh').addEventListener('click', () => {
-            try {
-              // Prefer calling a provided refresh$ Subject/Observable with next()
-              // This supports host pages that set a Subject on the element: el.refresh$ = new Subject();
-              // If refresh$ is a Subject-like object expose a next() method, call it.
+                  // Fallback: dispatch the CustomEvent the component already listens for
+                  const evt = new CustomEvent('zamba-checklist-refresh', { bubbles: true, cancelable: false });
+                  (el || document).dispatchEvent(evt);
+                } catch (err) {
+                  console.error('Error triggering checklist refresh', err);
+                }
+              });
+
               if (el && el.refresh$ && typeof el.refresh$.next === 'function') {
                 el.refresh$.next(undefined);
-                return;
               }
+            })
+            .catch(err => console.error('Error waiting for zamba-checklist definition', err));
+        </script>
+      </div>
 
-              // Fallback: dispatch the CustomEvent the component already listens for
-              const evt = new CustomEvent('zamba-checklist-refresh', { bubbles: true, cancelable: false });
-              (el || document).dispatchEvent(evt);
-            } catch (err) {
-              console.error('Error triggering checklist refresh', err);
-            }
+      <div class="card">
+        <h3>TinyMCE editor element</h3>
+        <p>
+          The editor starts with a blank document by default. If you set <code>userId</code>, <code>documentId</code> and
+          <code>entityId</code> (and optionally <code>token</code>) as properties from JavaScript, it will try to load the base64 payload
+          using <code>ZambaService</code>.
+        </p>
 
-          });
+        <zamba-tinymce-editor id="demoEditor" />
 
-          if (el && el.refresh$ && typeof el.refresh$.next === 'function') {
-            el.refresh$.next(undefined);
-          }
+        <script>
+          customElements
+            .whenDefined('zamba-tinymce-editor')
+            .then(() => {
+              const editorEl = document.getElementById('demoEditor');
+              editorEl.readOnly = false;
 
+              // Optional examples:
+              // editorEl.userId = '123';
+              // editorEl.documentId = '456';
+              // editorEl.entityId = '258';
+              // editorEl.token = 'your-jwt-token';
+            })
+            .catch(err => console.error('Error waiting for zamba-tinymce-editor definition', err));
+        </script>
+      </div>
 
-        }).catch(err => console.error('Error waiting for zamba-checklist definition', err));
-      </script>
+      <div class="card">
+        <h3>Notes & tips</h3>
+        <ul>
+          <li
+            >Setting numeric inputs through attributes converts them to strings; prefer setting properties from JS (el.reportId = 123).</li
+          >
+          <li
+            >To support an external refresh API without recreating the element I can add a small CustomEvent listener in the component
+            (e.g., listen for <code>refresh</code> events).</li
+          >
+          <li>If the bundle is large, consider serving common libs separately or using module federation / ESM build optimizations.</li>
+        </ul>
+      </div>
     </div>
-
-    <div class="card">
-      <h3>TinyMCE editor element</h3>
-      <p>
-        The editor starts with a blank document by default. If you set <code>userId</code>, <code>documentId</code>
-        and <code>entityId</code> (and optionally <code>token</code>) as properties from JavaScript, it will try to load
-        the base64 payload using
-        <code>ZambaService</code>.
-      </p>
-
-      <zamba-tinymce-editor id="demoEditor"></zamba-tinymce-editor>
-
-      <script>
-        customElements.whenDefined('zamba-tinymce-editor').then(() => {
-          const editorEl = document.getElementById('demoEditor');
-          editorEl.readOnly = false;
-
-          // Optional examples:
-          // editorEl.userId = '123';
-          // editorEl.documentId = '456';
-          // editorEl.entityId = '258';
-          // editorEl.token = 'your-jwt-token';
-        }).catch(err => console.error('Error waiting for zamba-tinymce-editor definition', err));
-      </script>
-    </div>
-
-    <div class="card">
-      <h3>Notes & tips</h3>
-      <ul>
-        <li>Setting numeric inputs through attributes converts them to strings; prefer setting properties from JS
-          (el.reportId = 123).</li>
-        <li>To support an external refresh API without recreating the element I can add a small CustomEvent listener in
-          the component (e.g., listen for <code>refresh</code> events).</li>
-        <li>If the bundle is large, consider serving common libs separately or using module federation / ESM build
-          optimizations.</li>
-      </ul>
-    </div>
-  </div>
-</body>
-
+  </body>
 </html>

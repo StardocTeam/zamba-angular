@@ -8,7 +8,7 @@ import {
   ElementRef,
   Input,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -33,23 +33,23 @@ interface MyCalendarEvent extends CalendarEvent {
 const colors: Record<string, EventColor> = {
   red: {
     primary: '#ad2121',
-    secondary: '#FAE3E3'
+    secondary: '#FAE3E3',
   },
   blue: {
     primary: '#1e90ff',
-    secondary: '#D1E8FF'
+    secondary: '#D1E8FF',
   },
   yellow: {
     primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
+    secondary: '#FDF1BA',
+  },
 };
 
 @Component({
   selector: 'calendar-widget',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.less'],
-  providers: [SocialService]
+  providers: [SocialService],
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarComponent implements OnInit, OnDestroy {
@@ -61,7 +61,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     rows: 0,
     x: 0,
     y: 0,
-    resizeEvent: new EventEmitter<GridsterItem>()
+    resizeEvent: new EventEmitter<GridsterItem>(),
   };
   @Input()
   resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
@@ -113,9 +113,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     draggable: false,
     resizable: {
       beforeStart: false,
-      afterEnd: false
+      afterEnd: false,
     },
-    groupid: null
+    groupid: null,
   };
 
   actions: CalendarEventAction[] = [
@@ -124,7 +124,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.showModalEdit(event);
-      }
+      },
     },
     {
       label: '<span> &bull; Eliminar </span>',
@@ -137,16 +137,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
           UserId: tokenData['userID'],
           token: tokenData['token'],
           Params: {
-            calendareventid: event.id
-          }
+            calendareventid: event.id,
+          },
         };
         this.calendarService.deleteEvent(genericRequest).subscribe(data => {
           this.events = this.events.filter(iEvent => iEvent !== event);
           this.refresh.next();
           console.log('El evento ha sido eliminado!', event);
         });
-      }
-    }
+      },
+    },
   ];
 
   setView(view: CalendarView) {
@@ -184,7 +184,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
 
     @Inject(LOCALE_ID) locale: string,
-    private calendarService: CalendarService
+    private calendarService: CalendarService,
   ) {}
 
   ngOnInit() {
@@ -203,8 +203,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
       token: tokenData['token'],
       Params: {
         groupids: JSON.stringify(groupids),
-        userid: tokenData ? tokenData['userID'] : null
-      }
+        userid: tokenData ? tokenData['userID'] : null,
+      },
     };
 
     this.calendarService.getEvents(genericRequest).subscribe(data => {
@@ -214,7 +214,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         ...event,
         start: new Date(event.start),
         end: new Date(event.end),
-        actions: this.actions
+        actions: this.actions,
       }));
 
       this.events = [...this.events, ...calendarEvents];
@@ -305,7 +305,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let color: EventColor = {
       primary: this.eventPrimaryColor,
       secondary: this.eventSecondaryColor,
-      secondaryText: this.eventTextColor
+      secondaryText: this.eventTextColor,
     };
     let groupid = null;
 
@@ -324,9 +324,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       draggable: false,
       resizable: {
         beforeStart: false,
-        afterEnd: false
+        afterEnd: false,
       },
-      groupid: groupid
+      groupid: groupid,
     };
 
     const tokenData: any = this.tokenService.get();
@@ -336,8 +336,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
       token: tokenData['token'],
       Params: {
         groupid: groupid,
-        eventdata: JSON.stringify(newEvent)
-      }
+        eventdata: JSON.stringify(newEvent),
+      },
     };
 
     this.calendarService.insertNewEvent(genericRequest).subscribe(data => {
@@ -373,7 +373,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     let color: EventColor = {
       primary: this.eventPrimaryColor,
       secondary: this.eventSecondaryColor,
-      secondaryText: this.eventTextColor
+      secondaryText: this.eventTextColor,
     };
 
     this.editableEventCalendar.title = this.eventTitle;
@@ -401,8 +401,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
         groupid: groupid,
         eventdata: JSON.stringify(this.editableEventCalendar),
         userid: userid,
-        calendareventid: this.editableEventCalendar.id
-      }
+        calendareventid: this.editableEventCalendar.id,
+      },
     };
 
     this.calendarService.updateEvent(genericRequest).subscribe(data => {

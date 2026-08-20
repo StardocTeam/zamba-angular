@@ -11,7 +11,7 @@ import { VideoplayerService } from './service/videoplayer.service';
 @Component({
   selector: 'videoplayer',
   templateUrl: './videoplayer.component.html',
-  styleUrls: ['videoplayer.component.css']
+  styleUrls: ['videoplayer.component.css'],
 })
 export class VideoplayerComponent implements OnInit {
   @Input()
@@ -22,7 +22,7 @@ export class VideoplayerComponent implements OnInit {
     rows: 0,
     x: 0,
     y: 0,
-    resizeEvent: new EventEmitter<GridsterItem>()
+    resizeEvent: new EventEmitter<GridsterItem>(),
   };
   @Input()
   resizeEvent: EventEmitter<GridsterItem> = new EventEmitter<GridsterItem>();
@@ -34,7 +34,7 @@ export class VideoplayerComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private videoplayerService: VideoplayerService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.src = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/CsAT8LQf8gw?autoplay=1');
   }
@@ -45,7 +45,7 @@ export class VideoplayerComponent implements OnInit {
       UserId: 0,
       token: tokenData['token'],
 
-      Params: ''
+      Params: '',
     };
     this.videoplayerService.getVideoplayerURL(genericRequest).subscribe((res: any) => {
       var data = JSON.parse(res);

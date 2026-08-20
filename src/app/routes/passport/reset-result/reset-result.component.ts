@@ -4,14 +4,14 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'reset-result',
-  templateUrl: './reset-result.component.html'
+  templateUrl: './reset-result.component.html',
 })
 export class ResetResultComponent {
   params = { email: '' };
   email = '';
   constructor(
     route: ActivatedRoute,
-    public msg: NzMessageService
+    public msg: NzMessageService,
   ) {
     this.params.email = this.email = route.snapshot.queryParams['email'] || 'ng-alain@example.com';
   }

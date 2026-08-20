@@ -5,7 +5,7 @@ import { NzSafeAny } from 'ng-zorro-antd/core/types';
 
 @Component({
   selector: 'app-xlsx',
-  templateUrl: './xlsx.component.html'
+  templateUrl: './xlsx.component.html',
 })
 export class XlsxComponent {
   constructor(private xlsx: XlsxService) {}
@@ -17,14 +17,14 @@ export class XlsxComponent {
       return {
         id: idx + 1,
         name: `name ${idx + 1}`,
-        age: Math.ceil(Math.random() * 10) + 20
+        age: Math.ceil(Math.random() * 10) + 20,
       };
     });
 
   columns: STColumn[] = [
     { title: '编号', index: 'id', type: 'checkbox' },
     { title: '姓名', index: 'name' },
-    { title: '年龄', index: 'age' }
+    { title: '年龄', index: 'age' },
   ];
 
   url(): void {
@@ -43,9 +43,9 @@ export class XlsxComponent {
       sheets: [
         {
           data,
-          name: 'sheet name'
-        }
-      ]
+          name: 'sheet name',
+        },
+      ],
     });
   }
 }

@@ -25,7 +25,7 @@ export class StartupService {
     private aclService: ACLService,
     private titleService: TitleService,
     private httpClient: HttpClient,
-    private router: Router
+    private router: Router,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
@@ -36,7 +36,11 @@ export class StartupService {
     const config$ = this.httpClient.get('/config.json').pipe(catchError(() => this.httpClient.get('assets/config.json')));
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('assets/tmp/app-data.json', { context: new HttpContext().set(ALLOW_ANONYMOUS, true) })
-    return (zip(this.i18n.loadLangData(defaultLang), this.httpClient.get('assets/tmp/app-data.json'), config$) as Observable<[Record<string, string>, NzSafeAny, any]>).pipe(
+    return (
+      zip(this.i18n.loadLangData(defaultLang), this.httpClient.get('assets/tmp/app-data.json'), config$) as Observable<
+        [Record<string, string>, NzSafeAny, any]
+      >
+    ).pipe(
       catchError((res: any) => {
         console.warn(`StartupService.load: Network request failed`, res);
         setTimeout(() => this.router.navigateByUrl(`/exception/500`));
@@ -58,9 +62,11 @@ export class StartupService {
         //this.settingService.setUser(appData.user);
         //this.aclService.setFull(true);
         //this.menuService.add(appData.menu);
-        //this.titleService.default = '';
+
+        this.titleService.default = 'Zamba';
+        this.titleService.prefix = 'Zamba';
         //this.titleService.suffix = appData.app.name;
-      })
+      }),
     );
   }
 }

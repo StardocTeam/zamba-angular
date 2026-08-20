@@ -12,6 +12,6 @@ const COMPONENTS = [GridMasonryComponent, TypographyComponent, ColorsComponent];
 @NgModule({
   imports: [SharedModule, StyleRoutingModule],
   providers: [ColorService],
-  declarations: [...COMPONENTS]
+  declarations: [...COMPONENTS],
 })
 export class StyleModule {}

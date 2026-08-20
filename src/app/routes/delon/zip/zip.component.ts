@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-zip',
   templateUrl: './zip.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ZipComponent implements OnInit {
   list: any;
@@ -15,14 +15,14 @@ export class ZipComponent implements OnInit {
     { path: 'demo.docx', url: 'https://ng-alain.com/assets/demo.docx' },
     {
       path: '小程序标志.zip',
-      url: 'https://wximg.gtimg.com/shake_tv/mina/standard_logo.zip'
-    }
+      url: 'https://wximg.gtimg.com/shake_tv/mina/standard_logo.zip',
+    },
   ];
 
   constructor(
     private zip: ZipService,
     private msg: NzMessageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class ZipComponent implements OnInit {
       return {
         name: key,
         dir: files[key].dir,
-        date: files[key].date
+        date: files[key].date,
       };
     });
     this.cdr.detectChanges();
@@ -68,7 +68,7 @@ export class ZipComponent implements OnInit {
       (error: {}) => {
         console.warn(error);
         this.msg.error(JSON.stringify(error));
-      }
+      },
     );
   }
 }

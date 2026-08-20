@@ -9,7 +9,7 @@ import { catchError, finalize, throwError } from 'rxjs';
 @Component({
   selector: 'passport-validate',
   templateUrl: './validate.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidateComponent implements OnInit {
   showSuccessMessage = false;
@@ -19,7 +19,7 @@ export class ValidateComponent implements OnInit {
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private tokenService: TokenService
+    private tokenService: TokenService,
   ) {}
 
   ngOnInit(): void {
@@ -33,13 +33,13 @@ export class ValidateComponent implements OnInit {
         genericRequest = {
           UserId: tokenData['userID'],
           token: tokenData['token'],
-          Params: params
+          Params: params,
         };
         this.http
           .post(`${environment['apiRestBasePath']}/ActivateUser`, genericRequest, null, {
             observe: 'response',
             responseType: 'json',
-            context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+            context: new HttpContext().set(ALLOW_ANONYMOUS, true),
           })
           .pipe(
             catchError(error => {
@@ -49,7 +49,7 @@ export class ValidateComponent implements OnInit {
             }),
             finalize(() => {
               this.cdr.detectChanges();
-            })
+            }),
           )
           .subscribe(response => {
             this.showSuccessMessage = true;

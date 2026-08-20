@@ -1,4 +1,4 @@
 export class ReportViewStateDto {
-    LastReportIdView: number = 0;
-    ReportViewMode: string = '';
+  LastReportIdView: number = 0;
+  ReportViewMode: string = '';
 }

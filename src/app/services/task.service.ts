@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
 import { HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { ALLOW_ANONYMOUS } from '@delon/auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
   updateUserFavoriteActions(FavoriteActionsButtons: string) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     var genericRequest: any = {
-      "UserId": 0,
-      "token": "",
-      "Params": {
-        "FavoriteActionsButtons": FavoriteActionsButtons,
-      }
+      UserId: 0,
+      token: '',
+      Params: {
+        FavoriteActionsButtons: FavoriteActionsButtons,
+      },
     };
     return this.http.post(
       `${this.serviceBase}DynamicButtons/UpdateFavoritesButtons`,
@@ -36,16 +36,16 @@ export class TaskService {
     let resultIdsForRequest: string = '';
 
     var genericRequest: any = {
-      "UserId": 0,
-      "token": "",
-      "Params": {
-        "ruleId": ruleId.toString(),
-        "resultIds": resultIdsForRequest,
-        "userid": "0"
-      }
+      UserId: 0,
+      token: '',
+      Params: {
+        ruleId: ruleId.toString(),
+        resultIds: resultIdsForRequest,
+        userid: '0',
+      },
     };
     if (formVars !== undefined) {
-      genericRequest.Params["FormVariables"] = formVars;
+      genericRequest.Params['FormVariables'] = formVars;
     }
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -75,7 +75,7 @@ export class TaskService {
     if (obj && obj.Vars && obj.Vars.hasOwnProperty('accion')) {
       return obj.Vars.accion;
     } else {
-      return "";
+      return '';
     }
   }
 

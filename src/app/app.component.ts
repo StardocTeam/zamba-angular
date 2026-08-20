@@ -6,7 +6,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-root',
-  template: ` <router-outlet />`
+  template: ` <router-outlet />`,
 })
 export class AppComponent implements OnInit {
   constructor(
@@ -14,8 +14,8 @@ export class AppComponent implements OnInit {
     renderer: Renderer2,
     private router: Router,
     private titleSrv: TitleService,
-    private modalSrv: NzModalService
-  ) { }
+    private modalSrv: NzModalService,
+  ) {}
 
   ngOnInit(): void {
     let configLoad = false;
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
           nzCancelDisabled: false,
           nzOkText: 'OK',
           nzCancelText: 'Cancel',
-          nzOnOk: () => location.reload()
+          nzOnOk: () => location.reload(),
         });
       }
       if (ev instanceof NavigationEnd) {

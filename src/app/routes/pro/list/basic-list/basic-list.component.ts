@@ -8,12 +8,12 @@ import { ProBasicListEditComponent } from './edit/edit.component';
   selector: 'app-basic-list',
   templateUrl: './basic-list.component.html',
   styleUrls: ['./basic-list.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProBasicListComponent implements OnInit {
   q = {
     q: '',
-    status: 'all'
+    status: 'all',
   };
   loading = false;
   data: Array<{
@@ -32,7 +32,7 @@ export class ProBasicListComponent implements OnInit {
     private http: _HttpClient,
     private msg: NzMessageService,
     private modal: ModalHelper,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {

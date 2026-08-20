@@ -8,7 +8,7 @@ describe('InitialPasswordWizardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InitialPasswordWizardComponent]
+      declarations: [InitialPasswordWizardComponent],
     });
     fixture = TestBed.createComponent(InitialPasswordWizardComponent);
     component = fixture.componentInstance;

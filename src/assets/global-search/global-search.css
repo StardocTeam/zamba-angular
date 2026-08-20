@@ -1,0 +1,81 @@
+zamba-global-search,
+app-global-search-element {
+    display: block !important;
+    width: 100% !important;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+zamba-global-search *,
+app-global-search-element *,
+zamba-global-search *::before,
+zamba-global-search *::after,
+app-global-search-element *::before,
+app-global-search-element *::after {
+    box-sizing: border-box;
+}
+
+zamba-global-search .global-search-preview,
+app-global-search-element .global-search-preview {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center;
+    width: 100% !important;
+    padding: 0 16px !important;
+    background: rgb(51, 122, 183) !important;
+}
+
+zamba-global-search .search-row,
+app-global-search-element .search-row {
+    display: block !important;
+    width: min(760px, 100%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(0, 0, 0, 0.18) !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+zamba-global-search .search-row:focus-within,
+app-global-search-element .search-row:focus-within {
+    border-color: rgba(0, 0, 0, 0.35) !important;
+    box-shadow: none !important;
+}
+
+zamba-global-search .search-input,
+app-global-search-element .search-input {
+    appearance: none;
+    display: block !important;
+    width: 100% !important;
+    min-height: 42px;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    background: #fff !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    font-family: inherit !important;
+    line-height: 42px !important;
+    padding: 0 18px !important;
+    box-shadow: none !important;
+}
+
+zamba-global-search .search-input::placeholder,
+app-global-search-element .search-input::placeholder {
+    color: rgba(0, 0, 0, 0.45) !important;
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+
+    zamba-global-search .search-input,
+    app-global-search-element .search-input {
+        font-size: 13px !important;
+        padding: 0 14px !important;
+    }
+}

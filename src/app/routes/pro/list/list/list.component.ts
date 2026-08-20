@@ -4,23 +4,23 @@ import { Subscription, filter } from 'rxjs';
 
 @Component({
   selector: 'app-list-layout',
-  templateUrl: './list.component.html'
+  templateUrl: './list.component.html',
 })
 export class ProListLayoutComponent implements OnInit, OnDestroy {
   private router$!: Subscription;
   tabs = [
     {
       key: 'articles',
-      tab: '文章'
+      tab: '文章',
     },
     {
       key: 'applications',
-      tab: '应用'
+      tab: '应用',
     },
     {
       key: 'projects',
-      tab: '项目'
-    }
+      tab: '项目',
+    },
   ];
 
   pos = 0;

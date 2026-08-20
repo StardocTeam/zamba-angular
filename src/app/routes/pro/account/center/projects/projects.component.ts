@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   selector: 'app-account-center-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountCenterProjectsComponent {
   listLoading = true;
@@ -15,7 +15,7 @@ export class ProAccountCenterProjectsComponent {
   constructor(
     private http: _HttpClient,
     private msg: NzMessageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.http.get('/api/list', { count: 8 }).subscribe(res => {
       this.list = res;

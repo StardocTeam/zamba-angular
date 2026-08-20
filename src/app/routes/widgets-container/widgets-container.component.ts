@@ -14,7 +14,7 @@ import { WidgetsContainerService } from './service/widgets-container.service';
   selector: 'widgets-container',
   templateUrl: './widgets-container.component.html',
   styleUrls: ['widgets-container.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WidgetsContainerComponent implements OnInit {
   options: GridsterConfig = {};
@@ -26,8 +26,8 @@ export class WidgetsContainerComponent implements OnInit {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private router: Router,
     private WCService: WidgetsContainerService,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.getWidgetsContainer();
@@ -40,7 +40,7 @@ export class WidgetsContainerComponent implements OnInit {
       itemResizeCallback: (item, itemComponent) => {
         // console.log("🟩: " + item["type"] + " " + item["cols"] + " " + item["rows"] + " " + item["x"] + " " + item["y"]);
         this.resizeEvent.emit({ item, itemComponent });
-      }
+      },
     };
 
     this.widgets = [];
@@ -53,7 +53,7 @@ export class WidgetsContainerComponent implements OnInit {
       UserId: 0,
       token: tokenData['token'],
 
-      Params: ''
+      Params: '',
     };
 
     this.WCService._getWidgetsContainer(genericRequest)
@@ -62,7 +62,7 @@ export class WidgetsContainerComponent implements OnInit {
         catchError(error => {
           console.error('An error occurred:', error);
           return of('[]');
-        })
+        }),
       )
       .subscribe(data => {
         var dataJson = JSON.parse(data)[0];
@@ -94,7 +94,7 @@ export class WidgetsContainerComponent implements OnInit {
       this.options.draggable,
       this.options.resizable,
       this.options.minCols,
-      this.options.minRows
+      this.options.minRows,
     );
 
     genericRequest = {
@@ -102,8 +102,8 @@ export class WidgetsContainerComponent implements OnInit {
       token: tokenData['token'],
       Params: {
         options: JSON.stringify(WCOptions),
-        widgetsContainer: JSON.stringify(this.widgets)
-      }
+        widgetsContainer: JSON.stringify(this.widgets),
+      },
     };
 
     this.WCService._setWidgetsContainer(genericRequest).subscribe(data => {

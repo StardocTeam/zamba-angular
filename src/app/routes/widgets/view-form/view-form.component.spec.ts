@@ -8,7 +8,7 @@ describe('ViewFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewFormComponent]
+      declarations: [ViewFormComponent],
     });
     fixture = TestBed.createComponent(ViewFormComponent);
     component = fixture.componentInstance;

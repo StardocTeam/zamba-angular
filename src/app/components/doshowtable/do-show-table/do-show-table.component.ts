@@ -1,17 +1,16 @@
-import { ChangeDetectorRef, Component, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { ChangeDetectorRef, Component, Input, OnInit, Output, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { PageHeaderModule } from '@delon/abc/page-header';
 import { Router } from '@angular/router';
+import { PageHeaderModule } from '@delon/abc/page-header';
+import { de } from 'date-fns/locale';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { TaskService } from 'src/app/services/task.service';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzMessageModule, NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { EventEmitter } from '@angular/core';
-import { de } from 'date-fns/locale';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { TaskService } from 'src/app/services/task.service';
 
 interface ItemData {
   [key: string]: any;
@@ -21,19 +20,17 @@ interface ItemData {
   standalone: true,
   imports: [CommonModule, NzTableModule, FormsModule, NzInputModule, PageHeaderModule, NzButtonModule, NzMessageModule, NzSpinModule],
   templateUrl: './do-show-table.component.html',
-  styleUrls: ['./do-show-table.component.less']
+  styleUrls: ['./do-show-table.component.less'],
 })
-export class DoShowTableComponent implements OnInit {
+export class DoShowTableComponent implements OnInit, OnChanges {
   isLoading = false;
   searchText: string = '';
   originalListOfData: readonly ItemData[] = [];
-  listOfSelection = [
-
-  ];
+  listOfSelection = [];
   checked = false;
   indeterminate = false;
   listOfCurrentPageData: readonly ItemData[] = [];
-  listOfData: { [key: string]: any }[] = [];
+  listOfData: Array<{ [key: string]: any }> = [];
   setOfCheckedId = new Set<number>();
   title: string = '';
   columns: string[] = [];
@@ -44,11 +41,13 @@ export class DoShowTableComponent implements OnInit {
 
   @Output() doShowTableHasFinished = new EventEmitter<any>();
 
-  constructor(private router: Router, private taskService: TaskService, private message: NzMessageService, private modal: NzModalService,
-    private cdr: ChangeDetectorRef) {
-
-
-  }
+  constructor(
+    private router: Router,
+    private taskService: TaskService,
+    private message: NzMessageService,
+    private modal: NzModalService,
+    private cdr: ChangeDetectorRef,
+  ) {}
   onItemChecked(id: number, checked: boolean): void {
     this.setOfCheckedId.clear(); // Limpia todas las selecciones previas
     if (checked) {
@@ -61,30 +60,47 @@ export class DoShowTableComponent implements OnInit {
     this.listOfCurrentPageData = $event;
     this.refreshCheckedStatus();
   }
-  refreshCheckedStatus(): void {
-
-  }
+  refreshCheckedStatus(): void {}
 
   ngOnInit(): void {
-    if (this.Params != null && this.Params != undefined) {
-      this.listOfData = this.Params.tableToView;
-      this.originalListOfData = this.Params.tableToView;
+    this.initializeTable();
+  }
 
-      this.columns = Object.keys(this.listOfData[0]);
-      this.title = this.Params.tableTitle || '';
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['Params']) {
+      this.initializeTable();
     }
   }
 
+  initializeTable(): void {
+    if (this.Params != null && this.Params != undefined) {
+      this.listOfData = this.Params.tableToView || [];
+      this.originalListOfData = this.Params.tableToView || [];
+
+      if (this.listOfData.length > 0) {
+        this.columns = Object.keys(this.listOfData[0]);
+      } else {
+        this.columns = [];
+      }
+      this.title = this.Params.tableTitle || '';
+
+      // Limpia los estados por si se está reutilizando el componente
+      this.searchText = '';
+      this.setOfCheckedId.clear();
+      this.isLoading = false;
+    }
+  }
 
   applyFilter(value?: string): void {
     const search = (value || '').toLowerCase();
-    this.listOfData = this.originalListOfData.filter(row =>
-      this.columns.some(col =>
-        String(row[col]).toLowerCase().includes(search)
-      )
-    );
+    this.listOfData = this.originalListOfData.filter(row => this.columns.some(col => String(row[col]).toLowerCase().includes(search)));
     this.setOfCheckedId.clear();
   }
+
+  cancel(): void {
+    this.doShowTableHasFinished.emit({ success: false, message: 'Operación cancelada por el usuario' });
+  }
+
   logSelected(): void {
     this.isLoading = true;
     // Obtiene los elementos seleccionados usando los índices guardados en setOfCheckedId
@@ -116,71 +132,49 @@ export class DoShowTableComponent implements OnInit {
       }
 
       const VarDestiny = this.Params.VarDestiny;
-      let ResultValues: { name: string; value: any }[] = [];
+      let ResultValues: Array<{ name: string; value: any }> = [];
       ResultValues.push({ name: VarDestiny, value: valorSeleccionado });
       const ResultValuesJson = JSON.stringify(ResultValues);
 
       if (valorSeleccionado != null) {
         if (this.PendingChildRules != null && this.PendingChildRules.length > 0) {
-          this.taskService.executeTaskRule(this.PendingChildRules[0], null, ResultValuesJson)
-            .subscribe({
-              next: (response) => {
-                this.isLoading = false;
-                this.cdr.detectChanges();
-                // Parsea el response si es string
-                let respObj: any = response;
-                if (typeof response === 'string') {
-                  try {
-                    respObj = JSON.parse(response);
-                  } catch (e) {
-                    console.error('No se pudo parsear el response:', e);
-                    return;
-                  }
+          this.taskService.executeTaskRule(this.PendingChildRules[0], null, ResultValuesJson).subscribe({
+            next: response => {
+              this.isLoading = false;
+              this.cdr.detectChanges();
+              // Parsea el response si es string
+              let respObj: any = response;
+              if (typeof response === 'string') {
+                try {
+                  respObj = JSON.parse(response);
+                } catch (e) {
+                  console.error('No se pudo parsear el response:', e);
+                  return;
                 }
-                const action = this.taskService.checkAccion(respObj);
-                switch (action.toLowerCase()) {
-                  case 'executescript':
-                    if (respObj?.Params?.RuleTypeName.toLowerCase() === 'doscreenmessage') {
-                      const nuevoMensaje = respObj.Params["Nuevo Mensaje"]?.replace(/\n/g, '<br>');
-                      console.log(nuevoMensaje);
-                      this.modal.info({
-                        nzTitle: nuevoMensaje,
-                        nzWidth: 500,
-                        nzOnOk: () => {
-                          this.isLoading = false;
-                          if (respObj.PendingChildRules && respObj.PendingChildRules.length === 0) {
-                            this.doShowTableHasFinished.emit({ success: true, response: respObj });
-                          }
-                        }
-                      });
-                    }
-                    break;
-                  default:
-                    this.doShowTableHasFinished.emit({ success: true, response: respObj });
-                    break;
-                }
-              },
-              error: (err) => {
-                this.isLoading = false;
-                this.message.error('Ocurrió un error al procesar la acción');
-                console.error(err);
-                this.doShowTableHasFinished.emit({ success: false, message: err });
               }
-            });
 
+              // Emitimos la respuesta directamente para que el rule-executor decida qué acción tomar
+              this.doShowTableHasFinished.emit({ success: true, response: respObj });
+            },
+            error: err => {
+              this.isLoading = false;
+              this.message.error('Ocurrió un error al procesar la acción');
+              console.error(err);
+              this.doShowTableHasFinished.emit({ success: false, message: err });
+            },
+          });
         } else {
           this.isLoading = false;
           this.doShowTableHasFinished.emit({ success: true, response: ResultValuesJson });
         }
-
       }
-    }
-    else {
+    } else {
       this.isLoading = false;
       this.message.error('Error en la regla: Se debe especificar la columna que se desea guardar.');
-      this.doShowTableHasFinished.emit({ success: false, message: 'Error en la regla: Se debe especificar la columna que se desea guardar.' });
-
+      this.doShowTableHasFinished.emit({
+        success: false,
+        message: 'Error en la regla: Se debe especificar la columna que se desea guardar.',
+      });
     }
-
   }
 }

@@ -1,17 +1,16 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, Input, OnDestroy } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { BehaviorSubject, Observable, Subject, Subscription, catchError } from 'rxjs';
-
 import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
+
 import { ChecklistItem } from './checklist-item';
 
 @Component({
   selector: 'app-checklist-component',
   templateUrl: './checklist.component.html',
-  styleUrls: ['./checklist.component.scss']
+  styleUrls: ['./checklist.component.scss'],
 })
 export class ChecklistComponent implements OnDestroy, AfterViewInit {
-
   @Input() reportId: number | undefined;
   @Input() taskId: number | undefined;
   @Input() userId: number | undefined;
@@ -40,9 +39,6 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef,
   ) {
-
-
-
     // runtime debug logging to help locate missing providers when used as a webcomponent
     if (!this.RVService) {
       const missing: string[] = [];
@@ -61,7 +57,6 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
     }
   }
   ngAfterViewInit(): void {
-
     // Subscribe to external refresh trigger if provided
     if (this.refresh$) {
       this.refreshSub = this.refresh$.subscribe(() => {
@@ -97,8 +92,8 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
           Zvars: JSON.stringify({
             taskId: this.taskId,
           }),
-          Id: this.reportId
-        }
+          Id: this.reportId,
+        },
       };
 
       this.GetResultsByReportId(genericRequest);
@@ -109,7 +104,6 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
     item.done = !item.done;
   }
 
-
   trackById(_index: number, item: ChecklistItem) {
     return item.id;
   }
@@ -117,12 +111,13 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
   private GetResultsByReportId(genericRequest: {}) {
     if (!this.RVService) return;
 
-    this.RVService.GetResultsByReportId(genericRequest).pipe(
-      catchError(error => {
-        console.error('Error al obtener datos:', error);
-        throw error;
-      })
-    )
+    this.RVService.GetResultsByReportId(genericRequest)
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        }),
+      )
       .subscribe((data: any) => {
         this.SetData(data);
         return;
@@ -136,7 +131,7 @@ export class ChecklistComponent implements OnDestroy, AfterViewInit {
       const mapped = (rows || []).map((item: any) => ({
         id: item?.ID,
         title: item?.Title,
-        done: item?.Done
+        done: item?.Done,
       })) as ChecklistItem[];
       this.items.next(mapped);
       // Ensure change detection runs for hosting pages which may not be

@@ -7,7 +7,7 @@ import { ColorService } from '../color.service';
 @Component({
   selector: 'app-colors',
   templateUrl: './colors.component.html',
-  styleUrls: ['./colors.component.less']
+  styleUrls: ['./colors.component.less'],
 })
 export class ColorsComponent {
   nums = Array(10)
@@ -24,7 +24,7 @@ export class ColorsComponent {
 
   constructor(
     private colorSrv: ColorService,
-    private msg: NzMessageService
+    private msg: NzMessageService,
   ) {}
 
   onCopy(str: string): void {

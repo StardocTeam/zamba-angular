@@ -18,7 +18,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
       (popoverVisibleChange)="loadData()"
     />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderNotifyComponent {
   data: NoticeItem[] = [
@@ -27,7 +27,7 @@ export class HeaderNotifyComponent {
       list: [],
       emptyText: 'You have seen all the notifications.',
       emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
-      clearText: 'Clear notifications'
+      clearText: 'Clear notifications',
     } /*,
     {
       title: 'Info.',
@@ -42,7 +42,7 @@ export class HeaderNotifyComponent {
       emptyText: 'You have completed all pending tasks',
       emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg',
       clearText: 'Delete tasks'
-    }*/
+    }*/,
   ];
   count = 0;
   loading = false;
@@ -50,7 +50,7 @@ export class HeaderNotifyComponent {
   constructor(
     private msg: NzMessageService,
     private nzI18n: NzI18nService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   private updateNoticeData(notices: NoticeIconList[]): NoticeItem[] {
@@ -71,7 +71,7 @@ export class HeaderNotifyComponent {
             todo: undefined,
             processing: 'blue',
             urgent: 'red',
-            doing: 'gold'
+            doing: 'gold',
           } as { [key: string]: string | undefined }
         )[newItem['status']];
       }

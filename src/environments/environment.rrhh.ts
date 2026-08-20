@@ -10,7 +10,7 @@ export const environment = {
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
-    refreshTokenType: 'auth-refresh'
+    refreshTokenType: 'auth-refresh',
   },
   modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
   restApi: 'http://localhost:44301/ZambaWeb.RestApi/api',
@@ -20,7 +20,6 @@ export const environment = {
   searchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/search',
   zambaWeb: 'http://localhost:44301/Zamba.Web',
   cliente: 'rrhh',
-
 } as Environment;
 /*
  * In development mode, to ignore zone related error stack frames such as

@@ -7,16 +7,16 @@ import { _HttpClient } from '@delon/theme';
 import { MatchControl } from '@delon/util/form';
 import { environment } from '@env/environment';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { catchError, finalize, throwError } from 'rxjs';
 
 import { allMobilePrefixes } from '../../../services/phone-prefixes.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'passport-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserRegisterComponent implements OnDestroy, OnInit {
   constructor(
@@ -24,8 +24,8 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     private router: Router,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-    private msgSrv: NzMessageService
-  ) { }
+    private msgSrv: NzMessageService,
+  ) {}
   ngOnInit(): void {
     this.setCurrentPhonePrefix();
     this.getDepartment();
@@ -47,16 +47,16 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
           Validators.minLength(6),
           Validators.maxLength(50),
           Validators.pattern(/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/),
-          UserRegisterComponent.checkPassword.bind(this)
-        ]
+          UserRegisterComponent.checkPassword.bind(this),
+        ],
       ],
       confirm: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]],
       mobilePrefix: ['+94'],
-      mobile: ['', [Validators.required, Validators.maxLength(50)]]
+      mobile: ['', [Validators.required, Validators.maxLength(50)]],
     },
     {
-      validators: MatchControl('password', 'confirm')
-    }
+      validators: MatchControl('password', 'confirm'),
+    },
   );
 
   mobilePrefixes = allMobilePrefixes;
@@ -71,7 +71,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
   passwordProgressMap: { [key: string]: 'success' | 'normal' | 'exception' } = {
     ok: 'success',
     pass: 'normal',
-    pool: 'exception'
+    pool: 'exception',
   };
 
   listDepartments = new Array();
@@ -131,7 +131,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     const data = this.form.value;
     const genericRequest = {
       UserId: 0,
-      Params: data
+      Params: data,
     };
 
     this.serverError = false;
@@ -141,7 +141,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
       .post(`${environment['apiRestBasePath']}/register`, genericRequest, null, {
         observe: 'response',
         responseType: 'json',
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
         catchError(error => {
@@ -152,7 +152,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
         finalize(() => {
           this.loading = false;
           this.cdr.detectChanges();
-        })
+        }),
       )
       .subscribe(response => {
         var dataResponse = JSON.parse(response.body);
@@ -162,15 +162,13 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
             if (mailControl) {
               mailControl.setErrors({ emailExists: true });
             }
-          }
-          else if (dataResponse.companyNameIsTaken) {
+          } else if (dataResponse.companyNameIsTaken) {
             const companyNameControl = this.form.get('companyName');
             if (companyNameControl) {
               companyNameControl.setErrors({ companyNameTaken: true });
-              this.msgSrv.error("Error!");
+              this.msgSrv.error('Error!');
             }
-          }
-          else {
+          } else {
             this.router.navigate(['passport', 'register-result'], { queryParams: { email: data.mail } });
           }
         }
@@ -187,7 +185,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     //Todo: obtener departamentos por medio de http.get teniendo en cuenta la configuracion 'AlainAuthConfig'
     this.http
       .post(`${environment['apiRestBasePath']}/getRol`, null, null, {
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .subscribe(data => {
         this.listRols = JSON.parse(data);
@@ -198,7 +196,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     //Todo: obtener departamentos por medio de http.get teniendo en cuenta la configuracion 'AlainAuthConfig'
     this.http
       .post(`${environment['apiRestBasePath']}/getDepartment`, null, null, {
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .subscribe(data => {
         this.listDepartments = JSON.parse(data);
@@ -208,7 +206,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
   setCurrentPhonePrefix() {
     this.http
       .post(`https://ipapi.co/json`, null, null, {
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
         catchError(error => {
@@ -221,7 +219,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
         finalize(() => {
           this.loading = false;
           this.cdr.detectChanges();
-        })
+        }),
       )
       .subscribe(data => {
         const countryCode = data.country;

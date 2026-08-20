@@ -8,11 +8,11 @@ import { ViewFormComponent } from '../widgets/view-form/view-form.component';
 
 const routes: Routes = [
   { path: 'rule', component: RuleComponent, title: 'Formulario de WorkFlow' },
-  { path: 'form', component: ViewFormComponent, title: 'Formulario' }
+  { path: 'form', component: ViewFormComponent, title: 'Formulario' },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ZambaRoutingModule { }
+export class ZambaRoutingModule {}

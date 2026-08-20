@@ -1,14 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
-import { DELON_LOCALE, zh_CN as delonZhCn } from '@delon/theme';
-import { environment } from '../../../../environments/environment';
+import { DELON_LOCALE, zh_CN as delonZhCn, AlainThemeModule } from '@delon/theme';
+import { NzResultModule } from 'ng-zorro-antd/result';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { SignatureFABComponent } from 'src/app/signature-container-v2/signature-container-v2.component';
-import { NzResultModule } from 'ng-zorro-antd/result';
-import { AlainThemeModule } from '@delon/theme';
-import { CommonModule } from '@angular/common';
+
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-view-form',
@@ -47,8 +47,8 @@ export class ViewFormComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
-  ) { }
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  ) {}
 
   ngOnInit(): void {
     this.navigateUrl = '';

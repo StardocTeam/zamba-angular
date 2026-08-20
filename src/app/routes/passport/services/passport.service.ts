@@ -6,13 +6,13 @@ import { environment } from '@env/environment';
 import { catchError, throwError, tap } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PassportService {
   constructor(
     private http: _HttpClient,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService
-  ) { }
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  ) {}
 
   doLogin(
     data: Partial<{
@@ -21,15 +21,15 @@ export class PassportService {
       mobile: string | null;
       captcha: string | null;
       remember: boolean | null;
-    }>
+    }>,
   ) {
     const genericRequest = {
       UserId: 0,
-      Params: data
+      Params: data,
     };
     return this.http
       .post(`${environment['apiRestBasePath']}/zlogin`, genericRequest, null, {
-        context: new HttpContext().set(ALLOW_ANONYMOUS, true)
+        context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
         catchError(error => {
@@ -43,10 +43,10 @@ export class PassportService {
           res.user = {
             durationDays: 1,
             time: new Date(),
-            expired: +new Date() + 1 * 24 * 60 * 60 * 1000 //new Date(res.tokenExpire),
+            expired: +new Date() + 1 * 24 * 60 * 60 * 1000, //new Date(res.tokenExpire),
           };
           this.tokenService.set(res);
-        })
+        }),
       );
   }
 }

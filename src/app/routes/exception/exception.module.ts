@@ -10,6 +10,6 @@ import { ExceptionTriggerComponent } from './trigger.component';
 
 @NgModule({
   imports: [CommonModule, DelonExceptionModule, NzButtonModule, NzCardModule, ExceptionRoutingModule],
-  declarations: [ExceptionComponent, ExceptionTriggerComponent]
+  declarations: [ExceptionComponent, ExceptionTriggerComponent],
 })
 export class ExceptionModule {}

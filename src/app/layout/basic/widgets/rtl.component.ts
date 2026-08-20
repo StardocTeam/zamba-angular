@@ -8,9 +8,9 @@ import { RTLService } from '@delon/theme';
     {{ rtl.nextDir | uppercase }}
   `,
   host: {
-    '[class.flex-1]': 'true'
+    '[class.flex-1]': 'true',
   },
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderRTLComponent {
   constructor(public rtl: RTLService) {}

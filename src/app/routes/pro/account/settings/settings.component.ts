@@ -8,7 +8,7 @@ import { fromEvent, Subscription, debounceTime, filter } from 'rxjs';
   selector: 'app-account-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
   private resize$!: Subscription;
@@ -18,21 +18,21 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
   menus: Array<{ key: string; title: string; selected?: boolean }> = [
     {
       key: 'base',
-      title: 'section.data.first-item'
+      title: 'section.data.first-item',
     },
     {
       key: 'security',
-      title: 'section.data.second-item'
+      title: 'section.data.second-item',
     },
     {
       key: 'binding',
-      title: 'section.data.third-item'
-    }
+      title: 'section.data.third-item',
+    },
   ];
   constructor(
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private el: ElementRef<HTMLElement>
+    private el: ElementRef<HTMLElement>,
   ) {
     this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
   }

@@ -176,6 +176,48 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+             },
+             "psdesa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.psdesa.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+             },
+             "ces": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ces.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+             },
+             "cesDesa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ces.desa.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
              }
           },
           "defaultConfiguration": "development"
@@ -184,7 +226,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "zamba:build",
-            "proxyConfig": "proxy.conf.js"
+            "proxyConfig": "proxy.conf.js",
+            "servePath": "/zamba/"
           },
           "configurations": {
             "production": {
@@ -207,6 +250,9 @@
             },
             "c": {
               "browserTarget": "zamba:build:c"
+            },
+            "psdesa": {
+              "browserTarget": "zamba:build:psdesa"
             }
           },
           "defaultConfiguration": "development"

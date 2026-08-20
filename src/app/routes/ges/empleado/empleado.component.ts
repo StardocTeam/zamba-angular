@@ -10,8 +10,8 @@ import { Component } from '@angular/core';
         margin: 0 8px 10px 0;
         width: 100%;
       }
-    `
-  ]
+    `,
+  ],
 })
 export class EmpleadoComponent {
   Family: any = {
@@ -37,6 +37,6 @@ export class EmpleadoComponent {
     Altura: 0,
     BeneficioSeguroDeVida: '',
     PersonaACargo: '',
-    ProcentajeDeduccionGanancia: 0
+    ProcentajeDeduccionGanancia: 0,
   };
 }

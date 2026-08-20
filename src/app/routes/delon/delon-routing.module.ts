@@ -30,32 +30,32 @@ const routes: Routes = [
       {
         path: 'leave',
         component: GuardLeaveComponent,
-        canDeactivate: [canLeave]
+        canDeactivate: [canLeave],
       },
       {
         path: 'auth',
         component: GuardAuthComponent,
         canActivate: [aclCanActivate],
-        data: { guard: 'user1' }
+        data: { guard: 'user1' },
       },
       {
         path: 'admin',
         component: GuardAdminComponent,
         canActivate: [aclCanActivate],
-        data: { guard: 'admin' }
-      }
-    ]
+        data: { guard: 'admin' },
+      },
+    ],
   },
   { path: 'cache', component: CacheComponent },
   { path: 'qr', component: QRComponent },
   { path: 'downfile', component: DownFileComponent },
   { path: 'xlsx', component: XlsxComponent },
   { path: 'zip', component: ZipComponent },
-  { path: 'form', component: DelonFormComponent }
+  { path: 'form', component: DelonFormComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DelonRoutingModule {}

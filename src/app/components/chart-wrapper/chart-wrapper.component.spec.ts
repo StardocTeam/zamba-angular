@@ -8,7 +8,7 @@ describe('ChartWrapperComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ChartWrapperComponent]
+      declarations: [ChartWrapperComponent],
     });
     fixture = TestBed.createComponent(ChartWrapperComponent);
     component = fixture.componentInstance;

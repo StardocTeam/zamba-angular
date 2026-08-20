@@ -19,6 +19,7 @@ import { TrendModule } from '@delon/chart/trend';
 import { G2WaterWaveModule } from '@delon/chart/water-wave';
 import { SharedModule } from '@shared';
 import { GridsterComponent, GridsterItemComponent } from 'angular-gridster2';
+import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { CountdownModule } from 'ngx-countdown';
 
 import { DashboardAnalysisComponent } from './analysis/analysis.component';
@@ -28,19 +29,17 @@ import { DashboardV1Component } from './v2/v2.component';
 import { DashboardWorkplaceComponent } from './workplace/workplace.component';
 import { WidgetSelectorComponent } from '../widgets/widgetSelector/widget-selector.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
-import { NzSliderModule } from 'ng-zorro-antd/slider';
 
 const COMPONENTS = [
   DashboardV1Component,
   DashboardAnalysisComponent,
   DashboardMonitorComponent,
   DashboardWorkplaceComponent,
-  WidgetsContainerComponent
+  WidgetsContainerComponent,
 ];
 
 @NgModule({
   imports: [
-
     NzSliderModule,
     SharedModule,
     DashboardRoutingModule,
@@ -67,6 +66,6 @@ const COMPONENTS = [
     GridsterItemComponent,
     WidgetSelectorComponent,
   ],
-  declarations: [...COMPONENTS]
+  declarations: [...COMPONENTS],
 })
-export class DashboardModule { }
+export class DashboardModule {}

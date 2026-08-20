@@ -4,7 +4,7 @@ import { environment } from '@env/environment';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MessageService {
   constructor(private router: Router) {
@@ -39,7 +39,7 @@ export class MessageService {
     var message = {
       type: type,
       data: { data },
-      error: error
+      error: error,
     };
     var messageJSON = JSON.stringify(message);
     let iframeElement = document.getElementById(elementId) as HTMLIFrameElement;

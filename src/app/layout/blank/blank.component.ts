@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'layout-blank',
   template: `<router-outlet />`,
   host: {
-    '[class.alain-blank]': 'true'
-  }
+    '[class.alain-blank]': 'true',
+  },
 })
 export class LayoutBlankComponent {}

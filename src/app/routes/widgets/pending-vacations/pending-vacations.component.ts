@@ -3,16 +3,17 @@ import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { GridsterItem } from 'angular-gridster2';
 import { NzButtonSize } from 'ng-zorro-antd/button';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { Subscription, catchError } from 'rxjs';
+
 import { Vacation } from './entitie/vacation';
 import { PendingVacationsService } from './service/pending-vacations.service';
-import { NZ_ICONS } from 'ng-zorro-antd/icon';
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 @Component({
   selector: 'app-pending-vacations',
   templateUrl: './pending-vacations.component.html',
-  styleUrls: ['./pending-vacations.component.less']
+  styleUrls: ['./pending-vacations.component.less'],
 })
 export class PendingVacationsComponent implements OnInit {
   vacations: Vacation[] = [];
@@ -29,7 +30,7 @@ export class PendingVacationsComponent implements OnInit {
     rows: 0,
     x: 0,
     y: 0,
-    resizeEvent: new EventEmitter<GridsterItem>()
+    resizeEvent: new EventEmitter<GridsterItem>(),
   };
 
   @Input()
@@ -45,25 +46,23 @@ export class PendingVacationsComponent implements OnInit {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private cdr: ChangeDetectorRef,
     private PVService: PendingVacationsService,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     if (this.resizeEvent != undefined && this.changeEvent != undefined) {
       this.resizeEvent.subscribe((event: any) => {
-
         if (this.widget['id'] == event.item.id) {
-          var headerWidget = event.itemComponent.el.querySelector(".headerWidget").offsetHeight;
-          var subHeaderWidget = event.itemComponent.el.querySelector(".subHeaderWidget").offsetHeight;
+          var headerWidget = event.itemComponent.el.querySelector('.headerWidget').offsetHeight;
+          var subHeaderWidget = event.itemComponent.el.querySelector('.subHeaderWidget').offsetHeight;
 
           this.divHeight = event.itemComponent.height - (headerWidget + subHeaderWidget);
           this.changeEvent.emit(event);
           this.cdr.detectChanges();
         }
-
       });
 
-      this.changeEvent.subscribe((item: any) => { });
+      this.changeEvent.subscribe((item: any) => {});
     }
 
     this.PostExternalsearchInfo();
@@ -84,8 +83,8 @@ export class PendingVacationsComponent implements OnInit {
 
       Params: {
         EntityID: '258',
-        DoctypesId: '110'
-      }
+        DoctypesId: '110',
+      },
     };
 
     this.PVService._PostExternalsearchInfo(genericRequest)
@@ -95,7 +94,7 @@ export class PendingVacationsComponent implements OnInit {
           this.loading = false;
           this.cdr.detectChanges();
           throw error;
-        })
+        }),
       )
       .subscribe(data => {
         var JsonData = JSON.parse(data);
@@ -120,7 +119,7 @@ export class PendingVacationsComponent implements OnInit {
             this.result = true;
           }
 
-          this.TotalDays = parseInt(JsonData['TotalDays'].toString() || "0");
+          this.TotalDays = parseInt(JsonData['TotalDays'].toString() || '0');
         } else {
           this.info = false;
           this.result = true;
@@ -144,8 +143,8 @@ export class PendingVacationsComponent implements OnInit {
           s: obj.s,
           userId: obj.userId,
           modalmode: 'true',
-          t: token['token']
-        }
+          t: token['token'],
+        },
       });
     }
   }
@@ -155,4 +154,3 @@ export class PendingVacationsComponent implements OnInit {
     this.router.navigate([route], { queryParams: { typeRule: 'executeViewTask', ruleId: '133' } });
   }
 }
-

@@ -16,9 +16,9 @@ const alainConfig: AlainConfig = {
   pageHeader: { homeI18n: 'home' },
   lodop: {
     license: `A59B099A586B3851E0F0D7FDBF37B603`,
-    licenseA: `C94CEE276DB2187AE6B65D56B3FC2848`
+    licenseA: `C94CEE276DB2187AE6B65D56B3FC2848`,
   },
-  auth: { login_url: '/passport/login' }
+  auth: { login_url: '/passport/login' },
 };
 
 const alainModules: any[] = [AlainThemeModule.forRoot(), DelonACLModule.forRoot()];
@@ -61,7 +61,7 @@ const zorroProvides = [provideNzConfig(ngZorroConfig)];
 // #endregion
 
 @NgModule({
-  imports: [...alainModules, ...(environment.modules || [])]
+  imports: [...alainModules, ...(environment.modules || [])],
 })
 export class GlobalConfigModule {
   constructor(@Optional() @SkipSelf() parentModule: GlobalConfigModule) {
@@ -71,7 +71,7 @@ export class GlobalConfigModule {
   static forRoot(): ModuleWithProviders<GlobalConfigModule> {
     return {
       ngModule: GlobalConfigModule,
-      providers: [...alainProvides, ...zorroProvides]
+      providers: [...alainProvides, ...zorroProvides],
     };
   }
 }

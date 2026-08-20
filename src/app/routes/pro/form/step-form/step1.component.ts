@@ -6,7 +6,7 @@ import { TransferService } from './transfer.service';
 @Component({
   selector: 'app-step1',
   templateUrl: './step1.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Step1Component implements OnInit {
   form = new FormGroup({
@@ -16,8 +16,8 @@ export class Step1Component implements OnInit {
     receiver_name: new FormControl('', Validators.compose([Validators.required, Validators.minLength(2)])),
     amount: new FormControl(
       '',
-      Validators.compose([Validators.required, Validators.pattern(`[0-9]+`), Validators.min(1), Validators.max(10000 * 100)])
-    )
+      Validators.compose([Validators.required, Validators.pattern(`[0-9]+`), Validators.min(1), Validators.max(10000 * 100)]),
+    ),
   });
 
   get item(): TransferService {

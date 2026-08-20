@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-chart-wrapper',
   templateUrl: './chart-wrapper.component.html',
   styleUrls: ['./chart-wrapper.component.less'],
-  standalone: true
+  standalone: true,
 })
 export class ChartWrapperComponent {
   @Input() row = 1;

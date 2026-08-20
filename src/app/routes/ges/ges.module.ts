@@ -12,6 +12,6 @@ const COMPONENTS = [EmpleadoComponent];
 
 @NgModule({
   imports: [SharedModule, GesRoutingModule, DownFileModule, FullContentModule, QRModule, G2MiniBarModule],
-  declarations: COMPONENTS
+  declarations: COMPONENTS,
 })
 export class GesModule {}

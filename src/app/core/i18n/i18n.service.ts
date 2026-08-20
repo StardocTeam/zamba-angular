@@ -13,7 +13,7 @@ import {
   zh_CN as delonZhCn,
   zh_TW as delonZhTw,
   _HttpClient,
-  AlainI18nBaseService
+  AlainI18nBaseService,
 } from '@delon/theme';
 import { AlainConfigService } from '@delon/util/config';
 import { enUS as dfEn, zhCN as dfZhCn, zhTW as dfZhTw } from 'date-fns/locale';
@@ -56,7 +56,7 @@ const LANGS: { [key: string]: LangConfigData } = {
     zorro: zorroEnUS,
     date: dfEn,
     delon: delonEnUS,
-    abbr: '🇬🇧'
+    abbr: '🇬🇧',
   },
   'es-ES': {
     text: 'Español',
@@ -64,8 +64,8 @@ const LANGS: { [key: string]: LangConfigData } = {
     zorro: zorroEnUS,
     date: dfEn,
     delon: delonEnUS,
-    abbr: '🇪🇸'
-  }
+    abbr: '🇪🇸',
+  },
 };
 
 @Injectable({ providedIn: 'root' })
@@ -82,7 +82,7 @@ export class I18NService extends AlainI18nBaseService {
     private nzI18nService: NzI18nService,
     private delonLocaleService: DelonLocaleService,
     private platform: Platform,
-    cogSrv: AlainConfigService
+    cogSrv: AlainConfigService,
   ) {
     super(cogSrv);
 
@@ -91,7 +91,6 @@ export class I18NService extends AlainI18nBaseService {
   }
 
   private getDefaultLang(): string {
-
     if (!this.platform.isBrowser) {
       return DEFAULT;
     }
@@ -104,12 +103,10 @@ export class I18NService extends AlainI18nBaseService {
   }
 
   loadLangData(lang: string): Observable<NzSafeAny> {
-
     return this.http.get(`assets/tmp/i18n/${lang}.json`);
   }
 
   use(lang: string, data: Record<string, unknown>): void {
-
     if (this._currentLang === lang) return;
 
     this._data = this.flatData(data, []);
@@ -125,7 +122,6 @@ export class I18NService extends AlainI18nBaseService {
   }
 
   getLangs(): Array<{ code: string; text: string; abbr: string }> {
-
     return this._langs;
   }
 }

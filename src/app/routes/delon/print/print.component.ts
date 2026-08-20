@@ -5,13 +5,13 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-print',
-  templateUrl: './print.component.html'
+  templateUrl: './print.component.html',
 })
 export class PrintComponent {
   constructor(
     public lodopSrv: LodopService,
     private msg: NzMessageService,
-    private notify: NzNotificationService
+    private notify: NzNotificationService,
   ) {
     this.lodopSrv.lodop.subscribe(({ lodop, ok }) => {
       if (!ok) {
@@ -35,7 +35,7 @@ export class PrintComponent {
       <p>这~！@#￥%……&*（）——sdilfjnvn</p>
       <p>这~！@#￥%……&*（）——sdilfjnvn</p>
       <p>这~！@#￥%……&*（）——sdilfjnvn</p>
-    `
+    `,
   };
   error = false;
   lodop: Lodop | null = null;
