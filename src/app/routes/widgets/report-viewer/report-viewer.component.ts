@@ -437,7 +437,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         this.FlagOnClick = this.listOfColumns.some(c => (c.name || '').toString().toUpperCase() === 'TASKID');
 
         ObjectData.RowHashtable.forEach((element: any) => {
-          var newRow: any = [];
+          const newRow: any = {};
+
           ObjectData.ListColumns.forEach((ColumnName: string) => {
             newRow[ColumnName] = element[ColumnName];
           });
