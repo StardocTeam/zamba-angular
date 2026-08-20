@@ -154,9 +154,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
-    //TODO: Reutilizar este codigo o el metodo que ejecuta luego para el ABM.
     //Este codigo detecta y arma una lista de zVars encontradas
-
     var zVarsFound = this.extractZvarVariables(this.currentReport.Query);
 
     if (zVarsFound.includes("FechaDesde")) {
@@ -661,7 +659,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
     }
   }
-  //#endregion
+
 
   onRowDblClick(row: any): void {
 
@@ -705,6 +703,15 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+
+  ViewAllRegisters(): void {
+    this.ZVARstartDate = new Date(Date.UTC(0, 0, 1, 0, 0, 0, 0));
+    this.ZVARendDate = new Date(Date.UTC(3000, 11, 31, 23, 59, 59, 999));
+    this.rechargeReport();
+  }
+
+  //#endregion
 
   //#region Visual Management
   @HostListener('window:resize', ['$event'])

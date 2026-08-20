@@ -36,10 +36,11 @@
                                 <nz-date-picker [(ngModel)]="ZVARendDate" [nzFormat]="'dd-MM-yyyy'"
                                     style="width: 100%"></nz-date-picker>
                             </div>
-                            <!-- <div *ngFor="let zvar of ListZVARsFromDB" nz-col nzXs="24" nzSm="6">
-                                <label>{{zvar.KeyZVar}}:</label>
-                                <input nz-input type="text" [(ngModel)]="zvar.ValueZVar">
-                            </div> -->
+
+                            <div style="align-content: end;" *ngIf="startDateVisible && endDateVisible">
+                                <button nz-button nzType="primary" (click)="ViewAllRegisters()">
+                                    Ver todos los registros</button>
+                            </div>
                         </div>
                     </div>
 
