@@ -163,7 +163,7 @@ const routes: Routes = [
           {
             path: 'view/:id',
             component: ReportViewerComponent,
-            data: { title: 'Reporte' },
+            data: { title: 'Reportes' },
           },
           {
             path: 'chartcontainer/:id',
@@ -220,4 +220,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RouteRoutingRRHHModule {}
+export class RouteRoutingRRHHModule { }
