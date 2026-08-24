@@ -7,6 +7,7 @@ import { Environment } from '@delon/theme';
 export const environment = {
   production: false,
   useHash: true,
+  appPrimaryColor: '#0e9000',
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,

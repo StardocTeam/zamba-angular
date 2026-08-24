@@ -7,6 +7,7 @@ import { Environment } from '@delon/theme';
 export const environment = {
   production: false,
   useHash: true,
+  appPrimaryColor: '#0e9000',
 
   apiRestBasePath: 'https://www.zamba.com.ar/zambaweb.restapi/api/Dashboard',
   externalSearchApi: 'https://www.zamba.com.ar/zambaweb.restapi/api/ExternalSearch',

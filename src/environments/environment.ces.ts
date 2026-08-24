@@ -7,6 +7,7 @@ import { Environment } from '@delon/theme';
 export const environment = {
     production: false,
     useHash: true,
+    appPrimaryColor: '#0077ff',
 
     restApi: 'http://localhost/ZambaCESRestApi/api',
     apiRestBasePath: 'http://localhost/ZambaCESRestApi/api/Dashboard',

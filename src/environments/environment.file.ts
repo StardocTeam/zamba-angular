@@ -12,6 +12,7 @@ const r = (key: string, def: any) => runtimeConfig[key] ?? def;
 export const environment = {
   production: false,
   useHash: true,
+  appPrimaryColor: '#337ab7',
 
   restApi: r('restApi', 'http://imageapt/Zamba.Api/api'),
   apiRestBasePath: r('apiRestBasePath', 'http://imageapt/Zamba.Api/api/Dashboard'),
