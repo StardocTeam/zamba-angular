@@ -15,9 +15,16 @@ export class AppComponent implements OnInit {
     private router: Router,
     private titleSrv: TitleService,
     private modalSrv: NzModalService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    const primaryColor = environment["appPrimaryColor"];
+
+    document.documentElement.style.setProperty(
+      '--app-primary-color',
+      primaryColor,
+    );
+
     let configLoad = false;
     this.router.events.subscribe(ev => {
       if (ev instanceof RouteConfigLoadStart) {

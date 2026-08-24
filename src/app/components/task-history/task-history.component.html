@@ -12,21 +12,16 @@
       <input maxlength="33" matInput (keyup)="applyFilter($event)" #input />
     </mat-form-field>
     <mat-card-actions class="history-actions">
-      <button mat-raised-button (click)="taskHistoryOnClick()" [ngClass]="{ 'selected-button': lastSelectedButton === 'taskHistory' }">
+      <button mat-raised-button (click)="taskHistoryOnClick()"
+        [ngClass]="{ 'selected-button': lastSelectedButton === 'taskHistory' }">
         Historial de acciones
       </button>
-      <button
-        mat-raised-button
-        (click)="indexesHistoryOnClick()"
-        [ngClass]="{ 'selected-button': lastSelectedButton === 'indexesHistory' }"
-      >
+      <button mat-raised-button (click)="indexesHistoryOnClick()"
+        [ngClass]="{ 'selected-button': lastSelectedButton === 'indexesHistory' }">
         Historial de datos
       </button>
-      <button
-        mat-raised-button
-        (click)="generalHistoryOnClick()"
-        [ngClass]="{ 'selected-button': lastSelectedButton === 'generalHistory' }"
-      >
+      <button class="" mat-raised-button (click)="generalHistoryOnClick()"
+        [ngClass]="{ 'selected-button': lastSelectedButton === 'generalHistory' }">
         Historial general
       </button>
     </mat-card-actions>
@@ -52,14 +47,8 @@
         </tr>
       </table>
 
-      <mat-paginator
-        [length]="totalRecords"
-        [pageIndex]="currentPageIndex"
-        [pageSize]="pageSize"
-        [pageSizeOptions]="pageSizeOptions"
-        (page)="onPageChange($event)"
-        showFirstLastButtons
-      />
+      <mat-paginator [length]="totalRecords" [pageIndex]="currentPageIndex" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" showFirstLastButtons />
     </div>
   </nz-spin>
 
