@@ -7,7 +7,7 @@ import { Environment } from '@delon/theme';
 export const environment = {
   production: false,
   useHash: true,
-  appPrimaryColor: '#0e9000',
+  appPrimaryColor: '#337ab7',
 
   //"http://zambabpm.com.ar/zambabpmRestApi/api"
 

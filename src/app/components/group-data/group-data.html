@@ -2,21 +2,15 @@
   <div *ngIf="isLoading" class="spinner-overlay">
     <nz-spin nzSimple nzSize="large" />
   </div>
-  <nz-card *ngIf="!isEditing" [nzBordered]="false" class="group-info-card" [nzBodyStyle]="{ padding: '24px' }" [nzExtra]="extraAction">
+  <nz-card *ngIf="!isEditing" [nzBordered]="false" class="group-info-card" [nzBodyStyle]="{ padding: '24px' }"
+    [nzExtra]="extraAction">
     <div class="card-header">
       <div>
         <span nz-typography nzCopyable [nzContent]="name" [nzCopyTooltips]="['Copiar', 'Copiado']"></span>
         <br />
-        <span nz-typography nzType="secondary"
-          >ID:
-          <span
-            nz-typography
-            nzCopyable
-            [nzContent]="groupId + ''"
-            [nzCopyTooltips]="['Copiar', 'Copiado']"
-            style="color: rgba(0, 0, 0, 0.45)"
-          ></span
-        ></span>
+        <span nz-typography nzType="secondary">ID:
+          <span nz-typography nzCopyable [nzContent]="groupId + ''" [nzCopyTooltips]="['Copiar', 'Copiado']"
+            style="color: rgba(0, 0, 0, 0.45)"></span></span>
       </div>
     </div>
     <nz-divider />
@@ -29,7 +23,7 @@
   </nz-card>
 
   <nz-card *ngIf="isEditing" [nzBordered]="false" class="group-info-card edit-card" [nzBodyStyle]="{ padding: '24px' }">
-    <h4 nz-typography style="margin-bottom: 24px; font-weight: 600; color: #1890ff">Editar Grupo</h4>
+    <h4 nz-typography style="margin-bottom: 24px; font-weight: 600; color: var(--app-primary-color)">Editar Grupo</h4>
 
     <div style="margin-bottom: 16px">
       <label style="display: block; margin-bottom: 8px; font-weight: 500; color: rgba(0, 0, 0, 0.85)">Nombre</label>
@@ -37,13 +31,10 @@
     </div>
 
     <div style="margin-bottom: 24px">
-      <label style="display: block; margin-bottom: 8px; font-weight: 500; color: rgba(0, 0, 0, 0.85)">Descripción</label>
-      <textarea
-        nz-input
-        [(ngModel)]="description"
-        [nzAutosize]="{ minRows: 3, maxRows: 6 }"
-        placeholder="Ingrese una descripción"
-      ></textarea>
+      <label
+        style="display: block; margin-bottom: 8px; font-weight: 500; color: rgba(0, 0, 0, 0.85)">Descripción</label>
+      <textarea nz-input [(ngModel)]="description" [nzAutosize]="{ minRows: 3, maxRows: 6 }"
+        placeholder="Ingrese una descripción"></textarea>
     </div>
 
     <div style="text-align: right; border-top: 1px solid #f0f0f0; padding-top: 16px">
