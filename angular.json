@@ -41,7 +41,7 @@
             ],
             "styles": [
               "src/custom-theme.scss",
-              "src/styles.less"
+              "src/styles/theme-entry.less"
             ],
             "scripts": [
               "node_modules/sweetalert/dist/sweetalert.min.js"
@@ -65,14 +65,14 @@
           },
           "configurations": {
             "production": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.prod.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.production.less"
                 }
               ],
               "outputHashing": "all",
@@ -98,14 +98,14 @@
               "namedChunks": true
             },
             "rrhh": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.rrhh.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.rrhh.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.rrhh.less"
                 }
               ],
               "buildOptimizer": false,
@@ -116,14 +116,14 @@
               "namedChunks": true
             },
             "rrhh_qa": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.rrhh_qa.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.rrhh.qa.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.rrhh_qa.less"
                 }
               ],
               "buildOptimizer": false,
@@ -134,14 +134,14 @@
               "namedChunks": true
             },
             "c": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.c.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.c.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.c.less"
                 }
               ],
               "buildOptimizer": false,
@@ -152,14 +152,14 @@
               "namedChunks": true
             },
             "local": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.local.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.local.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.local.less"
                 }
               ],
               "buildOptimizer": false,
@@ -170,14 +170,14 @@
               "namedChunks": true
             },
             "qa": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.qa.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.qa.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.qa.less"
                 }
               ],
               "buildOptimizer": false,
@@ -188,14 +188,14 @@
               "namedChunks": true
             },
              "psprod": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.psprod.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.psprod.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.psprod.less"
                 }
               ],
               "buildOptimizer": false,
@@ -206,14 +206,14 @@
               "namedChunks": true
              },
              "psdesa": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.psdesa.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.psdesa.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.psdesa.less"
                 }
               ],
               "buildOptimizer": false,
@@ -224,14 +224,14 @@
               "namedChunks": true
              },
              "ces": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.ces.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.ces.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.ces.less"
                 }
               ],
               "buildOptimizer": false,
@@ -242,14 +242,14 @@
               "namedChunks": true
              },
              "cesDesa": {
+              "styles": [
+                "src/custom-theme.scss",
+                "src/styles/theme-entry.cesDesa.less"
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.ces.desa.ts"
-                },
-                {
-                  "replace": "src/styles/theme-color.less",
-                  "with": "src/styles/theme-color.cesDesa.less"
                 }
               ],
               "buildOptimizer": false,
