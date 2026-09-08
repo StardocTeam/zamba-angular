@@ -32,8 +32,8 @@ export class StartupService {
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
-    // Try to load runtime config from /config.json (root). If not available, fall back to assets/config.json
-    const config$ = this.httpClient.get('/config.json').pipe(catchError(() => this.httpClient.get('assets/config.json')));
+    // Runtime config resolved relative to the app's own base href (works under any IIS virtual app path)
+    const config$ = this.httpClient.get('config.json').pipe(catchError(() => this.httpClient.get('assets/config.json')));
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('assets/tmp/app-data.json', { context: new HttpContext().set(ALLOW_ANONYMOUS, true) })
     return (

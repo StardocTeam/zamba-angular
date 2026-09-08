@@ -1,22 +1,27 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+// Single build for all environments: values come from `config.json`, loaded at
+// startup by `StartupService` into `window.appConfig` (see `startup.service.ts`).
+// No `--configuration` flag or `fileReplacements` are needed for a normal build;
+// just edit `config.json` next to the deployed `dist` for each environment.
 import * as MOCKDATA from '@_mock';
 import { DelonMockModule } from '@delon/mock';
 import { Environment } from '@delon/theme';
+
+const runtimeConfig = (window as any).appConfig || {};
+const r = (key: string, def: any) => runtimeConfig[key] ?? def;
+
 export const environment = {
-  production: false,
+  production: r('production', true),
   useHash: true,
-  appPrimaryColor: '#0e8f00',
+  appPrimaryColor: r('appPrimaryColor', '#0e8f00'),
 
-  restApi: 'http://localhost:44301/ZambaWeb.RestApi/api',
-  apiRestBasePath: 'http://localhost:44301/ZambaWeb.RestApi/api/Dashboard',
-  charts: 'http://localhost:44301/ZambaWeb.RestApi/api/charts',
-  externalSearchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/ExternalSearch',
-  searchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/search',
-  zambaWeb: 'http://localhost:44301/Zamba.Web',
+  restApi: r('restApi', 'http://localhost:44301/ZambaWeb.RestApi/api'),
+  apiRestBasePath: r('apiRestBasePath', 'http://localhost:44301/ZambaWeb.RestApi/api/Dashboard'),
+  charts: r('charts', 'http://localhost:44301/ZambaWeb.RestApi/api/charts'),
+  externalSearchApi: r('externalSearchApi', 'http://localhost:44301/ZambaWeb.RestApi/api/ExternalSearch'),
+  searchApi: r('searchApi', 'http://localhost:44301/ZambaWeb.RestApi/api/search'),
+  zambaWeb: r('zambaWeb', 'http://localhost:44301/Zamba.Web'),
 
-  cliente: 'zamba',
+  cliente: r('cliente', 'zamba'),
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
