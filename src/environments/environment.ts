@@ -6,29 +6,36 @@ import * as MOCKDATA from '@_mock';
 import { DelonMockModule } from '@delon/mock';
 import { Environment } from '@delon/theme';
 
-const runtimeConfig = (window as any).appConfig || {};
-const r = (key: string, def: any) => runtimeConfig[key] ?? def;
+// Read lazily on each access: `window.appConfig` is only populated once the async
+// `StartupService.load()` (APP_INITIALIZER) resolves, which happens after this module
+// is first imported, so a plain object literal would freeze the pre-load defaults.
+const r = (key: string, def: any) => ((window as any).appConfig?.[key] ?? def);
+
+// Kept as a separate static export (not a getter): AOT/ngtsc must statically evaluate
+// `environment.modules` for `@NgModule` metadata, which isn't possible on an object
+// literal that also contains get accessors.
+export const environmentModules = [DelonMockModule.forRoot({ data: MOCKDATA })];
 
 export const environment = {
-  production: r('production', true),
+  get production() { return r('production', true); },
   useHash: true,
-  appPrimaryColor: r('appPrimaryColor', '#c36200'),
+  get appPrimaryColor() { return r('appPrimaryColor', '#c36200'); },
 
-  restApi: r('restApi', ''),
-  apiRestBasePath: r('apiRestBasePath', ''),
-  charts: r('charts', ''),
-  externalSearchApi: r('externalSearchApi', ''),
-  searchApi: r('searchApi', ''),
-  zambaWeb: r('zambaWeb', ''),
+  get restApi() { return r('restApi', ''); },
+  get apiRestBasePath() { return r('apiRestBasePath', ''); },
+  get charts() { return r('charts', ''); },
+  get externalSearchApi() { return r('externalSearchApi', ''); },
+  get searchApi() { return r('searchApi', ''); },
+  get zambaWeb() { return r('zambaWeb', ''); },
 
-  cliente: r('cliente', 'zamba'),
+  get cliente() { return r('cliente', 'zamba'); },
 
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,
     refreshTokenType: 'auth-refresh',
   },
-  modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
+  modules: environmentModules,
 } as Environment;
 /*
  * In development mode, to ignore zone related error stack frames such as
