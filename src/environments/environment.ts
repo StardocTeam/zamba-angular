@@ -12,16 +12,17 @@ const r = (key: string, def: any) => runtimeConfig[key] ?? def;
 export const environment = {
   production: r('production', true),
   useHash: true,
-  appPrimaryColor: r('appPrimaryColor', '#0e8f00'),
+  appPrimaryColor: r('appPrimaryColor', '#c36200'),
 
-  restApi: r('restApi', 'http://localhost:44301/ZambaWeb.RestApi/api'),
-  apiRestBasePath: r('apiRestBasePath', 'http://localhost:44301/ZambaWeb.RestApi/api/Dashboard'),
-  charts: r('charts', 'http://localhost:44301/ZambaWeb.RestApi/api/charts'),
-  externalSearchApi: r('externalSearchApi', 'http://localhost:44301/ZambaWeb.RestApi/api/ExternalSearch'),
-  searchApi: r('searchApi', 'http://localhost:44301/ZambaWeb.RestApi/api/search'),
-  zambaWeb: r('zambaWeb', 'http://localhost:44301/Zamba.Web'),
+  restApi: r('restApi', ''),
+  apiRestBasePath: r('apiRestBasePath', ''),
+  charts: r('charts', ''),
+  externalSearchApi: r('externalSearchApi', ''),
+  searchApi: r('searchApi', ''),
+  zambaWeb: r('zambaWeb', ''),
 
   cliente: r('cliente', 'zamba'),
+
   api: {
     baseUrl: './',
     refreshTokenEnabled: true,

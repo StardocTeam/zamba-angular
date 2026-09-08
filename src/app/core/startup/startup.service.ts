@@ -5,7 +5,7 @@ import { ACLService } from '@delon/acl';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzIconService } from 'ng-zorro-antd/icon';
-import { Observable, zip, catchError, map } from 'rxjs';
+import { Observable, zip, catchError, map, of } from 'rxjs';
 
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
@@ -32,8 +32,9 @@ export class StartupService {
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
-    // Runtime config resolved relative to the app's own base href (works under any IIS virtual app path)
-    const config$ = this.httpClient.get('config.json').pipe(catchError(() => this.httpClient.get('assets/config.json')));
+    // Runtime config: `config.json` is copied from `src/assets/config.json`, so it always
+    // lives under `assets/` in the deployed dist (resolved relative to the app's base href).
+    const config$ = this.httpClient.get('assets/config.json').pipe(catchError(() => of({})));
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('assets/tmp/app-data.json', { context: new HttpContext().set(ALLOW_ANONYMOUS, true) })
     return (
