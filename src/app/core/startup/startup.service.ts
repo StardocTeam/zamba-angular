@@ -38,9 +38,10 @@ export class StartupService {
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
-    // Runtime config: `config.json` is copied from `src/assets/config.json`, so it always
-    // lives under `assets/` in the deployed dist (resolved relative to the app's base href).
-    const config$ = this.httpClient.get('assets/config.json').pipe(catchError(() => of({})));
+    // Runtime config: `config.json` is copied from `src/assets/config.json` into the
+    // `appSettings/` folder at the root of the deployed dist (sibling of `assets/`),
+    // so it can be edited/overridden per environment without touching the assets bundle.
+    const config$ = this.httpClient.get('appSettings/config.json').pipe(catchError(() => of({})));
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('assets/tmp/app-data.json', { context: new HttpContext().set(ALLOW_ANONYMOUS, true) })
     return (

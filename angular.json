@@ -30,7 +30,12 @@
               "zone.js"
             ],
             "assets": [
-              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets",
+                "ignore": ["config.json"]
+              },
               "src/favicon.ico",
               {
                 "glob": "**/*",
@@ -42,7 +47,11 @@
                 "input": "node_modules/less/dist",
                 "output": "assets"
               },
-              "src/assets/config.json"
+              {
+                "glob": "config.json",
+                "input": "src/assets",
+                "output": "appSettings"
+              }
             ],
             "styles": [
               "src/custom-theme.scss",
