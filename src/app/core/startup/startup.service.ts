@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
+import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ACLService } from '@delon/acl';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
+import { LazyService } from '@delon/util/other';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { NzIconService } from 'ng-zorro-antd/icon';
-import { Observable, zip, catchError, map } from 'rxjs';
+import { Observable, zip, catchError, map, of } from 'rxjs';
 
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
@@ -17,6 +19,8 @@ import { I18NService } from '../i18n/i18n.service';
  */
 @Injectable()
 export class StartupService {
+  private lessReady: Promise<void> | null = null;
+
   constructor(
     iconSrv: NzIconService,
     private menuService: MenuService,
@@ -26,14 +30,18 @@ export class StartupService {
     private titleService: TitleService,
     private httpClient: HttpClient,
     private router: Router,
+    private lazy: LazyService,
+    @Inject(DOCUMENT) private doc: Document,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
-    // Try to load runtime config from /config.json (root). If not available, fall back to assets/config.json
-    const config$ = this.httpClient.get('/config.json').pipe(catchError(() => this.httpClient.get('assets/config.json')));
+    // Runtime config: `config.json` is copied from `src/assets/config.json` into the
+    // `appSettings/` folder at the root of the deployed dist (sibling of `assets/`),
+    // so it can be edited/overridden per environment without touching the assets bundle.
+    const config$ = this.httpClient.get('appSettings/config.json').pipe(catchError(() => of({})));
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('assets/tmp/app-data.json', { context: new HttpContext().set(ALLOW_ANONYMOUS, true) })
     return (
@@ -58,6 +66,11 @@ export class StartupService {
           console.warn('Unable to set window.appConfig', e);
         }
 
+        // Same mechanism ng-alain's own `setting-drawer` uses to switch the theme color at
+        // runtime (color.less + less.js + `less.modifyVars`), driven by config.json instead
+        // of the drawer's color picker.
+        this.applyThemeColor(config?.appPrimaryColor);
+
         //this.settingService.setApp(appData.app);
         //this.settingService.setUser(appData.user);
         //this.aclService.setFull(true);
@@ -68,5 +81,29 @@ export class StartupService {
         //this.titleService.suffix = appData.app.name;
       }),
     );
+  }
+
+  private loadLess(): Promise<void> {
+    if (!this.lessReady) {
+      this.lessReady = this.lazy
+        .loadStyle('assets/color.less', { rel: 'stylesheet/less' })
+        .then(() => {
+          const script = this.doc.createElement('script');
+          script.innerHTML = `window.less = { async: true, env: 'production', javascriptEnabled: true };`;
+          this.doc.body.appendChild(script);
+        })
+        .then(() => this.lazy.loadScript('assets/less.min.js'))
+        .then(() => undefined);
+    }
+    return this.lessReady;
+  }
+
+  private applyThemeColor(primaryColor: string | undefined): void {
+    if (!primaryColor) {
+      return;
+    }
+    this.loadLess()
+      .then(() => (window as any).less.modifyVars({ '@primary-color': primaryColor }))
+      .catch(e => console.warn('Unable to apply appPrimaryColor from config.json', e));
   }
 }

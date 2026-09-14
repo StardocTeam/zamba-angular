@@ -4,15 +4,237 @@
     --app-primary-color: @primary-color;
 }
 
-.VarPrimaryColor {
-    background-color: var(--app-primary-color) !important;
-    border-color: var(--app-primary-color) !important;
-}
+// .VarPrimaryColor {
+//     background-color: var(--app-primary-color) !important;
+//     border-color: var(--app-primary-color) !important;
+// }
 
-.VarPrimaryColorText {
+// .VarPrimaryColorText {
+//     color: var(--app-primary-color) !important;
+// }
+
+// .VarPrimaryColorBorder {
+//     border-color: var(--app-primary-color) !important;
+// }
+
+/*
+ * ng-zorro/antd bakes @primary-color into the compiled CSS at build time, so its own
+ * components (menu, tree, checkbox, tabs, etc.) can't react to `--app-primary-color`
+ * set at runtime from config.json. Force those selectors (mirrors assets/color.less,
+ * the file antd itself ships for runtime theming) to follow the CSS variable instead.
+ */
+/*
+a,
+.ant-anchor-link-active>.ant-anchor-link-title,
+.ant-card-actions>li>span:hover,
+.ant-card-actions>li>span a:not(.ant-btn):hover,
+.ant-card-actions>li>span>.anticon:hover,
+.ant-picker-ranges .ant-picker-preset>.ant-tag-blue,
+.ant-picker-header-view button:hover,
+.ant-picker-today-btn,
+.ant-dropdown-menu-item-selected,
+.ant-dropdown-menu-submenu-title-selected,
+.ant-dropdown-menu-submenu-selected .ant-dropdown-menu-submenu-title,
+.ant-list-item-meta-title>a:hover,
+.ant-menu-submenu-selected,
+.ant-menu-item a:hover,
+.ant-menu-item>.ant-badge a:hover,
+.ant-menu-item-selected,
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover,
+.ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-expand-icon,
+.ant-menu-submenu:hover>.ant-menu-submenu-title>.ant-menu-submenu-arrow,
+.ant-menu-vertical .ant-menu-submenu-selected,
+.ant-menu-vertical-left .ant-menu-submenu-selected,
+.ant-menu-vertical-right .ant-menu-submenu-selected,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item:hover,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu:hover,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-active,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-active,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-open,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-open,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-item-selected,
+.ant-menu-horizontal:not(.ant-menu-dark)>.ant-menu-submenu-selected,
+.ant-menu-horizontal>.ant-menu-item a:hover,
+.ant-menu-horizontal>.ant-menu-item-selected a,
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-light .ant-menu-submenu-active,
+.ant-menu-light .ant-menu-submenu-title:hover,
+.ant-message-info .anticon,
+.ant-message-loading .anticon,
+.ant-modal-confirm-info .ant-modal-confirm-body>.anticon,
+.anticon.ant-notification-notice-icon-info,
+.ant-page-header-back-button,
+.ant-pagination-item:hover a,
+.ant-pagination-item:focus-visible a,
+.ant-pagination-item-active a,
+.ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-link-icon,
+.ant-pagination-prev:focus-visible .ant-pagination-item-link,
+.ant-pagination-next:focus-visible .ant-pagination-item-link,
+.ant-pagination-prev:hover .ant-pagination-item-link,
+.ant-pagination-next:hover .ant-pagination-item-link,
+.ant-radio-button-wrapper:hover,
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) .ant-select-item-option-state,
+.ant-spin,
+.ant-steps-item-icon .ant-steps-icon,
+.ant-steps-item-process .ant-steps-item-icon>.ant-steps-icon,
+.ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon,
+.ant-steps .ant-steps-item:not(.ant-steps-item-active)>.ant-steps-item-container[role='button']:hover .ant-steps-item-title,
+.ant-steps .ant-steps-item:not(.ant-steps-item-active)>.ant-steps-item-container[role='button']:hover .ant-steps-item-subtitle,
+.ant-steps .ant-steps-item:not(.ant-steps-item-active)>.ant-steps-item-container[role='button']:hover .ant-steps-item-description,
+.ant-steps .ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)>.ant-steps-item-container[role='button']:hover .ant-steps-item-icon .ant-steps-icon,
+.ant-steps-item-custom.ant-steps-item-process .ant-steps-item-icon>.ant-steps-icon,
+.ant-switch-checked .ant-switch-loading-icon,
+.ant-table-thead th.ant-table-column-has-sorters:focus-visible,
+.ant-table-column-sorter-up.active,
+.ant-table-column-sorter-down.active,
+.ant-table-filter-trigger.active,
+.ant-table-row-expand-icon,
+.ant-tabs-card>.ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-card>div>.ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+.ant-tag-checkable:not(.ant-tag-checkable-checked):hover,
+.ant-tag-processing,
+.ant-timeline-item-head-blue,
+.ant-transfer-list-content-item-remove,
+a.ant-typography,
+.ant-typography a,
+.ant-typography-expand,
+.ant-typography-edit,
+.ant-typography-copy,
+.ant-result-info .ant-result-icon>.anticon,
+.ant-cron-expression-label-foucs,
+.text-hover:hover,
+.text-primary,
+.text-info,
+.st .ant-table-thead>tr>th .ant-table-filter-selected.ant-table-filter-icon,
+.sv__type-primary .sv__detail,
+.tag-select__trigger,
+.loading-default__icon,
+.loading-default__text,
+.cell__primary,
+.sidebar-nav__item-link:hover,
+.sidebar-nav__selected>.sidebar-nav__item-link,
+.theme-btn-active,
+.theme-btn .ant-avatar:hover {
     color: var(--app-primary-color) !important;
 }
 
-.VarPrimaryColorBorder {
+.ant-ribbon,
+.ant-btn-primary,
+.ant-checkbox-checked .ant-checkbox-inner,
+.ant-checkbox-indeterminate .ant-checkbox-inner::after,
+.ant-picker-range .ant-picker-active-bar,
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner,
+.ant-picker-week-panel-row-selected td,
+.ant-picker-week-panel-row-selected:hover td,
+.ant-dropdown-menu-dark .ant-dropdown-menu-item-selected,
+.ant-dropdown-menu-dark .ant-dropdown-menu-item-selected:hover,
+.ant-dropdown-menu-dark .ant-dropdown-menu-item-selected>a,
+.ant-menu-dark.ant-menu-horizontal>.ant-menu-item:hover,
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected,
+.ant-menu.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected,
+.ant-radio-inner::after,
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before,
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.ant-slider-track,
+.ant-spin-dot-item,
+.ant-steps-item-process .ant-steps-item-icon>.ant-steps-icon .ant-steps-icon-dot,
+.ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon,
+.ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon .ant-steps-icon-dot,
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title::after,
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after,
+.ant-steps-navigation .ant-steps-item::before,
+.ant-switch-checked,
+.ant-tabs-ink-bar,
+.ant-tag-checkable-checked,
+.ant-cascader-checkbox-checked .ant-cascader-checkbox-inner,
+.ant-cascader-checkbox-indeterminate .ant-cascader-checkbox-inner::after,
+.ant-tree.ant-tree-directory .ant-tree-treenode-selected:hover::before,
+.ant-tree.ant-tree-directory .ant-tree-treenode-selected::before,
+.ant-tree-checkbox-checked .ant-tree-checkbox-inner,
+.ant-tree-checkbox-indeterminate .ant-tree-checkbox-inner::after,
+.ant-tree-node-content-wrapper .ant-tree-drop-indicator,
+.ant-select-tree-checkbox-checked .ant-select-tree-checkbox-inner,
+.ant-select-tree-checkbox-indeterminate .ant-select-tree-checkbox-inner::after,
+.ant-select-tree-node-content-wrapper .ant-tree-drop-indicator,
+.setting-drawer__handle,
+.bg-primary,
+.bg-primary-h:hover,
+.bg-info,
+.bg-info-h:hover,
+.g2-mini-progress__value,
+.alain-default__header {
+    background-color: var(--app-primary-color) !important;
+}
+
+.ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus+.ant-checkbox-inner,
+.ant-picker-panel-focused,
+.ant-radio-wrapper:hover .ant-radio,
+.ant-radio:hover .ant-radio-inner,
+.ant-radio-input:focus+.ant-radio-inner,
+.ant-radio-checked .ant-radio-inner,
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child,
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled),
+.ant-slider-handle.ant-tooltip-open,
+.ant-pagination-item:hover,
+.ant-pagination-item:focus-visible,
+.ant-pagination-item-active,
+.ant-pagination-prev:focus-visible .ant-pagination-item-link,
+.ant-pagination-next:focus-visible .ant-pagination-item-link,
+.ant-pagination-prev:hover .ant-pagination-item-link,
+.ant-pagination-next:hover .ant-pagination-item-link,
+.ant-pagination-simple .ant-pagination-simple-pager input:hover,
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-calendar-date-today,
+.ant-cascader-checkbox-wrapper:hover .ant-cascader-checkbox-inner,
+.ant-cascader-checkbox:hover .ant-cascader-checkbox-inner,
+.ant-cascader-checkbox-input:focus+.ant-cascader-checkbox-inner,
+.ant-tree-checkbox-wrapper:hover .ant-tree-checkbox-inner,
+.ant-tree-checkbox:hover .ant-tree-checkbox-inner,
+.ant-tree-checkbox-input:focus+.ant-tree-checkbox-inner,
+.ant-select-tree-checkbox-wrapper:hover .ant-select-tree-checkbox-inner,
+.ant-select-tree-checkbox:hover .ant-select-tree-checkbox-inner,
+.ant-select-tree-checkbox-input:focus+.ant-select-tree-checkbox-inner,
+.ant-upload.ant-upload-select-picture-card:hover,
+.ant-color-picker-trigger:hover,
+.border-primary,
+.border-info {
     border-color: var(--app-primary-color) !important;
 }
+
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date .ant-picker-calendar-date-value,
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date .ant-picker-calendar-date-value,
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected .ant-picker-calendar-date-today .ant-picker-calendar-date-value,
+.ant-picker-calendar-full .ant-picker-panel .ant-picker-cell-selected:hover .ant-picker-calendar-date-today .ant-picker-calendar-date-value {
+    color: var(--app-primary-color) !important;
+}
+
+html {
+    --antd-wave-shadow-color: var(--app-primary-color) !important;
+}
+*/
+
+/* Text selection highlight (was only overriding text color, not the actual highlight background) */
+// ::selection {
+//     background: var(--app-primary-color) !important;
+// }
+
+/* Plain (non `nzType="primary"`) nz-button/icon hover-focus states ship with antd's default blue */
+// .ant-btn:hover,
+// .ant-btn:focus,
+// .ant-btn:hover>.anticon,
+// .ant-btn:focus>.anticon,
+// .ant-btn>.anticon:hover {
+//     color: var(--app-primary-color) !important;
+//     border-color: var(--app-primary-color) !important;
+// }
