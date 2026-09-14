@@ -20,7 +20,7 @@ export class ValidateComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private tokenService: TokenService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -36,7 +36,7 @@ export class ValidateComponent implements OnInit {
           Params: params,
         };
         this.http
-          .post(`${environment['apiRestBasePath']}/ActivateUser`, genericRequest, null, {
+          .post(`${environment['restApi']}/Dashboard/ActivateUser`, genericRequest, null, {
             observe: 'response',
             responseType: 'json',
             context: new HttpContext().set(ALLOW_ANONYMOUS, true),

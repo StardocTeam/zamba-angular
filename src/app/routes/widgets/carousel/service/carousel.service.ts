@@ -8,16 +8,16 @@ import { environment } from '@env/environment';
   providedIn: 'root',
 })
 export class CarouselService {
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   _getCarouselContent(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/getCarouselContent`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/Dashboard/getCarouselContent`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
 
   _getCarouselConfig(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/getCarouselConfig`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/Dashboard/getCarouselConfig`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
