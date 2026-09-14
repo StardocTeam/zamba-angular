@@ -8,16 +8,16 @@ import { environment } from '@env/environment';
   providedIn: 'root',
 })
 export class WidgetsContainerService {
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   _getWidgetsContainer(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/getWidgetsContainer`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/Dashboard/getWidgetsContainer`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
 
   _setWidgetsContainer(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/setWidgetsContainer`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/Dashboard/setWidgetsContainer`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }

@@ -25,7 +25,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
     private msgSrv: NzMessageService,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.setCurrentPhonePrefix();
     this.getDepartment();
@@ -138,7 +138,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
     this.loading = true;
     this.cdr.detectChanges();
     this.http
-      .post(`${environment['apiRestBasePath']}/register`, genericRequest, null, {
+      .post(`${environment['restApi']}/Dashboard/register`, genericRequest, null, {
         observe: 'response',
         responseType: 'json',
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
@@ -184,7 +184,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
   getRol() {
     //Todo: obtener departamentos por medio de http.get teniendo en cuenta la configuracion 'AlainAuthConfig'
     this.http
-      .post(`${environment['apiRestBasePath']}/getRol`, null, null, {
+      .post(`${environment['restApi']}/Dashboard/getRol`, null, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .subscribe(data => {
@@ -195,7 +195,7 @@ export class UserRegisterComponent implements OnDestroy, OnInit {
   getDepartment() {
     //Todo: obtener departamentos por medio de http.get teniendo en cuenta la configuracion 'AlainAuthConfig'
     this.http
-      .post(`${environment['apiRestBasePath']}/getDepartment`, null, null, {
+      .post(`${environment['restApi']}/Dashboard/getDepartment`, null, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .subscribe(data => {

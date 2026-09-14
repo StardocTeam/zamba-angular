@@ -21,7 +21,7 @@ export class ResendVerificationEmailComponent implements OnDestroy {
     private router: Router,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   // #region fields
 
@@ -103,7 +103,7 @@ export class ResendVerificationEmailComponent implements OnDestroy {
     this.loading = true;
     this.cdr.detectChanges();
     this.http
-      .post(`${environment['apiRestBasePath']}/ResendVerificationEmail`, genericRequest, null, {
+      .post(`${environment['restApi']}/Dashboard/ResendVerificationEmail`, genericRequest, null, {
         observe: 'response',
         responseType: 'json',
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),

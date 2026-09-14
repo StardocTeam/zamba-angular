@@ -38,11 +38,11 @@ export interface ZambaReplaceDocumentRequest extends ZambaDocumentRequest {
   providedIn: 'root',
 })
 export class ZambaService {
-  LOGIN_URL = environment['apiRestBasePath'];
+  LOGIN_URL = environment['restApi'];
   private readonly apiUrlGetUserId: string = '';
-  private apiRestBasePath: string = `${environment['apiRestBasePath']}`;
+  private apiRestBasePath: string = `${environment['restApi']}`;
   private restApiBasePath: string = `${environment['restApi']}`;
-  private externalSearchApiBasePath: string = `${environment['externalSearchApi']}`;
+  private externalSearchApiBasePath: string = `${environment['restApi']}`;
   private zambaWebBasePath: string = `${environment['zambaWeb']}`;
   serverError = false;
   type = 0;
@@ -86,7 +86,7 @@ export class ZambaService {
     this.LOGIN_URL = this.apiRestBasePath;
 
     const restAPIUrl = this.apiRestBasePath.toLocaleLowerCase();
-    this.apiUrlGetUserId = this.buildUrl(restAPIUrl, '/getUserId');
+    this.apiUrlGetUserId = this.buildUrl(restAPIUrl, '/Dashboard/getUserId');
 
   }
 
@@ -101,7 +101,7 @@ export class ZambaService {
   }
 
   public GetProfileImage() {
-    const url = this.buildUrl(this.LOGIN_URL, '/GetProfileImage');
+    const url = this.buildUrl(this.LOGIN_URL, '/Dashboard/GetProfileImage');
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export class ZambaService {
   }
 
   public GetUserInfoForName(data: any) {
-    const url = this.buildUrl(this.LOGIN_URL, `/search/GetUserInfoForName?UserName=${data}`);
+    const url = this.buildUrl(this.LOGIN_URL, `/Dashboard/search/GetUserInfoForName?UserName=${data}`);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ export class ZambaService {
     //TODO: este codigo carga la visualizacion de la sidbar pensar mas adelante en ponerlo asyncronico
     //actualmente no funciona de esa manera ya que recarga 2 veces la  interfaz
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', this.buildUrl(this.LOGIN_URL, '/configUserSidbar'), false); // El tercer parámetro indica si la solicitud es síncrona
+    xhr.open('POST', this.buildUrl(this.LOGIN_URL, '/Dashboard/configUserSidbar'), false); // El tercer parámetro indica si la solicitud es síncrona
     xhr.setRequestHeader('Content-Type', 'application/json');
 
     try {

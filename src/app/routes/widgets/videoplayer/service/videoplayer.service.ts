@@ -8,10 +8,10 @@ import { environment } from '@env/environment';
   providedIn: 'root',
 })
 export class VideoplayerService {
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   getVideoplayerURL(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/getVideoplayerURL`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/Dashboard/getVideoplayerURL`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }

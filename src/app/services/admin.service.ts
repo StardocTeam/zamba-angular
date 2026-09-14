@@ -211,7 +211,7 @@ export class AdminService {
 
   private serviceBase: string = '';
   constructor(private http: HttpClient) {
-    let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
+    let restAPIUrl = `${environment['restApi']}/Dashboard`.toLocaleLowerCase();
     restAPIUrl = restAPIUrl.replace('dashboard', '');
     this.serviceBase = restAPIUrl;
   }
