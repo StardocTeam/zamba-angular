@@ -1,6 +1,7 @@
 <div class="global-search-preview">
   <div class="search-row">
     <input
+      #searchInput
       type="text"
       class="search-input"
       placeholder="Buscar"
@@ -9,5 +10,29 @@
       [(ngModel)]="searchValue"
       (keyup.enter)="onSearchSubmitted()"
     />
+    <button
+      *ngIf="searchValue.length > 0"
+      type="button"
+      class="search-action"
+      aria-label="Borrar búsqueda"
+      title="Borrar búsqueda"
+      (click)="searchValue = ''; searchInput.focus()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="m6 6 12 12M18 6 6 18" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      class="search-action"
+      aria-label="Buscar"
+      title="Buscar"
+      (click)="onSearchSubmitted()"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="10.5" cy="10.5" r="6.5" />
+        <path d="m16 16 5 5" />
+      </svg>
+    </button>
   </div>
 </div>
