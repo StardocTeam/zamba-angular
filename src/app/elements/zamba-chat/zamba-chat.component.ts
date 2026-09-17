@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from '@angular/core';
-
 import { CopilotPromptRequest, CopilotPromptResponse, ZambaChatMessage } from './zamba-chat.models';
+
+import { HttpClient } from '@angular/common/http';
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 

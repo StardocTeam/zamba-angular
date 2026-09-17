@@ -1,9 +1,9 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { CommonModule } from '@angular/common';
 import { CopilotPromptResponse } from './zamba-chat.models';
+import { FormsModule } from '@angular/forms';
 import { ZambaChatComponent } from './zamba-chat.component';
 
 describe('ZambaChatComponent', () => {

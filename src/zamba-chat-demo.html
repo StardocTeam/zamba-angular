@@ -1,55 +1,61 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <title>Zamba Chat Element - Test Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      body {
-        font-family: Arial, Helvetica, sans-serif;
-        padding: 20px;
-        background: #fafafa;
-      }
-      .container {
-        max-width: 480px;
-        margin: 0 auto;
-      }
-      h1 {
-        font-size: 20px;
-      }
-      #api-url {
-        width: 100%;
-        padding: 6px;
-        margin-bottom: 12px;
-        box-sizing: border-box;
-      }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 20px;
+        }
+
+        #api-url {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container">
-      <h1>Zamba Chat Element - Test Page</h1>
+        <h1>Zamba Chat Element - Test Page</h1>
 
-      <label for="api-url">Zamba.Api base URL</label>
-      <input id="api-url" type="text" value="http://localhost:5000" />
+        <label for="api-url">Zamba.Api base URL</label>
+        <input id="api-url" type="text" value="http://localhost:5000" />
 
-      <!-- Load the Angular-generated bundle files for the custom elements build -->
-      <script src="/dist/elements/runtime.js"></script>
-      <script src="/dist/elements/polyfills.js"></script>
-      <script src="/dist/elements/vendor.js"></script>
-      <script src="/dist/elements/main.js"></script>
+        <!-- Load the Angular-generated bundle files for the custom elements build -->
+        <script src="/dist/elements/runtime.js"></script>
+        <script src="/dist/elements/polyfills.js"></script>
+        <script src="/dist/elements/vendor.js"></script>
+        <script src="/dist/elements/main.js"></script>
 
-      <zamba-chat id="demoChat"></zamba-chat>
+        <zamba-chat id="demoChat"></zamba-chat>
 
-      <script>
-        customElements.whenDefined('zamba-chat').then(() => {
-          const el = document.getElementById('demoChat');
-          const apiUrlInput = document.getElementById('api-url');
-          el.apiBaseUrl = apiUrlInput.value;
-          apiUrlInput.addEventListener('change', () => {
-            el.apiBaseUrl = apiUrlInput.value;
-          });
-        });
-      </script>
+        <script>
+            customElements.whenDefined('zamba-chat').then(() => {
+                const el = document.getElementById('demoChat');
+                const apiUrlInput = document.getElementById('api-url');
+                el.apiBaseUrl = apiUrlInput.value;
+                apiUrlInput.addEventListener('change', () => {
+                    el.apiBaseUrl = apiUrlInput.value;
+                });
+            });
+        </script>
     </div>
-  </body>
+</body>
+
 </html>
