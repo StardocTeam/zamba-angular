@@ -1,38 +1,45 @@
 <div class="global-search-preview">
   <div class="search-row">
-    <input
-      #searchInput
-      type="text"
-      class="search-input"
-      placeholder="Buscar"
-      aria-label="Buscar"
-      autocomplete="off"
-      [(ngModel)]="searchValue"
-      (keyup.enter)="onSearchSubmitted()"
-    />
-    <button
-      *ngIf="searchValue.length > 0"
-      type="button"
-      class="search-action"
-      aria-label="Borrar búsqueda"
-      title="Borrar búsqueda"
-      (click)="searchValue = ''; searchInput.focus()"
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="m6 6 12 12M18 6 6 18" />
-      </svg>
+    <input #searchInput type="text" class="search-input" placeholder="Buscar" aria-label="Abrir búsqueda global"
+      aria-haspopup="dialog" autocomplete="off" [ngModel]="searchValue" (ngModelChange)="changeText($event)"
+      (click)="openModal()" (keydown.enter)="$event.preventDefault(); openModal(); search()" />
+    <button *ngIf="searchValue.length" type="button" class="search-action" aria-label="Borrar búsqueda" title="Borrar búsqueda" (click)="clear()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
     </button>
-    <button
-      type="button"
-      class="search-action"
-      aria-label="Buscar"
-      title="Buscar"
-      (click)="onSearchSubmitted()"
-    >
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <circle cx="10.5" cy="10.5" r="6.5" />
-        <path d="m16 16 5 5" />
-      </svg>
+    <button type="button" class="search-action" aria-label="Abrir búsqueda global" title="Buscar" (click)="openModal()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></svg>
     </button>
   </div>
 </div>
+<dialog #dialog class="zgs-modal" aria-label="Búsqueda global" (cancel)="$event.preventDefault(); close()"
+  (close)="onClosed()" (click)="backdrop($event)" (keydown.escape)="$event.preventDefault(); $event.stopPropagation(); close()">
+  <form class="zgs-header" (submit)="$event.preventDefault(); search()">
+    <div class="zgs-input-wrap">
+      <input #modalInput type="text" class="zgs-input" placeholder="Buscar…" aria-label="Buscar tareas" role="combobox"
+        aria-autocomplete="none" aria-controls="zgs-results" aria-expanded="true" autocomplete="off"
+        [attr.aria-activedescendant]="selected >= 0 ? 'zgs-result-' + selected : null"
+        [disabled]="opening" [ngModel]="searchValue" (ngModelChange)="changeText($event)" name="query" (keydown)="onKeydown($event)" />
+      <button *ngIf="searchValue.length" type="button" class="zgs-clear" aria-label="Borrar búsqueda" title="Borrar búsqueda" [disabled]="opening" (click)="clear(true)">×</button>
+    </div>
+    <button type="submit" class="zgs-button zgs-submit" aria-label="Buscar" title="Buscar" [disabled]="busy || opening">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></svg>
+    </button>
+  </form>
+  <p class="zgs-status" role="status">{{ opening ? 'Abriendo resultado…' : status }}</p>
+  <div #results id="zgs-results" class="zgs-results" role="listbox" aria-label="Resultados de búsqueda" [attr.aria-busy]="busy">
+    <div *ngFor="let row of rows; let i = index" class="zgs-card" [id]="'zgs-result-' + i" role="option"
+      [attr.aria-selected]="selected === i" title="Doble clic para abrir" (click)="select(i)" (dblclick)="openResult(i)">
+      <h3>{{ field(row, ['Tarea', 'NAME', 'Name', 'Nombre']) || 'Sin nombre' }}</h3>
+      <dl class="zgs-details">
+        <div><dt>Entidad</dt><dd>{{ field(row, ['Entidad', 'ENTIDAD']) || '—' }}</dd></div>
+        <div><dt>Creación</dt><dd>{{ date(field(row, ['Creado', 'CREADO'])) }}</dd></div>
+        <div><dt>Modificación</dt><dd>{{ date(field(row, ['Modificado', 'MODIFICADO'])) }}</dd></div>
+        <div><dt>Asignado</dt><dd>{{ field(row, ['AsignedTo', 'ASIGNEDTO', 'ASIGNADO', 'Asignado']) || '—' }}</dd></div>
+        <div><dt>Etapa</dt><dd>{{ field(row, ['Step', 'Etapa']) || '—' }}</dd></div>
+        <div><dt>Coincidencias</dt><dd><span *ngFor="let part of matches(row)" [class.zgs-match]="part.match">{{ part.text }}</span></dd></div>
+      </dl>
+    </div>
+  </div>
+  <button *ngIf="hasMore" type="button" class="zgs-button zgs-more" [disabled]="busy || opening" (click)="search(true)">Cargar más resultados</button>
+  <footer class="zgs-footer"><span><kbd>↵</kbd> buscar / abrir selección</span><span><kbd>↑ ↓</kbd> navegar</span><span><kbd>esc</kbd> cerrar</span></footer>
+</dialog>
