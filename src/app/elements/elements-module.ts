@@ -26,6 +26,7 @@ import { GlobalSearchElementComponent } from './global-search/global-search.comp
 import { MiniwebBookmarkComponent } from './miniweb-bookmark/miniweb-bookmark.component';
 import { TinymceElementComponent } from './tinymce-editor/tinymce-editor.component';
 import { WebBookmarkComponent } from './web-bookmark/web-bookmark.component';
+import { ZambaChatComponent } from './zamba-chat/zamba-chat.component';
 
 const routes: Routes = [
   { path: '', component: ChecklistComponent },
@@ -36,7 +37,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ChecklistComponent, TinymceElementComponent, GlobalSearchElementComponent, WebBookmarkComponent, MiniwebBookmarkComponent],
+  declarations: [
+    ChecklistComponent,
+    TinymceElementComponent,
+    GlobalSearchElementComponent,
+    WebBookmarkComponent,
+    MiniwebBookmarkComponent,
+    ZambaChatComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,
@@ -68,6 +76,7 @@ const routes: Routes = [
     GlobalSearchElementComponent,
     WebBookmarkComponent,
     MiniwebBookmarkComponent,
+    ZambaChatComponent,
     NzIconModule,
   ],
 })
@@ -98,6 +107,11 @@ export class ElementsModule implements DoBootstrap {
     const MiniwebBookmarkElement = createCustomElement(MiniwebBookmarkComponent, { injector: this.injector });
     if (!customElements.get('zamba-miniweb-bookmark')) {
       customElements.define('zamba-miniweb-bookmark', MiniwebBookmarkElement);
+    }
+
+    const ZambaChatElement = createCustomElement(ZambaChatComponent, { injector: this.injector });
+    if (!customElements.get('zamba-chat')) {
+      customElements.define('zamba-chat', ZambaChatElement);
     }
   }
 }
