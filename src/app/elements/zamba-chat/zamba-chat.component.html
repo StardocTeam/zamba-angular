@@ -18,6 +18,8 @@
 
     <div *ngIf="errorMessage" class="zamba-chat-banner-error">{{ errorMessage }}</div>
 
+    <div *ngIf="isExtracting" class="zamba-chat-banner-info">Extrayendo datos del documento...</div>
+
     <div *ngIf="pendingFileName" class="zamba-chat-pending-file">
         <span>📎 {{ pendingFileName }}</span>
         <button type="button" class="zamba-chat-remove-file" (click)="clearPendingFile()"

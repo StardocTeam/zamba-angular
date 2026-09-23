@@ -1,6 +1,7 @@
-import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { CopilotPromptRequest, CopilotPromptResponse, ZambaChatMessage } from './zamba-chat.models';
+import { AfterViewChecked, Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
+import { CopilotPromptRequest, CopilotPromptResponse, ZambaChatMessage, ZambaFieldBinding } from './zamba-chat.models';
 
+import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
@@ -20,12 +21,23 @@ export class ZambaChatComponent implements AfterViewChecked {
   @Input() width: string | number = '380px';
   @Input() height: string | number = '520px';
 
+  /** Bindings between a target input's id and the prompt used to auto-extract its value from the file. */
+  @Input() fieldBindings: ZambaFieldBinding[] = [];
+
   @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
   @ViewChild('messagesEnd') messagesEndRef?: ElementRef<HTMLDivElement>;
+
+  private endpoint(path: string): string {
+    const base = this.host.ZambaWebRestApiURL;
+    if (!base) throw new Error('ZambaWebRestApiURL no está disponible en la página anfitriona.');
+    return `${base.replace(/\/$/, '')}/${path}`;
+  }
+
 
   messages: ZambaChatMessage[] = [];
   prompt = '';
   isSending = false;
+  isExtracting = false;
   errorMessage: string | null = null;
 
   pendingFileName: string | null = null;
@@ -36,7 +48,10 @@ export class ZambaChatComponent implements AfterViewChecked {
 
   private shouldScrollToBottom = false;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    @Inject(DOCUMENT) private readonly document: Document
+  ) { }
 
   ngAfterViewChecked(): void {
     if (this.shouldScrollToBottom) {
@@ -81,11 +96,77 @@ export class ZambaChatComponent implements AfterViewChecked {
       this.pendingFileName = file.name;
       // A newly attached file starts a new document context.
       this.documentId = null;
+      this.runFieldExtractions();
     };
     reader.onerror = () => {
       this.errorMessage = 'No se pudo leer el archivo seleccionado.';
     };
     reader.readAsDataURL(file);
+  }
+
+  /** Automatically asks each configured prompt right after a file is attached and writes the answers into the bound inputs. */
+  private runFieldExtractions(): void {
+    if (!this.fieldBindings?.length || !this.pendingFileBase64) {
+      return;
+    }
+
+    const [first, ...rest] = this.fieldBindings;
+    this.isExtracting = true;
+
+    const firstRequest: CopilotPromptRequest = {
+      prompt: first.prompt,
+      fileBase64: this.pendingFileBase64,
+      fileName: this.pendingFileName ?? 'archivo',
+    };
+
+    this.http.post<CopilotPromptResponse>(this.buildUrl(), firstRequest).subscribe({
+      next: response => {
+        this.documentId = response.documentId;
+        this.applyFieldValue(first.inputId, response.response);
+        this.runRemainingExtractions(rest);
+      },
+      error: () => {
+        this.isExtracting = false;
+        this.errorMessage = 'No se pudieron extraer los datos automáticos del documento.';
+      },
+    });
+  }
+
+  private runRemainingExtractions(bindings: ZambaFieldBinding[]): void {
+    if (bindings.length === 0) {
+      this.isExtracting = false;
+      return;
+    }
+
+    let pending = bindings.length;
+    const onSettled = () => {
+      pending--;
+      if (pending === 0) {
+        this.isExtracting = false;
+      }
+    };
+
+    bindings.forEach(binding => {
+      const request: CopilotPromptRequest = { prompt: binding.prompt, documentId: this.documentId! };
+      this.http.post<CopilotPromptResponse>(this.buildUrl(), request).subscribe({
+        next: response => {
+          this.applyFieldValue(binding.inputId, response.response);
+          onSettled();
+        },
+        error: onSettled,
+      });
+    });
+  }
+
+  private applyFieldValue(inputId: string, value: string): void {
+    const target = this.document.getElementById(inputId) as HTMLInputElement | null;
+    if (!target) {
+      return;
+    }
+
+    target.value = value.trim();
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+    target.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   clearPendingFile(): void {
@@ -144,7 +225,7 @@ export class ZambaChatComponent implements AfterViewChecked {
   }
 
   private buildUrl(): string {
-    const base = this.apiBaseUrl.endsWith('/') ? this.apiBaseUrl.slice(0, -1) : this.apiBaseUrl;
+    const base = this.endpoint('search/Results');
     const path = this.askPath.startsWith('/') ? this.askPath : `/${this.askPath}`;
     return `${base}${path}`;
   }
