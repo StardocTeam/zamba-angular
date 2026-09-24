@@ -2,6 +2,8 @@
     all: initial;
     display: block !important;
     width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     box-sizing: border-box;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -17,14 +19,15 @@
     justify-content: center !important;
     align-items: center;
     width: 100% !important;
-    padding: 0 16px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: rgb(51, 122, 183) !important;
 }
 
 .search-row {
     display: flex !important;
     align-items: center;
-    width: min(760px, 100%) !important;
+    width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     border: 1px solid rgba(0, 0, 0, 0.18) !important;
@@ -107,3 +110,47 @@
         padding: 0 14px !important;
     }
 }
+.zgs-modal {
+    width: min(760px, calc(100vw - 32px)); max-height: 85vh; margin: 7vh auto auto;
+    padding: 0; border: 1px solid #d6dce5; border-radius: 12px;
+    background: #fff; color: #253247; box-shadow: 0 24px 80px #0005;
+    font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.zgs-modal[open] { display: flex; flex-direction: column; }
+.zgs-modal::backdrop { background: #101828a6; backdrop-filter: blur(3px); }
+.zgs-modal, .zgs-modal * { box-sizing: border-box; }
+.zgs-modal [hidden] { display: none !important; }
+.zgs-modal .zgs-header { display: flex; align-items: center; gap: 8px; padding: 16px; margin: 0; border-bottom: 1px solid #e3e8ef; flex-shrink: 0; }
+.zgs-modal .zgs-input-wrap { position: relative; flex: 1; min-width: 0; }
+.zgs-modal .zgs-input { display: block; width: 100%; height: 48px; margin: 0; padding: 10px 42px 10px 6px; border: 0; background: transparent; color: inherit; font: inherit; font-size: 18px; box-shadow: none; }
+.zgs-modal .zgs-input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
+.zgs-modal .zgs-clear { position: absolute; right: 4px; top: 4px; width: 36px; height: 40px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: #65758a; font-family: inherit; font-size: 23px; line-height: 1; cursor: pointer; }
+.zgs-modal .zgs-clear:hover { background: #e8f1fa; color: #235c8d; }
+.zgs-modal .zgs-button { border: 1px solid #d6dce5; border-radius: 6px; background: #f5f7fa; color: #334b68; padding: 8px 12px; cursor: pointer; font: inherit; }
+.zgs-modal .zgs-button:hover { background: #e8f1fa; }
+.zgs-modal :focus-visible { outline: 2px solid #337ab7; outline-offset: 2px; }
+.zgs-modal .zgs-submit { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 48px; width: 48px; height: 48px; padding: 12px; }
+.zgs-modal .zgs-submit svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.zgs-modal .zgs-status { padding: 12px 22px; margin: 0; color: #65758a; flex-shrink: 0; }
+.zgs-modal .zgs-results { min-height: 150px; overflow: auto; overscroll-behavior: contain; padding: 0 14px 14px; }
+.zgs-modal .zgs-card { border: 1px solid #e3e8ef; border-left: 3px solid transparent; border-radius: 6px; padding: 15px 18px; margin-bottom: 9px; cursor: pointer; }
+.zgs-modal .zgs-card:hover { background: #f7f9fc; }
+.zgs-modal .zgs-card[aria-selected="true"] { background: #eef5fc; border-color: #c1d9ef; border-left-color: #337ab7; }
+.zgs-modal .zgs-card h3 { margin: 0 0 12px; color: #235c8d; font-size: 16px; line-height: 1.4; font-weight: 600; overflow-wrap: anywhere; }
+.zgs-modal .zgs-details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 18px; margin: 0; }
+.zgs-modal .zgs-details dt { font-size: 11px; color: #68788b; font-weight: 400; }
+.zgs-modal .zgs-details dd { margin: 2px 0 0; overflow-wrap: anywhere; }
+.zgs-modal .zgs-match { color: #183f64; font-weight: 700; }
+.zgs-modal .zgs-more { align-self: center; margin: 0 14px 14px; flex-shrink: 0; }
+.zgs-modal .zgs-footer { display: flex; flex-wrap: wrap; gap: 12px 20px; padding: 14px 20px; border-top: 1px solid #e3e8ef; background: #f8fafc; color: #65758a; font-size: 12px; flex-shrink: 0; }
+.zgs-modal kbd { display: inline-block; min-width: 25px; text-align: center; padding: 2px 5px; border: 1px solid #ccd4df; border-radius: 3px; background: #fff; color: #46576c; box-shadow: 0 1px 1px #0001; }
+@media (max-width: 540px) {
+    .zgs-modal { margin-top: 3vh; max-height: 94vh; }
+    .zgs-modal .zgs-header { padding: 10px; gap: 4px; }
+    .zgs-modal .zgs-input { font-size: 16px; }
+    .zgs-modal .zgs-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+
+
+.zgs-modal button:disabled { opacity: .55; cursor: wait; }
