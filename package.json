@@ -39,6 +39,7 @@
     "build:elements:rrhh": "npm run ng-high-memory build -- --configuration=rrhh --main=src/main.checklist.ts --output-path=dist/elements --base-href=./ --output-hashing=none",
     "build:elements:rrhh_qa": "npm run ng-high-memory build -- --configuration=rrhh_qa --main=src/main.checklist.ts --output-path=dist/elements --base-href=./ --output-hashing=none",
     "onlyoffice:server": "node scripts/onlyoffice-demo-server.mjs",
+    "zamba-chat:demo": "node scripts/zamba-chat-demo-server.mjs",
     "onlyoffice:up": "docker compose -f docker-compose.onlyoffice.yml up -d",
     "onlyoffice:down": "docker compose -f docker-compose.onlyoffice.yml down",
     "analyze": "npm run ng-high-memory build -- --source-map",
