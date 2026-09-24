@@ -29,6 +29,7 @@
   <div #results id="zgs-results" class="zgs-results" role="listbox" aria-label="Resultados de búsqueda" [attr.aria-busy]="busy">
     <div *ngFor="let row of rows; let i = index" class="zgs-card" [id]="'zgs-result-' + i" role="option"
       [attr.aria-selected]="selected === i" title="Doble clic para abrir" (click)="select(i)" (dblclick)="openResult(i)">
+      <span class="zgs-position" aria-hidden="true">{{ i + 1 }} de {{ rows.length }}</span>
       <h3>{{ field(row, ['Tarea', 'NAME', 'Name', 'Nombre']) || 'Sin nombre' }}</h3>
       <dl class="zgs-details">
         <div><dt>Entidad</dt><dd>{{ field(row, ['Entidad', 'ENTIDAD']) || '—' }}</dd></div>
@@ -40,6 +41,9 @@
       </dl>
     </div>
   </div>
-  <button *ngIf="hasMore" type="button" class="zgs-button zgs-more" [disabled]="busy || opening" (click)="search(true)">Cargar más resultados</button>
-  <footer class="zgs-footer"><span><kbd>↵</kbd> buscar / abrir selección</span><span><kbd>↑ ↓</kbd> navegar</span><span><kbd>esc</kbd> cerrar</span></footer>
+  <footer class="zgs-footer">
+    <span><kbd>↵</kbd> buscar / abrir selección</span>
+    <button type="button" class="zgs-footer-action" [disabled]="busy || opening" (click)="search(true)"><kbd>Av Pág</kbd> cargar más resultados</button>
+    <span class="zgs-footer-end"><span><kbd>↑ ↓</kbd> navegar</span><span><kbd>esc</kbd> cerrar</span></span>
+  </footer>
 </dialog>
