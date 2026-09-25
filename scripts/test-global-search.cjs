@@ -25,7 +25,7 @@ function fixture(permission = false) {
   const host = { GetUID: () => '42', ZambaWebRestApiURL: 'https://example.test/api/', thisDomain: 'https://example.test/Zamba.Web',
     location: { origin: 'https://example.test' }, localStorage: { getItem: () => 'stored-token' } };
   const doc = { defaultView: host, baseURI: 'https://example.test/', body: {}, querySelector: () => null };
-  const backend = { post: (url, body, options) => { requests.push({url,body,options}); return url.includes('Rights') ? permission : { data: [], total: 0 }; } };
+  const backend = { post: (url, body, options) => { requests.push({url,body,options}); return url.includes('GetUsersWFStepsRights') ? permission : { data: [], total: 0 }; } };
   return { service: new serviceModule.GlobalSearchService(backend,doc), host, requests };
 }
 test('legacy search body, zero-based pagination and stored bearer', async () => {
@@ -42,21 +42,34 @@ test('AngularJS bearer has priority over persisted token', async () => {
   host.angular = { element: () => ({ injector: () => ({ get: () => ({ defaults: { headers: { common: {Authorization:'Bearer live-token'} } } }) }) }) };
   await service.search('texto',0); assert.equal(requests[0].options.headers.values.Authorization,'Bearer live-token');
 });
-test('permission selects TaskViewer or DocViewer, aliases and token preserved', async () => {
-  for (const permission of [true,false]) {
-    const {service,requests} = fixture(permission);
-    const url = new URL(await service.resultUrl({Doc_Id:9,Doc_Type_Id:8,Step_Id:7,Task_Id:6}));
-    assert.equal(url.pathname, permission ? '/Zamba.Web/views/WF/TaskViewer.aspx' : '/Zamba.Web/views/search/docviewer.aspx');
-    assert.equal(url.searchParams.get('t'),'stored-token');
-    assert.equal(url.searchParams.get('taskid'),permission ? '6' : null);
-    assert.equal(requests[0].options.params.values.right,19);
-  }
+test('a permitted task opens TaskViewer directly with aliases and token', async () => {
+  const {service,requests} = fixture(true);
+  const url = new URL(await service.resultUrl({Doc_Id:9,Doc_Type_Id:8,Step_Id:7,Task_Id:6}));
+  assert.equal(url.pathname, '/Zamba.Web/views/WF/TaskViewer.aspx');
+  assert.equal(url.searchParams.get('DocType'),'8');
+  assert.equal(url.searchParams.get('docid'),'9');
+  assert.equal(url.searchParams.get('taskid'),'6');
+  assert.equal(url.searchParams.get('s'),'7');
+  assert.equal(url.searchParams.get('user'),'42');
+  assert.equal(url.searchParams.get('t'),'stored-token');
+  assert.equal(url.searchParams.get('gridClicked'),'1');
+  assert.equal(requests.length,1);
+  assert.equal(requests[0].url, 'https://example.test/api/Tasks/GetUsersWFStepsRights');
+  assert.equal(requests[0].options.params.values.stepId, '7');
+  assert.equal(requests[0].options.params.values.right, '19');
+  assert.equal(requests[0].options.params.values.userid, '42');
 });
-test('no stage opens DocViewer without requesting workflow rights; missing user fails', async () => {
-  const {service,host,requests} = fixture();
-  assert.match(await service.resultUrl({DOC_ID:1,DOC_TYPE_ID:2}),/docviewer/);
-  assert.equal(requests.length,0); host.GetUID = () => '';
-  await assert.rejects(service.search('texto',0),/Usuario/);
+test('missing task or permission opens DocViewer without task parameters', async () => {
+  const {service,requests} = fixture(false);
+  const denied = new URL(await service.resultUrl({DOC_ID:1,DOC_TYPE_ID:2,TASK_ID:3,STEP_ID:4}));
+  assert.equal(denied.pathname, '/Zamba.Web/views/search/docviewer.aspx');
+  assert.equal(denied.searchParams.get('taskid'), null);
+  assert.equal(requests.length,1);
+  const missing = fixture();
+  const url = new URL(await missing.service.resultUrl({DOC_ID:1,DOC_TYPE_ID:2}));
+  assert.equal(url.pathname, '/Zamba.Web/views/search/docviewer.aspx');
+  assert.equal(missing.requests.length,0); missing.host.GetUID = () => '';
+  await assert.rejects(missing.service.search('texto',0),/Usuario/);
 });
 const {GlobalSearchElementComponent} = load('global-search.component', {'./global-search.service':serviceModule});
 function component(service) {

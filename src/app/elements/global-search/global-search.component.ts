@@ -83,8 +83,8 @@ export class GlobalSearchElementComponent implements OnDestroy {
       if (current !== this.requestId || !this.dialog.nativeElement.open) return;
       this.rows = append ? this.rows.concat(response.data) : response.data;
       this.page = nextPage;
-      this.selected = -1;
-      // The supplied controller returns the current page count in `total`.
+      if (!append) this.selected = -1;
+      // Kept as informational state; loading another page remains available even when false.
       this.hasMore = response.data.length >= this.service.pageSize;
       this.status = this.rows.length ? `${this.rows.length} resultados` : 'No se encontraron resultados.';
     } catch {
@@ -102,6 +102,9 @@ export class GlobalSearchElementComponent implements OnDestroy {
     } else if (event.key === 'Enter') {
       event.preventDefault();
       if (this.selected >= 0) void this.openResult(this.selected); else void this.search();
+    } else if (event.key === 'PageDown') {
+      event.preventDefault();
+      void this.search(true);
     }
   }
   select(index: number): void {
