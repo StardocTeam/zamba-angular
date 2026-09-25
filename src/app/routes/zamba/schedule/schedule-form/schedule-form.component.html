@@ -1,0 +1,122 @@
+<div class="schedule-form-container">
+  <h2>{{ isEditMode ? 'Edit Schedule' : 'Create New Schedule' }}</h2>
+  <nz-spin [nzSimple]="true" [nzSpinning]="loading">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="schedule-form">
+      <div class="form-section">
+        <h3>Basic Information</h3>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Schedule Name *</label>
+              <input nz-input formControlName="name" placeholder="Enter schedule name" />
+              <div class="error-message" *ngIf="getControl('name')?.invalid && getControl('name')?.touched">
+                {{ getErrorMessage('name') }}
+              </div>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Rule ID *</label>
+              <input nz-input formControlName="ruleId" placeholder="Enter rule ID" />
+              <div class="error-message" *ngIf="getControl('ruleId')?.invalid && getControl('ruleId')?.touched">
+                {{ getErrorMessage('ruleId') }}
+              </div>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24">
+            <div class="form-group">
+              <label>Description</label>
+              <textarea nz-input formControlName="description" placeholder="Enter description"></textarea>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Endpoint Override</label>
+              <input nz-input formControlName="endpointOverride" placeholder="https://..." />
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label><input type="checkbox" formControlName="isActive" /> Active</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Recurrence Configuration</h3>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Recurrence Type *</label>
+              <nz-select formControlName="recurrenceType" nzPlaceHolder="Select recurrence type">
+                <nz-option *ngFor="let type of recurrenceTypes" [nzValue]="type.id" [nzLabel]="type.name"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Time Zone *</label>
+              <nz-select formControlName="timeZone" nzPlaceHolder="Select time zone">
+                <nz-option *ngFor="let tz of timeZones" [nzValue]="tz" [nzLabel]="tz"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Start Date *</label>
+              <nz-date-picker formControlName="startDate" nzPlaceHolder="Select start date"></nz-date-picker>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="isFieldVisible('endDate')">
+            <div class="form-group">
+              <label>End Date</label>
+              <nz-date-picker formControlName="endDate" nzPlaceHolder="Select end date"></nz-date-picker>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="isFieldVisible('timeOfDay')">
+            <div class="form-group">
+              <label>Time of Day *</label>
+              <nz-time-picker formControlName="timeOfDay" nzPlaceHolder="Select time"></nz-time-picker>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="isFieldVisible('intervalValue')">
+            <div class="form-group">
+              <label>Interval (minutes/hours) *</label>
+              <input nz-input type="number" formControlName="intervalValue" placeholder="1" />
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" *ngIf="isFieldVisible('daysOfWeek')">
+            <div class="form-group">
+              <label>Days of Week *</label>
+              <label nz-checkbox *ngFor="let day of ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']">
+                <input type="checkbox" [value]="day" /> {{ day }}
+              </label>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="isFieldVisible('dayOfMonth')">
+            <div class="form-group">
+              <label>Day of Month *</label>
+              <input nz-input type="number" formControlName="dayOfMonth" placeholder="1-31" />
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" *ngIf="isFieldVisible('cronExpression')">
+            <div class="form-group">
+              <label>Cron Expression *</label>
+              <textarea nz-input formControlName="cronExpression" placeholder="0 0 * * *"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button nz-button nzType="primary" nzSize="large" [disabled]="loading || form.invalid">
+          {{ isEditMode ? 'Update' : 'Create' }}
+        </button>
+        <button nz-button nzSize="large" (click)="onCancel()" [disabled]="loading" type="button">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </nz-spin>
+</div>

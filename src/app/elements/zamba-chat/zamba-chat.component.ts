@@ -24,11 +24,14 @@ export class ZambaChatComponent implements AfterViewChecked {
   /** Bindings between a target input's id and the prompt used to auto-extract its value from the file. */
   @Input() fieldBindings: ZambaFieldBinding[] = [];
 
+  /** Enables extraction requests immediately after a file is attached. */
+  @Input() automaticExtraction = true;
+
   @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
   @ViewChild('messagesEnd') messagesEndRef?: ElementRef<HTMLDivElement>;
 
   private endpoint(path: string): string {
-    const base = this.host.ZambaWebRestApiURL;
+    const base = this.apiBaseUrl || 'https://localhost:7088';
     if (!base) throw new Error('ZambaWebRestApiURL no está disponible en la página anfitriona.');
     return `${base.replace(/\/$/, '')}/${path}`;
   }
@@ -96,7 +99,9 @@ export class ZambaChatComponent implements AfterViewChecked {
       this.pendingFileName = file.name;
       // A newly attached file starts a new document context.
       this.documentId = null;
-      this.runFieldExtractions();
+      if (this.automaticExtraction) {
+        this.runFieldExtractions();
+      }
     };
     reader.onerror = () => {
       this.errorMessage = 'No se pudo leer el archivo seleccionado.';
@@ -158,15 +163,35 @@ export class ZambaChatComponent implements AfterViewChecked {
     });
   }
 
-  private applyFieldValue(inputId: string, value: string): void {
-    const target = this.document.getElementById(inputId) as HTMLInputElement | null;
-    if (!target) {
-      return;
+  private applyFieldValue(inputId: string | undefined, value: string): void {
+    if (!inputId) {
+      try {
+        const jsonValue = value
+          .trim()
+          .replace(/^```(?:json)?\s*/i, '')
+          .replace(/\s*```$/i, '')
+          .trim();
+        const values = JSON.parse(jsonValue) as Record<string, unknown>;
+        Object.entries(values).forEach(([key, fieldValue]) => {
+          this.setInputValue(key, String(fieldValue ?? ''));
+        });
+        return;
+      } catch {
+        this.errorMessage = 'La extracción automática no devolvió un JSON válido.';
+        return;
+      }
     }
 
-    target.value = value.trim();
-    target.dispatchEvent(new Event('input', { bubbles: true }));
-    target.dispatchEvent(new Event('change', { bubbles: true }));
+    this.setInputValue(inputId, value.trim());
+  }
+
+  private setInputValue(inputId: string, value: string): void {
+    const target = this.document.getElementById(inputId) as HTMLInputElement | null;
+    if (target) {
+      target.value = value;
+      target.dispatchEvent(new Event('input', { bubbles: true }));
+      target.dispatchEvent(new Event('change', { bubbles: true }));
+    }
   }
 
   clearPendingFile(): void {
@@ -225,7 +250,7 @@ export class ZambaChatComponent implements AfterViewChecked {
   }
 
   private buildUrl(): string {
-    const base = this.endpoint('search/Results');
+    const base = this.apiBaseUrl.replace(/\/$/, '');
     const path = this.askPath.startsWith('/') ? this.askPath : `/${this.askPath}`;
     return `${base}${path}`;
   }

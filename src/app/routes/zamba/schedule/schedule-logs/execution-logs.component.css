@@ -1,0 +1,151 @@
+.logs-container {
+  padding: 24px;
+  background: white;
+  border-radius: 4px;
+}
+
+/* Header */
+.logs-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e8e8e8;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #262626;
+    margin: 0;
+    padding-top: 8px;
+  }
+}
+
+/* Toolbar */
+.logs-toolbar {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
+
+  .button-group {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  :host ::ng-deep .ant-select {
+    width: 100%;
+  }
+}
+
+/* Table Styling */
+.logs-table {
+  :host ::ng-deep {
+    .ant-table {
+      font-size: 12px;
+    }
+
+    .ant-table-thead > tr > th {
+      background: #fafafa;
+      font-weight: 600;
+      border-bottom: 2px solid #e8e8e8;
+    }
+
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid #e8e8e8;
+      padding: 8px;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: #f5f5f5;
+    }
+  }
+
+  .text-muted {
+    color: #999;
+  }
+
+  .status-success {
+    color: #52c41a;
+    font-weight: 500;
+  }
+
+  .status-error {
+    color: #ff4d4f;
+    font-weight: 500;
+  }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+
+  i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #d9d9d9;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Log Details Modal */
+:host ::ng-deep {
+  .log-details {
+    p {
+      margin-bottom: 12px;
+      font-size: 13px;
+
+      strong {
+        color: #262626;
+      }
+    }
+
+    pre {
+      background: #f5f5f5;
+      padding: 8px;
+      border-radius: 2px;
+      overflow-x: auto;
+      max-height: 300px;
+      font-size: 12px;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logs-container {
+    padding: 16px;
+  }
+
+  .logs-header {
+    h2 {
+      font-size: 16px;
+    }
+  }
+
+  .logs-toolbar {
+    .button-group {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .logs-table {
+    :host ::ng-deep {
+      .ant-table {
+        font-size: 11px;
+      }
+
+      th, td {
+        padding: 6px !important;
+      }
+    }
+  }
+}

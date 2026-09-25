@@ -1,0 +1,27 @@
+<div class="detail-container">
+  <div class="toolbar">
+    <h2>Schedule Details</h2>
+    <button nz-button>Back</button>
+  </div>
+  <nz-spin [nzSpinning]="loading" *ngIf="schedule">
+    <div class="detail-section">
+      <h3>Basic Information</h3>
+      <div class="detail-row">
+        <div class="detail-label">Name:</div>
+        <div class="detail-value">{{ schedule.name }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Rule ID:</div>
+        <div class="detail-value">{{ schedule.ruleId }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Status:</div>
+        <div class="detail-value">
+          <nz-tag [nzColor]="schedule.isActive ? 'green' : 'default'">
+            {{ schedule.isActive ? 'Active' : 'Inactive' }}
+          </nz-tag>
+        </div>
+      </div>
+    </div>
+  </nz-spin>
+</div>

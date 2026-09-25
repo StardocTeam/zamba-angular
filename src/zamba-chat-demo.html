@@ -28,6 +28,35 @@
       box-sizing: border-box;
     }
 
+    .binding-editor {
+      margin-bottom: 12px;
+    }
+
+    .binding-editor label {
+      display: block;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.65);
+      margin-bottom: 4px;
+    }
+
+    #field-bindings {
+      width: 100%;
+      min-height: 120px;
+      padding: 8px;
+      box-sizing: border-box;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 12px;
+      resize: vertical;
+    }
+
+    .automatic-extraction {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
     .extracted-fields {
       display: flex;
       gap: 12px;
@@ -60,6 +89,16 @@
     <label for="api-url">Zamba.Api base URL</label>
     <input id="api-url" type="text" value="http://localhost:5000" />
 
+    <div class="binding-editor">
+      <label for="extraction-prompt">Extraction prompt</label>
+      <textarea id="extraction-prompt" spellcheck="false"></textarea>
+    </div>
+
+    <label class="automatic-extraction">
+      <input id="automatic-extraction" type="checkbox" checked />
+      Automatic extraction on file upload
+    </label>
+
     <div class="extracted-fields">
       <div>
         <label for="zamba_index_20">zamba_index_20</label>
@@ -82,24 +121,31 @@
     <script>
       // Binding between each target input's id and the prompt used to auto-extract its value
       // from the file right after it's attached to the chat.
-      const fieldBindings = [
-        {
-          inputId: 'zamba_index_20',
-          prompt: 'Extract the single most relevant title or subject of this document. Answer with only that value, nothing else.'
-        },
-        {
-          inputId: 'zamba_index_21',
-          prompt: 'Extract a single unique identifier, date, or key figure mentioned in this document. Answer with only that value, nothing else.'
-        }
-      ];
+      const defaultExtractionPrompt = 'Extract the CUIT into a zamba_index_20 property and the amount into a zamba_index_21 property. Answer with a json object with the properties and value asked, nothing else.';
 
       customElements.whenDefined('zamba-chat').then(() => {
         const el = document.getElementById('demoChat');
         const apiUrlInput = document.getElementById('api-url');
+        const extractionPromptInput = document.getElementById('extraction-prompt');
+        const automaticExtractionInput = document.getElementById('automatic-extraction');
+
+        extractionPromptInput.value = defaultExtractionPrompt;
         el.apiBaseUrl = apiUrlInput.value;
-        el.fieldBindings = fieldBindings;
+        el.fieldBindings = [{ prompt: defaultExtractionPrompt }];
+        el.automaticExtraction = automaticExtractionInput.checked;
+
         apiUrlInput.addEventListener('change', () => {
           el.apiBaseUrl = apiUrlInput.value;
+        });
+
+        extractionPromptInput.addEventListener('input', () => {
+          el.fieldBindings = extractionPromptInput.value.trim()
+            ? [{ prompt: extractionPromptInput.value }]
+            : [];
+        });
+
+        automaticExtractionInput.addEventListener('change', () => {
+          el.automaticExtraction = automaticExtractionInput.checked;
         });
       });
     </script>

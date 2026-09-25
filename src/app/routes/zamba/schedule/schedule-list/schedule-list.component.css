@@ -1,0 +1,152 @@
+.schedule-container {
+  padding: 24px;
+}
+
+/* Statistics Cards */
+.statistics-row {
+  margin-bottom: 24px;
+
+  .stat-card {
+    background: #fafafa;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 600;
+      color: #262626;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #999;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    &.active .stat-value {
+      color: #1890ff;
+    }
+
+    &.success .stat-value {
+      color: #52c41a;
+    }
+
+    &.error .stat-value {
+      color: #ff4d4f;
+    }
+
+    &.pending .stat-value {
+      color: #faad14;
+    }
+  }
+}
+
+/* Toolbar */
+.toolbar {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
+
+  .search-input {
+    width: 100%;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+
+    button {
+      white-space: nowrap;
+    }
+  }
+}
+
+/* Table Styling */
+.schedules-table {
+  :host ::ng-deep {
+    .ant-table {
+      font-size: 13px;
+    }
+
+    .ant-table-thead > tr > th {
+      background: #fafafa;
+      font-weight: 600;
+      border-bottom: 2px solid #e8e8e8;
+    }
+
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    .ant-table-tbody > tr:hover > td {
+      background: #f5f5f5;
+    }
+  }
+
+  .schedule-description {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+  }
+
+  .text-muted {
+    color: #999;
+  }
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+
+  i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #d9d9d9;
+  }
+
+  p {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .toolbar {
+    .button-group {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .schedules-table {
+    :host ::ng-deep {
+      .ant-table {
+        font-size: 12px;
+      }
+
+      th, td {
+        padding: 8px !important;
+      }
+    }
+  }
+}

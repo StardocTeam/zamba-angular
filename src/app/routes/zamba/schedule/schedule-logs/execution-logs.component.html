@@ -1,0 +1,24 @@
+<div class="logs-container">
+  <div class="toolbar">
+    <h2>Execution Logs</h2>
+    <button nz-button>Refresh</button>
+  </div>
+  <nz-spin [nzSpinning]="loading">
+    <nz-table [nzData]="logs" nzSize="small">
+      <thead>
+        <tr>
+          <th>Scheduled At</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of logs">
+          <td>{{ log.scheduledAt | date: 'short' }}</td>
+          <td><nz-tag [nzColor]="'blue'">{{ log.status }}</nz-tag></td>
+          <td><button nz-button nzType="link" nzSize="small">View</button></td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-spin>
+</div>

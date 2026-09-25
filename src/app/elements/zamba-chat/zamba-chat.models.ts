@@ -38,6 +38,6 @@ export interface ZambaChatMessage {
 
 /** Binds an extraction prompt (answered right after a file is attached) to a target input's id. */
 export interface ZambaFieldBinding {
-    inputId: string;
+    inputId?: string;
     prompt: string;
 }
