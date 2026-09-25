@@ -26,11 +26,15 @@ export class ZambaChatComponent implements AfterViewChecked {
 
   @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
   @ViewChild('messagesEnd') messagesEndRef?: ElementRef<HTMLDivElement>;
+  ZambaWebRestApiURL: any = "";
 
   private endpoint(path: string): string {
-    const base = this.host.ZambaWebRestApiURL;
-    if (!base) throw new Error('ZambaWebRestApiURL no está disponible en la página anfitriona.');
-    return `${base.replace(/\/$/, '')}/${path}`;
+    if (typeof (window as any).getValueFromWebConfig === 'function') {
+      this.ZambaWebRestApiURL = (window as any).getValueFromWebConfig('ZambaWebRestApiURL');
+    }
+
+    if (!this.ZambaWebRestApiURL) throw new Error('ZambaWebRestApiURL no está disponible en la página anfitriona.');
+    return `${this.ZambaWebRestApiURL.replace(/\/$/, '')}/${path}`;
   }
 
 
