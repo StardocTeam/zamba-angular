@@ -89,6 +89,12 @@
     <label for="api-url">Zamba.Api base URL</label>
     <input id="api-url" type="text" value="http://localhost:5000" />
 
+    <label for="document-type">Tipo de documento</label>
+    <select id="document-type">
+      <option value="26">26 - Factura</option>
+      <option value="2524">2524 - Demanda legal</option>
+    </select>
+
     <div class="binding-editor">
       <label for="extraction-prompt">Extraction prompt</label>
       <textarea id="extraction-prompt" spellcheck="false"></textarea>
@@ -126,16 +132,22 @@
       customElements.whenDefined('zamba-chat').then(() => {
         const el = document.getElementById('demoChat');
         const apiUrlInput = document.getElementById('api-url');
+        const documentTypeInput = document.getElementById('document-type');
         const extractionPromptInput = document.getElementById('extraction-prompt');
         const automaticExtractionInput = document.getElementById('automatic-extraction');
 
         extractionPromptInput.value = defaultExtractionPrompt;
         el.apiBaseUrl = apiUrlInput.value;
+        el.documentTypeCode = Number(documentTypeInput.value);
         el.fieldBindings = [{ prompt: defaultExtractionPrompt }];
         el.automaticExtraction = automaticExtractionInput.checked;
 
         apiUrlInput.addEventListener('change', () => {
           el.apiBaseUrl = apiUrlInput.value;
+        });
+
+        documentTypeInput.addEventListener('change', () => {
+          el.documentTypeCode = Number(documentTypeInput.value);
         });
 
         extractionPromptInput.addEventListener('input', () => {

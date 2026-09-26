@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/zamba-chat"
+  },
+  "files": ["src/main.zamba-chat.ts"],
+  "include": ["src/**/*.d.ts"]
+}

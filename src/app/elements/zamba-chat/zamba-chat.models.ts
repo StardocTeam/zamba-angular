@@ -3,6 +3,7 @@ export interface CopilotPromptRequest {
     fileBase64?: string;
     fileName?: string;
     documentId?: string;
+    documentTypeCode?: number;
 }
 
 export interface PromptStats {

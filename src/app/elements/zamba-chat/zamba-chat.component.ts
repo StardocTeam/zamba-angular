@@ -18,6 +18,8 @@ export class ZambaChatComponent implements AfterViewChecked {
   /** Path (relative to apiBaseUrl) of the ask endpoint. */
   @Input() askPath = '/api/Copilot/ask';
 
+  @Input() documentTypeCode: number | null = null;
+
   @Input() width: string | number = '380px';
   @Input() height: string | number = '520px';
 
@@ -122,6 +124,7 @@ export class ZambaChatComponent implements AfterViewChecked {
       prompt: first.prompt,
       fileBase64: this.pendingFileBase64,
       fileName: this.pendingFileName ?? 'archivo',
+      documentTypeCode: this.documentTypeCode ?? undefined,
     };
 
     this.http.post<CopilotPromptResponse>(this.buildUrl(), firstRequest).subscribe({
@@ -152,7 +155,11 @@ export class ZambaChatComponent implements AfterViewChecked {
     };
 
     bindings.forEach(binding => {
-      const request: CopilotPromptRequest = { prompt: binding.prompt, documentId: this.documentId! };
+      const request: CopilotPromptRequest = {
+        prompt: binding.prompt,
+        documentId: this.documentId!,
+        documentTypeCode: this.documentTypeCode ?? undefined,
+      };
       this.http.post<CopilotPromptResponse>(this.buildUrl(), request).subscribe({
         next: response => {
           this.applyFieldValue(binding.inputId, response.response);
@@ -214,7 +221,10 @@ export class ZambaChatComponent implements AfterViewChecked {
       return;
     }
 
-    const request: CopilotPromptRequest = { prompt: trimmedPrompt };
+    const request: CopilotPromptRequest = {
+      prompt: trimmedPrompt,
+      documentTypeCode: this.documentTypeCode ?? undefined,
+    };
     const attachedFileName = this.pendingFileName ?? undefined;
 
     if (this.pendingFileBase64) {
