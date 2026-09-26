@@ -7,6 +7,16 @@
             [ngClass]="'zamba-chat-message--' + message.role">
             <div *ngIf="message.fileName" class="zamba-chat-message-file">📎 {{ message.fileName }}</div>
             <div class="zamba-chat-message-text">{{ message.text }}</div>
+            <div *ngIf="message.role === 'assistant' && message.runId" class="zamba-chat-feedback">
+                <button type="button" [class.selected]="message.feedbackRating === 1"
+                    [disabled]="message.feedbackSending" (click)="rateAnswer(message, 1)" title="Respuesta útil"
+                    aria-label="Respuesta útil">👍</button>
+                <button type="button" [class.selected]="message.feedbackRating === -1"
+                    [disabled]="message.feedbackSending" (click)="rateAnswer(message, -1)" title="Respuesta no útil"
+                    aria-label="Respuesta no útil">👎</button>
+                <span *ngIf="message.feedbackError" class="zamba-chat-feedback-error">No se pudo guardar la
+                    valoración</span>
+            </div>
         </div>
 
         <div *ngIf="isSending" class="zamba-chat-message zamba-chat-message--assistant zamba-chat-message--typing">

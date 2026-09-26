@@ -52,11 +52,14 @@ export class ZambaChatComponent implements AfterViewChecked {
   documentId: string | null = null;
 
   private shouldScrollToBottom = false;
+  private readonly voterId: string;
 
   constructor(
     private readonly http: HttpClient,
     @Inject(DOCUMENT) private readonly document: Document
-  ) { }
+  ) {
+    this.voterId = this.getOrCreateVoterId();
+  }
 
   ngAfterViewChecked(): void {
     if (this.shouldScrollToBottom) {
@@ -246,7 +249,7 @@ export class ZambaChatComponent implements AfterViewChecked {
       next: response => {
         this.documentId = response.documentId || this.documentId;
         this.clearPendingFile();
-        this.messages.push({ role: 'assistant', text: response.response });
+        this.messages.push({ role: 'assistant', text: response.response, runId: response.runId });
         this.isSending = false;
         this.shouldScrollToBottom = true;
       },
@@ -259,10 +262,50 @@ export class ZambaChatComponent implements AfterViewChecked {
     });
   }
 
+  rateAnswer(message: ZambaChatMessage, rating: 1 | -1): void {
+    if (!message.runId || message.feedbackSending) {
+      return;
+    }
+
+    const previousRating = message.feedbackRating;
+    message.feedbackSending = true;
+    message.feedbackError = false;
+    this.http.post<void>(this.buildFeedbackUrl(), {
+      runId: message.runId,
+      voterId: this.voterId,
+      rating,
+    }).subscribe({
+      next: () => {
+        message.feedbackRating = rating;
+        message.feedbackSending = false;
+      },
+      error: () => {
+        message.feedbackRating = previousRating;
+        message.feedbackSending = false;
+        message.feedbackError = true;
+      },
+    });
+  }
+
+  private getOrCreateVoterId(): string {
+    const storageKey = 'zamba-chat-voter-id';
+    let voterId = localStorage.getItem(storageKey);
+    if (!voterId) {
+      voterId = globalThis.crypto.randomUUID();
+      localStorage.setItem(storageKey, voterId);
+    }
+
+    return voterId;
+  }
+
   private buildUrl(): string {
     const base = this.apiBaseUrl.replace(/\/$/, '');
     const path = this.askPath.startsWith('/') ? this.askPath : `/${this.askPath}`;
     return `${base}${path}`;
+  }
+
+  private buildFeedbackUrl(): string {
+    return this.buildUrl().replace(/\/ask\/?$/, '/feedback');
   }
 
   private scrollToBottom(): void {
