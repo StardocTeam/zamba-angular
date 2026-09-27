@@ -1,0 +1,221 @@
+<main class="telemetry-page">
+    <header class="page-heading">
+        <div>
+            <p class="eyebrow">OPERACIONES / COPILOT</p>
+            <h1>Calidad de respuestas</h1>
+            <p class="heading-note">Ejecuciones con valoración negativa y trazabilidad del procesamiento.</p>
+        </div>
+        <button class="refresh-button" type="button" (click)="loadDashboard()" [disabled]="loading"
+            aria-label="Actualizar datos" title="Actualizar datos">
+            <span aria-hidden="true">↻</span>
+        </button>
+    </header>
+
+    <section class="filter-bar" aria-label="Filtros de estadísticas">
+        <label>
+            <span>Desde</span>
+            <input type="date" [(ngModel)]="filters.fromUtc" />
+        </label>
+        <label>
+            <span>Hasta</span>
+            <input type="date" [(ngModel)]="filters.toUtc" />
+        </label>
+        <label>
+            <span>Tipo documental</span>
+            <select [(ngModel)]="filters.documentTypeCode">
+                <option [ngValue]="null">Todos los tipos</option>
+                <option [ngValue]="26">26 · Factura</option>
+                <option [ngValue]="2524">2524 · Demanda legal</option>
+            </select>
+        </label>
+        <label class="search-filter">
+            <span>Buscar en pregunta, respuesta o archivo</span>
+            <input type="search" [(ngModel)]="filters.search" (keyup.enter)="search()"
+                placeholder="Texto o nombre de archivo" />
+        </label>
+        <div class="filter-actions">
+            <button class="primary-button" type="button" (click)="applyFilters()" [disabled]="loading">Aplicar</button>
+            <button class="text-button" type="button" (click)="clearFilters()" [disabled]="loading">Restablecer</button>
+        </div>
+    </section>
+
+    <p class="error-banner" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+
+    <section class="metrics-grid" aria-label="Resumen de métricas">
+        <article class="metric">
+            <span class="metric-label">Ejecuciones</span>
+            <strong>{{ formatNumber(summary?.totalRuns) }}</strong>
+            <small>{{ formatNumber(summary?.succeededRuns) }} correctas · {{ formatNumber(summary?.failedRuns) }}
+                fallidas</small>
+        </article>
+        <article class="metric metric-alert">
+            <span class="metric-label">Respuestas negativas</span>
+            <strong>{{ formatNumber(summary?.negativeRuns) }}</strong>
+            <small>{{ formatNumber(summary?.negativeRunPercent, 1) }}% de las ejecuciones</small>
+        </article>
+        <article class="metric">
+            <span class="metric-label">Votos negativos</span>
+            <strong>{{ formatNumber(summary?.negativeVotes) }}</strong>
+            <small>{{ formatNumber(summary?.negativeVotePercent, 1) }}% de los votos</small>
+        </article>
+        <article class="metric">
+            <span class="metric-label">Duración media</span>
+            <strong>{{ formatNumber(summary?.averageTotalDurationMs, 0) }}<em> ms</em></strong>
+            <small>{{ formatNumber(summary?.averageInputTokens, 0) }} tokens de entrada · {{
+                formatCost(summary?.averageEstimatedCost) }} media</small>
+        </article>
+    </section>
+
+    <section class="analysis-layout">
+        <section class="run-list" aria-label="Respuestas con valoración negativa">
+            <div class="section-heading">
+                <div>
+                    <h2>Respuestas para revisar</h2>
+                    <span class="result-count">{{ formatNumber(result?.totalRuns) }} ejecuciones</span>
+                </div>
+                <span class="loading-indicator" *ngIf="loading">Actualizando…</span>
+            </div>
+
+            <div class="empty-state" *ngIf="!loading && result?.items?.length === 0">
+                <strong>Sin respuestas negativas en este período</strong>
+                <span>Probá ampliar las fechas o cambiar el tipo documental.</span>
+            </div>
+
+            <button class="run-row" type="button" *ngFor="let run of result?.items; trackBy: trackRun"
+                [class.selected]="selectedRunId === run.runId" (click)="selectRun(run)">
+                <span class="run-row-top">
+                    <span class="status-dot" [class.status-failed]="run.status.toLowerCase() === 'failed'"></span>
+                    <strong>{{ run.fileName || ('Tipo ' + (run.documentTypeCode ?? 'sin clasificar')) }}</strong>
+                    <span class="vote-count">−{{ run.negativeVoteCount }}</span>
+                </span>
+                <span class="run-prompt">{{ run.promptPreview }}</span>
+                <span class="run-comment" *ngIf="run.latestFeedbackComment">“{{ run.latestFeedbackComment }}”</span>
+                <span class="run-meta">
+                    <span>{{ formatDate(run.startedAtUtc) }}</span>
+                    <span>{{ run.chatModel || 'Modelo desconocido' }}</span>
+                    <span>{{ formatNumber(run.totalDurationMs) }} ms</span>
+                </span>
+            </button>
+
+            <footer class="pagination" *ngIf="result && result.totalRuns > 0">
+                <span>{{ formatNumber(pageStart) }}–{{ formatNumber(pageEnd) }} de {{ formatNumber(result.totalRuns)
+                    }}</span>
+                <div>
+                    <button type="button" (click)="changePage(filters.page - 1)"
+                        [disabled]="filters.page <= 1 || loading" aria-label="Página anterior">‹</button>
+                    <span>{{ filters.page }} / {{ pageCount }}</span>
+                    <button type="button" (click)="changePage(filters.page + 1)"
+                        [disabled]="filters.page >= pageCount || loading" aria-label="Página siguiente">›</button>
+                </div>
+            </footer>
+        </section>
+
+        <section class="run-detail" aria-label="Análisis de la ejecución seleccionada">
+            <div class="detail-placeholder" *ngIf="!selected && !detailLoading">
+                <span class="placeholder-mark" aria-hidden="true">↖</span>
+                <strong>Seleccioná una respuesta</strong>
+                <span>El detalle incluye la consulta, la respuesta, los votos y cada etapa registrada.</span>
+            </div>
+            <div class="detail-loading" *ngIf="detailLoading">Cargando trazabilidad…</div>
+
+            <ng-container *ngIf="selected as run">
+                <header class="detail-heading">
+                    <div>
+                        <p class="eyebrow">ANÁLISIS DE EJECUCIÓN</p>
+                        <h2>{{ run.fileName || ('Documento tipo ' + (run.documentTypeCode ?? 'sin clasificar')) }}</h2>
+                        <p>{{ run.runId }} · {{ formatDate(run.startedAtUtc) }}</p>
+                    </div>
+                    <span class="status-pill" [class.status-pill-failed]="run.status.toLowerCase() === 'failed'">{{
+                        run.status }}</span>
+                </header>
+
+                <div class="detail-stats">
+                    <div><span>Duración</span><strong>{{ formatNumber(run.totalDurationMs) }} ms</strong></div>
+                    <div><span>Modelo</span><strong>{{ run.chatModel || '—' }}</strong></div>
+                    <div><span>Tokens entrada / salida</span><strong>{{ formatNumber(run.inputTokens) }} / {{
+                            formatNumber(run.outputTokens) }}</strong></div>
+                    <div><span>Costo estimado</span><strong>{{ formatCost(run.estimatedCost) }}</strong></div>
+                    <div><span>Chunks recuperados</span><strong>{{ formatNumber(run.chunksUsed) }} / {{
+                            formatNumber(run.chunksIndexed) }}</strong></div>
+                    <div><span>Índice documental</span><strong>{{ run.documentAlreadyIndexed === null ? '—' :
+                            (run.documentAlreadyIndexed ? 'Reutilizado' : 'Nuevo') }}</strong></div>
+                </div>
+
+                <section class="detail-section">
+                    <div class="detail-section-title">
+                        <h3>Pregunta</h3><span>Entrada</span>
+                    </div>
+                    <pre class="text-block">{{ run.prompt }}</pre>
+                </section>
+                <section class="detail-section">
+                    <div class="detail-section-title">
+                        <h3>Respuesta</h3><span>Salida</span>
+                    </div>
+                    <pre class="text-block answer-block">{{ run.response || 'Sin respuesta registrada.' }}</pre>
+                </section>
+
+                <section class="detail-section" *ngIf="run.errorMessage">
+                    <div class="detail-section-title">
+                        <h3>Error de ejecución</h3><span class="error-label">Revisar</span>
+                    </div>
+                    <pre class="text-block error-block">{{ run.errorMessage }}</pre>
+                </section>
+
+                <section class="detail-section">
+                    <div class="detail-section-title">
+                        <h3>Valoraciones</h3><span>{{ run.feedback.length }} votos</span>
+                    </div>
+                    <div class="feedback-item" *ngFor="let feedback of run.feedback">
+                        <span class="feedback-rating" [class.negative-rating]="feedback.rating < 0">{{ feedback.rating <
+                                0 ? '−1' : '+1' }}</span>
+                                <div>
+                                    <p>{{ feedback.comment || 'Sin comentario' }}</p><time>{{
+                                        formatDate(feedback.createdAtUtc) }}</time>
+                                </div>
+                    </div>
+                </section>
+
+                <section class="detail-section">
+                    <div class="detail-section-title">
+                        <h3>Etapas de procesamiento</h3><span>{{ run.steps.length }} registradas</span>
+                    </div>
+                    <div class="timeline-empty" *ngIf="run.steps.length === 0">No hay etapas registradas para esta
+                        ejecución.</div>
+                    <article class="timeline-step" *ngFor="let step of run.steps; trackBy: trackStep">
+                        <span class="step-marker"
+                            [class.step-marker-error]="step.status.toLowerCase() === 'failed'"></span>
+                        <div class="step-content">
+                            <div class="step-heading"><strong>{{ step.name }}</strong><span>{{ step.status }} · {{
+                                    formatNumber(step.durationMs) }} ms</span></div>
+                            <p class="step-detail" *ngIf="step.detail">{{ step.detail }}</p>
+                            <pre class="step-error" *ngIf="step.errorMessage">{{ step.errorMessage }}</pre>
+                            <time>{{ formatDate(step.startedAtUtc) }}<ng-container *ngIf="step.completedAtUtc"> → {{
+                                    formatDate(step.completedAtUtc) }}</ng-container></time>
+                        </div>
+                    </article>
+                </section>
+
+                <details class="technical-details">
+                    <summary>Información técnica</summary>
+                    <dl>
+                        <dt>Archivo / documento</dt>
+                        <dd>{{ run.fileName || '—' }} / {{ run.documentId || '—' }}</dd>
+                        <dt>Tipo documental</dt>
+                        <dd>{{ run.documentTypeCode ?? '—' }}</dd>
+                        <dt>Sesión</dt>
+                        <dd>{{ run.sessionId || '—' }}</dd>
+                        <dt>Proveedor de embeddings</dt>
+                        <dd>{{ run.embeddingProvider || '—' }}</dd>
+                        <dt>Duraciones embedding / retrieval / chat</dt>
+                        <dd>{{ formatNumber(run.embeddingDurationMs) }} / {{ formatNumber(run.retrievalDurationMs) }} /
+                            {{ formatNumber(run.chatDurationMs) }} ms</dd>
+                        <dt>Tokens cache read / write</dt>
+                        <dd>{{ formatNumber(run.cacheReadTokens) }} / {{ formatNumber(run.cacheWriteTokens) }}</dd>
+                        <dt>Finalizada</dt>
+                        <dd>{{ formatDate(run.completedAtUtc) }}</dd>
+                    </dl>
+                </details>
+            </ng-container>
+        </section>
+    </section>
+</main>
