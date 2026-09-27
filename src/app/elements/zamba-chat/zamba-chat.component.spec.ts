@@ -35,6 +35,22 @@ describe('ZambaChatComponent', () => {
         expect(component.canSend()).toBeFalse();
     });
 
+    it('should shift the host page while open and restore its inline styles on close', () => {
+        const previousPadding = document.body.style.getPropertyValue('padding-right');
+        const previousTransition = document.body.style.getPropertyValue('transition');
+
+        component.openChat();
+
+        expect(component.isOpen).toBeTrue();
+        expect(document.body.style.getPropertyValue('padding-right')).toContain('min(380px, 100vw)');
+
+        component.closeChat();
+
+        expect(component.isOpen).toBeFalse();
+        expect(document.body.style.getPropertyValue('padding-right')).toBe(previousPadding);
+        expect(document.body.style.getPropertyValue('transition')).toBe(previousTransition);
+    });
+
     it('should send fileBase64/fileName on first prompt and store the returned documentId', () => {
         component.prompt = '¿Qué dice el documento?';
         (component as any).pendingFileBase64 = 'QUJD';
@@ -51,6 +67,7 @@ describe('ZambaChatComponent', () => {
         const response: CopilotPromptResponse = {
             response: 'Esta es la respuesta',
             documentId: 'doc-123',
+            runId: 'run-123',
             chunksUsed: 2,
             stats: {},
         };

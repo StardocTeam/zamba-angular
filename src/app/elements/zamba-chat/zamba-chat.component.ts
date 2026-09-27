@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostBinding, Inject, Input, OnDestroy, ViewChild } from '@angular/core';
 import { CopilotPromptRequest, CopilotPromptResponse, ZambaChatMessage, ZambaFieldBinding } from './zamba-chat.models';
 
 import { DOCUMENT } from '@angular/common';
@@ -11,7 +11,7 @@ const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
   templateUrl: './zamba-chat.component.html',
   styleUrls: ['./zamba-chat.component.less'],
 })
-export class ZambaChatComponent implements AfterViewChecked {
+export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
   /** Base URL of the Zamba.Api instance, e.g. https://localhost:7088 */
   @Input() apiBaseUrl = 'https://localhost:7088';
 
@@ -28,6 +28,8 @@ export class ZambaChatComponent implements AfterViewChecked {
 
   /** Enables extraction requests immediately after a file is attached. */
   @Input() automaticExtraction = true;
+
+  isOpen = false;
 
   @ViewChild('fileInput') fileInputRef?: ElementRef<HTMLInputElement>;
   @ViewChild('messagesEnd') messagesEndRef?: ElementRef<HTMLDivElement>;
@@ -57,6 +59,18 @@ export class ZambaChatComponent implements AfterViewChecked {
 
   private shouldScrollToBottom = false;
   private readonly voterId: string;
+  private previousBodyPaddingRight: { value: string; priority: string } | null = null;
+  private previousBodyTransition: { value: string; priority: string } | null = null;
+
+  @HostBinding('class.is-open')
+  get hostIsOpen(): boolean {
+    return this.isOpen;
+  }
+
+  @HostBinding('style.width')
+  get hostPanelWidth(): string | null {
+    return this.isOpen ? this.hostWidth : null;
+  }
 
   constructor(
     private readonly http: HttpClient,
@@ -69,6 +83,68 @@ export class ZambaChatComponent implements AfterViewChecked {
     if (this.shouldScrollToBottom) {
       this.scrollToBottom();
       this.shouldScrollToBottom = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.restorePageLayout();
+  }
+
+  openChat(): void {
+    if (this.isOpen) {
+      return;
+    }
+
+    this.isOpen = true;
+    const body = this.document.body;
+    this.previousBodyPaddingRight = {
+      value: body.style.getPropertyValue('padding-right'),
+      priority: body.style.getPropertyPriority('padding-right'),
+    };
+    this.previousBodyTransition = {
+      value: body.style.getPropertyValue('transition'),
+      priority: body.style.getPropertyPriority('transition'),
+    };
+
+    const currentPadding = getComputedStyle(body).paddingRight;
+    const existingTransition = this.previousBodyTransition.value;
+    const transition = existingTransition
+      ? `${existingTransition}, padding-right 240ms ease`
+      : 'padding-right 240ms ease';
+    body.style.setProperty('transition', transition);
+    body.style.setProperty('padding-right', `calc(${currentPadding} + min(${this.hostWidth}, 100vw))`);
+  }
+
+  closeChat(): void {
+    if (!this.isOpen) {
+      return;
+    }
+
+    this.isOpen = false;
+    this.restorePageLayout();
+  }
+
+  private restorePageLayout(): void {
+    const body = this.document.body;
+    this.restoreInlineStyle(body, 'padding-right', this.previousBodyPaddingRight);
+    this.restoreInlineStyle(body, 'transition', this.previousBodyTransition);
+    this.previousBodyPaddingRight = null;
+    this.previousBodyTransition = null;
+  }
+
+  private restoreInlineStyle(
+    element: HTMLElement,
+    property: string,
+    previous: { value: string; priority: string } | null
+  ): void {
+    if (!previous) {
+      return;
+    }
+
+    if (previous.value) {
+      element.style.setProperty(property, previous.value, previous.priority);
+    } else {
+      element.style.removeProperty(property);
     }
   }
 
