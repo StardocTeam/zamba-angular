@@ -61,9 +61,43 @@
         <article class="metric">
             <span class="metric-label">Duración media</span>
             <strong>{{ formatNumber(summary?.averageTotalDurationMs, 0) }}<em> ms</em></strong>
-            <small>{{ formatNumber(summary?.averageInputTokens, 0) }} tokens de entrada · {{
-                formatCost(summary?.averageEstimatedCost) }} media</small>
+            <small>{{ formatNumber(summary?.averageInputTokens, 0) }} tokens de entrada · costo SDK medio {{
+                formatCost(summary?.averageEstimatedCost) }}</small>
         </article>
+    </section>
+
+    <section class="consumption-section" aria-label="Consumo de tokens y costo estimado">
+        <div class="section-heading consumption-heading">
+            <div>
+                <h2>Consumo y costo estimado</h2>
+                <span class="result-count">Mes e histórico globales · plan PRO: USD 20 por 1.500 créditos</span>
+            </div>
+        </div>
+        <div class="metrics-grid consumption-grid">
+            <article class="metric">
+                <span class="metric-label">Tokens consumidos en el período</span>
+                <strong>{{ formatNumber(summary?.totalTokens) }}</strong>
+                <small>{{ formatNumber(summary?.totalRuns) }} solicitudes · promedio {{
+                    formatNumber(summary?.averageTotalTokensPerRequest) }} por solicitud</small>
+            </article>
+            <article class="metric">
+                <span class="metric-label">Costo promedio por solicitud</span>
+                <strong>{{ formatCost(summary?.estimatedPlanCostPerRequestUsd) }}</strong>
+                <small>Estimación: 1 crédito por solicitud</small>
+            </article>
+            <article class="metric">
+                <span class="metric-label">Costo acumulado del mes</span>
+                <strong>{{ formatCost(summary?.monthEstimatedCostUsd) }}</strong>
+                <small>{{ formatNumber(summary?.monthRequestCount) }} solicitudes · {{
+                    formatNumber(summary?.monthTotalTokens) }} tokens</small>
+            </article>
+            <article class="metric">
+                <span class="metric-label">Costo acumulado desde el inicio</span>
+                <strong>{{ formatCost(summary?.lifetimeEstimatedCostUsd) }}</strong>
+                <small>{{ formatNumber(summary?.lifetimeRequestCount) }} solicitudes · {{
+                    formatNumber(summary?.lifetimeTotalTokens) }} tokens</small>
+            </article>
+        </div>
     </section>
 
     <section class="analysis-layout">

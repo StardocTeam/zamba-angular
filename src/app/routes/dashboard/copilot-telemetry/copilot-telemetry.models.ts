@@ -20,6 +20,17 @@ export interface CopilotTelemetrySummary {
     averageTotalDurationMs: number | null;
     averageInputTokens: number | null;
     averageEstimatedCost: number | null;
+    totalInputTokens: number;
+    totalOutputTokens: number;
+    totalTokens: number;
+    averageTotalTokensPerRequest: number | null;
+    estimatedPlanCostPerRequestUsd: number;
+    monthRequestCount: number;
+    monthTotalTokens: number;
+    monthEstimatedCostUsd: number;
+    lifetimeRequestCount: number;
+    lifetimeTotalTokens: number;
+    lifetimeEstimatedCostUsd: number;
 }
 
 export interface CopilotNegativeRun {
