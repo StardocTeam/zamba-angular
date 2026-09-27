@@ -67,7 +67,7 @@ export class GlobalSearchElementComponent implements OnDestroy {
     const text = this.searchValue.trim();
     if (this.busy || this.opening) return;
     if (text.length < 3) { this.status = 'Escribí al menos 3 caracteres para buscar.'; return; }
-    if (append && text !== this.query) return;
+    if (append && (text !== this.query || !this.hasMore)) return;
     const current = ++this.requestId;
     const nextPage = append ? this.page + 1 : 0;
     this.query = text;
@@ -81,10 +81,20 @@ export class GlobalSearchElementComponent implements OnDestroy {
     try {
       const response = await this.service.search(text, nextPage);
       if (current !== this.requestId || !this.dialog.nativeElement.open) return;
-      this.rows = append ? this.rows.concat(response.data) : response.data;
+      if (append) {
+        const existingRows = new Set(this.rows.map(row => this.resultKey(row)));
+        this.rows = this.rows.concat(response.data.filter(row => {
+          const key = this.resultKey(row);
+          if (existingRows.has(key)) return false;
+          existingRows.add(key);
+          return true;
+        }));
+      } else {
+        this.rows = response.data;
+      }
       this.page = nextPage;
-      this.selected = -1;
-      // The supplied controller returns the current page count in `total`.
+      if (!append) this.selected = -1;
+      // A partial page means there are no more candidates to request.
       this.hasMore = response.data.length >= this.service.pageSize;
       this.status = this.rows.length ? `${this.rows.length} resultados` : 'No se encontraron resultados.';
     } catch {
@@ -92,6 +102,9 @@ export class GlobalSearchElementComponent implements OnDestroy {
     } finally {
       if (current === this.requestId) { this.busy = false; this.cdr.markForCheck(); }
     }
+  }
+  private resultKey(row: SearchRow): string {
+    return `${field(row, ['DOC_TYPE_ID', 'Doc_Type_Id'])}:${field(row, ['DOC_ID', 'Doc_Id'])}`;
   }
   onKeydown(event: KeyboardEvent): void {
     if (event.isComposing) return;
@@ -102,6 +115,9 @@ export class GlobalSearchElementComponent implements OnDestroy {
     } else if (event.key === 'Enter') {
       event.preventDefault();
       if (this.selected >= 0) void this.openResult(this.selected); else void this.search();
+    } else if (event.key === 'PageDown') {
+      event.preventDefault();
+      void this.search(true);
     }
   }
   select(index: number): void {

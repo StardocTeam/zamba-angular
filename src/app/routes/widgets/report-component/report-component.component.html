@@ -27,7 +27,7 @@
 
       <div *ngIf="!isLoading">
         <ul class="ulContainer-menu" nz-menu nzMode="inline">
-          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzOpen nzIcon="file">
+          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzIcon="file">
             <ng-template #titleTpl>
               <b class="boldMenuTittle">{{ itemTree.name }}</b>
             </ng-template>

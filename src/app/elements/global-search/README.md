@@ -16,7 +16,7 @@ El servicio busca el Bearer en `$http.defaults.headers.common.Authorization` del
 
 `POST /search/Results` recibe el mismo filtro `Empieza`, usuario y páginas de 100 del contexto. El controlador adjunto devuelve el tamaño de la página como total; se habilita Cargar más si llegaron 100 filas (puede requerir una última página vacía).
 
-La apertura verifica el derecho 19 mediante `POST /Tasks/GetUsersWFStepsRights`: si está permitido abre TaskViewer; sin etapa o sin permiso abre DocViewer. Un fallo HTTP de permisos conserva el modal y muestra un error. Se abre en otra ventana, como en el contexto de los viewers; no se replica el manejo de ventanas de escritorio/WinForms, previews ni notificaciones de lectura de la grilla legacy.
+La apertura consulta `POST /Tasks/GetUsersWFStepsRights` con derecho 19 cuando el resultado tiene tarea y etapa. Si la respuesta es exactamente `true`, abre TaskViewer directamente; en cualquier otro caso abre DocViewer. Se abre en otra ventana, como en el contexto de los viewers; no se replica el manejo de ventanas de escritorio/WinForms, previews ni notificaciones de lectura de la grilla legacy.
 
 Se conserva `searchSubmitted` como evento informativo al iniciar una búsqueda nueva; no requiere un manejador externo. `entity-id` e `index-ids` se conservan en ese evento, sin introducir filtros adicionales en el contrato global proporcionado.
 

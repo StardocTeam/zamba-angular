@@ -71,21 +71,30 @@ export class GlobalSearchService {
     const step = field(row, ['STEP_ID', 'Step_Id']);
     const task = field(row, ['TASK_ID', 'Task_Id']);
     if (!doc || !type) throw new Error('Documento no disponible.');
-    let permitted = false;
-    if (step && step !== '0') {
-      // On request failure, do not navigate using an unverified permission.
-      permitted = await firstValueFrom(this.http.post<boolean>(this.endpoint('Tasks/GetUsersWFStepsRights'), null, {
-        headers: this.headers(), params: new HttpParams().set('stepId', step).set('right', 19).set('userid', user),
-      })) === true;
-    }
     const base = (this.host.thisDomain || this.host.location.origin).replace(/\/$/, '');
-    const url = new URL(`${base}/views/${permitted ? 'WF/TaskViewer.aspx' : 'search/docviewer.aspx'}`, this.document.baseURI);
+    const hasTaskAndStep = !!task && task !== '0' && !!step && step !== '0';
+    let canUseStep = false;
+    if (hasTaskAndStep) {
+      try {
+        canUseStep = await firstValueFrom(this.http.post<boolean>(this.endpoint('Tasks/GetUsersWFStepsRights'), null, {
+          headers: this.headers(),
+          params: new HttpParams().set('stepId', step).set('right', '19').set('userid', String(user)),
+        })) === true;
+      } catch {
+        // A failed permission check must not grant workflow access.
+        canUseStep = false;
+      }
+    }
+    const url = new URL(`${base}/views/${canUseStep ? 'WF/TaskViewer.aspx' : 'search/docviewer.aspx'}`, this.document.baseURI);
     url.searchParams.set('DocType', type);
     url.searchParams.set('docid', doc);
     url.searchParams.set('mode', 's');
     url.searchParams.set('user', String(user));
     url.searchParams.set('gridClicked', '1');
-    if (permitted) { url.searchParams.set('taskid', task || '0'); url.searchParams.set('s', step); }
+    if (canUseStep) {
+      url.searchParams.set('taskid', task);
+      url.searchParams.set('s', step);
+    }
     const token = this.token();
     if (token) url.searchParams.set('t', token);
     return url.toString();
