@@ -22,6 +22,7 @@ import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { ReportViewStateDto as ReportViewState } from './entitie/ReportViewState';
 import { Report } from './entitie/report';
 import { ReportService } from './service/report.service';
+import { UserPermissionsService } from 'src/app/services/user-permissions.service';
 
 export interface TreeNode {
   name: string;
@@ -42,12 +43,13 @@ export class ReportComponentComponent {
   ReportsList: Report[] = [];
   searchValue = '';
   TREE_DATA?: TreeNode[];
+  openCategories: Record<string, boolean> = {};
   isDashboardVisible: boolean = true;
 
   ViewPermission: boolean = false;
-  UpdatePermission: boolean = true;
-  DeletePermission: boolean = true;
-  CreatePermission: boolean = true;
+  UpdatePermission: boolean = false;
+  DeletePermission: boolean = false;
+  CreatePermission: boolean = false;
   ConsultPermission: boolean = false;
 
   height: number = 400;
@@ -61,6 +63,7 @@ export class ReportComponentComponent {
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private userPermissionsService: UserPermissionsService,
     private RService: ReportService,
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -201,30 +204,36 @@ export class ReportComponentComponent {
         token: tokenData['token'],
       };
 
-      this.RService._GetPermissions(genericRequest)
-        .pipe(
-          catchError(error => {
-            console.error('Error al obtener datos:', error);
-            throw error;
-          }),
-        )
-        .subscribe((data: any) => {
-          var data = JSON.parse(data);
-          if (data) {
-            this.ViewPermission = true;
 
-            this.cdr.detectChanges();
-          } else {
-            console.warn('No permissions found.');
-          }
-        });
+
+      // this.RService._GetPermissions(genericRequest)
+      //   .pipe(
+      //     catchError(error => {
+      //       console.error('Error al obtener datos:', error);
+      //       throw error;
+      //     }),
+      //   )
+      //   .subscribe((data: any) => {
+      //     var data = JSON.parse(data);
+
+      //     //TODO: Complete this
+
+      //     if (data) {
+      //       this.UpdatePermission = true;
+      //       this.DeletePermission = true;
+      //       this.CreatePermission = true;
+
+      //       this.cdr.detectChanges();
+      //     } else {
+      //       console.warn('No permissions found.');
+      //     }
+      //   });
     }
 
     this.cdr.detectChanges();
   }
 
   private GetReports() {
-    //this.TREE_DATA = [];
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -269,6 +278,9 @@ export class ReportComponentComponent {
             name: category,
             currentReport: Categories[category].map(item => new Report(item)),
           }));
+
+          // Keep category open state in sync after reloading data.
+          //this.search(this.searchValue);
 
           this.isLoading = false;
         });
@@ -489,6 +501,37 @@ export class ReportComponentComponent {
         }
       });
     });
+
+    //   const normalizedSearch = this.searchValue.trim().toLowerCase();
+    //   if (!normalizedSearch) {
+    //     this.openCategories = {};
+    //     return;
+    //   }
+
+    //   this.openCategories = {};
+    //   this.TREE_DATA?.forEach(node => {
+    //     const hasMatches =
+    //       node.currentReport?.some(report => report.Name.toLowerCase().includes(normalizedSearch)) ?? false;
+    //     this.openCategories[node.name] = hasMatches;
+    //   });
+    // }
+
+    // isCategoryVisible(node: TreeNode): boolean {
+    //   const normalizedSearch = this.searchValue.trim().toLowerCase();
+    //   if (!normalizedSearch) {
+    //     return true;
+    //   }
+
+    //   return node.currentReport?.some(report => report.Name.toLowerCase().includes(normalizedSearch)) ?? false;
+    // }
+
+    // isCategoryOpen(node: TreeNode): boolean {
+    //   const normalizedSearch = this.searchValue.trim().toLowerCase();
+    //   if (!normalizedSearch) {
+    //     return false;
+    //   }
+
+    //   return this.openCategories[node.name] ?? false;
   }
 
   navigateToCreate() {

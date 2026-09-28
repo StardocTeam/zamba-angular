@@ -39,6 +39,9 @@ export class ReportEditorComponent {
     RuleId: null,
   };
 
+  UpdatePermission: boolean = false;
+  CreatePermission: boolean = false;
+
   isButtonDisabled: boolean = false;
   userId: any;
   ruleId: any;

@@ -22,6 +22,24 @@ export class ReportService {
     });
   }
 
+  _GetDeletePermission(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetDeleteRight`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+    });
+  }
+
+  _GetCreatePermission(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetCreateRight`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+    });
+  }
+
+  _GetUpdatePermission(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetEditorRight`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+    });
+  }
+
   _GetReports(genericRequest: any) {
     return this.http.post(`${environment['restApi']}/reports/getReports`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
