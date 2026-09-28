@@ -22,6 +22,7 @@ export class ReportService {
     });
   }
 
+  //todo: encapsular todos los metodos de services de reportes...
   _GetDeletePermission(genericRequest: {}) {
     return this.http.post(`${environment['restApi']}/reports/GetDeleteRight`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),

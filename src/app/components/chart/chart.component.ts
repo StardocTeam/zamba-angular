@@ -38,7 +38,7 @@ export class ChartComponent {
     private zambaService: ZambaService,
     private RVService: ReportViewerService,
     private CService: ChartService,
-  ) {}
+  ) { }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ReportData']) {
@@ -260,6 +260,6 @@ export class ChartComponent {
   //#endregion Visualización
 
   //#region DEBUG MODE
-  addChart(): void {}
+  addChart(): void { }
   //#endregion
 }

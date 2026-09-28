@@ -240,8 +240,6 @@ export class ReportComponentComponent {
         return parsed === true || parsed === 1;
       };
 
-      debugger;
-
       this.RService._GetCreatePermission(genericRequest)
         .pipe(
           catchError(error => {
