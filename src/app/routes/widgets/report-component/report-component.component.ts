@@ -205,29 +205,86 @@ export class ReportComponentComponent {
       };
 
 
+      const parsePermissionValue = (response: any): boolean => {
+        let parsed = response;
 
-      // this.RService._GetPermissions(genericRequest)
-      //   .pipe(
-      //     catchError(error => {
-      //       console.error('Error al obtener datos:', error);
-      //       throw error;
-      //     }),
-      //   )
-      //   .subscribe((data: any) => {
-      //     var data = JSON.parse(data);
+        if (typeof parsed === 'string') {
+          const trimmed = parsed.trim();
 
-      //     //TODO: Complete this
+          try {
+            parsed = JSON.parse(trimmed);
+          } catch {
+            parsed = trimmed;
+          }
+        }
 
-      //     if (data) {
-      //       this.UpdatePermission = true;
-      //       this.DeletePermission = true;
-      //       this.CreatePermission = true;
+        if (Array.isArray(parsed)) {
+          parsed = parsed[0];
+        }
 
-      //       this.cdr.detectChanges();
-      //     } else {
-      //       console.warn('No permissions found.');
-      //     }
-      //   });
+        if (typeof parsed === 'object' && parsed !== null) {
+          if ('value' in parsed) {
+            parsed = parsed.value;
+          } else if ('Permission' in parsed) {
+            parsed = parsed.Permission;
+          } else if ('Right' in parsed) {
+            parsed = parsed.Right;
+          }
+        }
+
+        if (typeof parsed === 'string') {
+          const normalized = parsed.trim().toLowerCase();
+          return normalized === 'true' || normalized === '1';
+        }
+
+        return parsed === true || parsed === 1;
+      };
+
+      debugger;
+
+      this.RService._GetCreatePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de creación:', error);
+            this.CreatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.CreatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.RService._GetUpdatePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de edición:', error);
+            this.UpdatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.UpdatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.RService._GetDeletePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de eliminación:', error);
+            this.DeletePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.DeletePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.ViewPermission = true;
     }
 
     this.cdr.detectChanges();
