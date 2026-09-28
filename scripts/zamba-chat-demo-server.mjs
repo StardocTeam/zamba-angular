@@ -7,7 +7,9 @@ import http from 'node:http';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = resolve(fileURLToPath(new URL('.', import.meta.url)));
 const workspaceRoot = resolve(__dirname, '..');
-const port = Number(process.env.ZAMBA_CHAT_DEMO_PORT ?? '4200');
+const requestedPort = Number(process.env.ZAMBA_CHAT_DEMO_PORT ?? '4200');
+const allowPortFallback = process.env.ZAMBA_CHAT_DEMO_PORT === undefined;
+let port = requestedPort;
 
 const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
@@ -37,6 +39,17 @@ const server = http.createServer((req, res) => {
   const contentType = mimeTypes[extname(filePath)] ?? 'application/octet-stream';
   res.writeHead(200, { 'Content-Type': contentType });
   createReadStream(filePath).pipe(res);
+});
+
+server.on('error', error => {
+  if (error.code === 'EADDRINUSE' && allowPortFallback) {
+    port += 1;
+    server.listen(port);
+    return;
+  }
+
+  console.error(`[zamba-chat-demo] Could not listen on port ${port}:`, error.message);
+  process.exitCode = 1;
 });
 
 server.listen(port, () => {

@@ -1,0 +1,25 @@
+- generic [ref=f6e2]:
+  - heading "Zamba Chat Element - Test Page" [level=1] [ref=f6e3]
+  - text: Zamba.Api base URL
+  - textbox "Zamba.Api base URL" [ref=f6e4]: http://localhost:5000
+  - generic [ref=f6e5]:
+    - generic [ref=f6e6]: Extraction prompt
+    - textbox "Extraction prompt" [ref=f6e7]: Extract the CUIT into a zamba_index_20 property and the amount into a zamba_index_21 property. Answer with a json object with the properties and value asked, nothing else.
+  - generic [ref=f6e8]:
+    - checkbox "Automatic extraction on file upload" [checked] [ref=f6e9]
+    - text: Automatic extraction on file upload
+  - generic [ref=f6e10]:
+    - generic [ref=f6e11]:
+      - generic [ref=f6e12]: zamba_index_20
+      - textbox "zamba_index_20" [ref=f6e13]:
+        - /placeholder: Se completa al adjuntar el archivo
+    - generic [ref=f6e14]:
+      - generic [ref=f6e15]: zamba_index_21
+      - textbox "zamba_index_21" [ref=f6e16]:
+        - /placeholder: Se completa al adjuntar el archivo
+  - generic [ref=f6e18]:
+    - generic [ref=f6e19]: Adjuntá un archivo con el clip y escribí tu primera pregunta.
+    - generic [ref=f6e21]:
+      - button "Adjuntar archivo" [ref=f6e22] [cursor=pointer]
+      - textbox "Escribí tu pregunta..." [ref=f6e25]
+      - button "Enviar" [disabled] [ref=f6e26]

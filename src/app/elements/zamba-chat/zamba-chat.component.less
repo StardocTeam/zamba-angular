@@ -1,15 +1,157 @@
 :host {
   display: block;
+  position: fixed;
+  z-index: 1000;
+  right: 24px;
+  bottom: 24px;
+  width: auto;
+  height: auto;
+  max-width: 100vw;
+  font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+}
+
+:host(.is-open) {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+}
+
+.zamba-chat-launcher {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 50%;
+  color: #fff;
+  background: #075e59;
+  box-shadow: 0 12px 30px rgba(5, 63, 59, 0.3), 0 3px 8px rgba(8, 35, 33, 0.2);
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(5, 63, 59, 0.36), 0 4px 10px rgba(8, 35, 33, 0.2);
+  }
+
+  &:focus-visible {
+    outline: 3px solid #8dd9ca;
+    outline-offset: 3px;
+  }
+}
+
+.zamba-chat-launcher-mark {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.zamba-chat-launcher-spark {
+  position: absolute;
+  top: 9px;
+  right: 8px;
+  width: 17px;
+  height: 17px;
+  fill: #b9e66e;
+}
+
+.zamba-chat-brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 12px;
+  color: #fff;
+  background: #0f766e;
+  font-size: 23px;
+  font-weight: 700;
 }
 
 .zamba-chat {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  border: 1px solid #d9d9d9;
-  border-radius: 8px;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: #fff;
+  border-left: 1px solid #dce6e4;
+  box-shadow: -14px 0 38px rgba(16, 42, 40, 0.16);
+  animation: zamba-chat-enter 220ms ease-out both;
+}
+
+.zamba-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 70px;
+  padding: 0 18px;
+  border-bottom: 1px solid #e8efed;
+  background: #fff;
+}
+
+.zamba-chat-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  strong {
+    color: #173a37;
+    font-size: 14px;
+    font-weight: 650;
+  }
+
+  span:not(.zamba-chat-brand-mark) {
+    color: #758582;
+    font-size: 11px;
+  }
+}
+
+.zamba-chat-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  color: #60716f;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    color: #173a37;
+    background: #eff5f3;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #0f766e;
+    outline-offset: 2px;
+  }
+}
+
+@keyframes zamba-chat-enter {
+  from {
+    opacity: 0.7;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .zamba-chat-messages {
@@ -57,6 +199,35 @@
   background: #fff1f0;
   color: #cf1322;
   border: 1px solid #ffa39e;
+}
+
+.zamba-chat-feedback {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+
+  button {
+    border: 0;
+    background: transparent;
+    padding: 2px 4px;
+    cursor: pointer;
+    opacity: 0.55;
+
+    &:hover:not(:disabled),
+    &.selected {
+      opacity: 1;
+    }
+
+    &:disabled {
+      cursor: wait;
+    }
+  }
+}
+
+.zamba-chat-feedback-error {
+  color: #cf1322;
+  font-size: 11px;
 }
 
 .zamba-chat-message-file {

@@ -1,32 +1,30 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authSimpleCanActivate, authSimpleCanActivateChild } from '@delon/auth';
-import { PreloadOptionalModules } from '@delon/theme';
-import { environment } from '@env/environment';
 
-import { ReportComponentComponent } from './widgets/report-component/report-component.component';
-import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
-import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
 import { ChartContainerComponent } from '../components/chart-container/chart-container.component';
 import { Ckeditor5PremiumEditorComponent } from '../components/ckeditor5-premium-editor/ckeditor5-premium-editor.component';
-import { DocxEditorComponent } from '../components/docx-editor/docx-editor.component';
 import { DoShowTableComponent } from '../components/doshowtable/do-show-table/do-show-table.component';
-import { OnlyofficeEditorComponent } from '../components/onlyoffice-editor/onlyoffice-editor.component';
-import { PermissionsUserGroupComponent } from '../components/permissions-user-group/permissions-user-group';
-
-
-import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
-import { SignatureContainerComponent } from '../signature-container/signature-container.component';
-import { TaskHistoryComponent } from '../components/task-history/task-history.component';
-import { TinymcePremiumEditorComponent } from '../components/tinymce-premium-editor/tinymce-premium-editor.component';
-import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
+import { DocxEditorComponent } from '../components/docx-editor/docx-editor.component';
 import { GlobalSearchElementComponent } from '../elements/global-search/global-search.component';
-import { WebBookmarkComponent } from '../elements/web-bookmark/web-bookmark.component';
-import { MiniwebBookmarkComponent } from '../elements/miniweb-bookmark/miniweb-bookmark.component';
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutBlankComponent } from '../layout/blank/blank.component';
 import { LayoutSimpleComponent } from '../layout/simple/simple.component';
 import { MainPageComponent } from '../main-page/main-page.component';
+import { MiniwebBookmarkComponent } from '../elements/miniweb-bookmark/miniweb-bookmark.component';
+import { NgModule } from '@angular/core';
+import { OnlyofficeEditorComponent } from '../components/onlyoffice-editor/onlyoffice-editor.component';
+import { PermissionsUserGroupComponent } from '../components/permissions-user-group/permissions-user-group';
+import { PreloadOptionalModules } from '@delon/theme';
+import { QuickActionsComponent } from '../components/quick-actions/quick-actions.component';
+import { ReportComponentComponent } from './widgets/report-component/report-component.component';
+import { ReportEditorComponent } from './widgets/report-editor/report-editor.component';
+import { ReportViewerComponent } from './widgets/report-viewer/report-viewer.component';
+import { SignatureContainerComponent } from '../signature-container/signature-container.component';
+import { TaskHistoryComponent } from '../components/task-history/task-history.component';
+import { TinymceElementComponent } from '../elements/tinymce-editor/tinymce-editor.component';
+import { TinymcePremiumEditorComponent } from '../components/tinymce-premium-editor/tinymce-premium-editor.component';
+import { WebBookmarkComponent } from '../elements/web-bookmark/web-bookmark.component';
+import { environment } from '@env/environment';
 
 // layout
 
@@ -34,8 +32,8 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutBasicComponent,
-    canActivate: [authSimpleCanActivate],
-    canActivateChild: [authSimpleCanActivateChild],
+   // canActivate: [authSimpleCanActivate],
+  //  canActivateChild: [authSimpleCanActivateChild],
     data: {},
     children: [
       { path: '', redirectTo: '/main', pathMatch: 'full' },

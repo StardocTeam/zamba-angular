@@ -1,0 +1,173 @@
+.schedule-form-container {
+  padding: 24px;
+  background: white;
+  border-radius: 4px;
+
+  h2 {
+    margin-bottom: 24px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #262626;
+  }
+}
+
+.schedule-form {
+  max-width: 900px;
+}
+
+/* Form Section */
+.form-section {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e8e8e8;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #262626;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #1890ff;
+    display: inline-block;
+  }
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #262626;
+    font-size: 14px;
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+  }
+
+  :host ::ng-deep {
+    .ant-input,
+    .ant-input-number,
+    .ant-select-selector,
+    .ant-picker,
+    textarea.ant-input {
+      border-radius: 2px;
+      border: 1px solid #d9d9d9;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: #40a9ff;
+      }
+
+      &:focus,
+      &.ant-input-focused {
+        border-color: #1890ff;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      }
+
+      &.is-error {
+        border-color: #ff4d4f;
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+        }
+      }
+    }
+
+    .ant-checkbox-wrapper {
+      margin-right: 16px;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+/* Error Message */
+.error-message {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Help Text */
+.help-text {
+  color: #999;
+  font-size: 12px;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.text-muted {
+  color: #999;
+}
+
+/* Form Actions */
+.form-actions {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e8e8e8;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+
+  .submit-button {
+    min-width: 120px;
+  }
+}
+
+/* Input States */
+.is-error {
+  :host ::ng-deep & {
+    .ant-input,
+    .ant-input-number,
+    .ant-select-selector {
+      border-color: #ff4d4f !important;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2) !important;
+      }
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .schedule-form-container {
+    padding: 16px;
+  }
+
+  .form-section {
+    h3 {
+      font-size: 14px;
+    }
+  }
+
+  .form-actions {
+    flex-direction: column;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+/* Date/Time Picker Customization */
+:host ::ng-deep {
+  .ant-picker {
+    width: 100%;
+  }
+
+  .ant-time-picker {
+    width: 100%;
+  }
+
+  .ant-select {
+    width: 100%;
+  }
+}

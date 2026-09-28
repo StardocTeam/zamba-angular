@@ -79,9 +79,17 @@ function component(service) {
 }
 test('page-sized total does not hide pagination; subsequent page is appended', async () => {
   const pages = [];
-  const c = component({ pageSize:100, search: async (_,page) => {pages.push(page); return {data:Array.from({length:page ? 2:100},()=>({})),total:page ? 2:100};} });
+  const firstPage = Array.from({length:100},(_,index)=>({DOC_TYPE_ID:1,DOC_ID:index + 1}));
+  const c = component({ pageSize:100, search: async (_,page) => {pages.push(page); return {data:page ? [{DOC_TYPE_ID:1,DOC_ID:100},{DOC_TYPE_ID:1,DOC_ID:101}] : firstPage,total:page ? 2:100};} });
   c.searchValue='texto'; await c.search(); assert.equal(c.hasMore,true);
-  await c.search(true); assert.equal(c.rows.length,102); assert.equal(c.hasMore,false); assert.deepEqual(pages,[0,1]);
+  await c.search(true); assert.equal(c.rows.length,101); assert.equal(c.hasMore,false); assert.deepEqual(pages,[0,1]);
+  await c.search(true); assert.equal(c.rows.length,101); assert.deepEqual(pages,[0,1]);
+});
+test('a partial first page prevents loading another page', async () => {
+  const pages = [];
+  const c = component({ pageSize:100, search: async (_,page) => {pages.push(page); return {data:[{DOC_TYPE_ID:1,DOC_ID:1}],total:1};} });
+  c.searchValue='texto'; await c.search(); assert.equal(c.hasMore,false);
+  await c.search(true); assert.equal(c.rows.length,1); assert.deepEqual(pages,[0]);
 });
 test('editing cancels stale results and clear removes selection', async () => {
   let finish;

@@ -43,7 +43,7 @@
   </div>
   <footer class="zgs-footer">
     <span><kbd>↵</kbd> buscar / abrir selección</span>
-    <button type="button" class="zgs-footer-action" [disabled]="busy || opening" (click)="search(true)"><kbd>Av Pág</kbd> cargar más resultados</button>
+    <button type="button" class="zgs-footer-action" [disabled]="busy || opening || !hasMore" (click)="search(true)"><kbd>Av Pág</kbd> cargar más resultados</button>
     <span class="zgs-footer-end"><span><kbd>↑ ↓</kbd> navegar</span><span><kbd>esc</kbd> cerrar</span></span>
   </footer>
 </dialog>

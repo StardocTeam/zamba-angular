@@ -3,6 +3,7 @@ export interface CopilotPromptRequest {
     fileBase64?: string;
     fileName?: string;
     documentId?: string;
+    documentTypeCode?: number;
 }
 
 export interface PromptStats {
@@ -22,6 +23,7 @@ export interface PromptStats {
 }
 
 export interface CopilotPromptResponse {
+    runId: string;
     response: string;
     documentId: string;
     chunksUsed: number;
@@ -34,10 +36,14 @@ export interface ZambaChatMessage {
     role: ZambaChatRole;
     text: string;
     fileName?: string;
+    runId?: string;
+    feedbackRating?: number;
+    feedbackSending?: boolean;
+    feedbackError?: boolean;
 }
 
 /** Binds an extraction prompt (answered right after a file is attached) to a target input's id. */
 export interface ZambaFieldBinding {
-    inputId: string;
+    inputId?: string;
     prompt: string;
 }
