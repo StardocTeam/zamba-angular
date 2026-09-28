@@ -546,49 +546,6 @@ export class ReportComponentComponent {
 
   search(searchValue: string): void {
     this.searchValue = searchValue;
-
-    this.TREE_DATA?.forEach(node => {
-      var filteredReports = node.currentReport?.filter(report => report.Name.toLowerCase().includes(this.searchValue.toLowerCase())) || [];
-
-      this.itemTrees.forEach((itemTree: any) => {
-        if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length == 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'none';
-        } else if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length > 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'block';
-        }
-      });
-    });
-
-    //   const normalizedSearch = this.searchValue.trim().toLowerCase();
-    //   if (!normalizedSearch) {
-    //     this.openCategories = {};
-    //     return;
-    //   }
-
-    //   this.openCategories = {};
-    //   this.TREE_DATA?.forEach(node => {
-    //     const hasMatches =
-    //       node.currentReport?.some(report => report.Name.toLowerCase().includes(normalizedSearch)) ?? false;
-    //     this.openCategories[node.name] = hasMatches;
-    //   });
-    // }
-
-    // isCategoryVisible(node: TreeNode): boolean {
-    //   const normalizedSearch = this.searchValue.trim().toLowerCase();
-    //   if (!normalizedSearch) {
-    //     return true;
-    //   }
-
-    //   return node.currentReport?.some(report => report.Name.toLowerCase().includes(normalizedSearch)) ?? false;
-    // }
-
-    // isCategoryOpen(node: TreeNode): boolean {
-    //   const normalizedSearch = this.searchValue.trim().toLowerCase();
-    //   if (!normalizedSearch) {
-    //     return false;
-    //   }
-
-    //   return this.openCategories[node.name] ?? false;
   }
 
   navigateToCreate() {
