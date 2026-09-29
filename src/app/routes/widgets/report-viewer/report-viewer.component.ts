@@ -173,7 +173,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         }),
       )
       .subscribe((data: any) => {
-        debugger;
         this.UserIdList = JSON.parse(data);
       });
   }

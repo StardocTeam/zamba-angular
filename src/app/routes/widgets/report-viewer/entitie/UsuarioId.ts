@@ -1,9 +1,9 @@
 export class UsuarioId {
-    id: number;
-    usuario: string;
+    ID: number;
+    Usuario: string;
 
-    constructor(id: number, usuario: string) {
-        this.id = id;
-        this.usuario = usuario;
+    constructor(ID: number, Usuario: string) {
+        this.ID = ID;
+        this.Usuario = Usuario;
     }
 }
