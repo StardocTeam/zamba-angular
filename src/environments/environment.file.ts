@@ -6,7 +6,7 @@ import * as MOCKDATA from '@_mock';
 import { DelonMockModule } from '@delon/mock';
 import { Environment } from '@delon/theme';
 
-// Load runtime config injected at startup (StartupService sets `window.appConfig` from /config.json)
+// Load runtime config injected at startup (StartupService sets `window.appConfig` from /appSettings.json)
 const runtimeConfig = (window as any).appConfig || {};
 const r = (key: string, def: any) => runtimeConfig[key] ?? def;
 export const environment = {

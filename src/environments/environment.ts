@@ -1,7 +1,7 @@
-// Single build for all environments: values come from `config.json`, loaded at
+// Single build for all environments: values come from `appSettings.json`, loaded at
 // startup by `StartupService` into `window.appConfig` (see `startup.service.ts`).
 // No `--configuration` flag or `fileReplacements` are needed for a normal build;
-// just edit `config.json` next to the deployed `dist` for each environment.
+// just edit `appSettings.json` next to the deployed `dist` for each environment.
 import * as MOCKDATA from '@_mock';
 import { DelonMockModule } from '@delon/mock';
 import { Environment } from '@delon/theme';

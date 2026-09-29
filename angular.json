@@ -34,7 +34,7 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets",
-                "ignore": ["config.json"]
+                "ignore": ["appSettings.json"]
               },
               "src/favicon.ico",
               {
@@ -48,7 +48,7 @@
                 "output": "assets"
               },
               {
-                "glob": "config.json",
+                "glob": "appSettings.json",
                 "input": "src/appSettings",
                 "output": "appSettings"
               }

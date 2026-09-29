@@ -38,10 +38,10 @@ export class StartupService {
 
   load(): Observable<void> {
     const defaultLang = this.i18n.defaultLang;
-    // Runtime config: `config.json` is copied from `src/assets/config.json` into the
+    // Runtime config: `appSettings.json` is copied from `src/appSettings/appSettings.json` into the
     // `appSettings/` folder at the root of the deployed dist (sibling of `assets/`),
     // so it can be edited/overridden per environment without touching the assets bundle.
-    const config$ = this.httpClient.get('appSettings/config.json').pipe(catchError(() => of({})));
+    const config$ = this.httpClient.get('appSettings/appSettings.json').pipe(catchError(() => of({})));
     // If http request allows anonymous access, you need to add `ALLOW_ANONYMOUS`:
     // this.httpClient.get('assets/tmp/app-data.json', { context: new HttpContext().set(ALLOW_ANONYMOUS, true) })
     return (
@@ -67,7 +67,7 @@ export class StartupService {
         }
 
         // Same mechanism ng-alain's own `setting-drawer` uses to switch the theme color at
-        // runtime (color.less + less.js + `less.modifyVars`), driven by config.json instead
+        // runtime (color.less + less.js + `less.modifyVars`), driven by appSettings.json instead
         // of the drawer's color picker.
         this.applyThemeColor(config?.appPrimaryColor);
 
@@ -104,6 +104,6 @@ export class StartupService {
     }
     this.loadLess()
       .then(() => (window as any).less.modifyVars({ '@primary-color': primaryColor }))
-      .catch(e => console.warn('Unable to apply appPrimaryColor from config.json', e));
+      .catch(e => console.warn('Unable to apply appPrimaryColor from appSettings.json', e));
   }
 }
