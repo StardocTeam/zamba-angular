@@ -39,6 +39,9 @@ export class ReportEditorComponent {
     RuleId: null,
   };
 
+  UpdatePermission: boolean = false;
+  CreatePermission: boolean = false;
+
   isButtonDisabled: boolean = false;
   userId: any;
   ruleId: any;
@@ -85,6 +88,7 @@ export class ReportEditorComponent {
               response = JSON.parse(response);
               this.userId = response;
               this.tokenService.set({ token: tokenData['token'], userid: response });
+              this.GetPermissions();
               this.getCategories(genericRequest);
               this.cdr.detectChanges();
             }),
@@ -97,6 +101,86 @@ export class ReportEditorComponent {
       }
     });
   }
+
+  private GetPermissions() {
+    const tokenData = this.tokenService.get();
+    let genericRequest = {};
+
+    if (tokenData != null) {
+      genericRequest = {
+        UserId: tokenData['userid'],
+        token: tokenData['token'],
+      };
+
+
+      const parsePermissionValue = (response: any): boolean => {
+        let parsed = response;
+
+        if (typeof parsed === 'string') {
+          const trimmed = parsed.trim();
+
+          try {
+            parsed = JSON.parse(trimmed);
+          } catch {
+            parsed = trimmed;
+          }
+        }
+
+        if (Array.isArray(parsed)) {
+          parsed = parsed[0];
+        }
+
+        if (typeof parsed === 'object' && parsed !== null) {
+          if ('value' in parsed) {
+            parsed = parsed.value;
+          } else if ('Permission' in parsed) {
+            parsed = parsed.Permission;
+          } else if ('Right' in parsed) {
+            parsed = parsed.Right;
+          }
+        }
+
+        if (typeof parsed === 'string') {
+          const normalized = parsed.trim().toLowerCase();
+          return normalized === 'true' || normalized === '1';
+        }
+
+        return parsed === true || parsed === 1;
+      };
+
+      this.REService._GetCreatePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de creación:', error);
+            this.CreatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.CreatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.REService._GetUpdatePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de edición:', error);
+            this.UpdatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.UpdatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+    }
+
+    this.cdr.detectChanges();
+  }
+
   getCurrentReport(genericRequest: {}) {
     this.RVService.GetReportById(genericRequest)
       .pipe(

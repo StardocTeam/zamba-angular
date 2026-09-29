@@ -61,7 +61,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.recurrenceTypes = this.scheduleService.getRecurrenceTypes();
-    
+
     // Check if editing existing schedule
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (params['id']) {
@@ -91,8 +91,8 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
 
       // Schedule Config fields
       recurrenceType: [RecurrenceType.Daily, Validators.required],
-      startDate: ['', Validators.required],
-      endDate: [''],
+      startDate: [null, Validators.required],
+      endDate: [null],
       timeOfDay: [''],
       daysOfWeek: [''],
       dayOfMonth: [1],
@@ -194,9 +194,9 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       isActive: schedule.isActive,
       endpointOverride: schedule.endpointOverride,
       recurrenceType: schedule.scheduleConfig.recurrenceType,
-      startDate: schedule.scheduleConfig.startDate,
-      endDate: schedule.scheduleConfig.endDate,
-      timeOfDay: schedule.scheduleConfig.timeOfDay,
+      startDate: this.toDate(schedule.scheduleConfig.startDate),
+      endDate: this.toDate(schedule.scheduleConfig.endDate),
+      timeOfDay: schedule.scheduleConfig.timeOfDay || '',
       daysOfWeek: schedule.scheduleConfig.daysOfWeek,
       dayOfMonth: schedule.scheduleConfig.dayOfMonth,
       intervalValue: schedule.scheduleConfig.intervalValue,
@@ -228,8 +228,8 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointOverride: formValue.endpointOverride,
       scheduleConfig: {
         recurrenceType: formValue.recurrenceType,
-        startDate: formValue.startDate,
-        endDate: formValue.endDate,
+        startDate: formValue.startDate?.toISOString(),
+        endDate: formValue.endDate?.toISOString(),
         timeOfDay: formValue.timeOfDay,
         daysOfWeek: formValue.daysOfWeek,
         dayOfMonth: formValue.dayOfMonth,
@@ -312,6 +312,13 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     } catch {
       return { invalidUrl: true };
     }
+  }
+
+  private toDate(value?: string | null): Date | null {
+    if (!value) return null;
+
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
   }
 
   /**

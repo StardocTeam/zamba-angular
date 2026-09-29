@@ -59,10 +59,10 @@
         <button nz-button nzType="default" (click)="TestQuery()"
           [disabled]="report.Query == '' || isButtonDisabled">Probar</button>
         <button *ngIf="report.ID === 0" nz-button nzType="primary" (click)="InsertReport()"
-          [disabled]="!isFormValid() || isButtonDisabled">
+          [disabled]="!CreatePermission || !isFormValid() || isButtonDisabled">
           Crear reporte </button>
         <button *ngIf="report.ID !== 0" nz-button nzType="primary" (click)="UpdateReport()"
-          [disabled]="!isFormValid() || isButtonDisabled">
+          [disabled]="!UpdatePermission || !isFormValid() || isButtonDisabled">
           Editar reporte </button>
       </div>
     </div>

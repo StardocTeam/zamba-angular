@@ -27,7 +27,7 @@
 
       <div *ngIf="!isLoading">
         <ul class="ulContainer-menu" nz-menu nzMode="inline">
-          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzIcon="file">
+          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzOpen]="true" [nzTitle]="titleTpl" nzIcon="file">
             <ng-template #titleTpl>
               <b class="boldMenuTittle">{{ itemTree.name }}</b>
             </ng-template>
@@ -62,16 +62,16 @@
 
                     <nz-dropdown-menu #menu="nzDropdownMenu">
                       <ul nz-menu>
-                        <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)" [nzDisabled]="">
+                        <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)" [nzDisabled]="!UpdatePermission">
                           <i nz-icon nzType="edit"></i> Editar
                         </li>
-                        <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="true">
+                        <!-- <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="true">
                           <i nz-icon nzType="arrow-down" nzTheme="outline"></i> Exportar excel
                         </li>
 
-                        <li nz-menu-item (click)="viewCharts(itemLeaf.ID)" [nzDisabled]="chartsDisabled">
+                        <li nz-menu-item (click)="viewCharts(itemLeaf.ID)" [nzDisabled]="true">
                           <i nz-icon nzType="bar-chart" nzTheme="outline"></i> Ver gráficos
-                        </li>
+                        </li> -->
 
                         <li nz-menu-divider></li>
                         <li nz-menu-item (click)="deleteReport(itemLeaf)" [nzDisabled]="!DeletePermission"

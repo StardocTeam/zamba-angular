@@ -1,6 +1,6 @@
 <div class="schedule-form-container">
   <h2>{{ isEditMode ? 'Edit Schedule' : 'Create New Schedule' }}</h2>
-  <nz-spin [nzSimple]="true" [nzSpinning]="loading">
+  <nz-spin [nzSpinning]="loading">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="schedule-form">
       <div class="form-section">
         <h3>Basic Information</h3>
@@ -76,8 +76,8 @@
           </div>
           <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="isFieldVisible('timeOfDay')">
             <div class="form-group">
-              <label>Time of Day *</label>
-              <nz-time-picker formControlName="timeOfDay" nzPlaceHolder="Select time"></nz-time-picker>
+              <label for="timeOfDay">Time of Day *</label>
+              <input nz-input id="timeOfDay" type="time" step="60" formControlName="timeOfDay" />
             </div>
           </div>
           <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="isFieldVisible('intervalValue')">

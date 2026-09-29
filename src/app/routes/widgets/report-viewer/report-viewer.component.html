@@ -40,7 +40,7 @@
                 </div> -->
 
                 <!-- Contenedor único para que todo quede en la misma fila -->
-                <div nz-row [nzGutter]="8" style="margin-bottom: 8px; align-items: end">
+                <div *ngIf="isLoading" nz-row [nzGutter]="8" style="margin-bottom: 8px; align-items: end">
                     <div nz-col nzXs="20" nzMd="20">
                         <div nz-row [nzGutter]="8">
 

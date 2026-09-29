@@ -22,6 +22,7 @@ import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { ReportViewStateDto as ReportViewState } from './entitie/ReportViewState';
 import { Report } from './entitie/report';
 import { ReportService } from './service/report.service';
+import { UserPermissionsService } from 'src/app/services/user-permissions.service';
 
 export interface TreeNode {
   name: string;
@@ -42,12 +43,13 @@ export class ReportComponentComponent {
   ReportsList: Report[] = [];
   searchValue = '';
   TREE_DATA?: TreeNode[];
+  openCategories: Record<string, boolean> = {};
   isDashboardVisible: boolean = true;
 
   ViewPermission: boolean = false;
-  UpdatePermission: boolean = true;
-  DeletePermission: boolean = true;
-  CreatePermission: boolean = true;
+  UpdatePermission: boolean = false;
+  DeletePermission: boolean = false;
+  CreatePermission: boolean = false;
   ConsultPermission: boolean = false;
 
   height: number = 400;
@@ -61,6 +63,7 @@ export class ReportComponentComponent {
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private userPermissionsService: UserPermissionsService,
     private RService: ReportService,
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -201,30 +204,91 @@ export class ReportComponentComponent {
         token: tokenData['token'],
       };
 
-      this.RService._GetPermissions(genericRequest)
+
+      const parsePermissionValue = (response: any): boolean => {
+        let parsed = response;
+
+        if (typeof parsed === 'string') {
+          const trimmed = parsed.trim();
+
+          try {
+            parsed = JSON.parse(trimmed);
+          } catch {
+            parsed = trimmed;
+          }
+        }
+
+        if (Array.isArray(parsed)) {
+          parsed = parsed[0];
+        }
+
+        if (typeof parsed === 'object' && parsed !== null) {
+          if ('value' in parsed) {
+            parsed = parsed.value;
+          } else if ('Permission' in parsed) {
+            parsed = parsed.Permission;
+          } else if ('Right' in parsed) {
+            parsed = parsed.Right;
+          }
+        }
+
+        if (typeof parsed === 'string') {
+          const normalized = parsed.trim().toLowerCase();
+          return normalized === 'true' || normalized === '1';
+        }
+
+        return parsed === true || parsed === 1;
+      };
+
+      this.RService._GetCreatePermission(genericRequest)
         .pipe(
           catchError(error => {
-            console.error('Error al obtener datos:', error);
-            throw error;
+            console.error('Error al obtener permiso de creación:', error);
+            this.CreatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
           }),
         )
         .subscribe((data: any) => {
-          var data = JSON.parse(data);
-          if (data) {
-            this.ViewPermission = true;
-
-            this.cdr.detectChanges();
-          } else {
-            console.warn('No permissions found.');
-          }
+          this.CreatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
         });
+
+      this.RService._GetUpdatePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de edición:', error);
+            this.UpdatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.UpdatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.RService._GetDeletePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de eliminación:', error);
+            this.DeletePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.DeletePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.ViewPermission = true;
     }
 
     this.cdr.detectChanges();
   }
 
   private GetReports() {
-    //this.TREE_DATA = [];
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -269,6 +333,9 @@ export class ReportComponentComponent {
             name: category,
             currentReport: Categories[category].map(item => new Report(item)),
           }));
+
+          // Keep category open state in sync after reloading data.
+          //this.search(this.searchValue);
 
           this.isLoading = false;
         });
@@ -477,18 +544,6 @@ export class ReportComponentComponent {
 
   search(searchValue: string): void {
     this.searchValue = searchValue;
-
-    this.TREE_DATA?.forEach(node => {
-      var filteredReports = node.currentReport?.filter(report => report.Name.toLowerCase().includes(this.searchValue.toLowerCase())) || [];
-
-      this.itemTrees.forEach((itemTree: any) => {
-        if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length == 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'none';
-        } else if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length > 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'block';
-        }
-      });
-    });
   }
 
   navigateToCreate() {
