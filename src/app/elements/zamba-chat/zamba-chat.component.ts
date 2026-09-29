@@ -90,6 +90,15 @@ export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
     this.restorePageLayout();
   }
 
+  formatCost(value: number | undefined): string {
+    if (value === undefined || !Number.isFinite(value)) return '—';
+    return new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 5,
+    }).format(value);
+  }
+
   openChat(): void {
     if (this.isOpen) {
       return;
@@ -329,7 +338,13 @@ export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
       next: response => {
         this.documentId = response.documentId || this.documentId;
         this.clearPendingFile();
-        this.messages.push({ role: 'assistant', text: response.response, runId: response.runId });
+        this.messages.push({
+          role: 'assistant',
+          text: response.response,
+          runId: response.runId,
+          copilotCreditsUsed: response.stats.copilotCreditsUsed,
+          estimatedCostAtOverageRateUsd: response.stats.estimatedCostAtOverageRateUsd,
+        });
         this.isSending = false;
         this.shouldScrollToBottom = true;
       },

@@ -29,6 +29,12 @@
     <div *ngFor="let message of messages" class="zamba-chat-message" [ngClass]="'zamba-chat-message--' + message.role">
       <div *ngIf="message.fileName" class="zamba-chat-message-file">📎 {{ message.fileName }}</div>
       <div class="zamba-chat-message-text">{{ message.text }}</div>
+      <div *ngIf="message.role === 'assistant' && message.estimatedCostAtOverageRateUsd !== undefined"
+        class="zamba-chat-usage"
+        title="Equivalente a tarifa excedente; no representa un cargo mientras haya créditos incluidos">
+        {{ message.copilotCreditsUsed | number:'1.0-2' }} créditos · {{
+        formatCost(message.estimatedCostAtOverageRateUsd) }}
+      </div>
       <div *ngIf="message.role === 'assistant' && message.runId" class="zamba-chat-feedback">
         <button type="button" [class.selected]="message.feedbackRating === 1" [disabled]="message.feedbackSending"
           (click)="rateAnswer(message, 1)" title="Respuesta útil" aria-label="Respuesta útil">👍</button>
