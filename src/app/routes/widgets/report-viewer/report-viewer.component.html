@@ -40,12 +40,12 @@
                 </div> -->
 
                 <!-- Contenedor único para que todo quede en la misma fila -->
-                <div *ngIf="isLoading" nz-row [nzGutter]="8" style="margin-bottom: 8px; align-items: end">
+                <div *ngIf="!isLoading" nz-row [nzGutter]="8" style="margin-bottom: 8px; align-items: end">
                     <div nz-col nzXs="20" nzMd="20">
                         <div nz-row [nzGutter]="8">
 
-                            <div *ngIf="true" nz-col nzXs="24" nzSm="6">
-                                <label for="searchOnGrid">Buscar en la grilla:</label>
+                            <div nz-col nzXs="24" nzSm="6">
+                                <label for="searchOnGrid">Buscar:</label>
                                 <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch">
                                     <input type="text" nz-input placeholder="Escriba aqui para buscar..."
                                         [(ngModel)]="searchValue" (ngModelChange)="search($event)" />
@@ -57,32 +57,44 @@
                             </div>
 
                             <!-- TODO:Aca van los inputs dinamicos por ZVARs -->
-                            <div *ngIf="startDateVisible" nz-col nzXs="24" nzSm="6">
+                            <div *ngIf="startDateVisible" nz-col nzXs="24" nzSm="4">
                                 <label for="startDate">Fecha de inicio:</label>
                                 <nz-date-picker [(ngModel)]="ZVARstartDate" [nzFormat]="'dd-MM-yyyy'"
                                     style="width: 100%" />
                             </div>
 
-                            <div *ngIf="endDateVisible" nz-col nzXs="24" nzSm="6">
+                            <div *ngIf="endDateVisible" nz-col nzXs="24" nzSm="4">
                                 <label for="endDate">Fecha hasta:</label>
                                 <nz-date-picker [(ngModel)]="ZVARendDate" [nzFormat]="'dd-MM-yyyy'"
                                     style="width: 100%"></nz-date-picker>
                             </div>
 
                             <div style="align-content: end;" *ngIf="startDateVisible && endDateVisible">
-                                <button nz-button nzType="primary" (click)="ViewAllRegisters()">
-                                    Ver todos los registros</button>
+                                <button nz-button nzType="primary" (click)="CleanDates()">
+                                    <i nz-icon nzType="delete"></i>
+                                </button>
                             </div>
+
+
+                            <div *ngIf="UsuarioIdVisible" nz-col nzXs="24" nzSm="6">
+                                <label for="UsuarioId">Usuario:</label>
+
+                                <nz-select id="usuario" [(ngModel)]="ZVARUsuarioId" style="width: 100%"
+                                    nzPlaceHolder="Seleccione un usuario">
+                                    <nz-option *ngFor="let item of UserIdList" [nzValue]="item.id"
+                                        [nzLabel]="item.usuario" />
+                                </nz-select>
+                            </div>
+
                         </div>
                     </div>
 
                     <!-- [disabled]="ZVARstartDate || ZVARendDate" -->
 
                     <!-- Botón separado pero en la misma fila -->
-                    <div *ngIf="startDateVisible || endDateVisible" nz-col nzXs="4" nzMd="4"
+                    <div *ngIf="startDateVisible || endDateVisible || UsuarioIdVisible" nz-col nzXs="4" nzMd="4"
                         style="display: flex; align-items: end">
-                        <button nz-button nzType="primary" (click)="OpenReport(currentReport)"
-                            [disabled]="(startDateVisible && !ZVARstartDate) || (endDateVisible && !ZVARendDate)">
+                        <button nz-button nzType="primary" (click)="OpenReport(currentReport)">
                             Aplicar filtros</button>
                     </div>
                 </div>
