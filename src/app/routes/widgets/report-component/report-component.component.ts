@@ -5,16 +5,14 @@ import {
   HostListener,
   inject,
   Inject,
-  NgModule,
   QueryList,
-  Renderer2,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { GridService } from 'src/app/services/Grid/grid.service';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
@@ -59,6 +57,9 @@ export class ReportComponentComponent {
 
   chartsDisabled: boolean = false;
   isLoading: boolean = false;
+  selectedReportId: number | null = null;
+  private pendingFocusReportId: number | null = null;
+  private reportFocusSub?: Subscription;
   //#endregion
 
   constructor(
@@ -76,6 +77,14 @@ export class ReportComponentComponent {
 
   //#region ngOnInit
   ngOnInit() {
+    this.reportFocusSub = this.RService.reportFocus$.subscribe(reportId => {
+      if (!reportId) {
+        return;
+      }
+
+      this.focusReportInTree(reportId);
+    });
+
     this.route.queryParamMap.subscribe(params => {
       if (params && params.keys.length > 0) {
         if (params.get('t')) {
@@ -108,6 +117,10 @@ export class ReportComponentComponent {
         throw new Error('Token not found');
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.reportFocusSub?.unsubscribe();
   }
   //#endregion
 
@@ -333,6 +346,19 @@ export class ReportComponentComponent {
             name: category,
             currentReport: Categories[category].map(item => new Report(item)),
           }));
+
+          const nextOpenCategories: Record<string, boolean> = {};
+          this.TREE_DATA.forEach(node => {
+            nextOpenCategories[node.name] = this.openCategories[node.name] ?? true;
+          });
+          this.openCategories = nextOpenCategories;
+
+          const reportIdFromRoute = this.getReportIdFromCurrentUrl();
+          if (reportIdFromRoute) {
+            this.focusReportInTree(reportIdFromRoute);
+          } else if (this.pendingFocusReportId) {
+            this.focusReportInTree(this.pendingFocusReportId);
+          }
 
           // Keep category open state in sync after reloading data.
           //this.search(this.searchValue);
@@ -631,5 +657,65 @@ export class ReportComponentComponent {
     this.GetReports();
     this.adjustHeight();
     this.cdr.detectChanges();
+  }
+
+  isCategoryOpen(categoryName: string): boolean {
+    return this.openCategories[categoryName] ?? true;
+  }
+
+  onCategoryOpenChange(categoryName: string, isOpen: boolean): void {
+    this.openCategories[categoryName] = isOpen;
+  }
+
+  private focusReportInTree(reportId: number): void {
+    const numericReportId = Number(reportId);
+    if (!Number.isFinite(numericReportId) || numericReportId <= 0) {
+      return;
+    }
+
+    this.openCategoryForReport(numericReportId);
+
+    this.selectedReportId = numericReportId;
+    this.pendingFocusReportId = numericReportId;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      const target = document.querySelector(`[data-report-id="${numericReportId}"]`) as HTMLElement | null;
+
+      if (!target) {
+        return;
+      }
+
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      this.pendingFocusReportId = null;
+    }, 0);
+  }
+
+  private openCategoryForReport(reportId: number): void {
+    if (!this.TREE_DATA?.length) {
+      return;
+    }
+
+    const parentCategory = this.TREE_DATA.find(node =>
+      (node.currentReport ?? []).some(report => Number(report.ID) === reportId),
+    );
+
+    if (!parentCategory) {
+      return;
+    }
+
+    this.openCategories[parentCategory.name] = true;
+  }
+
+  private getReportIdFromCurrentUrl(): number | null {
+    const currentUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+    const match = currentUrl.match(/\/(view|edit|chartcontainer)\/(\d+)$/);
+
+    if (!match || !match[2]) {
+      return null;
+    }
+
+    const reportId = Number(match[2]);
+    return Number.isFinite(reportId) && reportId > 0 ? reportId : null;
   }
 }

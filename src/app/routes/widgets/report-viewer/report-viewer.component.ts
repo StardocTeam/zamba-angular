@@ -18,6 +18,7 @@ import { Zvars } from './entitie/ZVar';
 import { ReportViewerService } from './service/report-viewer.service';
 import { Report } from '../report-component/entitie/report';
 import { UsuarioId } from './entitie/UsuarioId';
+import { ReportService } from '../report-component/service/report.service';
 
 @Component({
   selector: 'app-report-viewer',
@@ -135,6 +136,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private router: Router,
     private TService: TaskService,
+    private reportService: ReportService,
   ) { }
 
   ngOnDestroy(): void {
@@ -244,6 +246,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     this.ResetAllVars();
 
     this.currentReport = report;
+    this.reportService.notifyReportFocus((this.currentReport as any)?.ID);
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
@@ -523,7 +526,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             listOfFilter: [],
             filterFn: null,
             width: `${columnWidth}px`,
-            visible: ColumnName !== 'TASKID',
+            visible: !['TASKID', 'DOCID', 'ENTITYID'].includes((ColumnName || '').toUpperCase()),
           };
 
           this.listOfColumns.push(newColumn);
