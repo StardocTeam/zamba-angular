@@ -8,6 +8,12 @@ import { environment } from '@env/environment';
   providedIn: 'root',
 })
 export class ReportViewerService {
+  GetUserIds() {
+    return this.http.post(`${environment['restApi']}/reports/GetUserIds`, {}, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+    });
+  }
+
   TestReportQuery(genericRequest: {}) {
     return this.http.post(`${environment['restApi']}/reports/TestReportQuery`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
@@ -41,7 +47,7 @@ export class ReportViewerService {
     });
   }
 
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   GetReportByQuery(genericRequest: any) {
     return this.http.post(`${environment['restApi']}/reports/GetReportByQuery`, genericRequest, null, {

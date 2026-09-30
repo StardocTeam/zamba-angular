@@ -48,6 +48,7 @@ export class ReportEditorComponent {
   ListZVARsFromRule: any[] = [];
   ZVARstartDate: any;
   ZVARendDate: any;
+  ZVARUsuarioId: any;
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -66,6 +67,7 @@ export class ReportEditorComponent {
     oneMonthAgo.setFullYear(oneMonthAgo.getFullYear() - 5);
     this.ZVARstartDate = oneMonthAgo;
     this.ZVARendDate = new Date();
+    this.ZVARUsuarioId = -1;
 
     this.route.params.subscribe(params => {
       const reportId = params['id'];
@@ -259,6 +261,8 @@ export class ReportEditorComponent {
             ...this.buildZvarsObject(),
             FechaDesde: this.ZVARstartDate,
             FechaHasta: this.ZVARendDate,
+            UsuarioId: this.ZVARUsuarioId
+
           }),
           Query: this.report.Query,
           Completar: this.report.Completar,
@@ -337,6 +341,7 @@ export class ReportEditorComponent {
             ...this.buildZvarsObject(),
             FechaDesde: this.ZVARstartDate,
             FechaHasta: this.ZVARendDate,
+            UsuarioId: this.ZVARUsuarioId
           }),
           ReportId: this.report.ID,
           query: this.report.Query,
@@ -410,6 +415,7 @@ export class ReportEditorComponent {
             ...this.buildZvarsObject(),
             FechaDesde: this.ZVARstartDate,
             FechaHasta: this.ZVARendDate,
+            UsuarioId: this.ZVARUsuarioId
           }),
           ReportId: this.report.ID,
           query: this.report.Query,

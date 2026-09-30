@@ -18,7 +18,7 @@
       <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="13" nzXl="8">
         <span>Categoria: *</span><br />
         <nz-select id="category" [(ngModel)]="report.Categoryid" style="width: 100%"
-          nzPlaceHolder="Selecciones una categoria">
+          nzPlaceHolder="Seleccione una categoria">
           <nz-option *ngFor="let item of CategoryList" [nzValue]="item.ID" [nzLabel]="item.Category" />
         </nz-select>
       </div>
