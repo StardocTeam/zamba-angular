@@ -62,6 +62,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   public searchValue: string = '';
   public ZVARUsuarioId: number = -1;
   public UsuarioIdVisible: boolean = false;
+  public userSearchText: string = '';
+  private lastNonEmptyUserSearchText: string = '';
   public userSelectFilterOption = (input: string, option: any): boolean => {
     const normalizedInput = (input ?? '').toString().trim().toLowerCase();
 
@@ -74,6 +76,55 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
     return usuario.includes(normalizedInput) || id.includes(normalizedInput);
   };
+
+  public onUserSearch(input: string): void {
+    this.userSearchText = (input ?? '').toString();
+
+    if (this.userSearchText.trim()) {
+      this.lastNonEmptyUserSearchText = this.userSearchText;
+    }
+  }
+
+  public onUserSelectionChange(_value: number): void {
+    this.userSearchText = '';
+    this.lastNonEmptyUserSearchText = '';
+  }
+
+  public applyFilters(): void {
+    this.autoSelectFirstUserMatch();
+    this.OpenReport(this.currentReport);
+  }
+
+  private autoSelectFirstUserMatch(): void {
+    if (!this.UsuarioIdVisible) {
+      return;
+    }
+
+    const searchText = (this.userSearchText ?? '').toString().trim()
+      ? this.userSearchText
+      : this.lastNonEmptyUserSearchText;
+    const normalizedInput = (searchText ?? '').toString().trim().toLowerCase();
+
+    if (!normalizedInput) {
+      return;
+    }
+
+    const firstMatch = this.UserIdList.find(item => {
+      const usuario = (item?.Usuario ?? '').toString().toLowerCase();
+      const id = (item?.ID ?? '').toString().toLowerCase();
+
+      return usuario.includes(normalizedInput) || id.includes(normalizedInput);
+    });
+
+    if (firstMatch) {
+      this.ZVARUsuarioId = firstMatch.ID;
+    } else {
+      this.ZVARUsuarioId = -1;
+    }
+
+    this.userSearchText = '';
+    this.lastNonEmptyUserSearchText = '';
+  }
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
