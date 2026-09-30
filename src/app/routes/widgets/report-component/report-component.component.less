@@ -42,8 +42,29 @@ nz-submenu {
 .content-container {
     height: 100%;
     /* Ocupa el 100% de la altura del contenedor */
-    // overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     /* Habilita el scroll si el contenido excede la altura */
+}
+
+.content-container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+:host ::ng-deep .content-container.ant-layout-content {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+:host ::ng-deep .content-container.ant-layout-content::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 .nzLayoutHeight100percent {

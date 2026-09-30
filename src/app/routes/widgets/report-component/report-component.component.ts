@@ -9,6 +9,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -35,6 +36,7 @@ export interface TreeNode {
 export class ReportComponentComponent {
   //#region Properties
   private route = inject(ActivatedRoute);
+  private document = inject(DOCUMENT);
   @ViewChild('outlet') outlet!: RouterOutlet;
   @ViewChildren('itemTree') itemTrees!: QueryList<ElementRef>;
   @ViewChildren('itemLeaf') itemLeafs!: QueryList<ElementRef>;
@@ -77,6 +79,9 @@ export class ReportComponentComponent {
 
   //#region ngOnInit
   ngOnInit() {
+    this.document.documentElement.classList.add('reports-page-lock-scroll');
+    this.document.body.classList.add('reports-page-lock-scroll');
+
     this.reportFocusSub = this.RService.reportFocus$.subscribe(reportId => {
       if (!reportId) {
         return;
@@ -120,6 +125,8 @@ export class ReportComponentComponent {
   }
 
   ngOnDestroy(): void {
+    this.document.documentElement.classList.remove('reports-page-lock-scroll');
+    this.document.body.classList.remove('reports-page-lock-scroll');
     this.reportFocusSub?.unsubscribe();
   }
   //#endregion
@@ -686,7 +693,27 @@ export class ReportComponentComponent {
         return;
       }
 
-      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const sidePanel = target.closest('.ant-layout-sider') as HTMLElement | null;
+
+      if (sidePanel) {
+        const sidePanelRect = sidePanel.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const targetTopInPanel = targetRect.top - sidePanelRect.top + sidePanel.scrollTop;
+        const targetBottomInPanel = targetTopInPanel + targetRect.height;
+        const anchorHeight =
+          (sidePanel.querySelector('.search-anchor') as HTMLElement | null)?.offsetHeight ?? 0;
+        const visibleTop = sidePanel.scrollTop + anchorHeight;
+        const visibleBottom = sidePanel.scrollTop + sidePanel.clientHeight;
+
+        if (targetTopInPanel < visibleTop) {
+          sidePanel.scrollTop = Math.max(targetTopInPanel - anchorHeight - 8, 0);
+        } else if (targetBottomInPanel > visibleBottom) {
+          sidePanel.scrollTop = targetBottomInPanel - sidePanel.clientHeight + 8;
+        }
+      } else {
+        target.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'nearest' });
+      }
+
       this.pendingFocusReportId = null;
     }, 0);
   }
