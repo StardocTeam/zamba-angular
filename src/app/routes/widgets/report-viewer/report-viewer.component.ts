@@ -62,6 +62,18 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   public searchValue: string = '';
   public ZVARUsuarioId: number = -1;
   public UsuarioIdVisible: boolean = false;
+  public userSelectFilterOption = (input: string, option: any): boolean => {
+    const normalizedInput = (input ?? '').toString().trim().toLowerCase();
+
+    if (!normalizedInput) {
+      return true;
+    }
+
+    const usuario = (option?.nzLabel ?? '').toString().toLowerCase();
+    const id = (option?.nzValue ?? '').toString().toLowerCase();
+
+    return usuario.includes(normalizedInput) || id.includes(normalizedInput);
+  };
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
