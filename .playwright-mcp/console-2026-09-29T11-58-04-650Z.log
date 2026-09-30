@@ -1,0 +1,92 @@
+[    4766ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[    5858ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/Dashboard/GetProfileImage' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[    5859ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[    5860ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[    5867ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/api/schedule/events?pageNumber=1&pageSize=10' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[    5868ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[    5878ms] [ERROR] Error loading schedules: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:941
+[    5880ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/api/schedule/events?pageNumber=1&pageSize=10:0
+[    5881ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/api/schedule/statistics' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[    5882ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[    5882ms] [ERROR] Error loading statistics: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:955
+[    5883ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/api/schedule/statistics:0
+[    5888ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[    5889ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/Dashboard/getSidebarItems' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[    5890ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[    5890ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20935
+[    5891ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[    5894ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[    5895ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[    5895ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20626
+[    5896ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[    5906ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:20939:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637
+[   16962ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[   24087ms] [INFO] [webpack-dev-server] App updated. Reloading... @ http://localhost:4200/zamba/polyfills.js:6252
+[   24197ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[   29720ms] [INFO] [webpack-dev-server] Nothing changed. @ http://localhost:4200/zamba/polyfills.js:6252
+[   30238ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[   34204ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/Dashboard/GetProfileImage' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[   34205ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[   34205ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[   34214ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/api/schedule/events?pageNumber=1&pageSize=10' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[   34215ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[   34222ms] [ERROR] Error loading schedules: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:941
+[   34227ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/api/schedule/events?pageNumber=1&pageSize=10:0
+[   34235ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/api/schedule/statistics' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[   34235ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[   34236ms] [ERROR] Error loading statistics: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:955
+[   34237ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/api/schedule/statistics:0
+[   34247ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[   34248ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/Dashboard/getSidebarItems' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[   34249ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[   34249ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20935
+[   34250ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[   34255ms] [ERROR] Access to XMLHttpRequest at 'http://localhost/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions' from origin 'http://localhost:4200' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. @ http://localhost:4200/zamba/#/zamba/schedule:0
+[   34256ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[   34257ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20626
+[   34258ms] [ERROR] Failed to load resource: net::ERR_FAILED @ http://localhost/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[   34259ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:20939:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637

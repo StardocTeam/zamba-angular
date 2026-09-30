@@ -70,32 +70,35 @@
         <div class="section-heading consumption-heading">
             <div>
                 <h2>Consumo y costo estimado</h2>
-                <span class="result-count">Mes e histórico globales · plan PRO: USD 20 por 1.500 créditos</span>
+                <span class="result-count">Plan PRO: USD 20/mes · 1 crédito cada 1.000 tokens · USD 0,02 por crédito
+                    excedente</span>
             </div>
         </div>
         <div class="metrics-grid consumption-grid">
             <article class="metric">
-                <span class="metric-label">Tokens consumidos en el período</span>
-                <strong>{{ formatNumber(summary?.totalTokens) }}</strong>
-                <small>{{ formatNumber(summary?.totalRuns) }} solicitudes · promedio {{
+                <span class="metric-label">Créditos consumidos en el período</span>
+                <strong>{{ formatNumber(summary?.creditsUsed, 2) }}</strong>
+                <small>{{ formatNumber(summary?.totalTokens) }} tokens · {{ formatNumber(summary?.totalRuns) }}
+                    solicitudes · promedio {{
                     formatNumber(summary?.averageTotalTokensPerRequest) }} por solicitud</small>
             </article>
             <article class="metric">
-                <span class="metric-label">Costo promedio por solicitud</span>
-                <strong>{{ formatCost(summary?.estimatedPlanCostPerRequestUsd) }}</strong>
-                <small>Estimación: 1 crédito por solicitud</small>
+                <span class="metric-label">Costo equivalente medio por solicitud</span>
+                <strong>{{ formatCost(summary?.averageCostAtOverageRateUsd) }}</strong>
+                <small>A tarifa excedente; el cupo mensual incluido puede cubrir este consumo</small>
             </article>
             <article class="metric">
                 <span class="metric-label">Costo acumulado del mes</span>
                 <strong>{{ formatCost(summary?.monthEstimatedCostUsd) }}</strong>
-                <small>{{ formatNumber(summary?.monthRequestCount) }} solicitudes · {{
-                    formatNumber(summary?.monthTotalTokens) }} tokens</small>
+                <small>{{ formatNumber(summary?.monthCreditsUsed, 2) }} / 1.500 créditos · excedente {{
+                    formatNumber(summary?.monthCreditsExceeded, 2) }} ({{
+                    formatCost(summary?.monthAdditionalCostUsd) }})</small>
             </article>
             <article class="metric">
                 <span class="metric-label">Costo acumulado desde el inicio</span>
                 <strong>{{ formatCost(summary?.lifetimeEstimatedCostUsd) }}</strong>
                 <small>{{ formatNumber(summary?.lifetimeRequestCount) }} solicitudes · {{
-                    formatNumber(summary?.lifetimeTotalTokens) }} tokens</small>
+                    formatNumber(summary?.lifetimeTotalTokens) }} tokens · base mensual por mes con actividad</small>
             </article>
         </div>
     </section>
@@ -168,7 +171,11 @@
                     <div><span>Modelo</span><strong>{{ run.chatModel || '—' }}</strong></div>
                     <div><span>Tokens entrada / salida</span><strong>{{ formatNumber(run.inputTokens) }} / {{
                             formatNumber(run.outputTokens) }}</strong></div>
-                    <div><span>Costo estimado</span><strong>{{ formatCost(run.estimatedCost) }}</strong></div>
+                    <div><span>Créditos consumidos</span><strong>{{ formatNumber(run.copilotCreditsUsed, 2) }}</strong>
+                    </div>
+                    <div><span>Costo reportado por SDK</span><strong>{{ formatCost(run.estimatedCost) }}</strong></div>
+                    <div><span>Costo a tarifa excedente</span><strong>{{
+                            formatCost(run.estimatedCostAtOverageRateUsd) }}</strong></div>
                     <div><span>Chunks recuperados</span><strong>{{ formatNumber(run.chunksUsed) }} / {{
                             formatNumber(run.chunksIndexed) }}</strong></div>
                     <div><span>Índice documental</span><strong>{{ run.documentAlreadyIndexed === null ? '—' :

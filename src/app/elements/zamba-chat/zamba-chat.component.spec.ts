@@ -69,13 +69,15 @@ describe('ZambaChatComponent', () => {
             documentId: 'doc-123',
             runId: 'run-123',
             chunksUsed: 2,
-            stats: {},
+            stats: { copilotCreditsUsed: 1.5, estimatedCostAtOverageRateUsd: 0.03 },
         };
         req.flush(response);
 
         expect(component.documentId).toBe('doc-123');
         expect(component.pendingFileName).toBeNull();
         expect(component.messages[1].text).toBe('Esta es la respuesta');
+        expect(component.messages[1].copilotCreditsUsed).toBe(1.5);
+        expect(component.messages[1].estimatedCostAtOverageRateUsd).toBe(0.03);
         expect(component.isSending).toBeFalse();
     });
 

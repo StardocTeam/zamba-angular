@@ -17,6 +17,9 @@ export interface PromptStats {
     chatModel?: string;
     inputTokens?: number;
     outputTokens?: number;
+    totalTokens?: number;
+    copilotCreditsUsed?: number;
+    estimatedCostAtOverageRateUsd?: number;
     cacheReadTokens?: number;
     cacheWriteTokens?: number;
     estimatedCost?: number;
@@ -37,6 +40,8 @@ export interface ZambaChatMessage {
     text: string;
     fileName?: string;
     runId?: string;
+    copilotCreditsUsed?: number;
+    estimatedCostAtOverageRateUsd?: number;
     feedbackRating?: number;
     feedbackSending?: boolean;
     feedbackError?: boolean;
