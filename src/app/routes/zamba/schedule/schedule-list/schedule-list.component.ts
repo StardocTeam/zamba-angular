@@ -4,8 +4,6 @@ import {
   RecurrenceTypeOption,
   ScheduleService
 } from '../schedule.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   PagedResponseModel,
   RecurrenceType,
@@ -13,6 +11,8 @@ import {
 } from '../schedule.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -37,9 +37,6 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private search$ = new Subject<string>();
 
-  // Statistics
-  statistics: any = {};
-
   constructor(
     private scheduleService: ScheduleService,
     private router: Router,
@@ -51,7 +48,6 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadSchedules();
-    this.loadStatistics();
 
     // Setup debounced search
     this.search$.pipe(
@@ -92,22 +88,6 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
           this.message.error('Failed to load schedules');
           console.error('Error loading schedules:', error);
           this.loading = false;
-        }
-      });
-  }
-
-  /**
-   * Load statistics
-   */
-  loadStatistics(): void {
-    this.scheduleService.getScheduleStatistics()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: any) => {
-          this.statistics = response.data;
-        },
-        error: (error) => {
-          console.error('Error loading statistics:', error);
         }
       });
   }
@@ -173,7 +153,7 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
    * Activate schedule
    */
   activateSchedule(schedule: ScheduleEventModel): void {
-    this.scheduleService.activateScheduleEvent(schedule.id)
+    this.scheduleService.toggleScheduleEvent(schedule.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -191,7 +171,7 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
    * Deactivate schedule
    */
   deactivateSchedule(schedule: ScheduleEventModel): void {
-    this.scheduleService.deactivateScheduleEvent(schedule.id)
+    this.scheduleService.toggleScheduleEvent(schedule.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -230,27 +210,6 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
           });
       }
     });
-  }
-
-  /**
-   * Test schedule (execute immediately)
-   */
-  testSchedule(schedule: ScheduleEventModel): void {
-    this.scheduleService.testScheduleEvent(schedule.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          if (response.data?.success) {
-            this.message.success('Schedule executed successfully');
-          } else {
-            this.message.warning(response.data?.message || 'Test execution completed');
-          }
-        },
-        error: (error) => {
-          this.message.error('Failed to test schedule');
-          console.error('Error testing schedule:', error);
-        }
-      });
   }
 
   /**

@@ -3,26 +3,43 @@
     <h2>Schedules</h2>
     <button nz-button nzType="primary" (click)="goToCreate()">New Schedule</button>
   </div>
-  <nz-spin [nzSpinning]="loading">
-    <nz-table [nzData]="schedules" nzSize="small">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of schedules">
-          <td>{{ item.name }}</td>
-          <td><nz-tag [nzColor]="item.isActive ? 'green' : 'default'">{{ item.isActive ? 'Active' : 'Inactive'
-              }}</nz-tag></td>
-          <td>
-            <button nz-button nzType="link" nzSize="small">Edit</button>
-            <button nz-button nzType="link" nzSize="small">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </nz-spin>
+  <div class="filters">
+    <input nz-input placeholder="Search schedules" [ngModel]="searchValue" (ngModelChange)="onSearchChange($event)" />
+    <nz-select [(ngModel)]="filterActive" (ngModelChange)="onFilterChange()" aria-label="Filter by status">
+      <nz-option nzLabel="All statuses" [nzValue]="null"></nz-option>
+      <nz-option nzLabel="Active" [nzValue]="true"></nz-option>
+      <nz-option nzLabel="Inactive" [nzValue]="false"></nz-option>
+    </nz-select>
+    <button nz-button (click)="clearFilters()">Clear filters</button>
+  </div>
+  <nz-table [nzData]="schedules" [nzLoading]="loading" [nzShowPagination]="false" nzSize="small">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Rule ID</th>
+        <th>Recurrence</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of schedules">
+        <td><a (click)="viewDetails(item)">{{ item.name }}</a></td>
+        <td>{{ item.ruleId }}</td>
+        <td>{{ getRecurrenceTypeLabel(item.scheduleConfig.recurrenceType) }}</td>
+        <td><nz-tag [nzColor]="getStatusColor(item.isActive)">{{ item.isActive ? 'Active' : 'Inactive' }}</nz-tag></td>
+        <td>
+          <button nz-button nzType="link" nzSize="small" (click)="goToEdit(item.id)">Edit</button>
+          <button nz-button nzType="link" nzSize="small" (click)="viewLogs(item)">Logs</button>
+          <button nz-button nzType="link" nzSize="small"
+            (click)="item.isActive ? deactivateSchedule(item) : activateSchedule(item)">
+            {{ item.isActive ? 'Deactivate' : 'Activate' }}
+          </button>
+          <button nz-button nzType="link" nzDanger nzSize="small" (click)="deleteSchedule(item)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+  <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="total" [nzShowSizeChanger]="true"
+    (nzPageIndexChange)="onPageIndexChange($event)" (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
 </div>

@@ -1,0 +1,38 @@
+[ 3166824ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[ 3171119ms] [INFO] [webpack-dev-server] Nothing changed. @ http://localhost:4200/zamba/polyfills.js:6252
+[ 3171206ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[ 3175636ms] [INFO] [webpack-dev-server] App updated. Reloading... @ http://localhost:4200/zamba/polyfills.js:6252
+[ 3175691ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[ 3178577ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[ 3182297ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[ 3182298ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[ 3182299ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[ 3182304ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[ 3182305ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:21113
+[ 3182306ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[ 3182308ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[ 3182309ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20804
+[ 3182310ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[ 3182312ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:21117:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637

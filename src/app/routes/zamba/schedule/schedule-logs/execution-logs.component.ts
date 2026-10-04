@@ -2,9 +2,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ExecutionLogModel, ExecutionStatus, PagedResponseModel } from '../schedule.model';
 import { ExecutionStatusOption, ScheduleService } from '../schedule.service';
+
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -71,9 +71,7 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          if (response.data) {
-            this.scheduleName = response.data.name;
-          }
+          this.scheduleName = response.name;
         },
         error: (error) => {
           console.error('Error loading schedule:', error);

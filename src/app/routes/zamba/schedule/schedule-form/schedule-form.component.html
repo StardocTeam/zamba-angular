@@ -89,9 +89,9 @@
           <div nz-col [nzXs]="24" *ngIf="isFieldVisible('daysOfWeek')">
             <div class="form-group">
               <label>Days of Week *</label>
-              <label nz-checkbox *ngFor="let day of ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']">
-                <input type="checkbox" [value]="day" /> {{ day }}
-              </label>
+              <label nz-checkbox *ngFor="let day of daysOfWeek"
+                [nzChecked]="getControl('daysOfWeek')?.value.includes(day.value)"
+                (nzCheckedChange)="toggleDay(day.value, $event)">{{ day.label }}</label>
             </div>
           </div>
           <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="isFieldVisible('dayOfMonth')">

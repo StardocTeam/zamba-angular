@@ -94,7 +94,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       startDate: [null, Validators.required],
       endDate: [null],
       timeOfDay: [''],
-      daysOfWeek: [''],
+      daysOfWeek: [[]],
       dayOfMonth: [1],
       intervalValue: [1],
       cronExpression: [''],
@@ -170,9 +170,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          if (response.data) {
-            this.populateForm(response.data);
-          }
+          this.populateForm(response);
           this.loading = false;
         },
         error: (error) => {
@@ -197,7 +195,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       startDate: this.toDate(schedule.scheduleConfig.startDate),
       endDate: this.toDate(schedule.scheduleConfig.endDate),
       timeOfDay: schedule.scheduleConfig.timeOfDay || '',
-      daysOfWeek: schedule.scheduleConfig.daysOfWeek,
+      daysOfWeek: schedule.scheduleConfig.daysOfWeek?.split(',') || [],
       dayOfMonth: schedule.scheduleConfig.dayOfMonth,
       intervalValue: schedule.scheduleConfig.intervalValue,
       cronExpression: schedule.scheduleConfig.cronExpression,
@@ -219,6 +217,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     }
 
     const formValue = this.form.value;
+    const recurrenceType = formValue.recurrenceType as RecurrenceType;
     const schedule: ScheduleEventModel = {
       id: this.scheduleId || 0,
       name: formValue.name,
@@ -227,14 +226,18 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       isActive: formValue.isActive,
       endpointOverride: formValue.endpointOverride,
       scheduleConfig: {
-        recurrenceType: formValue.recurrenceType,
-        startDate: formValue.startDate?.toISOString(),
-        endDate: formValue.endDate?.toISOString(),
-        timeOfDay: formValue.timeOfDay,
-        daysOfWeek: formValue.daysOfWeek,
-        dayOfMonth: formValue.dayOfMonth,
-        intervalValue: formValue.intervalValue,
-        cronExpression: formValue.cronExpression,
+        recurrenceType,
+        startDate: this.toApiDate(formValue.startDate),
+        endDate: this.toApiDate(formValue.endDate),
+        timeOfDay: this.isFieldVisible('timeOfDay') ? formValue.timeOfDay : undefined,
+        daysOfWeek: recurrenceType === RecurrenceType.Weekly
+          ? (formValue.daysOfWeek as string[]).join(',')
+          : undefined,
+        dayOfMonth: recurrenceType === RecurrenceType.Monthly ? formValue.dayOfMonth : undefined,
+        intervalValue: [RecurrenceType.Minutely, RecurrenceType.Hourly].includes(recurrenceType)
+          ? formValue.intervalValue
+          : undefined,
+        cronExpression: recurrenceType === RecurrenceType.CronExpression ? formValue.cronExpression : undefined,
         timeZone: formValue.timeZone
       },
       createdAt: new Date().toISOString()
@@ -248,16 +251,12 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
 
     request$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
-        if (response.success) {
-          this.message.success(
-            this.isEditMode
-              ? 'Schedule updated successfully'
-              : 'Schedule created successfully'
-          );
-          this.router.navigate(['/zamba/schedule']);
-        } else {
-          this.message.error(response.message || 'Operation failed');
-        }
+        this.message.success(
+          this.isEditMode
+            ? 'Schedule updated successfully'
+            : 'Schedule created successfully'
+        );
+        this.router.navigate(['/zamba/schedule']);
         this.loading = false;
       },
       error: (error) => {
@@ -273,6 +272,15 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
    */
   onCancel(): void {
     this.router.navigate(['/zamba/schedule']);
+  }
+
+  toggleDay(day: string, checked: boolean): void {
+    const control = this.form.get('daysOfWeek');
+    const selectedDays = (control?.value as string[]) || [];
+    control?.setValue(checked
+      ? [...selectedDays, day]
+      : selectedDays.filter(selectedDay => selectedDay !== day));
+    control?.markAsTouched();
   }
 
   /**
@@ -319,6 +327,12 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
 
     const date = new Date(value);
     return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  private toApiDate(value?: Date | null): string | undefined {
+    if (!value) return undefined;
+
+    return new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())).toISOString();
   }
 
   /**
