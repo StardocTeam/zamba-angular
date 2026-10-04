@@ -2,6 +2,7 @@ import {
   ExecutionLogModel,
   PagedResponseModel,
   RecurrenceType,
+  ScheduleDashboardModel,
   ScheduleEventModel,
   ScheduleExecutionResultModel
 } from './schedule.model';
@@ -61,6 +62,32 @@ export class ScheduleService {
     return this.http.get<ScheduleEventModel>(
       `${this.baseUrl}/${id}`
     );
+  }
+
+  getScheduleDashboard(days: number = 7): Observable<ScheduleDashboardModel> {
+    return this.http.get<ScheduleDashboardModel>(`${this.baseUrl}/dashboard`, {
+      params: new HttpParams().set('days', days.toString())
+    });
+  }
+
+  getAllExecutionLogs(
+    pageNumber: number = 1,
+    pageSize: number = 20,
+    scheduleEventId?: number,
+    status?: number,
+    fromDate?: string,
+    toDate?: string
+  ): Observable<PagedResponseModel<ExecutionLogModel>> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (scheduleEventId !== undefined) params = params.set('scheduleEventId', scheduleEventId.toString());
+    if (status !== undefined) params = params.set('status', status.toString());
+    if (fromDate) params = params.set('fromDate', fromDate);
+    if (toDate) params = params.set('toDate', toDate);
+
+    return this.http.get<PagedResponseModel<ExecutionLogModel>>(`${this.baseUrl}/logs`, { params });
   }
 
   /**
@@ -154,10 +181,10 @@ export class ScheduleService {
    */
   getExecutionStatuses(): ExecutionStatusOption[] {
     return [
-      { id: 0, name: 'Pending', color: 'blue' },
-      { id: 1, name: 'Running', color: 'processing' },
-      { id: 2, name: 'Success', color: 'green' },
-      { id: 3, name: 'Failed', color: 'red' },
+      { id: 0, name: 'Running', color: 'processing' },
+      { id: 1, name: 'Success', color: 'green' },
+      { id: 2, name: 'Failed', color: 'red' },
+      { id: 3, name: 'Skipped', color: 'default' },
       { id: 4, name: 'Timeout', color: 'orange' }
     ];
   }

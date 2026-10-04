@@ -233,16 +233,16 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
    * Initialize status maps
    */
   private initStatusMaps(): void {
-    this.statusMap.set(ExecutionStatus.Pending, 'Pending');
     this.statusMap.set(ExecutionStatus.Running, 'Running');
     this.statusMap.set(ExecutionStatus.Success, 'Success');
     this.statusMap.set(ExecutionStatus.Failed, 'Failed');
+    this.statusMap.set(ExecutionStatus.Skipped, 'Skipped');
     this.statusMap.set(ExecutionStatus.Timeout, 'Timeout');
 
-    this.statusColorMap.set(ExecutionStatus.Pending, 'blue');
     this.statusColorMap.set(ExecutionStatus.Running, 'processing');
     this.statusColorMap.set(ExecutionStatus.Success, 'green');
     this.statusColorMap.set(ExecutionStatus.Failed, 'red');
+    this.statusColorMap.set(ExecutionStatus.Skipped, 'default');
     this.statusColorMap.set(ExecutionStatus.Timeout, 'orange');
   }
 

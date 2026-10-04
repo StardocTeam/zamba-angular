@@ -1,0 +1,265 @@
+<main class="schedule-dashboard">
+    <header class="dashboard-header">
+        <div>
+            <div class="eyebrow">SCHEDULE OPERATIONS</div>
+            <h1>Live monitor</h1>
+            <p>Execution health, workload and results across scheduled events.</p>
+        </div>
+        <div class="header-actions">
+            <div class="range-switch" aria-label="Monitoring time range">
+                <button nz-button nzSize="small" [nzType]="rangeDays === 1 ? 'primary' : 'default'"
+                    (click)="setRange(1)">24h</button>
+                <button nz-button nzSize="small" [nzType]="rangeDays === 7 ? 'primary' : 'default'"
+                    (click)="setRange(7)">7 days</button>
+                <button nz-button nzSize="small" [nzType]="rangeDays === 30 ? 'primary' : 'default'"
+                    (click)="setRange(30)">30 days</button>
+            </div>
+            <button nz-button nz-tooltip="Refresh monitoring data" aria-label="Refresh monitoring data"
+                (click)="refresh()" [nzLoading]="loadingDashboard">
+                <span nz-icon nzType="reload"></span>
+            </button>
+            <button nz-button (click)="manageSchedules()">Schedules</button>
+            <button nz-button nzType="primary" (click)="createSchedule()"><span nz-icon nzType="plus"></span> New
+                schedule</button>
+        </div>
+    </header>
+
+    <div class="live-strip" [class.worker-offline]="!dashboard?.worker?.isOnline">
+        <span class="live-indicator"></span>
+        <strong>{{ dashboard?.worker?.isOnline ? 'Worker online' : 'Worker not reporting' }}</strong>
+        <span *ngIf="dashboard?.worker as worker">{{ worker.hostName }} · {{ worker.activeJobCount }} running · {{
+            worker.registeredJobCount }} registered</span>
+        <span *ngIf="!dashboard?.worker">No worker heartbeat received</span>
+        <span class="updated-at" *ngIf="lastUpdated">Updated {{ lastUpdated | date:'HH:mm:ss' }} · refreshes every 15
+            seconds</span>
+    </div>
+
+    <nz-spin [nzSpinning]="loadingDashboard && !dashboard">
+        <ng-container *ngIf="dashboard as data">
+            <section class="metric-grid" aria-label="Schedule statistics">
+                <article class="metric metric-events">
+                    <div class="metric-label">Active schedules</div>
+                    <div class="metric-value">{{ data.activeEvents }}<span class="metric-denominator"> / {{
+                            data.totalEvents }}</span></div>
+                    <div class="metric-foot">{{ data.totalEvents - data.activeEvents }} paused or inactive</div>
+                </article>
+                <article class="metric metric-runs">
+                    <div class="metric-label">Executions · {{ rangeDays === 1 ? '24 hours' : rangeDays + ' days' }}
+                    </div>
+                    <div class="metric-value">{{ data.totalExecutions | number }}</div>
+                    <div class="metric-foot"><span class="tiny-dot running-dot"></span>{{ data.runningExecutions }} in
+                        progress now</div>
+                </article>
+                <article class="metric metric-success">
+                    <div class="metric-label">Success rate</div>
+                    <div class="metric-value">{{ data.successRate | number:'1.0-1' }}<span
+                            class="metric-suffix">%</span></div>
+                    <div class="metric-foot">{{ data.successfulExecutions | number }} successful executions</div>
+                </article>
+                <article class="metric metric-duration">
+                    <div class="metric-label">Average duration</div>
+                    <div class="metric-value">{{ data.averageDurationMs == null ? '—' : (data.averageDurationMs |
+                        number:'1.0-0') }}<span class="metric-suffix" *ngIf="data.averageDurationMs != null">ms</span>
+                    </div>
+                    <div class="metric-foot"><span class="failure-count">{{ data.failedExecutions +
+                            data.timedOutExecutions }}</span> failures and timeouts</div>
+                </article>
+            </section>
+
+            <section class="analysis-grid">
+                <article class="surface trend-surface">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Execution volume</h2>
+                            <p>Runs by day, split by outcome</p>
+                        </div>
+                        <span class="range-caption">{{ rangeDays === 1 ? 'Last 24 hours' : 'Last ' + rangeDays + ' days'
+                            }}</span>
+                    </div>
+                    <div class="chart-legend">
+                        <span><i class="legend-success"></i>Success</span>
+                        <span><i class="legend-failed"></i>Failed</span>
+                        <span><i class="legend-running"></i>Running</span>
+                        <span><i class="legend-timeout"></i>Timeout</span>
+                    </div>
+                    <div class="trend-chart" role="img" aria-label="Daily schedule execution totals">
+                        <div class="y-axis"><span>{{ getTrendMaximum() }}</span><span>{{ getTrendMaximum() / 2 |
+                                number:'1.0-0' }}</span><span>0</span></div>
+                        <div class="chart-body">
+                            <div class="chart-guides"><i></i><i></i><i></i></div>
+                            <div class="trend-columns">
+                                <div class="trend-column" *ngFor="let day of data.trend">
+                                    <div class="bar-total">{{ getTrendTotal(day) || '' }}</div>
+                                    <div class="stacked-bar"
+                                        [attr.title]="(day.date | date:'mediumDate') + ': ' + getTrendTotal(day) + ' runs'">
+                                        <div class="bar-segment success-segment"
+                                            [style.height.%]="getTrendHeight(day.success)"></div>
+                                        <div class="bar-segment failed-segment"
+                                            [style.height.%]="getTrendHeight(day.failed)"></div>
+                                        <div class="bar-segment running-segment"
+                                            [style.height.%]="getTrendHeight(day.running)"></div>
+                                        <div class="bar-segment timeout-segment"
+                                            [style.height.%]="getTrendHeight(day.timedOut)"></div>
+                                        <div class="bar-segment skipped-segment"
+                                            [style.height.%]="getTrendHeight(day.skipped)"></div>
+                                    </div>
+                                    <span class="day-label">{{ day.date | date:(rangeDays === 1 ? 'HH:mm' : 'EEE')
+                                        }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="surface outcome-surface">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Outcomes</h2>
+                            <p>Completed executions in range</p>
+                        </div>
+                    </div>
+                    <div class="outcome-body">
+                        <div class="outcome-ring"
+                            [style.background]="'conic-gradient(#16866a 0 ' + data.successRate + '%, #df5b56 ' + data.successRate + '% 100%)'">
+                            <div class="ring-center"><strong>{{ data.successRate | number:'1.0-0'
+                                    }}%</strong><span>success</span></div>
+                        </div>
+                        <div class="outcome-legend">
+                            <div><i class="legend-success"></i><span>Successful</span><strong>{{
+                                    data.successfulExecutions }}</strong></div>
+                            <div><i class="legend-failed"></i><span>Failed</span><strong>{{ data.failedExecutions
+                                    }}</strong></div>
+                            <div><i class="legend-timeout"></i><span>Timeout</span><strong>{{ data.timedOutExecutions
+                                    }}</strong></div>
+                            <div><i class="legend-running"></i><span>Running</span><strong>{{ data.runningExecutions
+                                    }}</strong></div>
+                        </div>
+                    </div>
+                    <div class="worker-detail" *ngIf="data.worker as worker">
+                        <div><span>Last sync</span><strong>{{ worker.lastSyncAtUtc ? (worker.lastSyncAtUtc | date:'MMM
+                                d, HH:mm:ss') : 'Not reported' }}</strong></div>
+                        <div><span>Worker started</span><strong>{{ worker.startedAtUtc | date:'MMM d, HH:mm' }}</strong>
+                        </div>
+                        <p class="worker-error" *ngIf="worker.lastError">{{ worker.lastError }}</p>
+                    </div>
+                </article>
+            </section>
+
+            <section class="lower-grid">
+                <article class="surface active-surface">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Running now <span class="heading-count">{{ data.activeExecutions.length }}</span></h2>
+                            <p>Concurrent executions reported by the worker</p>
+                        </div>
+                    </div>
+                    <div class="active-list" *ngIf="data.activeExecutions.length; else noActiveRuns">
+                        <div class="active-row" *ngFor="let run of data.activeExecutions">
+                            <span class="activity-pulse"></span>
+                            <div class="active-name"><button class="text-link"
+                                    (click)="openSchedule(run.scheduleEventId)">{{ run.scheduleEventName || ('Schedule
+                                    #' + run.scheduleEventId) }}</button><small>Started {{ run.startedAt | date:'MMM d,
+                                    HH:mm:ss' }}</small></div>
+                            <nz-tag nzColor="processing">Running</nz-tag>
+                        </div>
+                    </div>
+                    <ng-template #noActiveRuns>
+                        <div class="quiet-empty">No executions are running at the moment.</div>
+                    </ng-template>
+                </article>
+
+                <article class="surface top-events-surface">
+                    <div class="section-heading">
+                        <div>
+                            <h2>Most active schedules</h2>
+                            <p>Highest execution volume in range</p>
+                        </div>
+                    </div>
+                    <div class="top-event-list" *ngIf="data.topEvents.length; else noTopEvents">
+                        <div class="top-event" *ngFor="let event of data.topEvents; let index = index">
+                            <div class="top-event-info"><span class="rank">{{ index + 1 }}</span><button
+                                    class="text-link" (click)="filterByEvent(event.scheduleEventId)">{{ event.name
+                                    }}</button><span class="event-runs">{{ event.executions }} runs</span></div>
+                            <div class="event-bar"><i
+                                    [style.width.%]="event.executions * 100 / data.topEvents[0].executions"></i></div>
+                            <div class="event-meta"><span>{{ event.averageDurationMs == null ? 'No duration data' :
+                                    (event.averageDurationMs | number:'1.0-0') + ' ms avg' }}</span><span
+                                    [class.failure-count]="event.failures > 0">{{ event.failures }} failed</span></div>
+                        </div>
+                    </div>
+                    <ng-template #noTopEvents>
+                        <div class="quiet-empty">No execution data in this time range.</div>
+                    </ng-template>
+                </article>
+            </section>
+
+            <section class="surface history-surface">
+                <div class="section-heading history-heading">
+                    <div>
+                        <h2>Execution history</h2>
+                        <p>Inspect individual results, response payloads and failures</p>
+                    </div>
+                    <div class="history-filters">
+                        <nz-select [(ngModel)]="filterEventId" nzAllowClear nzPlaceHolder="All schedules"
+                            (ngModelChange)="onFiltersChange()">
+                            <nz-option *ngFor="let schedule of scheduleOptions" [nzValue]="schedule.id"
+                                [nzLabel]="schedule.name"></nz-option>
+                        </nz-select>
+                        <nz-select [(ngModel)]="filterStatus" nzAllowClear nzPlaceHolder="All outcomes"
+                            (ngModelChange)="onFiltersChange()">
+                            <nz-option nzLabel="Running" [nzValue]="ExecutionStatus.Running"></nz-option>
+                            <nz-option nzLabel="Success" [nzValue]="ExecutionStatus.Success"></nz-option>
+                            <nz-option nzLabel="Failed" [nzValue]="ExecutionStatus.Failed"></nz-option>
+                            <nz-option nzLabel="Skipped" [nzValue]="ExecutionStatus.Skipped"></nz-option>
+                            <nz-option nzLabel="Timeout" [nzValue]="ExecutionStatus.Timeout"></nz-option>
+                        </nz-select>
+                    </div>
+                </div>
+                <nz-spin [nzSpinning]="loadingHistory">
+                    <div class="history-table-wrap">
+                        <nz-table [nzData]="history" [nzShowPagination]="false" nzSize="small">
+                            <thead>
+                                <tr>
+                                    <th>Schedule</th>
+                                    <th>Started</th>
+                                    <th>Outcome</th>
+                                    <th>Duration</th>
+                                    <th>HTTP</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let run of history">
+                                    <td><button class="text-link" (click)="openSchedule(run.scheduleEventId)">{{
+                                            run.scheduleEventName || ('Schedule #' + run.scheduleEventId) }}</button>
+                                    </td>
+                                    <td>{{ run.startedAt | date:'MMM d, y HH:mm:ss' }}</td>
+                                    <td><nz-tag [nzColor]="getStatusColor(run.status)">{{ getStatusLabel(run.status)
+                                            }}</nz-tag></td>
+                                    <td>{{ run.durationMs == null ? '—' : (run.durationMs | number:'1.0-0') + ' ms' }}
+                                    </td>
+                                    <td>{{ run.httpStatusCode || '—' }}</td>
+                                    <td>
+                                        <details class="result-details"
+                                            *ngIf="run.errorMessage || run.responseBody; else noResult">
+                                            <summary [class.result-error]="!!run.errorMessage">{{ run.errorMessage ?
+                                                'View error' : 'View response' }}</summary>
+                                            <pre>{{ run.errorMessage || run.responseBody }}</pre>
+                                        </details>
+                                        <ng-template #noResult><span class="muted-cell">No result
+                                                payload</span></ng-template>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <div class="history-empty" *ngIf="!loadingHistory && !history.length">No execution history
+                            matches these filters.</div>
+                    </div>
+                </nz-spin>
+                <nz-pagination [nzPageIndex]="pageIndex" [nzPageSize]="pageSize" [nzTotal]="totalHistory"
+                    [nzShowSizeChanger]="true" (nzPageIndexChange)="onPageIndexChange($event)"
+                    (nzPageSizeChange)="onPageSizeChange($event)"></nz-pagination>
+            </section>
+        </ng-container>
+    </nz-spin>
+</main>

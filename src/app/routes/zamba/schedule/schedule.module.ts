@@ -25,6 +25,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { ScheduleDashboardComponent } from './schedule-dashboard/schedule-dashboard.component';
 import { ScheduleDetailComponent } from './schedule-detail/schedule-detail.component';
 import { ScheduleFormComponent } from './schedule-form/schedule-form.component';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
@@ -36,7 +37,8 @@ import { SharedModule } from '@shared';
     ScheduleListComponent,
     ScheduleFormComponent,
     ExecutionLogsComponent,
-    ScheduleDetailComponent
+    ScheduleDetailComponent,
+    ScheduleDashboardComponent
   ],
   imports: [
     CommonModule,

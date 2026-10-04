@@ -134,6 +134,10 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/zamba/schedule/new']);
   }
 
+  goToDashboard(): void {
+    this.router.navigate(['/zamba/schedule/dashboard']);
+  }
+
   /**
    * Navigate to edit schedule
    */
