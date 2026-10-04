@@ -27,16 +27,19 @@
 
       <div *ngIf="!isLoading">
         <ul class="ulContainer-menu" nz-menu nzMode="inline">
-          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzOpen]="true" [nzTitle]="titleTpl" nzIcon="file">
+          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzOpen]="isCategoryOpen(itemTree.name)"
+            (nzOpenChange)="onCategoryOpenChange(itemTree.name, $event)" [nzTitle]="titleTpl" nzIcon="file">
             <ng-template #titleTpl>
               <b class="boldMenuTittle">{{ itemTree.name }}</b>
             </ng-template>
 
             <ul class="ulContainer-menu" nz-menu nzMode="inline">
               <div *ngFor="let itemLeaf of itemTree.currentReport | filter: searchValue">
-                <div nz-row>
+                <div nz-row [ngClass]="{ 'manual-report-selected-row': selectedReportId === itemLeaf.ID }">
                   <div nz-col nzSpan="22">
                     <li #itemLeaf class="li-line-height move-up" nz-menu-item routerLinkActive="active"
+                      [attr.data-report-id]="itemLeaf.ID"
+                      [ngClass]="{ 'manual-report-selected': selectedReportId === itemLeaf.ID }"
                       (click)="switchView('viewer'); navigateToView(itemLeaf.ID)">
                       <div nz-row>
                         <div nz-col>

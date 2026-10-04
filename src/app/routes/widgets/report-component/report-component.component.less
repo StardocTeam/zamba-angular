@@ -42,8 +42,29 @@ nz-submenu {
 .content-container {
     height: 100%;
     /* Ocupa el 100% de la altura del contenedor */
-    // overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     /* Habilita el scroll si el contenido excede la altura */
+}
+
+.content-container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+:host ::ng-deep .content-container.ant-layout-content {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+:host ::ng-deep .content-container.ant-layout-content::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 .nzLayoutHeight100percent {
@@ -168,6 +189,30 @@ nz-divider {
     margin-bottom: 0px !important;
 }
 
+::ng-deep .ant-menu-item.manual-report-selected {
+    background-color: var(--app-primary-color) !important;
+}
+
+::ng-deep .ant-menu-item.manual-report-selected .ant-menu-title-content,
+::ng-deep .ant-menu-item.manual-report-selected .ant-typography,
+::ng-deep .ant-menu-item.manual-report-selected span {
+    color: #fff !important;
+}
+
+::ng-deep .manual-report-selected-row>.ant-col {
+    background-color: var(--app-primary-color) !important;
+}
+
+::ng-deep .manual-report-selected-row .ant-menu-item.manual-report-selected {
+    background-color: transparent !important;
+}
+
+::ng-deep .manual-report-selected-row .btnSetting,
+::ng-deep .manual-report-selected-row .iconSetting,
+::ng-deep .manual-report-selected-row .anticon {
+    color: #fff !important;
+}
+
 .ant-menu-submenu-title {
     padding-left: 14px !important;
 }
@@ -237,6 +282,8 @@ nz-divider {
 
 ::ng-deep .alain-default__content {
     margin-top: 64px !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
     height: 90vh !important;
     margin-left: 63px !important;
     margin-right: 0px !important;

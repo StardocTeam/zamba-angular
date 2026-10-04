@@ -6,6 +6,11 @@
                     <div id="report-name" style="font-size: 24px !important">{{ currentReport.Name }}</div>
                 </div>
                 <div nz-col nzXs="4" style="margin-top: 5px">
+                    <button id="reload" nz-button anchorBtn nzType="default" (click)="OpenReport(currentReport)"
+                        [disabled]="isButtonExcelDisabled" style="margin-bottom: 5px">
+                        <i nz-icon nzTooltipPlacement="right" nzType="reload" nzTheme="outline"></i>
+                    </button>
+
                     <button *ngIf="CanGoToCharts" id="returnToCharts" nz-button anchorBtn nzType="default"
                         (click)="goToCharts(currentReport)" [disabled]="isButtonExcelDisabled"
                         style="margin-bottom: 5px">
@@ -80,7 +85,10 @@
                                 <label for="UsuarioId">Usuario:</label>
 
                                 <nz-select id="usuario" [(ngModel)]="ZVARUsuarioId" style="width: 100%"
-                                    nzPlaceHolder="Seleccione un usuario">
+                                    nzPlaceHolder="Buscar usuario" [nzShowSearch]="true"
+                                    [nzFilterOption]="userSelectFilterOption" (nzOnSearch)="onUserSearch($event)"
+                                    (ngModelChange)="onUserSelectionChange($event)"
+                                    nzDropdownClassName="report-viewer-user-select-dropdown">
                                     <nz-option *ngFor="let item of UserIdList" [nzValue]="item.ID"
                                         [nzLabel]="item.Usuario" />
                                 </nz-select>
@@ -90,11 +98,10 @@
                     </div>
 
                     <!-- [disabled]="ZVARstartDate || ZVARendDate" -->
-
                     <!-- Botón separado pero en la misma fila -->
                     <div *ngIf="startDateVisible || endDateVisible || UsuarioIdVisible" nz-col nzXs="4" nzMd="4"
                         style="display: flex; align-items: end">
-                        <button nz-button nzType="primary" (click)="OpenReport(currentReport)">
+                        <button nz-button nzType="primary" (click)="applyFilters()">
                             Aplicar filtros</button>
                     </div>
                 </div>

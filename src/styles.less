@@ -47,12 +47,30 @@
 /* Estilos para Firefox */
 * {
     scrollbar-width: thin;
-    /* Ancho de la barra de desplazamiento */
     scrollbar-color: var(--app-primary-color) #f1f1f1;
-    /* Color de la barra de desplazamiento y de la pista */
 }
 
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+html.reports-page-lock-scroll,
+body.reports-page-lock-scroll {
+    overflow: hidden !important;
+    overscroll-behavior: none;
 }
