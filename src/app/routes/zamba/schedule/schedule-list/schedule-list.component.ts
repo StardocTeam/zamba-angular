@@ -7,7 +7,8 @@ import {
 import {
   PagedResponseModel,
   RecurrenceType,
-  ScheduleEventModel
+  ScheduleEventModel,
+  ScheduleExecutionType
 } from '../schedule.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -27,6 +28,11 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
   searchValue = '';
   filterActive: boolean | null = null;
   recurrenceTypeMap: Map<RecurrenceType, string> = new Map();
+  executionTypeMap = new Map<ScheduleExecutionType, string>([
+    [ScheduleExecutionType.ExecuteRule, 'Execute Rule'],
+    [ScheduleExecutionType.ExecuteQuery, 'Execute Query'],
+    [ScheduleExecutionType.ExecuteEndPoint, 'Execute Endpoint']
+  ]);
 
   // Pagination
   pageIndex = 1;
@@ -217,6 +223,21 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
    */
   getRecurrenceTypeLabel(type: RecurrenceType): string {
     return this.recurrenceTypeMap.get(type) || 'Unknown';
+  }
+
+  getExecutionTypeLabel(type: ScheduleExecutionType): string {
+    return this.executionTypeMap.get(type) || 'Execute Rule';
+  }
+
+  getExecutionTarget(schedule: ScheduleEventModel): string {
+    switch (schedule.executionType) {
+      case ScheduleExecutionType.ExecuteQuery:
+        return schedule.query?.trim().slice(0, 80) || 'SQL query';
+      case ScheduleExecutionType.ExecuteEndPoint:
+        return schedule.endpointUrl || 'Endpoint';
+      default:
+        return schedule.ruleId;
+    }
   }
 
   /**

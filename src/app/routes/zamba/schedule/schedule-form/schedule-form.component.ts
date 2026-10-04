@@ -1,7 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RecurrenceType, ScheduleConfigModel, ScheduleEventModel } from '../schedule.model';
+import {
+  RecurrenceType,
+  ScheduleEventModel,
+  ScheduleExecutionResultModel,
+  ScheduleExecutionType
+} from '../schedule.model';
 import { RecurrenceTypeOption, ScheduleService } from '../schedule.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -16,10 +21,17 @@ import { takeUntil } from 'rxjs/operators';
 export class ScheduleFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   loading = false;
+  testing = false;
   isEditMode = false;
   scheduleId: number | null = null;
   recurrenceTypes: RecurrenceTypeOption[] = [];
+  executionTypes = [
+    { id: ScheduleExecutionType.ExecuteRule, name: 'Execute Rule' },
+    { id: ScheduleExecutionType.ExecuteQuery, name: 'Execute Query' },
+    { id: ScheduleExecutionType.ExecuteEndPoint, name: 'Execute Endpoint' }
+  ];
   currentRecurrenceType: RecurrenceType = RecurrenceType.Daily;
+  testResult: ScheduleExecutionResultModel | null = null;
 
   // Days of week options for weekly recurrence
   daysOfWeek = [
@@ -85,9 +97,15 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       // Schedule Event fields
       name: ['', [Validators.required, Validators.maxLength(256)]],
       description: ['', [Validators.maxLength(1024)]],
-      ruleId: ['', Validators.required],
+      ruleId: [''],
+      executionType: [ScheduleExecutionType.ExecuteRule, Validators.required],
       isActive: [true],
       endpointOverride: ['', [Validators.maxLength(512), this.urlValidator]],
+      query: [''],
+      endpointUrl: [''],
+      endpointMethod: ['GET'],
+      endpointParameters: ['{}'],
+      endpointBody: [''],
 
       // Schedule Config fields
       recurrenceType: [RecurrenceType.Daily, Validators.required],
@@ -108,6 +126,12 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
         this.currentRecurrenceType = type;
         this.updateValidators();
       });
+
+    this.form.get('executionType')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateExecutionValidators());
+
+    this.updateExecutionValidators();
   }
 
   /**
@@ -159,6 +183,37 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     cronExpression?.updateValueAndValidity();
   }
 
+  private updateExecutionValidators(): void {
+    const executionType = this.form.get('executionType')?.value as ScheduleExecutionType;
+    const ruleId = this.form.get('ruleId');
+    const query = this.form.get('query');
+    const endpointUrl = this.form.get('endpointUrl');
+    const endpointMethod = this.form.get('endpointMethod');
+    const endpointParameters = this.form.get('endpointParameters');
+
+    ruleId?.clearValidators();
+    query?.clearValidators();
+    endpointUrl?.clearValidators();
+    endpointMethod?.clearValidators();
+    endpointParameters?.clearValidators();
+
+    if (executionType === ScheduleExecutionType.ExecuteRule) {
+      ruleId?.setValidators([Validators.required, Validators.maxLength(255)]);
+    } else if (executionType === ScheduleExecutionType.ExecuteQuery) {
+      query?.setValidators([Validators.required]);
+    } else if (executionType === ScheduleExecutionType.ExecuteEndPoint) {
+      endpointUrl?.setValidators([Validators.required, this.urlValidator]);
+      endpointMethod?.setValidators([Validators.required, Validators.pattern(/^(GET|POST)$/)]);
+      endpointParameters?.setValidators([this.jsonObjectValidator]);
+    }
+
+    ruleId?.updateValueAndValidity();
+    query?.updateValueAndValidity();
+    endpointUrl?.updateValueAndValidity();
+    endpointMethod?.updateValueAndValidity();
+    endpointParameters?.updateValueAndValidity();
+  }
+
   /**
    * Load schedule data for editing
    */
@@ -189,8 +244,14 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       name: schedule.name,
       description: schedule.description,
       ruleId: schedule.ruleId,
+      executionType: schedule.executionType ?? ScheduleExecutionType.ExecuteRule,
       isActive: schedule.isActive,
       endpointOverride: schedule.endpointOverride,
+      query: schedule.query || '',
+      endpointUrl: schedule.endpointUrl || '',
+      endpointMethod: schedule.endpointMethod || 'GET',
+      endpointParameters: schedule.endpointParameters || '{}',
+      endpointBody: schedule.endpointBody || '',
       recurrenceType: schedule.scheduleConfig.recurrenceType,
       startDate: this.toDate(schedule.scheduleConfig.startDate),
       endDate: this.toDate(schedule.scheduleConfig.endDate),
@@ -204,6 +265,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
 
     this.currentRecurrenceType = schedule.scheduleConfig.recurrenceType;
     this.updateValidators();
+    this.updateExecutionValidators();
   }
 
   /**
@@ -216,15 +278,50 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       return;
     }
 
+    const schedule = this.buildSchedulePayload();
+
+    this.loading = true;
+
+    const request$ = this.isEditMode
+      ? this.scheduleService.updateScheduleEvent(this.scheduleId!, schedule)
+      : this.scheduleService.createScheduleEvent(schedule);
+
+    request$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.message.success(
+          this.isEditMode
+            ? 'Schedule updated successfully'
+            : 'Schedule created successfully'
+        );
+        this.router.navigate(['/zamba/schedule']);
+        this.loading = false;
+      },
+      error: (error) => {
+        this.message.error(this.isEditMode ? 'Failed to update schedule' : 'Failed to create schedule');
+        console.error('Error saving schedule:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  private buildSchedulePayload(): ScheduleEventModel {
     const formValue = this.form.value;
     const recurrenceType = formValue.recurrenceType as RecurrenceType;
-    const schedule: ScheduleEventModel = {
+    const executionType = formValue.executionType as ScheduleExecutionType;
+
+    return {
       id: this.scheduleId || 0,
       name: formValue.name,
       description: formValue.description,
-      ruleId: formValue.ruleId,
+      ruleId: executionType === ScheduleExecutionType.ExecuteRule ? formValue.ruleId : '',
+      executionType,
       isActive: formValue.isActive,
       endpointOverride: formValue.endpointOverride,
+      query: executionType === ScheduleExecutionType.ExecuteQuery ? formValue.query : undefined,
+      endpointUrl: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointUrl : undefined,
+      endpointMethod: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointMethod : undefined,
+      endpointParameters: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointParameters : undefined,
+      endpointBody: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointBody : undefined,
       scheduleConfig: {
         recurrenceType,
         startDate: this.toApiDate(formValue.startDate),
@@ -242,29 +339,30 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       },
       createdAt: new Date().toISOString()
     };
+  }
 
-    this.loading = true;
+  testSchedule(): void {
+    if (this.form.invalid) {
+      this.message.error('Please fill all required fields correctly before testing');
+      this.markFormGroupTouched(this.form);
+      return;
+    }
 
-    const request$ = this.isEditMode
-      ? this.scheduleService.updateScheduleEvent(this.scheduleId!, schedule)
-      : this.scheduleService.createScheduleEvent(schedule);
-
-    request$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response) => {
-        this.message.success(
-          this.isEditMode
-            ? 'Schedule updated successfully'
-            : 'Schedule created successfully'
-        );
-        this.router.navigate(['/zamba/schedule']);
-        this.loading = false;
-      },
-      error: (error) => {
-        this.message.error(this.isEditMode ? 'Failed to update schedule' : 'Failed to create schedule');
-        console.error('Error saving schedule:', error);
-        this.loading = false;
-      }
-    });
+    this.testing = true;
+    this.testResult = null;
+    this.scheduleService.testScheduleEvent(this.buildSchedulePayload())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: result => {
+          this.testResult = result;
+          this.testing = false;
+        },
+        error: (error) => {
+          this.message.error('Schedule test request failed');
+          console.error('Error testing schedule:', error);
+          this.testing = false;
+        }
+      });
   }
 
   /**
@@ -315,10 +413,24 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     if (!control.value) return null;
 
     try {
-      new URL(control.value);
+      const url = new URL(control.value);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        return { invalidUrl: true };
+      }
       return null;
     } catch {
       return { invalidUrl: true };
+    }
+  }
+
+  private jsonObjectValidator(control: any) {
+    if (!control.value) return null;
+
+    try {
+      const parsed = JSON.parse(control.value);
+      return parsed && !Array.isArray(parsed) && typeof parsed === 'object' ? null : { invalidJsonObject: true };
+    } catch {
+      return { invalidJsonObject: true };
     }
   }
 

@@ -16,6 +16,14 @@
           </div>
           <div nz-col [nzXs]="24" [nzSm]="12">
             <div class="form-group">
+              <label>Execution Type *</label>
+              <nz-select formControlName="executionType">
+                <nz-option *ngFor="let type of executionTypes" [nzValue]="type.id" [nzLabel]="type.name"></nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="getControl('executionType')?.value === 0">
+            <div class="form-group">
               <label>Rule ID *</label>
               <input nz-input formControlName="ruleId" placeholder="Enter rule ID" />
               <div class="error-message" *ngIf="getControl('ruleId')?.invalid && getControl('ruleId')?.touched">
@@ -23,15 +31,60 @@
               </div>
             </div>
           </div>
+          <div nz-col [nzXs]="24" *ngIf="getControl('executionType')?.value === 1">
+            <div class="form-group">
+              <label>SQL Query *</label>
+              <textarea nz-input rows="6" formControlName="query" placeholder="SELECT ..."></textarea>
+              <div class="help-text">Only a single read-only SELECT query is allowed.</div>
+              <div class="error-message" *ngIf="getControl('query')?.invalid && getControl('query')?.touched">Query is
+                required</div>
+            </div>
+          </div>
+          <ng-container *ngIf="getControl('executionType')?.value === 2">
+            <div nz-col [nzXs]="24" [nzSm]="16">
+              <div class="form-group">
+                <label>Endpoint URL *</label>
+                <input nz-input formControlName="endpointUrl" placeholder="https://api.example.com/resource" />
+                <div class="error-message"
+                  *ngIf="getControl('endpointUrl')?.invalid && getControl('endpointUrl')?.touched">Enter a valid HTTP or
+                  HTTPS URL</div>
+              </div>
+            </div>
+            <div nz-col [nzXs]="24" [nzSm]="8">
+              <div class="form-group">
+                <label>HTTP Method *</label>
+                <nz-select formControlName="endpointMethod">
+                  <nz-option nzValue="GET" nzLabel="GET"></nz-option>
+                  <nz-option nzValue="POST" nzLabel="POST"></nz-option>
+                </nz-select>
+              </div>
+            </div>
+            <div nz-col [nzXs]="24" [nzSm]="12">
+              <div class="form-group">
+                <label>Query Parameters (JSON)</label>
+                <textarea nz-input rows="4" formControlName="endpointParameters"
+                  placeholder='{"key":"value"}'></textarea>
+                <div class="error-message"
+                  *ngIf="getControl('endpointParameters')?.invalid && getControl('endpointParameters')?.touched">Enter a
+                  valid JSON object</div>
+              </div>
+            </div>
+            <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="getControl('endpointMethod')?.value === 'POST'">
+              <div class="form-group">
+                <label>Request Body</label>
+                <textarea nz-input rows="4" formControlName="endpointBody" placeholder="{}"></textarea>
+              </div>
+            </div>
+          </ng-container>
           <div nz-col [nzXs]="24">
             <div class="form-group">
               <label>Description</label>
               <textarea nz-input formControlName="description" placeholder="Enter description"></textarea>
             </div>
           </div>
-          <div nz-col [nzXs]="24" [nzSm]="12">
+          <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="getControl('executionType')?.value === 0">
             <div class="form-group">
-              <label>Endpoint Override</label>
+              <label>Rule Endpoint Override</label>
               <input nz-input formControlName="endpointOverride" placeholder="https://..." />
             </div>
           </div>
@@ -110,6 +163,10 @@
       </div>
 
       <div class="form-actions">
+        <button nz-button nzSize="large" type="button" (click)="testSchedule()" [nzLoading]="testing"
+          [disabled]="loading || testing">
+          Test
+        </button>
         <button nz-button nzType="primary" nzSize="large" [disabled]="loading || form.invalid">
           {{ isEditMode ? 'Update' : 'Create' }}
         </button>
@@ -117,6 +174,17 @@
           Cancel
         </button>
       </div>
+      <section class="test-result" *ngIf="testResult" aria-live="polite">
+        <div class="test-result-heading">
+          <strong>Test result</strong>
+          <nz-tag [nzColor]="testResult.statusCode >= 200 && testResult.statusCode < 300 ? 'green' : 'red'">
+            HTTP {{ testResult.statusCode || 'Error' }}
+          </nz-tag>
+          <span>{{ testResult.durationMs }} ms</span>
+        </div>
+        <p class="error-message" *ngIf="testResult.errorMessage">{{ testResult.errorMessage }}</p>
+        <pre *ngIf="testResult.responseBody">{{ testResult.responseBody }}</pre>
+      </section>
     </form>
   </nz-spin>
 </div>

@@ -2,7 +2,8 @@ import {
   ExecutionLogModel,
   PagedResponseModel,
   RecurrenceType,
-  ScheduleEventModel
+  ScheduleEventModel,
+  ScheduleExecutionResultModel
 } from './schedule.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -84,6 +85,11 @@ export class ScheduleService {
       event,
       { headers }
     );
+  }
+
+  /** Test an unsaved schedule action. */
+  testScheduleEvent(event: ScheduleEventModel): Observable<ScheduleExecutionResultModel> {
+    return this.http.post<ScheduleExecutionResultModel>(`${this.baseUrl}/test`, event);
   }
 
   /**

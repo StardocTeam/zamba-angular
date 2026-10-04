@@ -16,7 +16,8 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Rule ID</th>
+        <th>Target</th>
+        <th>Execution Type</th>
         <th>Recurrence</th>
         <th>Status</th>
         <th>Actions</th>
@@ -25,7 +26,8 @@
     <tbody>
       <tr *ngFor="let item of schedules">
         <td><a (click)="viewDetails(item)">{{ item.name }}</a></td>
-        <td>{{ item.ruleId }}</td>
+        <td>{{ getExecutionTarget(item) }}</td>
+        <td>{{ getExecutionTypeLabel(item.executionType) }}</td>
         <td>{{ getRecurrenceTypeLabel(item.scheduleConfig.recurrenceType) }}</td>
         <td><nz-tag [nzColor]="getStatusColor(item.isActive)">{{ item.isActive ? 'Active' : 'Inactive' }}</nz-tag></td>
         <td>

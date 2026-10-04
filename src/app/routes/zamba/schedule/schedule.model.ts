@@ -22,6 +22,19 @@ export enum ExecutionStatus {
   Timeout = 4
 }
 
+export enum ScheduleExecutionType {
+  ExecuteRule = 0,
+  ExecuteQuery = 1,
+  ExecuteEndPoint = 2
+}
+
+export interface ScheduleExecutionResultModel {
+  statusCode: number;
+  responseBody?: string;
+  errorMessage?: string;
+  durationMs: number;
+}
+
 // Schedule Config Model
 export interface ScheduleConfigModel {
   recurrenceType: RecurrenceType;
@@ -41,9 +54,15 @@ export interface ScheduleEventModel {
   name: string;
   description?: string;
   ruleId: string;
+  executionType: ScheduleExecutionType;
   scheduleConfig: ScheduleConfigModel;
   isActive: boolean;
   endpointOverride?: string;
+  query?: string;
+  endpointUrl?: string;
+  endpointMethod?: 'GET' | 'POST';
+  endpointParameters?: string;
+  endpointBody?: string;
   createdAt: string;
   createdBy?: string;
   modifiedAt?: string;
