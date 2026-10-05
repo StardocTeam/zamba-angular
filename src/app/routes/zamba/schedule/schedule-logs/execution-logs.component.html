@@ -9,6 +9,7 @@
         <tr>
           <th>Scheduled At</th>
           <th>Status</th>
+          <th>Result</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -16,6 +17,10 @@
         <tr *ngFor="let log of logs">
           <td>{{ log.scheduledAt | date: 'short' }}</td>
           <td><nz-tag [nzColor]="'blue'">{{ log.status }}</nz-tag></td>
+          <td>
+            <nz-tag *ngIf="log.result" [nzColor]="log.result === 'success' ? 'green' : 'red'">{{ log.result }}</nz-tag>
+            <span *ngIf="!log.result">-</span>
+          </td>
           <td><button nz-button nzType="link" nzSize="small">View</button></td>
         </tr>
       </tbody>

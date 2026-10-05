@@ -97,6 +97,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       // Schedule Event fields
       name: ['', [Validators.required, Validators.maxLength(256)]],
       description: ['', [Validators.maxLength(1024)]],
+      expectedResult: ['', [Validators.maxLength(100000)]],
       ruleId: [''],
       executionType: [ScheduleExecutionType.ExecuteRule, Validators.required],
       isActive: [true],
@@ -243,6 +244,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       name: schedule.name,
       description: schedule.description,
+      expectedResult: schedule.expectedResult || '',
       ruleId: schedule.ruleId,
       executionType: schedule.executionType ?? ScheduleExecutionType.ExecuteRule,
       isActive: schedule.isActive,
@@ -313,6 +315,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       id: this.scheduleId || 0,
       name: formValue.name,
       description: formValue.description,
+      expectedResult: formValue.expectedResult?.trim() || undefined,
       ruleId: executionType === ScheduleExecutionType.ExecuteRule ? formValue.ruleId : '',
       executionType,
       isActive: formValue.isActive,

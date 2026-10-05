@@ -141,6 +141,7 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
           <p><strong>Scheduled At:</strong> ${new Date(log.scheduledAt).toLocaleString()}</p>
           <p><strong>Started At:</strong> ${log.startedAt ? new Date(log.startedAt).toLocaleString() : 'N/A'}</p>
           <p><strong>Finished At:</strong> ${log.finishedAt ? new Date(log.finishedAt).toLocaleString() : 'N/A'}</p>
+          <p><strong>Result:</strong> ${log.result || 'N/A'}</p>
           <p><strong>Duration:</strong> ${log.durationMs ? log.durationMs + ' ms' : 'N/A'}</p>
           <p><strong>HTTP Status:</strong> ${log.httpStatusCode || 'N/A'}</p>
           <p><strong>Retry Count:</strong> ${log.retryCount}</p>
@@ -163,12 +164,13 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const headers = ['Scheduled At', 'Started At', 'Finished At', 'Status', 'Duration (ms)', 'HTTP Status', 'Error Message'];
+    const headers = ['Scheduled At', 'Started At', 'Finished At', 'Status', 'Result', 'Duration (ms)', 'HTTP Status', 'Error Message'];
     const rows = this.logs.map(log => [
       new Date(log.scheduledAt).toLocaleString(),
       log.startedAt ? new Date(log.startedAt).toLocaleString() : 'N/A',
       log.finishedAt ? new Date(log.finishedAt).toLocaleString() : 'N/A',
       this.getStatusLabel(log.status),
+      log.result || 'N/A',
       log.durationMs || 'N/A',
       log.httpStatusCode || 'N/A',
       log.errorMessage || ''

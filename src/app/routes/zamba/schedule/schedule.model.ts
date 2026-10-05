@@ -33,6 +33,7 @@ export interface ScheduleExecutionResultModel {
   responseBody?: string;
   errorMessage?: string;
   durationMs: number;
+  result?: 'success' | 'fail' | null;
 }
 
 // Schedule Config Model
@@ -53,6 +54,7 @@ export interface ScheduleEventModel {
   id: number;
   name: string;
   description?: string;
+  expectedResult?: string;
   ruleId: string;
   executionType: ScheduleExecutionType;
   scheduleConfig: ScheduleConfigModel;
@@ -78,6 +80,7 @@ export interface ExecutionLogModel {
   startedAt?: string;
   finishedAt?: string;
   status: ExecutionStatus;
+  result?: 'success' | 'fail' | null;
   httpStatusCode?: number;
   responseBody?: string;
   errorMessage?: string;

@@ -32,3 +32,367 @@
 [ 2949104ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:4200/zamba/polyfills.js:6252
 [ 3461136ms] [ERROR] WebSocket connection to 'ws://localhost:4200/zamba/ng-cli-ws' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:4200/zamba/polyfills.js:5319
 [ 3461136ms] [ERROR] [webpack-dev-server] Event @ http://localhost:4200/zamba/polyfills.js:6260
+[122321953ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[122322768ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[122322769ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[122322773ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[122322797ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[122322797ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:21305
+[122322798ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[122322799ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[122322799ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20996
+[122322801ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[122322801ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:21309:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637
+[137200072ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T16:22:22.083Z&toDate=2026-10-05T16:22:22.083Z:0
+[137200143ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[137200412ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[137200430ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[137263572ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents?pageNumber=1&pageSize=100:0
+[137263573ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[137263573ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T16:22:37.097Z&toDate=2026-10-05T16:22:37.097Z:0
+[137263575ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[137263577ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T16:22:52.091Z&toDate=2026-10-05T16:22:52.091Z:0
+[137263577ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[137263590ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[137263592ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[137263670ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[137263674ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[139314717ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[139314720ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[139314813ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T16:57:37.103Z&toDate=2026-10-05T16:57:37.103Z:0
+[139314815ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[139320949ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T16:57:52.100Z&toDate=2026-10-05T16:57:52.100Z:0
+[139320951ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[139320952ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[139320955ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[139325439ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T16:58:07.098Z&toDate=2026-10-05T16:58:07.098Z:0
+[139325442ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[139325445ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[139325447ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[140390050ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[140390053ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[140390444ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[140390445ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[141444707ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T17:33:07.102Z&toDate=2026-10-05T17:33:07.102Z:0
+[141444710ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[142494711ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[142494714ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[142494808ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T17:50:37.111Z&toDate=2026-10-05T17:50:37.111Z:0
+[142494811ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[143559812ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[143559815ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[143623437ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:08:22.091Z&toDate=2026-10-05T18:08:22.091Z:0
+[143623440ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[143623441ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[143623444ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[143623445ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[143623446ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[143623447ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:08:37.100Z&toDate=2026-10-05T18:08:37.100Z:0
+[143623449ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[143623451ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:08:52.104Z&toDate=2026-10-05T18:08:52.104Z:0
+[143623452ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[143623459ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[143623462ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[143623463ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:09:22.101Z&toDate=2026-10-05T18:09:22.101Z:0
+[143623465ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[143623466ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:09:07.102Z&toDate=2026-10-05T18:09:07.102Z:0
+[143623467ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[143623475ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[143623476ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[143623478ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[143623479ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[143623499ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:09:37.098Z&toDate=2026-10-05T18:09:37.098Z:0
+[143623499ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[144688516ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:26:07.106Z&toDate=2026-10-05T18:26:07.106Z:0
+[144688517ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[144688517ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[144688520ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:26:22.101Z&toDate=2026-10-05T18:26:22.101Z:0
+[144688520ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:26:37.105Z&toDate=2026-10-05T18:26:37.105Z:0
+[144688530ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[144688534ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[144688540ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[144688542ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[144688545ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[144688549ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[144688552ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[144688566ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[144688570ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[144688572ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:26:52.102Z&toDate=2026-10-05T18:26:52.102Z:0
+[144688575ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[144688594ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:27:07.103Z&toDate=2026-10-05T18:27:07.103Z:0
+[144688597ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[144688622ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[144688623ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[144688637ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:27:22.096Z&toDate=2026-10-05T18:27:22.096Z:0
+[144688638ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[145753474ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:43:52.094Z&toDate=2026-10-05T18:43:52.094Z:0
+[145753478ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[145753485ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[145753493ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[145753510ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:44:07.105Z&toDate=2026-10-05T18:44:07.105Z:0
+[145753513ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[145753515ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[145753518ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[145753520ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[145753523ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[145753525ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:44:22.097Z&toDate=2026-10-05T18:44:22.097Z:0
+[145753527ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[145753528ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:45:07.093Z&toDate=2026-10-05T18:45:07.093Z:0
+[145753533ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[145753539ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:44:37.098Z&toDate=2026-10-05T18:44:37.098Z:0
+[145753540ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[145753543ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T18:44:52.098Z&toDate=2026-10-05T18:44:52.098Z:0
+[145753545ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[145753548ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[145753551ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[145753552ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[145753553ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[145753556ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[145753558ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[146818429ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:01:37.107Z&toDate=2026-10-05T19:01:37.107Z:0
+[146818433ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[146818435ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[146818438ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[146818439ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:02:07.097Z&toDate=2026-10-05T19:02:07.097Z:0
+[146818441ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[146818442ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:02:22.093Z&toDate=2026-10-05T19:02:22.093Z:0
+[146818444ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[146818445ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:01:52.103Z&toDate=2026-10-05T19:01:52.103Z:0
+[146818446ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[147834713ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[147834715ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[147835331ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:19:37.103Z&toDate=2026-10-05T19:19:37.103Z:0
+[147835332ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[149023429ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:39:07.096Z&toDate=2026-10-05T19:39:07.096Z:0
+[149023432ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[149023433ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:38:22.102Z&toDate=2026-10-05T19:38:22.102Z:0
+[149023437ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[149023439ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:39:22.095Z&toDate=2026-10-05T19:39:22.095Z:0
+[149023440ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[149023443ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T19:38:52.094Z&toDate=2026-10-05T19:38:52.094Z:0
+[149023444ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[152139779ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[152139782ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[152142363ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T20:31:22.103Z&toDate=2026-10-05T20:31:22.103Z:0
+[152142365ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[152186539ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[152186544ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[152186551ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[152186553ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[152186554ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[152186556ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T20:32:22.558Z&toDate=2026-10-05T20:32:22.558Z:0
+[152198041ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T20:31:37.097Z&toDate=2026-10-05T20:31:37.097Z:0
+[152198048ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[152200539ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[152200543ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[152202961ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[152205506ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[152205507ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T20:31:52.097Z&toDate=2026-10-05T20:31:52.097Z:0
+[152207771ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[152210366ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[152212821ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[152217712ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T20:32:07.099Z&toDate=2026-10-05T20:32:07.099Z:0
+[152220317ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[153264708ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[153264710ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[153292128ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T20:50:07.099Z&toDate=2026-10-05T20:50:07.099Z:0
+[153292131ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[153296465ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T20:50:22.109Z&toDate=2026-10-05T20:50:22.109Z:0
+[153296469ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[153632574ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:4200/zamba/polyfills.js:6252
+[153634716ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:4200/zamba/polyfills.js:6252
+[153639846ms] [WARNING] [webpack-dev-server] Warnings while compiling. @ http://localhost:4200/zamba/polyfills.js:6256
+[153639852ms] [WARNING] [webpack-dev-server] WARNING
+C:/source/ST/zamba-angular/src/main.checklist.ts is part of the TypeScript compilation but it's unused.
+Add only entry points to the 'files' or 'include' properties in your tsconfig. @ http://localhost:4200/zamba/polyfills.js:6256
+[153639854ms] [WARNING] [webpack-dev-server] WARNING
+C:\source\ST\zamba-angular\src\app\components\rule-executor\rule-executor.component.ts depends on 'sweetalert'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies @ http://localhost:4200/zamba/polyfills.js:6256
+[153639861ms] [INFO] [webpack-dev-server] App updated. Reloading... @ http://localhost:4200/zamba/polyfills.js:6252
+[153640818ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[153640914ms] [WARNING] [webpack-dev-server] Warnings while compiling. @ http://localhost:4200/zamba/polyfills.js:6256
+[153640915ms] [WARNING] [webpack-dev-server] WARNING
+C:/source/ST/zamba-angular/src/main.checklist.ts is part of the TypeScript compilation but it's unused.
+Add only entry points to the 'files' or 'include' properties in your tsconfig. @ http://localhost:4200/zamba/polyfills.js:6256
+[153640916ms] [WARNING] [webpack-dev-server] WARNING
+C:\source\ST\zamba-angular\src\app\components\rule-executor\rule-executor.component.ts depends on 'sweetalert'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.io/guide/build#configuring-commonjs-dependencies @ http://localhost:4200/zamba/polyfills.js:6256
+[153669057ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[153669069ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[153669077ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[153669078ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:21305
+[153669080ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[153669083ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[153669087ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[153669089ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20996
+[153669092ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[153669093ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:21309:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637
+[153981689ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[154012673ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[154012675ms] [INFO] [webpack-dev-server] App updated. Reloading... @ http://localhost:4200/zamba/polyfills.js:6252
+[154057218ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[154061611ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154061613ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[154061624ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[154061717ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154061718ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:21305
+[154061719ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[154061747ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154061748ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20996
+[154061752ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[154061753ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:21309:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637
+[154132696ms] [INFO] [webpack-dev-server] Disconnected! @ http://localhost:4200/zamba/polyfills.js:6252
+[154132697ms] [INFO] [webpack-dev-server] Trying to reconnect... @ http://localhost:4200/zamba/polyfills.js:6252
+[154213109ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[154223265ms] [INFO] [webpack-dev-server] App updated. Reloading... @ http://localhost:4200/zamba/polyfills.js:6252
+[154223473ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[154239339ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[154241224ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154241232ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[154241236ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154241236ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:21305
+[154241241ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[154241242ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[154241244ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154241250ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20996
+[154241255ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[154241263ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:21309:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637
+[154262325ms] [INFO] [webpack-dev-server] App updated. Recompiling... @ http://localhost:4200/zamba/polyfills.js:6252
+[154273945ms] [INFO] [webpack-dev-server] App updated. Reloading... @ http://localhost:4200/zamba/polyfills.js:6252
+[154275448ms] [INFO] [webpack-dev-server] Server started: Hot Module Replacement disabled, Live Reloading enabled, Progress disabled, Overlay enabled. @ http://localhost:4200/zamba/polyfills.js:6252
+[154277899ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154277915ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/GetProfileImage:0
+[154277943ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154277944ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:21305
+[154277952ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getSidebarItems:0
+[154277954ms] [ERROR] ERROR HttpErrorResponse @ http://localhost:4200/zamba/vendor.js:136637
+[154277962ms] [WARNING] HttpErrorResponse HttpErrorResponse @ http://localhost:4200/zamba/main.js:8447
+[154277972ms] [WARNING] Network request failed HttpErrorResponse @ http://localhost:4200/zamba/main.js:20996
+[154277992ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:44301/ZambaWeb.RestApi/api/Dashboard/getUserAllPermissions:0
+[154278005ms] [ERROR] ERROR SyntaxError: "[object Object]" is not valid JSON
+    at JSON.parse (<anonymous>)
+    at http://localhost:4200/zamba/main.js:21309:22
+    at http://localhost:4200/zamba/vendor.js:82234:31
+    at OperatorSubscriber._next (http://localhost:4200/zamba/vendor.js:81519:9)
+    at OperatorSubscriber.next (http://localhost:4200/zamba/vendor.js:80335:12)
+    at Observable._subscribe (http://localhost:4200/zamba/vendor.js:81229:18)
+    at Observable._trySubscribe (http://localhost:4200/zamba/vendor.js:79960:19)
+    at http://localhost:4200/zamba/vendor.js:79954:113
+    at errorContext (http://localhost:4200/zamba/vendor.js:84406:5)
+    at Observable.subscribe (http://localhost:4200/zamba/vendor.js:79949:69)
+    at http://localhost:4200/zamba/vendor.js:81660:23
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:81526:9)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at OperatorSubscriber._error (http://localhost:4200/zamba/vendor.js:80366:24)
+    at OperatorSubscriber.error (http://localhost:4200/zamba/vendor.js:80343:12)
+    at Observable.init [as _subscribe] (http://localhost:4200/zamba/vendor.js:81385:41) @ http://localhost:4200/zamba/vendor.js:136637
+[154318845ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T21:07:49.167Z&toDate=2026-10-05T21:07:49.167Z:0
+[154318876ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[154326786ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[154326792ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[155436770ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T21:26:19.155Z&toDate=2026-10-05T21:26:19.155Z:0
+[155436773ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[155436881ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[155436883ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[155445959ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T21:26:34.155Z&toDate=2026-10-05T21:26:34.155Z:0
+[155445961ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[155445962ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[155445965ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
+[155447504ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/logs?pageNumber=1&pageSize=10&fromDate=2026-09-28T21:26:49.167Z&toDate=2026-10-05T21:26:49.167Z:0
+[155447506ms] [ERROR] Error loading schedule history: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:808
+[155447507ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:5000/api/ScheduleEvents/dashboard?days=7:0
+[155447509ms] [ERROR] Error loading schedule dashboard: HttpErrorResponse @ http://localhost:4200/zamba/src_app_routes_zamba_schedule_schedule_module_ts.js:791
