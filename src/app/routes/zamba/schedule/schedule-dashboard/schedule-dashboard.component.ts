@@ -100,6 +100,32 @@ export class ScheduleDashboardComponent implements OnInit, OnDestroy {
         return value * 100 / this.getTrendMaximum();
     }
 
+    getTrendDateLabel(value: string): string {
+        if (this.rangeDays === 1) {
+            return value.split('T')[1]?.slice(0, 5) ?? '';
+        }
+
+        const date = this.getTrendCalendarDate(value);
+        return date
+            ? new Intl.DateTimeFormat(undefined, { weekday: 'short', timeZone: 'UTC' }).format(date)
+            : value;
+    }
+
+    getTrendDateTitle(value: string): string {
+        const date = this.getTrendCalendarDate(value);
+        if (!date) return value;
+
+        const dateLabel = new Intl.DateTimeFormat(undefined, {
+            year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC'
+        }).format(date);
+        return this.rangeDays === 1 ? `${dateLabel} ${this.getTrendDateLabel(value)}` : dateLabel;
+    }
+
+    private getTrendCalendarDate(value: string): Date | null {
+        const [year, month, day] = value.split('T')[0].split('-').map(Number);
+        return year && month && day ? new Date(Date.UTC(year, month - 1, day)) : null;
+    }
+
     getStatusLabel(status: ExecutionStatus): string {
         return {
             [ExecutionStatus.Running]: 'Running',

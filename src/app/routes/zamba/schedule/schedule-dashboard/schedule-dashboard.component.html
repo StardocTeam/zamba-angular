@@ -71,7 +71,8 @@
                     <div class="section-heading">
                         <div>
                             <h2>Execution volume</h2>
-                            <p>Runs by day, split by outcome</p>
+                            <p>{{ rangeDays === 1 ? 'Runs by hour, split by outcome' : 'Runs by day, split by outcome'
+                                }}</p>
                         </div>
                         <span class="range-caption">{{ rangeDays === 1 ? 'Last 24 hours' : 'Last ' + rangeDays + ' days'
                             }}</span>
@@ -82,7 +83,8 @@
                         <span><i class="legend-running"></i>Running</span>
                         <span><i class="legend-timeout"></i>Timeout</span>
                     </div>
-                    <div class="trend-chart" role="img" aria-label="Daily schedule execution totals">
+                    <div class="trend-chart" role="img"
+                        [attr.aria-label]="rangeDays === 1 ? 'Hourly schedule execution totals' : 'Daily schedule execution totals'">
                         <div class="y-axis"><span>{{ getTrendMaximum() }}</span><span>{{ getTrendMaximum() / 2 |
                                 number:'1.0-0' }}</span><span>0</span></div>
                         <div class="chart-body">
@@ -91,7 +93,7 @@
                                 <div class="trend-column" *ngFor="let day of data.trend">
                                     <div class="bar-total">{{ getTrendTotal(day) || '' }}</div>
                                     <div class="stacked-bar"
-                                        [attr.title]="(day.date | date:'mediumDate') + ': ' + getTrendTotal(day) + ' runs'">
+                                        [attr.title]="getTrendDateTitle(day.date) + ': ' + getTrendTotal(day) + ' runs'">
                                         <div class="bar-segment success-segment"
                                             [style.height.%]="getTrendHeight(day.success)"></div>
                                         <div class="bar-segment failed-segment"
@@ -103,8 +105,7 @@
                                         <div class="bar-segment skipped-segment"
                                             [style.height.%]="getTrendHeight(day.skipped)"></div>
                                     </div>
-                                    <span class="day-label">{{ day.date | date:(rangeDays === 1 ? 'HH:mm' : 'EEE')
-                                        }}</span>
+                                    <span class="day-label">{{ getTrendDateLabel(day.date) }}</span>
                                 </div>
                             </div>
                         </div>
