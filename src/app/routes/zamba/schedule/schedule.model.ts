@@ -65,6 +65,11 @@ export interface ScheduleEventModel {
   endpointMethod?: 'GET' | 'POST';
   endpointParameters?: string;
   endpointBody?: string;
+  notificationEmail?: string;
+  notifyOnSuccess: boolean;
+  notifyOnFailure: boolean;
+  notifySlackOnSuccess: boolean;
+  notifySlackOnFailure: boolean;
   createdAt: string;
   createdBy?: string;
   modifiedAt?: string;

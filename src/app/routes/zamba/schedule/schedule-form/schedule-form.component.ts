@@ -107,6 +107,11 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointMethod: ['GET'],
       endpointParameters: ['{}'],
       endpointBody: [''],
+      notificationEmail: ['', [Validators.email, Validators.maxLength(320)]],
+      notifyOnSuccess: [false],
+      notifyOnFailure: [false],
+      notifySlackOnSuccess: [false],
+      notifySlackOnFailure: [false],
 
       // Schedule Config fields
       recurrenceType: [RecurrenceType.Daily, Validators.required],
@@ -132,7 +137,16 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.updateExecutionValidators());
 
+    this.form.get('notifyOnSuccess')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateNotificationValidators());
+
+    this.form.get('notifyOnFailure')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateNotificationValidators());
+
     this.updateExecutionValidators();
+    this.updateNotificationValidators();
   }
 
   /**
@@ -215,6 +229,19 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     endpointParameters?.updateValueAndValidity();
   }
 
+  private updateNotificationValidators(): void {
+    const email = this.form.get('notificationEmail');
+    const notificationsEnabled = this.form.get('notifyOnSuccess')?.value
+      || this.form.get('notifyOnFailure')?.value;
+
+    email?.setValidators([
+      ...(notificationsEnabled ? [Validators.required] : []),
+      Validators.email,
+      Validators.maxLength(320)
+    ]);
+    email?.updateValueAndValidity();
+  }
+
   /**
    * Load schedule data for editing
    */
@@ -254,6 +281,11 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointMethod: schedule.endpointMethod || 'GET',
       endpointParameters: schedule.endpointParameters || '{}',
       endpointBody: schedule.endpointBody || '',
+      notificationEmail: schedule.notificationEmail || '',
+      notifyOnSuccess: schedule.notifyOnSuccess || false,
+      notifyOnFailure: schedule.notifyOnFailure || false,
+      notifySlackOnSuccess: schedule.notifySlackOnSuccess || false,
+      notifySlackOnFailure: schedule.notifySlackOnFailure || false,
       recurrenceType: schedule.scheduleConfig.recurrenceType,
       startDate: this.toDate(schedule.scheduleConfig.startDate),
       endDate: this.toDate(schedule.scheduleConfig.endDate),
@@ -325,6 +357,11 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointMethod: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointMethod : undefined,
       endpointParameters: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointParameters : undefined,
       endpointBody: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointBody : undefined,
+      notificationEmail: formValue.notificationEmail?.trim() || undefined,
+      notifyOnSuccess: formValue.notifyOnSuccess,
+      notifyOnFailure: formValue.notifyOnFailure,
+      notifySlackOnSuccess: formValue.notifySlackOnSuccess,
+      notifySlackOnFailure: formValue.notifySlackOnFailure,
       scheduleConfig: {
         recurrenceType,
         startDate: this.toApiDate(formValue.startDate),
@@ -399,6 +436,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) return `${fieldName} is required`;
+    if (control.errors['email']) return 'Enter a valid email address';
     if (control.errors['maxlength']) {
       return `${fieldName} cannot exceed ${control.errors['maxlength'].requiredLength} characters`;
     }

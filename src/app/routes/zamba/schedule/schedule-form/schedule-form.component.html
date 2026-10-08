@@ -113,6 +113,45 @@
       </div>
 
       <div class="form-section">
+        <h3>Email Notifications</h3>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Recipient email</label>
+              <input nz-input type="email" formControlName="notificationEmail" placeholder="name@example.com" />
+              <div class="error-message"
+                *ngIf="getControl('notificationEmail')?.invalid && getControl('notificationEmail')?.touched">
+                {{ getErrorMessage('notificationEmail') }}
+              </div>
+            </div>
+          </div>
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Send notification when</label>
+              <label class="d-block"><input type="checkbox" formControlName="notifyOnSuccess" /> Execution
+                succeeds</label>
+              <label class="d-block"><input type="checkbox" formControlName="notifyOnFailure" /> Execution fails</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Slack Notifications</h3>
+        <div nz-row [nzGutter]="16">
+          <div nz-col [nzXs]="24" [nzSm]="12">
+            <div class="form-group">
+              <label>Send Slack message when</label>
+              <label class="d-block"><input type="checkbox" formControlName="notifySlackOnSuccess" /> Execution
+                succeeds</label>
+              <label class="d-block"><input type="checkbox" formControlName="notifySlackOnFailure" /> Execution
+                fails</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
         <h3>Recurrence Configuration</h3>
         <div nz-row [nzGutter]="16">
           <div nz-col [nzXs]="24" [nzSm]="12">
