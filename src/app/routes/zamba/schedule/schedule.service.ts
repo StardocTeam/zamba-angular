@@ -21,7 +21,8 @@ export class ScheduleService {
   constructor(private http: HttpClient) { }
 
   private getApiBaseUrl(): string {
-    const configuredBaseUrl = (window as any).appConfig?.copilotApiBaseUrl || environment['restApi'];
+    const appConfig = (window as any).appConfig;
+    const configuredBaseUrl = appConfig?.scheduleApiBaseUrl || appConfig?.copilotApiBaseUrl || environment['restApi'];
     const apiBaseUrl = configuredBaseUrl.replace(/\/+$/, '');
     return `${apiBaseUrl.endsWith('/api') ? apiBaseUrl : `${apiBaseUrl}/api`}/ScheduleEvents`;
   }

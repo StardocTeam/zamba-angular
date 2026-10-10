@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CopilotTelemetryService {
-  private readonly baseUrl = ((window as any).appConfig?.copilotApiBaseUrl || 'http://localhost:5000').replace(/\/$/, '');
+  private readonly baseUrl = ((window as any).appConfig?.copilotApiBaseUrl).replace(/\/$/, '');
 
   constructor(private readonly http: HttpClient) { }
 
