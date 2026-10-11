@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { CreateTraceSource, TraceRecord, TraceSource } from './trace.model';
 import { TraceSearch, TraceService } from './trace.service';
+
+import { NzMessageService } from 'ng-zorro-antd/message';
+
+interface JsonTreeNode {
+  key: string | null;
+  kind: 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null';
+  value: unknown;
+  children: JsonTreeNode[];
+  expanded: boolean;
+  hasNext: boolean;
+}
 
 @Component({
   selector: 'app-trace-dashboard',
@@ -12,7 +22,8 @@ export class TraceDashboardComponent implements OnInit {
   sources: TraceSource[] = [];
   traces: TraceRecord[] = [];
   selectedTrace: TraceRecord | null = null;
-  previewLines: string[] = [];
+  previewRoot: JsonTreeNode | null = null;
+  formattedJson = '';
   loadingSources = false;
   loadingTraces = false;
   loadingPreview = false;
@@ -74,7 +85,8 @@ export class TraceDashboardComponent implements OnInit {
         this.loadingTraces = false;
         if (this.selectedTrace && !this.traces.some(trace => trace.id === this.selectedTrace?.id)) {
           this.selectedTrace = null;
-          this.previewLines = [];
+          this.previewRoot = null;
+          this.formattedJson = '';
         }
       },
       error: () => {
@@ -87,7 +99,8 @@ export class TraceDashboardComponent implements OnInit {
   applyFilters(): void {
     this.page = 1;
     this.selectedTrace = null;
-    this.previewLines = [];
+    this.previewRoot = null;
+    this.formattedJson = '';
     this.loadTraces();
   }
 
@@ -104,11 +117,13 @@ export class TraceDashboardComponent implements OnInit {
 
   selectTrace(trace: TraceRecord): void {
     this.selectedTrace = trace;
-    this.previewLines = [];
+    this.previewRoot = null;
+    this.formattedJson = '';
     this.loadingPreview = true;
     this.traceService.getTraceContent(trace.id).subscribe({
       next: content => {
-        this.previewLines = JSON.stringify(content, null, 2).split('\n');
+        this.formattedJson = JSON.stringify(content, null, 2) ?? 'null';
+        this.previewRoot = this.buildJsonNode(content, null, false, 0);
         this.loadingPreview = false;
       },
       error: () => {
@@ -119,10 +134,14 @@ export class TraceDashboardComponent implements OnInit {
   }
 
   copyPreview(): void {
-    if (!this.previewLines.length) return;
-    navigator.clipboard.writeText(this.previewLines.join('\n'))
+    if (!this.formattedJson) return;
+    navigator.clipboard.writeText(this.formattedJson)
       .then(() => this.message.success('Trace JSON copied.'))
       .catch(() => this.message.error('Clipboard access is unavailable in this browser context.'));
+  }
+
+  setTreeExpanded(expanded: boolean): void {
+    if (this.previewRoot) this.updateTreeExpanded(this.previewRoot, expanded);
   }
 
   createSource(): void {
@@ -185,5 +204,47 @@ export class TraceDashboardComponent implements OnInit {
       page: this.page,
       pageSize: this.pageSize
     };
+  }
+
+  private buildJsonNode(value: unknown, key: string | null, hasNext: boolean, depth: number): JsonTreeNode {
+    if (Array.isArray(value)) {
+      return {
+        key,
+        kind: 'array',
+        value: null,
+        children: value.map((child, index) => this.buildJsonNode(child, null, index < value.length - 1, depth + 1)),
+        expanded: depth < 2,
+        hasNext
+      };
+    }
+
+    if (value !== null && typeof value === 'object') {
+      const entries = Object.entries(value as Record<string, unknown>);
+      return {
+        key,
+        kind: 'object',
+        value: null,
+        children: entries.map(([childKey, childValue], index) => this.buildJsonNode(childValue, childKey, index < entries.length - 1, depth + 1)),
+        expanded: depth < 2,
+        hasNext
+      };
+    }
+
+    const valueType = typeof value;
+    let kind: JsonTreeNode['kind'] = 'null';
+    if (valueType === 'string' || valueType === 'number' || valueType === 'boolean') kind = valueType;
+    return {
+      key,
+      kind,
+      value,
+      children: [],
+      expanded: false,
+      hasNext
+    };
+  }
+
+  private updateTreeExpanded(node: JsonTreeNode, expanded: boolean): void {
+    node.expanded = expanded;
+    node.children.forEach(child => this.updateTreeExpanded(child, expanded));
   }
 }

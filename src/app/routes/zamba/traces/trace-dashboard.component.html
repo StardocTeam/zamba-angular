@@ -127,9 +127,17 @@
                     <div class="preview-heading"><span class="section-kicker">TRACE PREVIEW</span>
                         <h2>{{ trace.title }}</h2>
                     </div>
-                    <button nz-button nzSize="small" nz-tooltip="Copy formatted JSON" aria-label="Copy formatted JSON"
-                        [disabled]="!previewLines.length" (click)="copyPreview()"><span nz-icon
-                            nzType="copy"></span></button>
+                    <div class="preview-actions">
+                        <button nz-button nzType="text" nzSize="small" nz-tooltip="Expand all objects and arrays"
+                            aria-label="Expand all objects and arrays" [disabled]="!previewRoot"
+                            (click)="setTreeExpanded(true)"><span nz-icon nzType="plus-square"></span></button>
+                        <button nz-button nzType="text" nzSize="small" nz-tooltip="Collapse all objects and arrays"
+                            aria-label="Collapse all objects and arrays" [disabled]="!previewRoot"
+                            (click)="setTreeExpanded(false)"><span nz-icon nzType="minus-square"></span></button>
+                        <button nz-button nzSize="small" nz-tooltip="Copy formatted JSON"
+                            aria-label="Copy formatted JSON" [disabled]="!formattedJson" (click)="copyPreview()"><span
+                                nz-icon nzType="copy"></span></button>
+                    </div>
                 </header>
                 <div class="trace-meta">
                     <div><span>Application</span><strong>{{ trace.applicationName }} · {{ trace.environment }}</strong>
@@ -142,12 +150,13 @@
                     </div>
                 </div>
                 <nz-spin [nzSpinning]="loadingPreview">
-                    <div class="json-viewer" *ngIf="previewLines.length; else loadingOrEmpty" role="region"
+                    <section class="json-viewer" *ngIf="previewRoot as root; else loadingOrEmpty"
                         aria-label="Formatted trace JSON">
-                        <div class="json-line" *ngFor="let line of previewLines; let index = index">
-                            <span class="line-number">{{ index + 1 }}</span><code>{{ line || ' ' }}</code>
+                        <div class="json-tree">
+                            <ng-container
+                                *ngTemplateOutlet="jsonNode; context: { $implicit: root, depth: 0 }"></ng-container>
                         </div>
-                    </div>
+                    </section>
                     <ng-template #loadingOrEmpty>
                         <div class="json-placeholder">Loading trace payload...</div>
                     </ng-template>
@@ -159,4 +168,42 @@
             </ng-template>
         </aside>
     </section>
+
+    <ng-template #jsonNode let-node let-depth="depth">
+        <div class="json-tree-row" [style.padding-left.px]="depth * 16">
+            <button *ngIf="node.kind === 'object' || node.kind === 'array'; else toggleSpacer" type="button"
+                class="json-toggle" [disabled]="!node.children.length" [attr.aria-expanded]="node.expanded"
+                [attr.aria-label]="(node.expanded ? 'Collapse ' : 'Expand ') + (node.key || node.kind)"
+                (click)="node.expanded = !node.expanded">
+                <span nz-icon [nzType]="node.expanded ? 'down' : 'right'"></span>
+            </button>
+            <ng-template #toggleSpacer><span class="json-toggle-spacer"></span></ng-template>
+            <span *ngIf="node.key !== null" class="json-key">{{ node.key | json }}</span>
+            <span *ngIf="node.key !== null" class="json-punctuation">:</span>
+            <ng-container *ngIf="node.kind === 'object' || node.kind === 'array'; else jsonValue">
+                <span class="json-bracket">{{ node.kind === 'object' ? '{' : '[' }}</span>
+                <span *ngIf="!node.expanded" class="json-collapsed">{{ node.children.length }}
+                    {{ node.kind === 'object' ? 'properties' : 'items' }}</span>
+                <span *ngIf="!node.expanded" class="json-bracket">{{ node.kind === 'object' ? '}' : ']' }}</span>
+                <span *ngIf="!node.expanded && node.hasNext" class="json-punctuation">,</span>
+            </ng-container>
+            <ng-template #jsonValue>
+                <span [ngClass]="'json-value-' + node.kind">{{ node.value | json }}</span>
+                <span *ngIf="node.hasNext" class="json-punctuation">,</span>
+            </ng-template>
+        </div>
+        <ng-container *ngIf="(node.kind === 'object' || node.kind === 'array') && node.expanded">
+            <div class="json-children">
+                <ng-container *ngFor="let child of node.children">
+                    <ng-container
+                        *ngTemplateOutlet="jsonNode; context: { $implicit: child, depth: depth + 1 }"></ng-container>
+                </ng-container>
+                <div class="json-tree-row json-closing-row" [style.padding-left.px]="depth * 16">
+                    <span class="json-toggle-spacer"></span>
+                    <span class="json-bracket">{{ node.kind === 'object' ? '}' : ']' }}</span>
+                    <span *ngIf="node.hasNext" class="json-punctuation">,</span>
+                </div>
+            </div>
+        </ng-container>
+    </ng-template>
 </main>
