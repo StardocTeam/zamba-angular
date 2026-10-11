@@ -109,6 +109,26 @@
 .json-value-number { color: #b7d88e; }
 .json-value-boolean { color: #f09a82; }
 .json-value-null { color: #c4a4d6; }
+.text-viewer { min-height: 320px; max-height: 620px; overflow: auto; padding: 12px 0; background: #182522; color: #edf3f0; font: 12px/1.7 Consolas, 'Courier New', monospace; }
+.text-line { display: flex; min-height: 23px; white-space: pre; }
+.text-line:hover { background: rgba(131, 197, 177, .09); }
+.text-line-number { width: 46px; flex: 0 0 46px; padding-right: 12px; color: #718982; text-align: right; user-select: none; }
+.text-line code { padding-right: 18px; color: #edf3f0; font: inherit; }
+.text-token-comment { color: #83958d; font-style: italic; }
+.text-token-tag { color: #6fd6c0; }
+.text-token-property { color: #92cfe0; }
+.text-token-string { color: #e7b768; }
+.text-token-timestamp { color: #c4a4d6; }
+.text-token-error { color: #ff8d79; font-weight: 700; }
+.text-token-warning { color: #f0c36c; font-weight: 700; }
+.text-token-info { color: #82c5db; font-weight: 700; }
+.text-token-debug { color: #83c7b4; font-weight: 700; }
+.text-token-literal { color: #f09a82; }
+.text-token-number { color: #b7d88e; }
+.text-token-punctuation { color: #bdcbc5; }
+.html-viewer { min-height: 320px; max-height: 620px; overflow: auto; background: #fff; }
+.html-viewer iframe { display: block; width: 100%; min-height: 320px; height: 620px; border: 0; background: #fff; }
+.html-source { min-height: 320px; max-height: 620px; }
 .json-placeholder { padding: 40px 16px; color: var(--muted); font-size: 12px; text-align: center; }
 
 @media (max-width: 1100px) {

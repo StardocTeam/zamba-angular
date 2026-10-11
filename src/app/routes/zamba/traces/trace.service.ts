@@ -46,8 +46,9 @@ export class TraceService {
     return this.http.get<TracePage>(this.baseUrl, { params });
   }
 
-  getTraceContent(id: number): Observable<unknown> {
-    return this.http.get<unknown>(`${this.baseUrl}/${id}/content`);
+  getTraceContent(id: number, asText = false): Observable<unknown> {
+    const url = `${this.baseUrl}/${id}/content`;
+    return asText ? this.http.get(url, { responseType: 'text' }) : this.http.get<unknown>(url);
   }
 
   private getApiBaseUrl(): string {

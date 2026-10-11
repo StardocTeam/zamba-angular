@@ -128,15 +128,23 @@
                         <h2>{{ trace.title }}</h2>
                     </div>
                     <div class="preview-actions">
-                        <button nz-button nzType="text" nzSize="small" nz-tooltip="Expand all objects and arrays"
-                            aria-label="Expand all objects and arrays" [disabled]="!previewRoot"
-                            (click)="setTreeExpanded(true)"><span nz-icon nzType="plus-square"></span></button>
-                        <button nz-button nzType="text" nzSize="small" nz-tooltip="Collapse all objects and arrays"
-                            aria-label="Collapse all objects and arrays" [disabled]="!previewRoot"
-                            (click)="setTreeExpanded(false)"><span nz-icon nzType="minus-square"></span></button>
-                        <button nz-button nzSize="small" nz-tooltip="Copy formatted JSON"
-                            aria-label="Copy formatted JSON" [disabled]="!formattedJson" (click)="copyPreview()"><span
-                                nz-icon nzType="copy"></span></button>
+                        <ng-container *ngIf="previewKind === 'json'">
+                            <button nz-button nzType="text" nzSize="small" nz-tooltip="Expand all objects and arrays"
+                                aria-label="Expand all objects and arrays" (click)="setTreeExpanded(true)"><span
+                                    nz-icon nzType="plus-square"></span></button>
+                            <button nz-button nzType="text" nzSize="small" nz-tooltip="Collapse all objects and arrays"
+                                aria-label="Collapse all objects and arrays" (click)="setTreeExpanded(false)"><span
+                                    nz-icon nzType="minus-square"></span></button>
+                        </ng-container>
+                        <nz-button-group *ngIf="previewKind === 'html'">
+                            <button nz-button nzSize="small" [nzType]="htmlPreviewMode === 'page' ? 'primary' : 'default'"
+                                (click)="htmlPreviewMode = 'page'"><span nz-icon nzType="eye"></span> Page</button>
+                            <button nz-button nzSize="small" [nzType]="htmlPreviewMode === 'source' ? 'primary' : 'default'"
+                                (click)="htmlPreviewMode = 'source'"><span nz-icon nzType="code"></span> Source</button>
+                        </nz-button-group>
+                        <button nz-button nzSize="small" nz-tooltip="Copy preview content" aria-label="Copy preview content"
+                            [disabled]="previewKind === null" (click)="copyPreview()"><span nz-icon
+                                nzType="copy"></span></button>
                     </div>
                 </header>
                 <div class="trace-meta">
@@ -150,16 +158,27 @@
                     </div>
                 </div>
                 <nz-spin [nzSpinning]="loadingPreview">
-                    <section class="json-viewer" *ngIf="previewRoot as root; else loadingOrEmpty"
-                        aria-label="Formatted trace JSON">
-                        <div class="json-tree">
-                            <ng-container
-                                *ngTemplateOutlet="jsonNode; context: { $implicit: root, depth: 0 }"></ng-container>
-                        </div>
-                    </section>
-                    <ng-template #loadingOrEmpty>
-                        <div class="json-placeholder">Loading trace payload...</div>
-                    </ng-template>
+                    <div [ngSwitch]="previewKind">
+                        <section class="json-viewer" *ngSwitchCase="'json'" aria-label="Formatted trace JSON">
+                            <div class="json-tree">
+                                <ng-container
+                                    *ngTemplateOutlet="jsonNode; context: { $implicit: previewRoot, depth: 0 }"></ng-container>
+                            </div>
+                        </section>
+                        <section class="text-viewer" *ngSwitchCase="'text'" aria-label="Formatted text file">
+                            <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
+                        </section>
+                        <section class="html-viewer" *ngSwitchCase="'html'" aria-label="HTML document preview">
+                            <iframe *ngIf="htmlPreviewMode === 'page'; else htmlSource" [srcdoc]="htmlSrcdoc"
+                                sandbox="" referrerpolicy="no-referrer" title="Trace HTML document"></iframe>
+                            <ng-template #htmlSource>
+                                <div class="text-viewer html-source">
+                                    <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
+                                </div>
+                            </ng-template>
+                        </section>
+                        <div class="json-placeholder" *ngSwitchDefault>Loading trace payload...</div>
+                    </div>
                 </nz-spin>
             </ng-container>
             <ng-template #chooseTrace>
@@ -205,5 +224,14 @@
                 </div>
             </div>
         </ng-container>
+    </ng-template>
+
+    <ng-template #highlightedText>
+        <div class="text-line" *ngFor="let line of textLines; let index = index">
+            <span class="text-line-number">{{ index + 1 }}</span>
+            <code><ng-container *ngFor="let token of line.tokens"><span
+                        [ngClass]="'text-token-' + token.kind">{{ token.text }}</span></ng-container><span
+                    *ngIf="!line.tokens.length"> </span></code>
+        </div>
     </ng-template>
 </main>
