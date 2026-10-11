@@ -1,8 +1,9 @@
+import { CreateTraceSource, TracePage, TraceScanResult, TraceSource } from './trace.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
-import { CreateTraceSource, TracePage, TraceScanResult, TraceSource } from './trace.model';
 
 export interface TraceSearch {
   applicationName?: string;

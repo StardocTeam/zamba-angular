@@ -130,21 +130,23 @@
                     <div class="preview-actions">
                         <ng-container *ngIf="previewKind === 'json'">
                             <button nz-button nzType="text" nzSize="small" nz-tooltip="Expand all objects and arrays"
-                                aria-label="Expand all objects and arrays" (click)="setTreeExpanded(true)"><span
-                                    nz-icon nzType="plus-square"></span></button>
+                                aria-label="Expand all objects and arrays" (click)="setTreeExpanded(true)"><span nz-icon
+                                    nzType="plus-square"></span></button>
                             <button nz-button nzType="text" nzSize="small" nz-tooltip="Collapse all objects and arrays"
                                 aria-label="Collapse all objects and arrays" (click)="setTreeExpanded(false)"><span
                                     nz-icon nzType="minus-square"></span></button>
                         </ng-container>
                         <nz-button-group *ngIf="previewKind === 'html'">
-                            <button nz-button nzSize="small" [nzType]="htmlPreviewMode === 'page' ? 'primary' : 'default'"
+                            <button nz-button nzSize="small"
+                                [nzType]="htmlPreviewMode === 'page' ? 'primary' : 'default'"
                                 (click)="htmlPreviewMode = 'page'"><span nz-icon nzType="eye"></span> Page</button>
-                            <button nz-button nzSize="small" [nzType]="htmlPreviewMode === 'source' ? 'primary' : 'default'"
+                            <button nz-button nzSize="small"
+                                [nzType]="htmlPreviewMode === 'source' ? 'primary' : 'default'"
                                 (click)="htmlPreviewMode = 'source'"><span nz-icon nzType="code"></span> Source</button>
                         </nz-button-group>
-                        <button nz-button nzSize="small" nz-tooltip="Copy preview content" aria-label="Copy preview content"
-                            [disabled]="previewKind === null" (click)="copyPreview()"><span nz-icon
-                                nzType="copy"></span></button>
+                        <button nz-button nzSize="small" nz-tooltip="Copy preview content"
+                            aria-label="Copy preview content" [disabled]="previewKind === null"
+                            (click)="copyPreview()"><span nz-icon nzType="copy"></span></button>
                     </div>
                 </header>
                 <div class="trace-meta">
@@ -169,8 +171,8 @@
                             <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
                         </section>
                         <section class="html-viewer" *ngSwitchCase="'html'" aria-label="HTML document preview">
-                            <iframe *ngIf="htmlPreviewMode === 'page'; else htmlSource" [srcdoc]="htmlSrcdoc"
-                                sandbox="" referrerpolicy="no-referrer" title="Trace HTML document"></iframe>
+                            <iframe *ngIf="htmlPreviewMode === 'page'; else htmlSource" [srcdoc]="htmlSrcdoc" sandbox=""
+                                referrerpolicy="no-referrer" title="Trace HTML document"></iframe>
                             <ng-template #htmlSource>
                                 <div class="text-viewer html-source">
                                     <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
