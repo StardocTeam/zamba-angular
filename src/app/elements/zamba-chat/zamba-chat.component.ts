@@ -6,6 +6,13 @@ import { HttpClient } from '@angular/common/http';
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
+interface PendingFieldSuggestion {
+  id: number;
+  inputId: string;
+  value: string;
+  element: HTMLElement;
+}
+
 @Component({
   selector: 'zamba-chat',
   templateUrl: './zamba-chat.component.html',
@@ -47,6 +54,7 @@ export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
 
   messages: ZambaChatMessage[] = [];
   prompt = '';
+  pendingFieldSuggestions: PendingFieldSuggestion[] = [];
   isSending = false;
   isExtracting = false;
   errorMessage: string | null = null;
@@ -58,6 +66,8 @@ export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
   documentId: string | null = null;
 
   private shouldScrollToBottom = false;
+  private nextSuggestionId = 0;
+  private readonly suggestionElements = new Map<number, HTMLElement>();
   private readonly voterId: string;
   private previousBodyPaddingRight: { value: string; priority: string } | null = null;
   private previousBodyTransition: { value: string; priority: string } | null = null;
@@ -88,6 +98,8 @@ export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
 
   ngOnDestroy(): void {
     this.restorePageLayout();
+    this.suggestionElements.forEach(element => element.remove());
+    this.suggestionElements.clear();
   }
 
   formatCost(value: number | undefined): string {
@@ -272,7 +284,15 @@ export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
           .trim();
         const values = JSON.parse(jsonValue) as Record<string, unknown>;
         Object.entries(values).forEach(([key, fieldValue]) => {
-          this.setInputValue(key, String(fieldValue ?? ''));
+          let suggestedValue = '';
+          if (typeof fieldValue === 'string') {
+            suggestedValue = fieldValue;
+          } else if (typeof fieldValue === 'number' || typeof fieldValue === 'boolean') {
+            suggestedValue = String(fieldValue);
+          } else if (fieldValue != null) {
+            suggestedValue = JSON.stringify(fieldValue) ?? '';
+          }
+          this.suggestFieldValue(key, suggestedValue);
         });
         return;
       } catch {
@@ -281,7 +301,107 @@ export class ZambaChatComponent implements AfterViewChecked, OnDestroy {
       }
     }
 
-    this.setInputValue(inputId, value.trim());
+    this.suggestFieldValue(inputId, value.trim());
+  }
+
+  private suggestFieldValue(inputId: string, value: string): void {
+    const target = this.document.getElementById(inputId);
+    if (!target) {
+      return;
+    }
+
+    this.pendingFieldSuggestions
+      .filter(suggestion => suggestion.inputId === inputId)
+      .forEach(suggestion => this.dismissFieldSuggestion(suggestion));
+
+    const rect = target.getBoundingClientRect();
+    const suggestion: PendingFieldSuggestion = {
+      id: this.nextSuggestionId++,
+      inputId,
+      value,
+      element: this.createSuggestionElement(value, rect),
+    };
+    this.pendingFieldSuggestions = [...this.pendingFieldSuggestions, suggestion];
+    this.suggestionElements.set(suggestion.id, suggestion.element);
+    this.document.body.appendChild(suggestion.element);
+  }
+
+  acceptFieldSuggestion(suggestion: PendingFieldSuggestion): void {
+    this.setInputValue(suggestion.inputId, suggestion.value);
+    this.dismissFieldSuggestion(suggestion);
+  }
+
+  dismissFieldSuggestion(suggestion: PendingFieldSuggestion): void {
+    this.pendingFieldSuggestions = this.pendingFieldSuggestions.filter(item => item.id !== suggestion.id);
+    this.suggestionElements.get(suggestion.id)?.remove();
+    this.suggestionElements.delete(suggestion.id);
+  }
+
+  private createSuggestionElement(value: string, rect: DOMRect): HTMLElement {
+    const element = this.document.createElement('div');
+    const width = Math.min(320, window.innerWidth - 24);
+    Object.assign(element.style, {
+      position: 'fixed',
+      zIndex: '2147483647',
+      left: `${Math.max(12, Math.min(rect.left, window.innerWidth - width - 12))}px`,
+      top: `${Math.max(12, rect.top - 8)}px`,
+      transform: 'translateY(-100%)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      width: 'max-content',
+      maxWidth: 'min(320px, calc(100vw - 24px))',
+      padding: '8px 10px',
+      border: '1px solid #e6b422',
+      borderRadius: '6px',
+      background: '#fff7d6',
+      boxShadow: '0 4px 14px rgba(35, 35, 20, 0.18)',
+      color: '#302b1b',
+      font: '13px/1.4 Segoe UI, sans-serif',
+    });
+    element.setAttribute('role', 'status');
+
+    const text = this.document.createElement('span');
+    text.textContent = value;
+    Object.assign(text.style, { overflowWrap: 'anywhere', flex: '1 1 auto' });
+    element.appendChild(text);
+    element.appendChild(this.createSuggestionButton('Aceptar sugerencia', '#16803c', true));
+    element.appendChild(this.createSuggestionButton('Descartar sugerencia', '#a33a32', false));
+    return element;
+  }
+
+  private createSuggestionButton(label: string, color: string, accept: boolean): HTMLButtonElement {
+    const button = this.document.createElement('button');
+    button.type = 'button';
+    button.title = label;
+    button.setAttribute('aria-label', label);
+    button.innerHTML = accept
+      ? '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="m5 12 4 4L19 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+    Object.assign(button.style, {
+      display: 'grid',
+      placeItems: 'center',
+      flex: '0 0 28px',
+      width: '28px',
+      height: '28px',
+      padding: '0',
+      border: '0',
+      borderRadius: '4px',
+      color,
+      background: 'transparent',
+      cursor: 'pointer',
+    });
+    button.addEventListener('click', () => {
+      const suggestion = this.pendingFieldSuggestions.find(item => item.element.contains(button));
+      if (suggestion) {
+        if (accept) {
+          this.acceptFieldSuggestion(suggestion);
+        } else {
+          this.dismissFieldSuggestion(suggestion);
+        }
+      }
+    });
+    return button;
   }
 
   private setInputValue(inputId: string, value: string): void {

@@ -32,8 +32,8 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutBasicComponent,
-   // canActivate: [authSimpleCanActivate],
-  //  canActivateChild: [authSimpleCanActivateChild],
+    canActivate: [authSimpleCanActivate],
+    canActivateChild: [authSimpleCanActivateChild],
     data: {},
     children: [
       { path: '', redirectTo: '/main', pathMatch: 'full' },

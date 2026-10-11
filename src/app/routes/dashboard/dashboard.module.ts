@@ -30,6 +30,7 @@ import { SharedModule } from '@shared';
 import { TrendModule } from '@delon/chart/trend';
 import { WidgetSelectorComponent } from '../widgets/widgetSelector/widget-selector.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
+import { WorkflowTasksComponent } from './workflow-tasks/workflow-tasks.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -37,6 +38,7 @@ const COMPONENTS = [
   DashboardMonitorComponent,
   DashboardWorkplaceComponent,
   CopilotTelemetryComponent,
+  WorkflowTasksComponent,
   WidgetsContainerComponent,
 ];
 
