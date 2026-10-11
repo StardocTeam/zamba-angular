@@ -144,6 +144,13 @@
                                 [nzType]="htmlPreviewMode === 'source' ? 'primary' : 'default'"
                                 (click)="htmlPreviewMode = 'source'"><span nz-icon nzType="code"></span> Source</button>
                         </nz-button-group>
+                        <button nz-button nzType="text" nzSize="small"
+                            [nz-tooltip]="liveTail ? 'Stop live tail' : 'Start live tail'"
+                            [attr.aria-label]="liveTail ? 'Stop live tail' : 'Start live tail'"
+                            [attr.aria-pressed]="liveTail" [class.live-tail-active]="liveTail"
+                            [disabled]="!previewKind || loadingPreview" (click)="toggleLiveTail()">
+                            <span nz-icon [nzType]="liveTail ? 'pause-circle' : 'play-circle'"></span>
+                        </button>
                         <button nz-button nzSize="small" nz-tooltip="Copy preview content"
                             aria-label="Copy preview content" [disabled]="previewKind === null"
                             (click)="copyPreview()"><span nz-icon nzType="copy"></span></button>
@@ -161,20 +168,24 @@
                 </div>
                 <nz-spin [nzSpinning]="loadingPreview">
                     <div [ngSwitch]="previewKind">
-                        <section class="json-viewer" *ngSwitchCase="'json'" aria-label="Formatted trace JSON">
+                        <section class="json-viewer" *ngSwitchCase="'json'" aria-label="Formatted trace JSON"
+                            #previewViewport>
                             <div class="json-tree">
                                 <ng-container
                                     *ngTemplateOutlet="jsonNode; context: { $implicit: previewRoot, depth: 0 }"></ng-container>
                             </div>
                         </section>
-                        <section class="text-viewer" *ngSwitchCase="'text'" aria-label="Formatted text file">
+                        <section class="text-viewer" *ngSwitchCase="'text'" aria-label="Formatted text file"
+                            #previewViewport>
                             <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
                         </section>
-                        <section class="html-viewer" *ngSwitchCase="'html'" aria-label="HTML document preview">
-                            <iframe *ngIf="htmlPreviewMode === 'page'; else htmlSource" [srcdoc]="htmlSrcdoc" sandbox=""
-                                referrerpolicy="no-referrer" title="Trace HTML document"></iframe>
+                        <section class="html-viewer" *ngSwitchCase="'html'" aria-label="HTML document preview"
+                            #previewViewport>
+                            <iframe *ngIf="htmlPreviewMode === 'page'; else htmlSource" #htmlPreviewFrame
+                                [srcdoc]="htmlSrcdoc" sandbox="" referrerpolicy="no-referrer"
+                                title="Trace HTML document"></iframe>
                             <ng-template #htmlSource>
-                                <div class="text-viewer html-source">
+                                <div class="text-viewer html-source" #previewViewport>
                                     <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
                                 </div>
                             </ng-template>

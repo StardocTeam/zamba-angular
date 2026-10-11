@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CreateTraceSource, TraceRecord, TraceSource } from './trace.model';
+import { Subscription, exhaustMap, filter, switchMap, tap, timer } from 'rxjs';
 import { TraceSearch, TraceService } from './trace.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -30,7 +31,7 @@ interface HighlightedTextLine {
   templateUrl: './trace-dashboard.component.html',
   styleUrls: ['./trace-dashboard.component.css']
 })
-export class TraceDashboardComponent implements OnInit {
+export class TraceDashboardComponent implements OnDestroy, OnInit {
   sources: TraceSource[] = [];
   traces: TraceRecord[] = [];
   selectedTrace: TraceRecord | null = null;
@@ -41,6 +42,7 @@ export class TraceDashboardComponent implements OnInit {
   textLines: HighlightedTextLine[] = [];
   htmlSrcdoc = '';
   htmlPreviewMode: HtmlPreviewMode = 'page';
+  liveTail = false;
   loadingSources = false;
   loadingTraces = false;
   loadingPreview = false;
@@ -58,11 +60,20 @@ export class TraceDashboardComponent implements OnInit {
   sourceApplication = '';
   sourceEnvironment = 'Development';
   sourceFolder = '';
+  private liveTailSubscription?: Subscription;
+  private fileStatusSignature = '';
+
+  @ViewChild('previewViewport') private previewViewport?: ElementRef<HTMLElement>;
+  @ViewChild('htmlPreviewFrame') private htmlPreviewFrame?: ElementRef<HTMLIFrameElement>;
 
   constructor(private readonly traceService: TraceService, private readonly message: NzMessageService) {}
 
   ngOnInit(): void {
     this.loadSources();
+  }
+
+  ngOnDestroy(): void {
+    this.stopLiveTail();
   }
 
   get applications(): string[] {
@@ -102,6 +113,7 @@ export class TraceDashboardComponent implements OnInit {
         this.loadingTraces = false;
         if (this.selectedTrace && !this.traces.some(trace => trace.id === this.selectedTrace?.id)) {
           this.selectedTrace = null;
+          this.stopLiveTail();
           this.clearPreview();
         }
       },
@@ -115,6 +127,7 @@ export class TraceDashboardComponent implements OnInit {
   applyFilters(): void {
     this.page = 1;
     this.selectedTrace = null;
+    this.stopLiveTail();
     this.clearPreview();
     this.loadTraces();
   }
@@ -131,17 +144,14 @@ export class TraceDashboardComponent implements OnInit {
   }
 
   selectTrace(trace: TraceRecord): void {
+    this.stopLiveTail();
     this.selectedTrace = trace;
     this.clearPreview();
     this.loadingPreview = true;
     const isTextFile = /\.txt$/i.test(trace.fileName);
     this.traceService.getTraceContent(trace.id, isTextFile).subscribe({
       next: content => {
-        if (isTextFile) {
-          this.showTextContent(content);
-        } else {
-          this.showJsonContent(content);
-        }
+        this.showPreviewContent(content, isTextFile);
         this.loadingPreview = false;
       },
       error: () => {
@@ -161,6 +171,40 @@ export class TraceDashboardComponent implements OnInit {
 
   setTreeExpanded(expanded: boolean): void {
     if (this.previewRoot) this.updateTreeExpanded(this.previewRoot, expanded);
+  }
+
+  toggleLiveTail(): void {
+    if (this.liveTail) {
+      this.stopLiveTail();
+      return;
+    }
+
+    const trace = this.selectedTrace;
+    if (!trace || !this.previewKind) return;
+
+    const isTextFile = /\.txt$/i.test(trace.fileName);
+    this.liveTail = true;
+    this.liveTailSubscription = this.traceService.getTraceContentStatus(trace.id).pipe(
+      tap(status => this.fileStatusSignature = this.getFileStatusSignature(status)),
+      switchMap(() => timer(1500, 1500).pipe(
+        exhaustMap(() => this.traceService.getTraceContentStatus(trace.id).pipe(
+          filter(status => this.getFileStatusSignature(status) !== this.fileStatusSignature),
+          tap(status => this.fileStatusSignature = this.getFileStatusSignature(status)),
+          switchMap(() => this.traceService.getTraceContent(trace.id, isTextFile)),
+          tap(content => {
+            if (!this.liveTail || this.selectedTrace?.id !== trace.id) return;
+            this.showPreviewContent(content, isTextFile);
+            this.focusPreviewEnd();
+          })
+        ))
+      ))
+    ).subscribe({
+      error: () => {
+        this.stopLiveTail();
+        this.message.error('Live tail stopped because the trace could not be refreshed.');
+      }
+    });
+    this.focusPreviewEnd();
   }
 
   createSource(): void {
@@ -223,6 +267,31 @@ export class TraceDashboardComponent implements OnInit {
       page: this.page,
       pageSize: this.pageSize
     };
+  }
+
+  private getFileStatusSignature(status: { length: number; lastModifiedUtc: string }): string {
+    return `${status.length}:${status.lastModifiedUtc}`;
+  }
+
+  private stopLiveTail(): void {
+    this.liveTail = false;
+    this.fileStatusSignature = '';
+    this.liveTailSubscription?.unsubscribe();
+    this.liveTailSubscription = undefined;
+  }
+
+  private focusPreviewEnd(): void {
+    requestAnimationFrame(() => {
+      const viewport = this.previewViewport?.nativeElement;
+      if (!viewport) return;
+      viewport.scrollTop = viewport.scrollHeight;
+      this.htmlPreviewFrame?.nativeElement.contentWindow?.focus();
+    });
+  }
+
+  private showPreviewContent(content: unknown, isTextFile: boolean): void {
+    if (isTextFile) this.showTextContent(content);
+    else this.showJsonContent(content);
   }
 
   private buildJsonNode(value: unknown, key: string | null, hasNext: boolean, depth: number): JsonTreeNode {

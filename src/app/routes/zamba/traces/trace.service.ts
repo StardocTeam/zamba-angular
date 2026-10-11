@@ -16,6 +16,11 @@ export interface TraceSearch {
   pageSize: number;
 }
 
+export interface TraceContentStatus {
+  length: number;
+  lastModifiedUtc: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class TraceService {
   private readonly baseUrl = this.getApiBaseUrl();
@@ -50,6 +55,10 @@ export class TraceService {
   getTraceContent(id: number, asText = false): Observable<unknown> {
     const url = `${this.baseUrl}/${id}/content`;
     return asText ? this.http.get(url, { responseType: 'text' }) : this.http.get<unknown>(url);
+  }
+
+  getTraceContentStatus(id: number): Observable<TraceContentStatus> {
+    return this.http.get<TraceContentStatus>(`${this.baseUrl}/${id}/status`);
   }
 
   private getApiBaseUrl(): string {
