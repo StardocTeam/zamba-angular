@@ -296,7 +296,11 @@ export class ZambaService {
           if (appData) {
             this.settingService.setApp(appData.app);
             this.aclService.setFull(true);
-            this.menuService.add(appData.menu.items);
+            const menuItems = appData.menu.items as NzSafeAny[];
+            if (!menuItems.some(item => item.link === '/zamba/traces')) {
+              menuItems.push({ text: 'Trace Explorer', icon: 'file-search', link: '/zamba/traces' });
+            }
+            this.menuService.add(menuItems);
             this.titleService.default = '';
             this.titleService.suffix = appData.app.name;
           }
