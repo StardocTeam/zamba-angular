@@ -28,7 +28,8 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
   executionTypes = [
     { id: ScheduleExecutionType.ExecuteRule, name: 'Execute Rule' },
     { id: ScheduleExecutionType.ExecuteQuery, name: 'Execute Query' },
-    { id: ScheduleExecutionType.ExecuteEndPoint, name: 'Execute Endpoint' }
+    { id: ScheduleExecutionType.ExecuteEndPoint, name: 'Execute Endpoint' },
+    { id: ScheduleExecutionType.EmbeddingRag, name: 'Embedding RAG' }
   ];
   currentRecurrenceType: RecurrenceType = RecurrenceType.Daily;
   testResult: ScheduleExecutionResultModel | null = null;
@@ -107,6 +108,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointMethod: ['GET'],
       endpointParameters: ['{}'],
       endpointBody: [''],
+      ragDocumentTypeId: [null],
       notificationEmail: ['', [Validators.email, Validators.maxLength(320)]],
       notifyOnSuccess: [false],
       notifyOnFailure: [false],
@@ -205,12 +207,14 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     const endpointUrl = this.form.get('endpointUrl');
     const endpointMethod = this.form.get('endpointMethod');
     const endpointParameters = this.form.get('endpointParameters');
+    const ragDocumentTypeId = this.form.get('ragDocumentTypeId');
 
     ruleId?.clearValidators();
     query?.clearValidators();
     endpointUrl?.clearValidators();
     endpointMethod?.clearValidators();
     endpointParameters?.clearValidators();
+    ragDocumentTypeId?.clearValidators();
 
     if (executionType === ScheduleExecutionType.ExecuteRule) {
       ruleId?.setValidators([Validators.required, Validators.maxLength(255)]);
@@ -220,6 +224,8 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointUrl?.setValidators([Validators.required, this.urlValidator]);
       endpointMethod?.setValidators([Validators.required, Validators.pattern(/^(GET|POST)$/)]);
       endpointParameters?.setValidators([this.jsonObjectValidator]);
+    } else if (executionType === ScheduleExecutionType.EmbeddingRag) {
+      ragDocumentTypeId?.setValidators([Validators.required, Validators.min(1)]);
     }
 
     ruleId?.updateValueAndValidity();
@@ -227,6 +233,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     endpointUrl?.updateValueAndValidity();
     endpointMethod?.updateValueAndValidity();
     endpointParameters?.updateValueAndValidity();
+    ragDocumentTypeId?.updateValueAndValidity();
   }
 
   private updateNotificationValidators(): void {
@@ -281,6 +288,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointMethod: schedule.endpointMethod || 'GET',
       endpointParameters: schedule.endpointParameters || '{}',
       endpointBody: schedule.endpointBody || '',
+      ragDocumentTypeId: schedule.ragDocumentTypeId ?? null,
       notificationEmail: schedule.notificationEmail || '',
       notifyOnSuccess: schedule.notifyOnSuccess || false,
       notifyOnFailure: schedule.notifyOnFailure || false,
@@ -357,6 +365,9 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       endpointMethod: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointMethod : undefined,
       endpointParameters: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointParameters : undefined,
       endpointBody: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointBody : undefined,
+      ragDocumentTypeId: executionType === ScheduleExecutionType.EmbeddingRag
+        ? Number(formValue.ragDocumentTypeId)
+        : undefined,
       notificationEmail: formValue.notificationEmail?.trim() || undefined,
       notifyOnSuccess: formValue.notifyOnSuccess,
       notifyOnFailure: formValue.notifyOnFailure,

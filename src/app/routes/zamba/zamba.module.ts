@@ -18,9 +18,10 @@ import { RuleComponent } from './rule/rule.component';
 import { ZambaRoutingModule } from './zamba-routing.module';
 import { ViewFormComponent } from '../widgets/view-form/view-form.component';
 import { TraceDashboardComponent } from './traces/trace-dashboard.component';
+import { EntityRagIndexingComponent } from './entity-rag-indexing/entity-rag-indexing.component';
 //import { SignatureModule } from 'src/app/signature/signature.module';
 
-const COMPONENTS = [RuleComponent, TraceDashboardComponent];
+const COMPONENTS = [RuleComponent, TraceDashboardComponent, EntityRagIndexingComponent];
 
 @NgModule({
   imports: [SharedModule, ZambaRoutingModule, DownFileModule, FullContentModule, QRModule, G2MiniBarModule, ViewFormComponent,

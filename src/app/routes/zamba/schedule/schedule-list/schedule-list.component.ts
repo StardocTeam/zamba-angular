@@ -31,7 +31,8 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
   executionTypeMap = new Map<ScheduleExecutionType, string>([
     [ScheduleExecutionType.ExecuteRule, 'Execute Rule'],
     [ScheduleExecutionType.ExecuteQuery, 'Execute Query'],
-    [ScheduleExecutionType.ExecuteEndPoint, 'Execute Endpoint']
+    [ScheduleExecutionType.ExecuteEndPoint, 'Execute Endpoint'],
+    [ScheduleExecutionType.EmbeddingRag, 'Embedding RAG']
   ]);
 
   // Pagination
@@ -136,6 +137,10 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
 
   goToDashboard(): void {
     this.router.navigate(['/zamba/schedule/dashboard']);
+  }
+
+  goToEntityRagIndexing(): void {
+    this.router.navigate(['/zamba/entity-rag-indexing']);
   }
 
   /**

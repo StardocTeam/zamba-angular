@@ -76,6 +76,17 @@
               </div>
             </div>
           </ng-container>
+          <div nz-col [nzXs]="24" [nzSm]="12" *ngIf="getControl('executionType')?.value === 3">
+            <div class="form-group">
+              <label for="ragDocumentTypeId">Document Type ID *</label>
+              <input id="ragDocumentTypeId" nz-input type="number" min="1" formControlName="ragDocumentTypeId"
+                placeholder="DOC_TYPE_ID" />
+              <div class="error-message"
+                *ngIf="getControl('ragDocumentTypeId')?.invalid && getControl('ragDocumentTypeId')?.touched">
+                Enter a valid document type ID
+              </div>
+            </div>
+          </div>
           <div nz-col [nzXs]="24">
             <div class="form-group">
               <label>{{ getControl('executionType')?.value === 1 ? 'Expected Query Result (JSON)' : 'Expected Response

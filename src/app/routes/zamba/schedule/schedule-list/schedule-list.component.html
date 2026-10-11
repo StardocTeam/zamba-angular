@@ -2,6 +2,7 @@
   <div class="toolbar">
     <h2>Schedules</h2>
     <button nz-button (click)="goToDashboard()"><span nz-icon nzType="dashboard"></span> Monitor</button>
+    <button nz-button (click)="goToEntityRagIndexing()">Entity RAG indexing</button>
     <button nz-button nzType="primary" (click)="goToCreate()">New Schedule</button>
   </div>
   <div class="filters">
@@ -32,13 +33,15 @@
         <td>{{ getRecurrenceTypeLabel(item.scheduleConfig.recurrenceType) }}</td>
         <td><nz-tag [nzColor]="getStatusColor(item.isActive)">{{ item.isActive ? 'Active' : 'Inactive' }}</nz-tag></td>
         <td>
-          <button nz-button nzType="link" nzSize="small" (click)="goToEdit(item.id)">Edit</button>
+          <button *ngIf="item.executionType !== 3" nz-button nzType="link" nzSize="small"
+            (click)="goToEdit(item.id)">Edit</button>
           <button nz-button nzType="link" nzSize="small" (click)="viewLogs(item)">Logs</button>
-          <button nz-button nzType="link" nzSize="small"
+          <button *ngIf="item.executionType !== 3" nz-button nzType="link" nzSize="small"
             (click)="item.isActive ? deactivateSchedule(item) : activateSchedule(item)">
             {{ item.isActive ? 'Deactivate' : 'Activate' }}
           </button>
-          <button nz-button nzType="link" nzDanger nzSize="small" (click)="deleteSchedule(item)">Delete</button>
+          <button *ngIf="item.executionType !== 3" nz-button nzType="link" nzDanger nzSize="small"
+            (click)="deleteSchedule(item)">Delete</button>
         </td>
       </tr>
     </tbody>

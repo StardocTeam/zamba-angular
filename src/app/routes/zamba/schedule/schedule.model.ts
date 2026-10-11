@@ -25,7 +25,8 @@ export enum ExecutionStatus {
 export enum ScheduleExecutionType {
   ExecuteRule = 0,
   ExecuteQuery = 1,
-  ExecuteEndPoint = 2
+  ExecuteEndPoint = 2,
+  EmbeddingRag = 3
 }
 
 export interface ScheduleExecutionResultModel {
@@ -65,6 +66,7 @@ export interface ScheduleEventModel {
   endpointMethod?: 'GET' | 'POST';
   endpointParameters?: string;
   endpointBody?: string;
+  ragDocumentTypeId?: number;
   notificationEmail?: string;
   notifyOnSuccess: boolean;
   notifyOnFailure: boolean;
