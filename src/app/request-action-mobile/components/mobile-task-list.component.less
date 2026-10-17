@@ -1,0 +1,20 @@
+:host { display: block; }
+.queue-screen { padding: 22px 18px; }
+.queue-heading { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 17px; }
+.section-kicker { color: #789087; font-size: 10px; font-weight: 850; letter-spacing: 1.1px; }
+.queue-heading h2 { margin: 4px 0 0; font-size: 23px; }
+.queue-total { display: grid; min-width: 34px; height: 34px; place-items: center; padding: 0 6px; border-radius: 12px; color: #1b5b52; background: #e2eee7; font-size: 13px; font-weight: 800; }
+.queue-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; border-radius: 12px; background: #e9ede7; }
+.queue-tabs button { display: flex; min-height: 40px; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 9px; color: #78877f; background: transparent; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.queue-tabs button.active { color: #1b5b52; background: #fff; box-shadow: 0 2px 7px rgba(24, 48, 46, .08); }
+.tab-count { display: inline-grid; min-width: 20px; height: 20px; place-items: center; padding: 0 4px; border-radius: 10px; color: #65756d; background: #eef1ec; font-size: 10px; font-weight: 800; }
+.queue-tabs button.active .tab-count { color: #1b5b52; background: #e2eee7; }
+.batch-button { width: 100%; min-height: 43px; margin: 12px 0 2px; border: 0; border-radius: 11px; color: #fff; background: #26b4bd; font: inherit; font-size: 12px; font-weight: 750; cursor: pointer; }
+.task-list { display: grid; gap: 12px; margin-top: 15px; }
+.task-list.is-saved { margin-top: 18px; }
+.empty-state { display: grid; justify-items: center; padding: 74px 22px 36px; text-align: center; }
+.empty-mark { display: grid; width: 50px; height: 50px; place-items: center; border-radius: 50%; color: #26b4bd; background: #e1efe7; font-size: 24px; }
+.empty-state h3 { margin: 16px 0 5px; font-size: 17px; }
+.empty-state p { max-width: 240px; margin: 0; color: #7d8983; font-size: 12px; line-height: 1.55; }
+.loading-state { padding: 16px 0; color: #77867f; text-align: center; font-size: 12px; }
+.error-message { padding: 11px 13px; border-radius: 10px; color: #a34433; background: #f9e9e3; font-size: 12px; }

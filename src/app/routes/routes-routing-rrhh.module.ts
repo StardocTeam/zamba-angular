@@ -30,6 +30,16 @@ import { environment } from '@env/environment';
 
 const routes: Routes = [
   {
+    path: 'request-action-mobile',
+    component: LayoutBlankComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../request-action-mobile/request-action-mobile.module').then(m => m.RequestActionMobileModule),
+      },
+    ],
+  },
+  {
     path: '',
     component: LayoutBasicComponent,
     canActivate: [authSimpleCanActivate],

@@ -1,0 +1,59 @@
+<main class="mobile-app" [class.has-session]="!!user">
+  <app-mobile-login *ngIf="!user" [busy]="loading" [errorMessage]="errorMessage" [mockMode]="requestService.useMockData"
+    (submitLogin)="signIn($event)"></app-mobile-login>
+  <ng-container *ngIf="user">
+    <header class="app-header">
+      <button *ngIf="screen !== 'home'" class="back-button" type="button"
+        (click)="screen === 'summary' ? screen = 'queue' : showHome()" aria-label="Volver">‹</button>
+      <a *ngIf="screen === 'home'" class="brand-mark" aria-label="Zamba">z</a>
+      <div class="header-copy"><span class="eyebrow">ZAMBA · GESTIÓN</span>
+        <h1>{{ screenTitle }}</h1>
+      </div>
+      <button class="refresh-button" type="button" (click)="refresh()" aria-label="Actualizar tareas"
+        [disabled]="loading">↻</button>
+    </header>
+    <section class="screen-content" [ngSwitch]="screen">
+      <app-mobile-home *ngSwitchCase="'home'" [username]="user.username" [counts]="counts"
+        (openQueue)="openQueue($event)"></app-mobile-home>
+      <app-mobile-task-list *ngSwitchCase="'queue'" [queue]="queue" [queueLabel]="queueLabel" [tasks]="tasks"
+        [tab]="queueTab" [pendingCount]="pendingCountForQueue(queue)" [savedCount]="savedCounts[queue]" [busy]="loading"
+        [errorMessage]="errorMessage" (tabChange)="changeQueueTab($event)" (taskAction)="handleTaskAction($event)"
+        (bulkApprove)="openBulkApproval($event)"></app-mobile-task-list>
+      <app-mobile-summary-detail *ngSwitchCase="'summary'" [summary]="selectedSummary" [busy]="loading"
+        (approve)="openActionDialog('approve', [$event])" (return)="openActionDialog('reject', [$event])"
+        (addComment)="addSummaryComment($event)"></app-mobile-summary-detail>
+      <app-mobile-profile *ngSwitchCase="'profile'" [username]="user.username" [busy]="loading" [message]="errorMessage"
+        (savePassword)="savePassword($event)" (signOut)="signOut()"></app-mobile-profile>
+    </section>
+    <nav class="bottom-nav" aria-label="Navegación principal">
+      <button type="button" [class.active]="screen === 'home'" (click)="showHome()"><span>Inicio</span></button>
+      <button type="button" [class.active]="screen === 'queue' && queueTab === 'pending'"
+        (click)="openQueue('approval')"><span>Pendientes</span></button>
+      <button type="button" [class.active]="screen === 'queue' && queueTab === 'saved'"
+        (click)="openQueue(queue, 'saved')"><span>Guardados</span></button>
+      <button type="button" [class.active]="screen === 'profile'" (click)="showProfile()"><span>Perfil</span></button>
+    </nav>
+  </ng-container>
+  <div *ngIf="actionDialog" class="dialog-backdrop"
+    (click)="$event.target === $event.currentTarget && (actionDialog = null)" role="presentation">
+    <section class="action-dialog" role="dialog" aria-modal="true" aria-labelledby="action-title">
+      <span class="dialog-kicker">{{ actionDialog.action === 'approve' ? 'CONFIRMAR ACCIÓN' : 'AGREGAR COMENTARIO'
+        }}</span>
+      <h2 id="action-title">{{ actionDialog.action === 'approve' ? (actionDialog.tasks.length > 1 ? '¿Aprobar
+        tareas?' : '¿Aprobar tarea?') : (queue === 'summary' ? '¿Devolver resumen?' : '¿Rechazar tarea?') }}
+      </h2>
+      <p *ngIf="actionDialog.action === 'approve'">Se procesarán {{ actionDialog.tasks.length }} {{
+        actionDialog.tasks.length === 1 ? 'documento' : 'documentos' }}.</p>
+      <label *ngIf="actionDialog.action === 'reject' || queue === 'summary'" for="action-comment">{{ queue ===
+        'summary' ? 'Comentario' : 'Motivo del rechazo' }}</label>
+      <textarea *ngIf="actionDialog.action === 'reject' || queue === 'summary'" id="action-comment"
+        [(ngModel)]="actionComment" rows="4" maxlength="1000" placeholder="Escribe aquí..."></textarea>
+      <p *ngIf="actionMessage" class="dialog-error" role="alert">{{ actionMessage }}</p>
+      <div class="dialog-actions"><button type="button" class="quiet-button"
+          (click)="actionDialog = null">Cancelar</button><button type="button" class="primary-button"
+          [class.danger-button]="actionDialog.action === 'reject'" [disabled]="loading" (click)="submitAction()">{{
+          loading ? 'Procesando…' : actionDialog.action === 'approve' ? 'Aprobar'
+          : queue === 'summary' ? 'Devolver' : 'Rechazar' }}</button></div>
+    </section>
+  </div>
+</main>

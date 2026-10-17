@@ -1,0 +1,83 @@
+- main [ref=e5]:
+  - generic [ref=e22]:
+    - button "Volver" [ref=e78] [cursor=pointer]: ‹
+    - generic [ref=e24]:
+      - generic [ref=e25]: ZAMBA · GESTIÓN
+      - heading "Mis tareas" [level=1] [ref=e26]
+    - button "Actualizar tareas" [ref=e27] [cursor=pointer]: ↻
+  - generic [ref=e80]:
+    - generic [ref=e81]:
+      - heading "Aprobaciones" [level=2] [ref=e83]
+      - generic [ref=e84]: "3"
+    - tablist "Tipo de tareas" [ref=e85]:
+      - tab "Pendientes 3" [selected] [ref=e86] [cursor=pointer]:
+        - text: Pendientes
+        - generic [ref=e87]: "3"
+      - tab "Guardados 0" [ref=e88] [cursor=pointer]:
+        - text: Guardados
+        - generic [ref=e89]: "0"
+    - button "Aprobar todas (3)" [ref=e90] [cursor=pointer]
+    - generic [ref=e91]:
+      - article [ref=e93]:
+        - generic [ref=e94]:
+          - generic "Seleccionar" [ref=e95] [cursor=pointer]:
+            - checkbox "Seleccionar" [ref=e96]
+          - generic [ref=e99]: 16/10/2026
+        - generic [ref=e100]:
+          - strong [ref=e101]: Servicios del Sur S.A.
+          - generic [ref=e102]: N.º 68124
+        - generic [ref=e103]:
+          - generic [ref=e104]: Asesoría legal · septiembre
+          - strong [ref=e105]: ARS 1.284.500,00
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - button "Enviar a Guardados" [ref=e108] [cursor=pointer]
+            - button "Aprobar" [ref=e109] [cursor=pointer]
+            - button "Rechazar" [ref=e110] [cursor=pointer]
+          - button "Clic para ampliar o doble clic para abrir el documento de Servicios del Sur S.A." [active] [ref=e111]:
+            - img "Vista previa del documento de Servicios del Sur S.A." [ref=e112]
+            - generic [ref=e113]: Ampliar · doble clic para abrir
+        - button "Ver detalle +" [ref=e114] [cursor=pointer]:
+          - text: Ver detalle
+          - generic [ref=e115]: +
+      - article [ref=e117]:
+        - generic [ref=e118]:
+          - generic "Seleccionar" [ref=e119] [cursor=pointer]:
+            - checkbox "Seleccionar" [ref=e120]
+          - generic [ref=e123]: 15/10/2026
+        - generic [ref=e124]:
+          - strong [ref=e125]: Norte Insumos Médicos
+          - generic [ref=e126]: N.º 68118
+        - generic [ref=e127]:
+          - generic [ref=e128]: Material descartable
+          - strong [ref=e129]: ARS 348.920,50
+        - generic [ref=e131]:
+          - button "Enviar a Guardados" [ref=e132] [cursor=pointer]
+          - button "Aprobar" [ref=e133] [cursor=pointer]
+          - button "Rechazar" [ref=e134] [cursor=pointer]
+        - button "Ver detalle +" [ref=e135] [cursor=pointer]:
+          - text: Ver detalle
+          - generic [ref=e136]: +
+      - article [ref=e138]:
+        - generic [ref=e139]:
+          - generic "Seleccionar" [ref=e140] [cursor=pointer]:
+            - checkbox "Seleccionar" [ref=e141]
+          - generic [ref=e144]: 14/10/2026
+        - generic [ref=e145]:
+          - strong [ref=e146]: Andina Tecnología
+          - generic [ref=e147]: N.º 68097
+        - generic [ref=e148]:
+          - generic [ref=e149]: Renovación de licencias
+          - strong [ref=e150]: USD 2.140,00
+        - generic [ref=e152]:
+          - button "Enviar a Guardados" [ref=e153] [cursor=pointer]
+          - button "Aprobar" [ref=e154] [cursor=pointer]
+          - button "Rechazar" [ref=e155] [cursor=pointer]
+        - button "Ver detalle +" [ref=e156] [cursor=pointer]:
+          - text: Ver detalle
+          - generic [ref=e157]: +
+  - navigation "Navegación principal" [ref=e66]:
+    - button "Inicio" [ref=e67] [cursor=pointer]
+    - button "Pendientes" [ref=e69] [cursor=pointer]
+    - button "Guardados" [ref=e71] [cursor=pointer]
+    - button "Perfil" [ref=e73] [cursor=pointer]

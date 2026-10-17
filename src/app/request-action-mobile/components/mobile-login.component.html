@@ -1,0 +1,19 @@
+<section class="login-screen">
+    <div class="login-brand"><span class="brand-mark">z</span><span>ZAMBA</span></div>
+    <div class="login-copy"><span class="eyebrow">GESTIÓN DESDE CUALQUIER LUGAR</span>
+        <h1>Tu trabajo,<br>en movimiento.</h1>
+        <p>Inicia sesión para revisar y resolver tus tareas.</p>
+    </div>
+    <form class="login-form" (ngSubmit)="submit()">
+        <label for="mobile-user">Usuario</label><input id="mobile-user" name="username" [(ngModel)]="username"
+            autocomplete="username" required>
+        <label for="mobile-password">Contraseña</label><input id="mobile-password" name="password"
+            [(ngModel)]="password" type="password" autocomplete="current-password" required>
+        <p *ngIf="errorMessage" class="form-error" role="alert">{{ errorMessage }}</p>
+        <button class="sign-in-button" type="submit" [disabled]="busy || !username || !password">{{ busy ? 'Ingresando…'
+            : 'Ingresar' }}</button>
+        <!-- <button *ngIf="mockMode" class="demo-button" type="button" [disabled]="busy"
+            (click)="submitLogin.emit({ username: 'sofia.martinez', password: 'demo' })">Entrar al demo</button> -->
+    </form>
+    <p class="login-footnote">Acceso seguro a tus aprobaciones y documentos</p>
+</section>
