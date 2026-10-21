@@ -242,11 +242,11 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       });
   }
 
-  OpenReport(report: Report) {
+  OpenReport(report: Report, promoteToTop = false) {
     this.ResetAllVars();
 
     this.currentReport = report;
-    this.reportService.notifyReportFocus((this.currentReport as any)?.ID);
+    this.reportService.notifyReportFocus((this.currentReport as any)?.ID, promoteToTop);
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
