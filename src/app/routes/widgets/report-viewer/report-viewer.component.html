@@ -3,7 +3,8 @@
         <div class="report-details">
             <div nz-row [nzGutter]="4">
                 <div nz-col nzXs="20" nzFlex="auto">
-                    <div id="report-name" style="font-size: 24px !important">{{ currentReport.Name }}</div>
+                    <div id="report-name" style="font-size: 24px !important; margin-left: 10px">{{ currentReport.Name }}
+                    </div>
                 </div>
                 <div nz-col nzXs="4" style="margin-top: 5px">
                     <button id="reload" nz-button anchorBtn nzType="default" (click)="OpenReport(currentReport, true)"

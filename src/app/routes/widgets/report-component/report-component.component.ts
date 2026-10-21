@@ -45,6 +45,7 @@ export class ReportComponentComponent {
   TREE_DATA?: TreeNode[];
   openCategories: Record<string, boolean> = {};
   isDashboardVisible: boolean = true;
+  treeCollapsed = false;
 
   ViewPermission: boolean = false;
   UpdatePermission: boolean = false;
@@ -673,6 +674,10 @@ export class ReportComponentComponent {
 
   onCategoryOpenChange(categoryName: string, isOpen: boolean): void {
     this.openCategories[categoryName] = isOpen;
+  }
+
+  toggleTree(): void {
+    this.treeCollapsed = !this.treeCollapsed;
   }
 
   private focusReportInTree(reportId: number, promoteToTop = false): void {

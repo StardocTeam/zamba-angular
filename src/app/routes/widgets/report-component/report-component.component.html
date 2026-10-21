@@ -1,6 +1,11 @@
 <div class="firstDiv" [style.height.px]="height">
+  <button class="tree-toggle" nz-button nzType="default" type="button" [style.left.px]="treeCollapsed ? 0 : 290"
+    [attr.aria-label]="treeCollapsed ? 'Mostrar lista de reportes' : 'Ocultar lista de reportes'"
+    [nzTooltipTitle]="treeCollapsed ? 'Mostrar reportes' : 'Ocultar reportes'" nz-tooltip (click)="toggleTree()">
+    <i nz-icon [nzType]="treeCollapsed ? 'right' : 'left'"></i>
+  </button>
   <nz-layout>
-    <nz-sider [nzWidth]="290">
+    <nz-sider [nzWidth]="290" [nzCollapsed]="treeCollapsed" [nzCollapsedWidth]="0" [nzTrigger]="null">
       <div class="search-anchor" nz-row [nzGutter]="4">
         <div nz-col nzXs="20" nzFlex="auto">
           <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%">
