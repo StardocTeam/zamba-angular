@@ -54,11 +54,7 @@ export class ScheduleDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          if (response.data) {
-            this.schedule = response.data;
-          } else {
-            this.message.error('Schedule not found');
-          }
+          this.schedule = response;
           this.loading = false;
         },
         error: (error) => {

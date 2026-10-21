@@ -1,25 +1,31 @@
 import {
-  ApiResponseModel,
   ExecutionLogModel,
   PagedResponseModel,
   RecurrenceType,
-  ScheduleEventModel
+  ScheduleDashboardModel,
+  ScheduleEventModel,
+  ScheduleExecutionResultModel
 } from './schedule.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScheduleService {
-  private baseUrl = `${environment['restApi']}/api/schedule`;
-  private apiTimeout = 30000; // 30 seconds
+  private baseUrl = this.getApiBaseUrl();
 
   constructor(private http: HttpClient) { }
+
+  private getApiBaseUrl(): string {
+    const appConfig = (window as any).appConfig;
+    const configuredBaseUrl = appConfig?.scheduleApiBaseUrl || appConfig?.copilotApiBaseUrl || environment['restApi'];
+    const apiBaseUrl = configuredBaseUrl.replace(/\/+$/, '');
+    return `${apiBaseUrl.endsWith('/api') ? apiBaseUrl : `${apiBaseUrl}/api`}/ScheduleEvents`;
+  }
 
   // ============ Schedule Events CRUD ============
 
@@ -37,7 +43,7 @@ export class ScheduleService {
       .set('pageSize', pageSize.toString());
 
     if (search) {
-      params = params.set('search', search);
+      params = params.set('name', search);
     }
 
     if (isActive !== undefined) {
@@ -45,7 +51,7 @@ export class ScheduleService {
     }
 
     return this.http.get<PagedResponseModel<ScheduleEventModel>>(
-      `${this.baseUrl}/events`,
+      this.baseUrl,
       { params }
     );
   }
@@ -53,19 +59,45 @@ export class ScheduleService {
   /**
    * Get a specific schedule event by ID
    */
-  getScheduleEventById(id: number): Observable<ApiResponseModel<ScheduleEventModel>> {
-    return this.http.get<ApiResponseModel<ScheduleEventModel>>(
-      `${this.baseUrl}/events/${id}`
+  getScheduleEventById(id: number): Observable<ScheduleEventModel> {
+    return this.http.get<ScheduleEventModel>(
+      `${this.baseUrl}/${id}`
     );
+  }
+
+  getScheduleDashboard(days: number = 7): Observable<ScheduleDashboardModel> {
+    return this.http.get<ScheduleDashboardModel>(`${this.baseUrl}/dashboard`, {
+      params: new HttpParams().set('days', days.toString())
+    });
+  }
+
+  getAllExecutionLogs(
+    pageNumber: number = 1,
+    pageSize: number = 20,
+    scheduleEventId?: number,
+    status?: number,
+    fromDate?: string,
+    toDate?: string
+  ): Observable<PagedResponseModel<ExecutionLogModel>> {
+    let params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (scheduleEventId !== undefined) params = params.set('scheduleEventId', scheduleEventId.toString());
+    if (status !== undefined) params = params.set('status', status.toString());
+    if (fromDate) params = params.set('fromDate', fromDate);
+    if (toDate) params = params.set('toDate', toDate);
+
+    return this.http.get<PagedResponseModel<ExecutionLogModel>>(`${this.baseUrl}/logs`, { params });
   }
 
   /**
    * Create a new schedule event
    */
-  createScheduleEvent(event: ScheduleEventModel): Observable<ApiResponseModel<ScheduleEventModel>> {
+  createScheduleEvent(event: ScheduleEventModel): Observable<ScheduleEventModel> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<ApiResponseModel<ScheduleEventModel>>(
-      `${this.baseUrl}/events`,
+    return this.http.post<ScheduleEventModel>(
+      this.baseUrl,
       event,
       { headers }
     );
@@ -74,42 +106,34 @@ export class ScheduleService {
   /**
    * Update an existing schedule event
    */
-  updateScheduleEvent(id: number, event: ScheduleEventModel): Observable<ApiResponseModel<ScheduleEventModel>> {
+  updateScheduleEvent(id: number, event: ScheduleEventModel): Observable<ScheduleEventModel> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<ApiResponseModel<ScheduleEventModel>>(
-      `${this.baseUrl}/events/${id}`,
+    return this.http.put<ScheduleEventModel>(
+      `${this.baseUrl}/${id}`,
       event,
       { headers }
     );
   }
 
+  /** Test an unsaved schedule action. */
+  testScheduleEvent(event: ScheduleEventModel): Observable<ScheduleExecutionResultModel> {
+    return this.http.post<ScheduleExecutionResultModel>(`${this.baseUrl}/test`, event);
+  }
+
   /**
    * Delete a schedule event
    */
-  deleteScheduleEvent(id: number): Observable<ApiResponseModel<void>> {
-    return this.http.delete<ApiResponseModel<void>>(
-      `${this.baseUrl}/events/${id}`
+  deleteScheduleEvent(id: number): Observable<void> {
+    return this.http.delete<void>(
+      `${this.baseUrl}/${id}`
     );
   }
 
   /**
    * Activate a schedule event
    */
-  activateScheduleEvent(id: number): Observable<ApiResponseModel<void>> {
-    return this.http.post<ApiResponseModel<void>>(
-      `${this.baseUrl}/events/${id}/activate`,
-      {}
-    );
-  }
-
-  /**
-   * Deactivate a schedule event
-   */
-  deactivateScheduleEvent(id: number): Observable<ApiResponseModel<void>> {
-    return this.http.post<ApiResponseModel<void>>(
-      `${this.baseUrl}/events/${id}/deactivate`,
-      {}
-    );
+  toggleScheduleEvent(id: number): Observable<ScheduleEventModel> {
+    return this.http.patch<ScheduleEventModel>(`${this.baseUrl}/${id}/toggle`, {});
   }
 
   // ============ Execution Logs ============
@@ -133,58 +157,8 @@ export class ScheduleService {
     }
 
     return this.http.get<PagedResponseModel<ExecutionLogModel>>(
-      `${this.baseUrl}/execution-logs`,
+      `${this.baseUrl}/logs`,
       { params }
-    );
-  }
-
-  /**
-   * Get a specific execution log
-   */
-  getExecutionLogById(id: number): Observable<ApiResponseModel<ExecutionLogModel>> {
-    return this.http.get<ApiResponseModel<ExecutionLogModel>>(
-      `${this.baseUrl}/execution-logs/${id}`
-    );
-  }
-
-  // ============ Schedule Validation ============
-
-  /**
-   * Validate a schedule configuration
-   */
-  validateScheduleConfig(config: any): Observable<ApiResponseModel<{ isValid: boolean; errors?: string[] }>> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<ApiResponseModel<{ isValid: boolean; errors?: string[] }>>(
-      `${this.baseUrl}/validate-config`,
-      config,
-      { headers }
-    );
-  }
-
-  /**
-   * Test a schedule (execute immediately)
-   */
-  testScheduleEvent(id: number): Observable<ApiResponseModel<{ success: boolean; message: string }>> {
-    return this.http.post<ApiResponseModel<{ success: boolean; message: string }>>(
-      `${this.baseUrl}/events/${id}/test`,
-      {}
-    );
-  }
-
-  // ============ Statistics ============
-
-  /**
-   * Get schedule statistics
-   */
-  getScheduleStatistics(): Observable<ApiResponseModel<{
-    totalSchedules: number;
-    activeSchedules: number;
-    failedExecutions: number;
-    successfulExecutions: number;
-    pendingExecutions: number;
-  }>> {
-    return this.http.get<ApiResponseModel<any>>(
-      `${this.baseUrl}/statistics`
     );
   }
 
@@ -208,10 +182,10 @@ export class ScheduleService {
    */
   getExecutionStatuses(): ExecutionStatusOption[] {
     return [
-      { id: 0, name: 'Pending', color: 'blue' },
-      { id: 1, name: 'Running', color: 'processing' },
-      { id: 2, name: 'Success', color: 'green' },
-      { id: 3, name: 'Failed', color: 'red' },
+      { id: 0, name: 'Running', color: 'processing' },
+      { id: 1, name: 'Success', color: 'green' },
+      { id: 2, name: 'Failed', color: 'red' },
+      { id: 3, name: 'Skipped', color: 'default' },
       { id: 4, name: 'Timeout', color: 'orange' }
     ];
   }

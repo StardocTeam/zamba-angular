@@ -1,0 +1,29 @@
+<section class="home-screen">
+    <div class="welcome-line"><span>Hola, {{ firstName | titlecase }}</span><span class="today">{{ today | date:'EEEE, d
+            MMMM' }}</span></div>
+    <section class="focus-panel">
+        <div><span class="panel-kicker">TU BANDEJA</span><strong>{{ counts.approval + counts.confirmation +
+                counts.summary }}</strong><span class="panel-caption">tareas para revisar</span></div>
+        <div class="focus-mark" aria-hidden="true">HOY</div>
+    </section>
+    <div class="section-heading">
+        <div><span class="section-kicker">POR RESOLVER</span>
+            <h2>Elige una bandeja</h2>
+        </div>
+    </div>
+    <div class="queue-list">
+        <button class="queue-row" type="button" (click)="openQueue.emit('approval')"><span
+                class="queue-index">01</span><span class="queue-copy"><strong>Aprobaciones</strong><small>Facturas y
+                    pagos</small></span><span class="queue-count">{{ counts.approval }}</span><span
+                class="queue-arrow">›</span></button>
+        <button class="queue-row" type="button" (click)="openQueue.emit('confirmation')"><span
+                class="queue-index accent">02</span><span
+                class="queue-copy"><strong>Conformaciones</strong><small>Validar recepción</small></span><span
+                class="queue-count">{{ counts.confirmation }}</span><span class="queue-arrow">›</span></button>
+        <button class="queue-row" type="button" (click)="openQueue.emit('summary')"><span
+                class="queue-index coral">03</span><span class="queue-copy"><strong>Resumen
+                    gerencial</strong><small>Casos y decisiones</small></span><span class="queue-count">{{
+                counts.summary }}</span><span class="queue-arrow">›</span></button>
+    </div>
+    <p class="home-note">Las tareas guardadas quedan disponibles en este dispositivo.</p>
+</section>

@@ -7,7 +7,7 @@ import http from 'node:http';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = resolve(fileURLToPath(new URL('.', import.meta.url)));
 const workspaceRoot = resolve(__dirname, '..');
-const requestedPort = Number(process.env.ZAMBA_CHAT_DEMO_PORT ?? '4200');
+const requestedPort = Number(process.env.ZAMBA_CHAT_DEMO_PORT ?? '4400');
 const allowPortFallback = process.env.ZAMBA_CHAT_DEMO_PORT === undefined;
 let port = requestedPort;
 

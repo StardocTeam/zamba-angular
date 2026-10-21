@@ -1,0 +1,125 @@
+﻿<div class=''>
+    <div class='wrapper'>
+        <nav class="navbar  navbar-expand   navbar-light bg-light z-nav">
+            <div class="container-fluid">
+                <div ng-if="selectedSummary == null">
+                    <a class="navbar-brand" href="#" style="color: white;  font-size: 16px;">
+
+                        <div>
+                            <div id="MenuOpciones" class="my-fixed-item" style="display:none">
+                                <li class="LielementStyle" data-toggle="modal" data-target="#keyChange" ng-click="CierreMenu()">Cambio de Clave</li>
+                            </div>
+                        </div>
+
+                        <div style="display: inline-block;" ng-click="Openopcionmenu()">
+                            <img ng-cloak ng-if="thumphoto != null "
+                                 ng-src="{{'data:image/png;base64,' + thumphoto}}" class="img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-left:-5px; border-radius: 17px; ">
+                            <img ng-cloak ng-if="thumphoto == null "
+                                 src="../../../Content/Images/icons/iconoObservacion2.jpg" alt="User Avatar"
+                                 class=" img-circle ng-show"
+                                 style="width: 37px;height: 33px;margin-top: 1px;margin-left:-5px; border-radius: 17px;" />
+                            <img src="../Utilities/images/home.png" style="height: 22px; margin-top: -4px; margin-left: 6px;" alt="Alternate Text" />
+
+                        </div>
+
+
+
+                    </a>
+                    <div style="display: inline-block;margin-top: 8px;margin-left: -15px;">
+                        <span style="color: white">Inicio</span>
+                    </div>
+                </div>
+
+                <ul class="navbar-nav" style=" flex-direction: row">
+                    <li class="nav-item">
+                        <div ng-if="selectedSummary != null">
+                            <a ng-click="goToBack()" class="nav-link" href="#" style="color: white;">
+                                <i class="fa fa-arrow-left" aria-hidden="true" style="color: white;"></i>
+                                Atras
+                            </a>
+                        </div>
+                    </li>
+
+                    <li ng-if="selectedSummary != null" class="nav-item centerFix">
+                        <button class="btn btn-success btn-sm" type="button" role="button" aria-haspopup="true" aria-expanded="false" ng-click="AprobarResumenGerencial(selectedSummary.DOC_ID, '')" style="margin-right: 5px;margin-top: 5px;">
+                            Aprobar
+                        </button>
+                    </li>
+
+
+                    <li ng-if="selectedSummary != null" class="nav-item">
+                        <button class="btn btn-danger btn-sm" type="button" role="button" aria-haspopup="true" aria-expanded="false" ng-click="DevolverResumenGerencial(selectedSummary.DOC_ID, '')" style="margin-top: 5px;">
+                            Devolver
+                        </button>
+                    </li>
+
+
+                </ul>
+
+                <ul class="navbar-nav pull-right" style=" flex-direction: row">
+                    <li class="nav-item" ng-if="selectedSummary == null">
+                        <a ng-click="btnRefresh()" class="nav-link" href="#">
+                            <i class="fa fa-refresh" aria-hidden="true" style="color: white;"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" ng-if="selectedSummary == null">
+                        <a ng-click="SignOut()" class="nav-link" href="#">
+                            <i class="fa fa-sign-out" aria-hidden="true" style="color: white;"></i>
+                        </a>
+                    </li>
+
+
+
+
+                    <li ng-if="selectedSummary != null" class="nav-item">
+                        <button class="nav-link" role="button" aria-haspopup="true" aria-expanded="false" ng-click="MenuAncla()">
+                            <i class="fa fa-ellipsis-h" aria-hidden="true" style="color: white;"></i>
+                        </button>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div id="{{summary.ID}}" class="card-body" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 header-margin text-center">
+                    <span class="badge bg-danger ng-binding CountResumenGerencial">
+                        {{resumenGerencial}}
+                    </span>
+                    <div class="d-grid gap-2 col-4 mx-auto button" ng-click="setUrlRyRt(2, 2)" style="margin-top: 110px;">
+                        <img src="../Utilities/images/ResumenGerencial.png" alt="Alternate Text" class="ImgResumentGerencial" />
+                        <h6 style="color: #001d66;">RESUMEN GERENCIAL </h6>
+                    </div>
+                    <span class="badge bg-danger ng-binding CountFacturasYpagos">
+                        {{facturasYpagos}}
+                    </span>
+                    <div class="d-grid gap-2 col-6 mx-auto button" ng-click="setUrlRyRt(0, 0)" style="margin-top: 25px;">
+                        <img src="../Utilities/images/PendienteDeAprobacion.png" alt="Alternate Text" class="ImgFacturasYpagos" />
+                        <h6 style="color: #001d66;">APROBAR FACTURAS Y PAGOS</h6>
+                    </div>
+                    <span class="badge bg-danger ng-binding CountFacturasPendientes">
+                        {{facturasPendientes}}
+                    </span>
+                    <div class="d-grid gap-2 col-4 mx-auto button" ng-click="setUrlRyRt(0, 1)" style="margin-top: 35px;">
+                        <img src="../Utilities/images/PedienteDeConformacion.png" alt="Alternate Text"  class="ImgConformarFacturas" />
+                        <h6 style="color: #001d66;">CONFORMAR FACTURAS</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>

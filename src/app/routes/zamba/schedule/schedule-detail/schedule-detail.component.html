@@ -1,7 +1,9 @@
 <div class="detail-container">
   <div class="toolbar">
     <h2>Schedule Details</h2>
-    <button nz-button>Back</button>
+    <button nz-button (click)="goBack()">Back</button>
+    <button nz-button (click)="viewLogs()">Logs</button>
+    <button nz-button nzType="primary" (click)="goToEdit()">Edit</button>
   </div>
   <nz-spin [nzSpinning]="loading" *ngIf="schedule">
     <div class="detail-section">

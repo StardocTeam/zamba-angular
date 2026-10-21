@@ -7,7 +7,9 @@ import { DashboardV1Component } from './v2/v2.component';
 import { DashboardWorkplaceComponent } from './workplace/workplace.component';
 import { DefaultComponent } from '../default/default.component';
 import { NgModule } from '@angular/core';
+import { UsersDashboardComponent } from './users-dashboard/users-dashboard.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
+import { WorkflowTasksComponent } from './workflow-tasks/workflow-tasks.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'widgets', pathMatch: 'full' },
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'v2', component: DashboardV1Component },
   { path: 'analysis', component: DashboardAnalysisComponent },
   { path: 'copilot-telemetry', component: CopilotTelemetryComponent },
+  { path: 'workflow-tasks', component: WorkflowTasksComponent, data: { title: 'Monitoreo de tareas' } },
+  { path: 'users', component: UsersDashboardComponent, data: { title: 'Dashboard de usuarios' } },
   { path: 'monitor', component: DashboardMonitorComponent },
   { path: 'workplace', component: DashboardWorkplaceComponent },
   { path: 'widgets', component: WidgetsContainerComponent },

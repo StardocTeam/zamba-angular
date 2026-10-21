@@ -1,0 +1,48 @@
+- generic [ref=f4e1]:
+  - generic [ref=f4e2]:
+    - heading "Zamba Chat Element - Test Page" [level=1] [ref=f4e3]
+    - text: Zamba.Api base URL
+    - textbox "Zamba.Api base URL" [ref=f4e4]: http://localhost:5000
+    - text: Tipo de documento
+    - combobox "Tipo de documento" [ref=f4e5]:
+      - option "26 - Factura" [selected]
+      - option "2524 - Demanda legal"
+    - generic [ref=f4e6]:
+      - generic [ref=f4e7]: Extraction prompt
+      - textbox "Extraction prompt" [ref=f4e8]: Extract the CUIT into a zamba_index_20 property and the amount into a zamba_index_21 property. Answer with a json object with the properties and value asked, nothing else.
+    - generic [ref=f4e9]:
+      - checkbox "Automatic extraction on file upload" [checked] [ref=f4e10]
+      - text: Automatic extraction on file upload
+    - generic [ref=f4e11]:
+      - generic [ref=f4e12]:
+        - generic [ref=f4e13]: zamba_index_20
+        - textbox "zamba_index_20" [ref=f4e14]:
+          - /placeholder: Se completa al adjuntar el archivo
+      - generic [ref=f4e15]:
+        - generic [ref=f4e16]: zamba_index_21
+        - textbox "zamba_index_21" [ref=f4e17]:
+          - /placeholder: Se completa al adjuntar el archivo
+    - region "Asistente Zamba AI" [ref=f4e23]:
+      - generic [ref=f4e24]:
+        - generic [ref=f4e25]:
+          - generic [aria-hidden] [ref=f4e26]: Z
+          - generic [ref=f4e27]:
+            - strong [ref=f4e28]: Zamba AI
+            - generic [ref=f4e29]: Asistente de documentos
+        - button "Cerrar chat" [ref=f4e30] [cursor=pointer]
+      - generic [ref=f4e33]: Adjuntá un archivo con el clip y escribí tu primera pregunta.
+      - generic [ref=f4e43]:
+        - generic [ref=f4e44]: 📎 Factura Septiembre Benjamin Leganini.pdf
+        - button "×" [ref=f4e45] [cursor=pointer]
+      - generic [ref=f4e35]:
+        - button "Adjuntar archivo" [active] [ref=f4e36] [cursor=pointer]
+        - textbox "Escribí tu pregunta..." [ref=f4e39]
+        - button "Enviar" [disabled] [ref=f4e40]
+  - status [ref=f4e46]:
+    - generic [ref=f4e47]: 20-12345678-9
+    - button "Aceptar sugerencia" [ref=f4e48] [cursor=pointer]
+    - button "Descartar sugerencia" [ref=f4e51] [cursor=pointer]
+  - status [ref=f4e54]:
+    - generic [ref=f4e55]: ARS 1250.50
+    - button "Aceptar sugerencia" [ref=f4e56] [cursor=pointer]
+    - button "Descartar sugerencia" [ref=f4e59] [cursor=pointer]

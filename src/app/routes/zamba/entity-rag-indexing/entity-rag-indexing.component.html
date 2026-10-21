@@ -1,0 +1,96 @@
+<section class="rag-indexing-page">
+    <header class="page-header">
+        <div>
+            <div class="eyebrow">DOCUMENT INTELLIGENCE</div>
+            <h1>Entity RAG indexing</h1>
+            <p>Choose which document types are indexed, from what date, and when indexing runs.</p>
+        </div>
+        <div class="header-actions">
+            <button nz-button (click)="loadConfigurations()" [disabled]="loading">
+                <span nz-icon nzType="reload"></span>
+                Refresh
+            </button>
+            <button nz-button nzType="primary" (click)="openCreateForm()"
+                [disabled]="loading || !availableDocumentTypes.length">
+                <span nz-icon nzType="plus"></span>
+                Create configuration
+            </button>
+        </div>
+    </header>
+
+    <section *ngIf="createFormVisible" class="create-form" aria-label="Create entity RAG indexing configuration">
+        <div class="create-field entity-picker">
+            <label for="createDocumentType">Document type</label>
+            <nz-select id="createDocumentType" [(ngModel)]="createDocumentTypeId"
+                [ngModelOptions]="{ standalone: true }" nzPlaceHolder="Select a supported document type">
+                <nz-option *ngFor="let config of availableDocumentTypes" [nzValue]="config.documentTypeId"
+                    [nzLabel]="getName(config) + ' (DOC_TYPE_ID ' + config.documentTypeId + ')'">
+                </nz-option>
+            </nz-select>
+        </div>
+        <div class="create-field">
+            <label for="createIndexFromDate">Start since</label>
+            <input id="createIndexFromDate" class="date-input" type="date" [(ngModel)]="createIndexFromDate"
+                [ngModelOptions]="{ standalone: true }" />
+        </div>
+        <div class="create-field">
+            <label for="createIndexMode">Run mode</label>
+            <nz-select id="createIndexMode" [(ngModel)]="createIndexMode" [ngModelOptions]="{ standalone: true }">
+                <nz-option [nzValue]="IndexMode.Batch" nzLabel="Batch, hourly"></nz-option>
+                <nz-option [nzValue]="IndexMode.OnInsert" nzLabel="When inserted"></nz-option>
+            </nz-select>
+        </div>
+        <label class="create-enabled">
+            <input type="checkbox" [(ngModel)]="createEnabled" [ngModelOptions]="{ standalone: true }" />
+            Enabled
+        </label>
+        <div class="create-actions">
+            <button nz-button (click)="cancelCreate()" [disabled]="creating">Cancel</button>
+            <button nz-button nzType="primary" (click)="createConfiguration()" [nzLoading]="creating"
+                [disabled]="createDocumentTypeId === null">Create</button>
+        </div>
+    </section>
+
+    <nz-table #indexTable [nzData]="configurations" [nzLoading]="loading" [nzShowPagination]="false" nzSize="small">
+        <thead>
+            <tr>
+                <th>Entity</th>
+                <th>Indexing</th>
+                <th>Start since</th>
+                <th>Run mode</th>
+                <th class="actions-column">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let config of indexTable.data">
+                <td>
+                    <div class="entity-name">{{ getName(config) }}</div>
+                    <div class="entity-id">DOC_TYPE_ID {{ config.documentTypeId }}</div>
+                    <span *ngIf="!config.isSupported" class="unsupported">DOC_T / DOC_I tables unavailable</span>
+                </td>
+                <td>
+                    <nz-switch [(ngModel)]="config.isEnabled" [ngModelOptions]="{ standalone: true }"
+                        [nzDisabled]="!config.isSupported" nz aria-label="Enable RAG indexing"></nz-switch>
+                </td>
+                <td>
+                    <input class="date-input" type="date" [ngModel]="getDateValue(config)"
+                        (ngModelChange)="setDateValue(config, $event)" [ngModelOptions]="{ standalone: true }"
+                        [disabled]="!config.isSupported" aria-label="Index documents created since" />
+                </td>
+                <td>
+                    <nz-select [(ngModel)]="config.indexMode" [ngModelOptions]="{ standalone: true }"
+                        [nzDisabled]="!config.isSupported" aria-label="Indexing run mode">
+                        <nz-option [nzValue]="IndexMode.Batch" nzLabel="Batch, hourly"></nz-option>
+                        <nz-option [nzValue]="IndexMode.OnInsert" nzLabel="When inserted"></nz-option>
+                    </nz-select>
+                </td>
+                <td class="actions">
+                    <button nz-button nzType="primary" nzSize="small" [nzLoading]="isSaving(config.documentTypeId)"
+                        [disabled]="!config.isSupported" (click)="save(config)">Save</button>
+                    <button *ngIf="config.createdAtUtc" nz-button nzType="link" nzDanger nzSize="small"
+                        [nzLoading]="isDeleting(config.documentTypeId)" (click)="remove(config)">Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</section>

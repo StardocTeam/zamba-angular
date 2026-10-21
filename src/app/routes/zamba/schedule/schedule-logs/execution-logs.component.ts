@@ -2,9 +2,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ExecutionLogModel, ExecutionStatus, PagedResponseModel } from '../schedule.model';
 import { ExecutionStatusOption, ScheduleService } from '../schedule.service';
+
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -71,9 +71,7 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          if (response.data) {
-            this.scheduleName = response.data.name;
-          }
+          this.scheduleName = response.name;
         },
         error: (error) => {
           console.error('Error loading schedule:', error);
@@ -143,6 +141,7 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
           <p><strong>Scheduled At:</strong> ${new Date(log.scheduledAt).toLocaleString()}</p>
           <p><strong>Started At:</strong> ${log.startedAt ? new Date(log.startedAt).toLocaleString() : 'N/A'}</p>
           <p><strong>Finished At:</strong> ${log.finishedAt ? new Date(log.finishedAt).toLocaleString() : 'N/A'}</p>
+          <p><strong>Result:</strong> ${log.result || 'N/A'}</p>
           <p><strong>Duration:</strong> ${log.durationMs ? log.durationMs + ' ms' : 'N/A'}</p>
           <p><strong>HTTP Status:</strong> ${log.httpStatusCode || 'N/A'}</p>
           <p><strong>Retry Count:</strong> ${log.retryCount}</p>
@@ -165,12 +164,13 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const headers = ['Scheduled At', 'Started At', 'Finished At', 'Status', 'Duration (ms)', 'HTTP Status', 'Error Message'];
+    const headers = ['Scheduled At', 'Started At', 'Finished At', 'Status', 'Result', 'Duration (ms)', 'HTTP Status', 'Error Message'];
     const rows = this.logs.map(log => [
       new Date(log.scheduledAt).toLocaleString(),
       log.startedAt ? new Date(log.startedAt).toLocaleString() : 'N/A',
       log.finishedAt ? new Date(log.finishedAt).toLocaleString() : 'N/A',
       this.getStatusLabel(log.status),
+      log.result || 'N/A',
       log.durationMs || 'N/A',
       log.httpStatusCode || 'N/A',
       log.errorMessage || ''
@@ -235,16 +235,16 @@ export class ExecutionLogsComponent implements OnInit, OnDestroy {
    * Initialize status maps
    */
   private initStatusMaps(): void {
-    this.statusMap.set(ExecutionStatus.Pending, 'Pending');
     this.statusMap.set(ExecutionStatus.Running, 'Running');
     this.statusMap.set(ExecutionStatus.Success, 'Success');
     this.statusMap.set(ExecutionStatus.Failed, 'Failed');
+    this.statusMap.set(ExecutionStatus.Skipped, 'Skipped');
     this.statusMap.set(ExecutionStatus.Timeout, 'Timeout');
 
-    this.statusColorMap.set(ExecutionStatus.Pending, 'blue');
     this.statusColorMap.set(ExecutionStatus.Running, 'processing');
     this.statusColorMap.set(ExecutionStatus.Success, 'green');
     this.statusColorMap.set(ExecutionStatus.Failed, 'red');
+    this.statusColorMap.set(ExecutionStatus.Skipped, 'default');
     this.statusColorMap.set(ExecutionStatus.Timeout, 'orange');
   }
 

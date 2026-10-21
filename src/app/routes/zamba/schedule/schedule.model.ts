@@ -15,11 +15,26 @@ export enum RecurrenceType {
 
 // Execution status
 export enum ExecutionStatus {
-  Pending = 0,
-  Running = 1,
-  Success = 2,
-  Failed = 3,
+  Running = 0,
+  Success = 1,
+  Failed = 2,
+  Skipped = 3,
   Timeout = 4
+}
+
+export enum ScheduleExecutionType {
+  ExecuteRule = 0,
+  ExecuteQuery = 1,
+  ExecuteEndPoint = 2,
+  EmbeddingRag = 3
+}
+
+export interface ScheduleExecutionResultModel {
+  statusCode: number;
+  responseBody?: string;
+  errorMessage?: string;
+  durationMs: number;
+  result?: 'success' | 'fail' | null;
 }
 
 // Schedule Config Model
@@ -40,10 +55,23 @@ export interface ScheduleEventModel {
   id: number;
   name: string;
   description?: string;
+  expectedResult?: string;
   ruleId: string;
+  executionType: ScheduleExecutionType;
   scheduleConfig: ScheduleConfigModel;
   isActive: boolean;
   endpointOverride?: string;
+  query?: string;
+  endpointUrl?: string;
+  endpointMethod?: 'GET' | 'POST';
+  endpointParameters?: string;
+  endpointBody?: string;
+  ragDocumentTypeId?: number;
+  notificationEmail?: string;
+  notifyOnSuccess: boolean;
+  notifyOnFailure: boolean;
+  notifySlackOnSuccess: boolean;
+  notifySlackOnFailure: boolean;
   createdAt: string;
   createdBy?: string;
   modifiedAt?: string;
@@ -54,15 +82,65 @@ export interface ScheduleEventModel {
 export interface ExecutionLogModel {
   id: number;
   scheduleEventId: number;
+  scheduleEventName?: string;
   scheduledAt: string;
   startedAt?: string;
   finishedAt?: string;
   status: ExecutionStatus;
+  result?: 'success' | 'fail' | null;
   httpStatusCode?: number;
   responseBody?: string;
   errorMessage?: string;
   durationMs?: number;
   retryCount: number;
+}
+
+export interface ScheduleDashboardModel {
+  fromDate: string;
+  toDate: string;
+  totalEvents: number;
+  activeEvents: number;
+  totalExecutions: number;
+  runningExecutions: number;
+  successfulExecutions: number;
+  failedExecutions: number;
+  timedOutExecutions: number;
+  skippedExecutions: number;
+  successRate: number;
+  averageDurationMs?: number;
+  trend: ScheduleDashboardDayModel[];
+  topEvents: ScheduleDashboardEventModel[];
+  activeExecutions: ExecutionLogModel[];
+  worker?: ScheduleWorkerStatusModel;
+}
+
+export interface ScheduleDashboardDayModel {
+  date: string;
+  success: number;
+  failed: number;
+  running: number;
+  timedOut: number;
+  skipped: number;
+}
+
+export interface ScheduleDashboardEventModel {
+  scheduleEventId: number;
+  name: string;
+  executions: number;
+  failures: number;
+  averageDurationMs?: number;
+}
+
+export interface ScheduleWorkerStatusModel {
+  workerInstanceId: string;
+  hostName: string;
+  startedAtUtc: string;
+  lastHeartbeatAtUtc: string;
+  lastSyncAtUtc?: string;
+  registeredJobCount: number;
+  activeJobCount: number;
+  lastError?: string;
+  isOnline: boolean;
 }
 
 // API Response wrapper

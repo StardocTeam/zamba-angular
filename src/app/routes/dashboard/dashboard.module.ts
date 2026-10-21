@@ -28,8 +28,10 @@ import { OnboardingModule } from '@delon/abc/onboarding';
 import { QuickMenuModule } from '@delon/abc/quick-menu';
 import { SharedModule } from '@shared';
 import { TrendModule } from '@delon/chart/trend';
+import { UsersDashboardComponent } from './users-dashboard/users-dashboard.component';
 import { WidgetSelectorComponent } from '../widgets/widgetSelector/widget-selector.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
+import { WorkflowTasksComponent } from './workflow-tasks/workflow-tasks.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -37,6 +39,8 @@ const COMPONENTS = [
   DashboardMonitorComponent,
   DashboardWorkplaceComponent,
   CopilotTelemetryComponent,
+  WorkflowTasksComponent,
+  UsersDashboardComponent,
   WidgetsContainerComponent,
 ];
 

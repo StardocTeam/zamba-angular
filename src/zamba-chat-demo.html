@@ -141,6 +141,7 @@
         el.documentTypeCode = Number(documentTypeInput.value);
         el.fieldBindings = [{ prompt: defaultExtractionPrompt }];
         el.automaticExtraction = automaticExtractionInput.checked;
+        setTimeout(() => el.querySelector('.zamba-chat-launcher')?.click(), 0);
 
         apiUrlInput.addEventListener('change', () => {
           el.apiBaseUrl = apiUrlInput.value;

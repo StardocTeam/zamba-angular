@@ -4,15 +4,16 @@ import {
   RecurrenceTypeOption,
   ScheduleService
 } from '../schedule.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   PagedResponseModel,
   RecurrenceType,
-  ScheduleEventModel
+  ScheduleEventModel,
+  ScheduleExecutionType
 } from '../schedule.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
@@ -27,6 +28,12 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
   searchValue = '';
   filterActive: boolean | null = null;
   recurrenceTypeMap: Map<RecurrenceType, string> = new Map();
+  executionTypeMap = new Map<ScheduleExecutionType, string>([
+    [ScheduleExecutionType.ExecuteRule, 'Execute Rule'],
+    [ScheduleExecutionType.ExecuteQuery, 'Execute Query'],
+    [ScheduleExecutionType.ExecuteEndPoint, 'Execute Endpoint'],
+    [ScheduleExecutionType.EmbeddingRag, 'Embedding RAG']
+  ]);
 
   // Pagination
   pageIndex = 1;
@@ -36,9 +43,6 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
   // Subjects for cleanup
   private destroy$ = new Subject<void>();
   private search$ = new Subject<string>();
-
-  // Statistics
-  statistics: any = {};
 
   constructor(
     private scheduleService: ScheduleService,
@@ -51,7 +55,6 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadSchedules();
-    this.loadStatistics();
 
     // Setup debounced search
     this.search$.pipe(
@@ -97,22 +100,6 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Load statistics
-   */
-  loadStatistics(): void {
-    this.scheduleService.getScheduleStatistics()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response: any) => {
-          this.statistics = response.data;
-        },
-        error: (error) => {
-          console.error('Error loading statistics:', error);
-        }
-      });
-  }
-
-  /**
    * Handle search input
    */
   onSearchChange(value: string): void {
@@ -148,6 +135,14 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/zamba/schedule/new']);
   }
 
+  goToDashboard(): void {
+    this.router.navigate(['/zamba/schedule/dashboard']);
+  }
+
+  goToEntityRagIndexing(): void {
+    this.router.navigate(['/zamba/entity-rag-indexing']);
+  }
+
   /**
    * Navigate to edit schedule
    */
@@ -173,7 +168,7 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
    * Activate schedule
    */
   activateSchedule(schedule: ScheduleEventModel): void {
-    this.scheduleService.activateScheduleEvent(schedule.id)
+    this.scheduleService.toggleScheduleEvent(schedule.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -191,7 +186,7 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
    * Deactivate schedule
    */
   deactivateSchedule(schedule: ScheduleEventModel): void {
-    this.scheduleService.deactivateScheduleEvent(schedule.id)
+    this.scheduleService.toggleScheduleEvent(schedule.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
@@ -233,31 +228,25 @@ export class ScheduleListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Test schedule (execute immediately)
-   */
-  testSchedule(schedule: ScheduleEventModel): void {
-    this.scheduleService.testScheduleEvent(schedule.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (response) => {
-          if (response.data?.success) {
-            this.message.success('Schedule executed successfully');
-          } else {
-            this.message.warning(response.data?.message || 'Test execution completed');
-          }
-        },
-        error: (error) => {
-          this.message.error('Failed to test schedule');
-          console.error('Error testing schedule:', error);
-        }
-      });
-  }
-
-  /**
    * Get recurrence type label
    */
   getRecurrenceTypeLabel(type: RecurrenceType): string {
     return this.recurrenceTypeMap.get(type) || 'Unknown';
+  }
+
+  getExecutionTypeLabel(type: ScheduleExecutionType): string {
+    return this.executionTypeMap.get(type) || 'Execute Rule';
+  }
+
+  getExecutionTarget(schedule: ScheduleEventModel): string {
+    switch (schedule.executionType) {
+      case ScheduleExecutionType.ExecuteQuery:
+        return schedule.query?.trim().slice(0, 80) || 'SQL query';
+      case ScheduleExecutionType.ExecuteEndPoint:
+        return schedule.endpointUrl || 'Endpoint';
+      default:
+        return schedule.ruleId;
+    }
   }
 
   /**

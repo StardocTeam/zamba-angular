@@ -1,0 +1,19 @@
+<section *ngIf="summary" class="summary-detail">
+    <div class="summary-hero"><span>EXPEDIENTE {{ summary.DOC_ID }}</span>
+        <h2>{{ summary.TITLE || 'Resumen gerencial' }}</h2>
+        <p>{{ summary.AREA || 'Siniestros' }} <span>·</span> {{ summary.FECHA || 'Pendiente de revisión' }}</p>
+    </div>
+    <div class="summary-meta"><span>Referente</span><strong>{{ summary.SOLICITANTE || 'Equipo gerencial' }}</strong>
+    </div>
+    <section *ngFor="let section of sections" class="summary-section"><span>{{ section.title }}</span>
+        <p>{{ section.value }}</p>
+    </section>
+    <section class="comment-section"><label for="summary-comment">Agregar comentario</label><textarea
+            id="summary-comment" [(ngModel)]="comment" rows="3" maxlength="1000"
+            placeholder="Escribe una observación..."></textarea><button type="button"
+            [disabled]="busy || !comment.trim()" (click)="submitComment()">{{ busy ? 'Enviando…' : 'Enviar comentario'
+            }}</button></section>
+    <div class="summary-actions"><button class="return-button" type="button"
+            (click)="return.emit(summary)">Devolver</button><button class="approve-button" type="button"
+            (click)="approve.emit(summary)">Aprobar resumen</button></div>
+</section>

@@ -107,7 +107,7 @@ describe('ZambaChatComponent', () => {
         expect(component.isSending).toBeFalse();
     });
 
-    it('should auto-extract field values into bound inputs when a file is attached', () => {
+    it('should ask before applying extracted values to bound inputs', () => {
         document.body.insertAdjacentHTML('beforeend', '<input id="zamba_index_20" /><input id="zamba_index_21" />');
         component.fieldBindings = [
             { inputId: 'zamba_index_20', prompt: 'Extract the title.' },
@@ -125,7 +125,11 @@ describe('ZambaChatComponent', () => {
         expect(firstReq.request.body.prompt).toBe('Extract the title.');
         firstReq.flush({ response: 'My Title', documentId: 'doc-123', chunksUsed: 1, stats: {} } as CopilotPromptResponse);
 
-        expect((document.getElementById('zamba_index_20') as HTMLInputElement).value).toBe('My Title');
+        const firstInput = document.getElementById('zamba_index_20') as HTMLInputElement;
+        expect(firstInput.value).toBe('');
+        expect(document.body.textContent).toContain('My Title');
+        (document.body.querySelector('[aria-label="Aceptar sugerencia"]') as HTMLButtonElement).click();
+        expect(firstInput.value).toBe('My Title');
         expect(component.documentId).toBe('doc-123');
 
         const secondReq = httpMock.expectOne('https://localhost:7088/api/Copilot/ask');
@@ -134,7 +138,11 @@ describe('ZambaChatComponent', () => {
         expect(secondReq.request.body.prompt).toBe('Extract the date.');
         secondReq.flush({ response: '2026-01-01', documentId: 'doc-123', chunksUsed: 1, stats: {} } as CopilotPromptResponse);
 
-        expect((document.getElementById('zamba_index_21') as HTMLInputElement).value).toBe('2026-01-01');
+        const secondInput = document.getElementById('zamba_index_21') as HTMLInputElement;
+        expect(secondInput.value).toBe('');
+        (document.body.querySelector('[aria-label="Descartar sugerencia"]') as HTMLButtonElement).click();
+        expect(secondInput.value).toBe('');
+        expect(document.body.textContent).not.toContain('2026-01-01');
         expect(component.isExtracting).toBeFalse();
 
         document.getElementById('zamba_index_20')?.remove();

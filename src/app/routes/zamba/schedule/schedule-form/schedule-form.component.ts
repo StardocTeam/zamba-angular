@@ -1,7 +1,12 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RecurrenceType, ScheduleConfigModel, ScheduleEventModel } from '../schedule.model';
+import {
+  RecurrenceType,
+  ScheduleEventModel,
+  ScheduleExecutionResultModel,
+  ScheduleExecutionType
+} from '../schedule.model';
 import { RecurrenceTypeOption, ScheduleService } from '../schedule.service';
 
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -16,10 +21,18 @@ import { takeUntil } from 'rxjs/operators';
 export class ScheduleFormComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   loading = false;
+  testing = false;
   isEditMode = false;
   scheduleId: number | null = null;
   recurrenceTypes: RecurrenceTypeOption[] = [];
+  executionTypes = [
+    { id: ScheduleExecutionType.ExecuteRule, name: 'Execute Rule' },
+    { id: ScheduleExecutionType.ExecuteQuery, name: 'Execute Query' },
+    { id: ScheduleExecutionType.ExecuteEndPoint, name: 'Execute Endpoint' },
+    { id: ScheduleExecutionType.EmbeddingRag, name: 'Embedding RAG' }
+  ];
   currentRecurrenceType: RecurrenceType = RecurrenceType.Daily;
+  testResult: ScheduleExecutionResultModel | null = null;
 
   // Days of week options for weekly recurrence
   daysOfWeek = [
@@ -85,16 +98,29 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       // Schedule Event fields
       name: ['', [Validators.required, Validators.maxLength(256)]],
       description: ['', [Validators.maxLength(1024)]],
-      ruleId: ['', Validators.required],
+      expectedResult: ['', [Validators.maxLength(100000)]],
+      ruleId: [''],
+      executionType: [ScheduleExecutionType.ExecuteRule, Validators.required],
       isActive: [true],
       endpointOverride: ['', [Validators.maxLength(512), this.urlValidator]],
+      query: [''],
+      endpointUrl: [''],
+      endpointMethod: ['GET'],
+      endpointParameters: ['{}'],
+      endpointBody: [''],
+      ragDocumentTypeId: [null],
+      notificationEmail: ['', [Validators.email, Validators.maxLength(320)]],
+      notifyOnSuccess: [false],
+      notifyOnFailure: [false],
+      notifySlackOnSuccess: [false],
+      notifySlackOnFailure: [false],
 
       // Schedule Config fields
       recurrenceType: [RecurrenceType.Daily, Validators.required],
       startDate: [null, Validators.required],
       endDate: [null],
       timeOfDay: [''],
-      daysOfWeek: [''],
+      daysOfWeek: [[]],
       dayOfMonth: [1],
       intervalValue: [1],
       cronExpression: [''],
@@ -108,6 +134,21 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
         this.currentRecurrenceType = type;
         this.updateValidators();
       });
+
+    this.form.get('executionType')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateExecutionValidators());
+
+    this.form.get('notifyOnSuccess')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateNotificationValidators());
+
+    this.form.get('notifyOnFailure')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.updateNotificationValidators());
+
+    this.updateExecutionValidators();
+    this.updateNotificationValidators();
   }
 
   /**
@@ -159,6 +200,55 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     cronExpression?.updateValueAndValidity();
   }
 
+  private updateExecutionValidators(): void {
+    const executionType = this.form.get('executionType')?.value as ScheduleExecutionType;
+    const ruleId = this.form.get('ruleId');
+    const query = this.form.get('query');
+    const endpointUrl = this.form.get('endpointUrl');
+    const endpointMethod = this.form.get('endpointMethod');
+    const endpointParameters = this.form.get('endpointParameters');
+    const ragDocumentTypeId = this.form.get('ragDocumentTypeId');
+
+    ruleId?.clearValidators();
+    query?.clearValidators();
+    endpointUrl?.clearValidators();
+    endpointMethod?.clearValidators();
+    endpointParameters?.clearValidators();
+    ragDocumentTypeId?.clearValidators();
+
+    if (executionType === ScheduleExecutionType.ExecuteRule) {
+      ruleId?.setValidators([Validators.required, Validators.maxLength(255)]);
+    } else if (executionType === ScheduleExecutionType.ExecuteQuery) {
+      query?.setValidators([Validators.required]);
+    } else if (executionType === ScheduleExecutionType.ExecuteEndPoint) {
+      endpointUrl?.setValidators([Validators.required, this.urlValidator]);
+      endpointMethod?.setValidators([Validators.required, Validators.pattern(/^(GET|POST)$/)]);
+      endpointParameters?.setValidators([this.jsonObjectValidator]);
+    } else if (executionType === ScheduleExecutionType.EmbeddingRag) {
+      ragDocumentTypeId?.setValidators([Validators.required, Validators.min(1)]);
+    }
+
+    ruleId?.updateValueAndValidity();
+    query?.updateValueAndValidity();
+    endpointUrl?.updateValueAndValidity();
+    endpointMethod?.updateValueAndValidity();
+    endpointParameters?.updateValueAndValidity();
+    ragDocumentTypeId?.updateValueAndValidity();
+  }
+
+  private updateNotificationValidators(): void {
+    const email = this.form.get('notificationEmail');
+    const notificationsEnabled = this.form.get('notifyOnSuccess')?.value
+      || this.form.get('notifyOnFailure')?.value;
+
+    email?.setValidators([
+      ...(notificationsEnabled ? [Validators.required] : []),
+      Validators.email,
+      Validators.maxLength(320)
+    ]);
+    email?.updateValueAndValidity();
+  }
+
   /**
    * Load schedule data for editing
    */
@@ -170,9 +260,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          if (response.data) {
-            this.populateForm(response.data);
-          }
+          this.populateForm(response);
           this.loading = false;
         },
         error: (error) => {
@@ -190,14 +278,27 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       name: schedule.name,
       description: schedule.description,
+      expectedResult: schedule.expectedResult || '',
       ruleId: schedule.ruleId,
+      executionType: schedule.executionType ?? ScheduleExecutionType.ExecuteRule,
       isActive: schedule.isActive,
       endpointOverride: schedule.endpointOverride,
+      query: schedule.query || '',
+      endpointUrl: schedule.endpointUrl || '',
+      endpointMethod: schedule.endpointMethod || 'GET',
+      endpointParameters: schedule.endpointParameters || '{}',
+      endpointBody: schedule.endpointBody || '',
+      ragDocumentTypeId: schedule.ragDocumentTypeId ?? null,
+      notificationEmail: schedule.notificationEmail || '',
+      notifyOnSuccess: schedule.notifyOnSuccess || false,
+      notifyOnFailure: schedule.notifyOnFailure || false,
+      notifySlackOnSuccess: schedule.notifySlackOnSuccess || false,
+      notifySlackOnFailure: schedule.notifySlackOnFailure || false,
       recurrenceType: schedule.scheduleConfig.recurrenceType,
       startDate: this.toDate(schedule.scheduleConfig.startDate),
       endDate: this.toDate(schedule.scheduleConfig.endDate),
       timeOfDay: schedule.scheduleConfig.timeOfDay || '',
-      daysOfWeek: schedule.scheduleConfig.daysOfWeek,
+      daysOfWeek: schedule.scheduleConfig.daysOfWeek?.split(',') || [],
       dayOfMonth: schedule.scheduleConfig.dayOfMonth,
       intervalValue: schedule.scheduleConfig.intervalValue,
       cronExpression: schedule.scheduleConfig.cronExpression,
@@ -206,6 +307,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
 
     this.currentRecurrenceType = schedule.scheduleConfig.recurrenceType;
     this.updateValidators();
+    this.updateExecutionValidators();
   }
 
   /**
@@ -218,27 +320,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const formValue = this.form.value;
-    const schedule: ScheduleEventModel = {
-      id: this.scheduleId || 0,
-      name: formValue.name,
-      description: formValue.description,
-      ruleId: formValue.ruleId,
-      isActive: formValue.isActive,
-      endpointOverride: formValue.endpointOverride,
-      scheduleConfig: {
-        recurrenceType: formValue.recurrenceType,
-        startDate: formValue.startDate?.toISOString(),
-        endDate: formValue.endDate?.toISOString(),
-        timeOfDay: formValue.timeOfDay,
-        daysOfWeek: formValue.daysOfWeek,
-        dayOfMonth: formValue.dayOfMonth,
-        intervalValue: formValue.intervalValue,
-        cronExpression: formValue.cronExpression,
-        timeZone: formValue.timeZone
-      },
-      createdAt: new Date().toISOString()
-    };
+    const schedule = this.buildSchedulePayload();
 
     this.loading = true;
 
@@ -247,17 +329,13 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
       : this.scheduleService.createScheduleEvent(schedule);
 
     request$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.message.success(
-            this.isEditMode
-              ? 'Schedule updated successfully'
-              : 'Schedule created successfully'
-          );
-          this.router.navigate(['/zamba/schedule']);
-        } else {
-          this.message.error(response.message || 'Operation failed');
-        }
+      next: () => {
+        this.message.success(
+          this.isEditMode
+            ? 'Schedule updated successfully'
+            : 'Schedule created successfully'
+        );
+        this.router.navigate(['/zamba/schedule']);
         this.loading = false;
       },
       error: (error) => {
@@ -268,11 +346,90 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  private buildSchedulePayload(): ScheduleEventModel {
+    const formValue = this.form.value;
+    const recurrenceType = formValue.recurrenceType as RecurrenceType;
+    const executionType = formValue.executionType as ScheduleExecutionType;
+
+    return {
+      id: this.scheduleId || 0,
+      name: formValue.name,
+      description: formValue.description,
+      expectedResult: formValue.expectedResult?.trim() || undefined,
+      ruleId: executionType === ScheduleExecutionType.ExecuteRule ? formValue.ruleId : '',
+      executionType,
+      isActive: formValue.isActive,
+      endpointOverride: formValue.endpointOverride,
+      query: executionType === ScheduleExecutionType.ExecuteQuery ? formValue.query : undefined,
+      endpointUrl: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointUrl : undefined,
+      endpointMethod: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointMethod : undefined,
+      endpointParameters: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointParameters : undefined,
+      endpointBody: executionType === ScheduleExecutionType.ExecuteEndPoint ? formValue.endpointBody : undefined,
+      ragDocumentTypeId: executionType === ScheduleExecutionType.EmbeddingRag
+        ? Number(formValue.ragDocumentTypeId)
+        : undefined,
+      notificationEmail: formValue.notificationEmail?.trim() || undefined,
+      notifyOnSuccess: formValue.notifyOnSuccess,
+      notifyOnFailure: formValue.notifyOnFailure,
+      notifySlackOnSuccess: formValue.notifySlackOnSuccess,
+      notifySlackOnFailure: formValue.notifySlackOnFailure,
+      scheduleConfig: {
+        recurrenceType,
+        startDate: this.toApiDate(formValue.startDate),
+        endDate: this.toApiDate(formValue.endDate),
+        timeOfDay: this.isFieldVisible('timeOfDay') ? formValue.timeOfDay : undefined,
+        daysOfWeek: recurrenceType === RecurrenceType.Weekly
+          ? (formValue.daysOfWeek as string[]).join(',')
+          : undefined,
+        dayOfMonth: recurrenceType === RecurrenceType.Monthly ? formValue.dayOfMonth : undefined,
+        intervalValue: [RecurrenceType.Minutely, RecurrenceType.Hourly].includes(recurrenceType)
+          ? formValue.intervalValue
+          : undefined,
+        cronExpression: recurrenceType === RecurrenceType.CronExpression ? formValue.cronExpression : undefined,
+        timeZone: formValue.timeZone
+      },
+      createdAt: new Date().toISOString()
+    };
+  }
+
+  testSchedule(): void {
+    if (this.form.invalid) {
+      this.message.error('Please fill all required fields correctly before testing');
+      this.markFormGroupTouched(this.form);
+      return;
+    }
+
+    this.testing = true;
+    this.testResult = null;
+    this.scheduleService.testScheduleEvent(this.buildSchedulePayload())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: result => {
+          this.testResult = result;
+          this.testing = false;
+        },
+        error: (error) => {
+          this.message.error('Schedule test request failed');
+          console.error('Error testing schedule:', error);
+          this.testing = false;
+        }
+      });
+  }
+
   /**
    * Navigate back to schedule list
    */
   onCancel(): void {
     this.router.navigate(['/zamba/schedule']);
+  }
+
+  toggleDay(day: string, checked: boolean): void {
+    const control = this.form.get('daysOfWeek');
+    const selectedDays = (control?.value as string[]) || [];
+    control?.setValue(checked
+      ? [...selectedDays, day]
+      : selectedDays.filter(selectedDay => selectedDay !== day));
+    control?.markAsTouched();
   }
 
   /**
@@ -290,6 +447,7 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     if (!control || !control.errors) return '';
 
     if (control.errors['required']) return `${fieldName} is required`;
+    if (control.errors['email']) return 'Enter a valid email address';
     if (control.errors['maxlength']) {
       return `${fieldName} cannot exceed ${control.errors['maxlength'].requiredLength} characters`;
     }
@@ -307,10 +465,24 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
     if (!control.value) return null;
 
     try {
-      new URL(control.value);
+      const url = new URL(control.value);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        return { invalidUrl: true };
+      }
       return null;
     } catch {
       return { invalidUrl: true };
+    }
+  }
+
+  private jsonObjectValidator(control: any) {
+    if (!control.value) return null;
+
+    try {
+      const parsed = JSON.parse(control.value);
+      return parsed && !Array.isArray(parsed) && typeof parsed === 'object' ? null : { invalidJsonObject: true };
+    } catch {
+      return { invalidJsonObject: true };
     }
   }
 
@@ -319,6 +491,12 @@ export class ScheduleFormComponent implements OnInit, OnDestroy {
 
     const date = new Date(value);
     return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  private toApiDate(value?: Date | null): string | undefined {
+    if (!value) return undefined;
+
+    return new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())).toISOString();
   }
 
   /**
