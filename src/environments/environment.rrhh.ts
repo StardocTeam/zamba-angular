@@ -14,12 +14,12 @@ export const environment = {
     refreshTokenType: 'auth-refresh',
   },
   modules: [DelonMockModule.forRoot({ data: MOCKDATA })],
-  restApi: 'http://localhost:44301/ZambaWeb.RestApi/api',
-  apiRestBasePath: 'http://localhost:44301/ZambaWeb.RestApi/api/Dashboard',
-  charts: 'http://localhost:44301/ZambaWeb.RestApi/api/charts',
-  externalSearchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/ExternalSearch',
-  searchApi: 'http://localhost:44301/ZambaWeb.RestApi/api/search',
-  zambaWeb: 'http://localhost:44301/Zamba.Web',
+  restApi: 'http://localhost/ZambaWeb.RestApi/api',
+  apiRestBasePath: 'http://localhost/ZambaWeb.RestApi/api/Dashboard',
+  charts: 'http://localhost/ZambaWeb.RestApi/api/charts',
+  externalSearchApi: 'http://localhost/ZambaWeb.RestApi/api/ExternalSearch',
+  searchApi: 'http://localhost/ZambaWeb.RestApi/api/search',
+  zambaWeb: 'http://localhost/Zamba.Web',
   cliente: 'rrhh',
 } as Environment;
 /*

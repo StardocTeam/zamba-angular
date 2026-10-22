@@ -18,7 +18,7 @@
       <div nz-col nzXs="12" nzSm="12" nzMd="12" nzLg="13" nzXl="8">
         <span>Categoria: *</span><br />
         <nz-select id="category" [(ngModel)]="report.Categoryid" style="width: 100%"
-          nzPlaceHolder="Selecciones una categoria">
+          nzPlaceHolder="Seleccione una categoria">
           <nz-option *ngFor="let item of CategoryList" [nzValue]="item.ID" [nzLabel]="item.Category" />
         </nz-select>
       </div>
@@ -59,10 +59,10 @@
         <button nz-button nzType="default" (click)="TestQuery()"
           [disabled]="report.Query == '' || isButtonDisabled">Probar</button>
         <button *ngIf="report.ID === 0" nz-button nzType="primary" (click)="InsertReport()"
-          [disabled]="!isFormValid() || isButtonDisabled">
+          [disabled]="!CreatePermission || !isFormValid() || isButtonDisabled">
           Crear reporte </button>
         <button *ngIf="report.ID !== 0" nz-button nzType="primary" (click)="UpdateReport()"
-          [disabled]="!isFormValid() || isButtonDisabled">
+          [disabled]="!UpdatePermission || !isFormValid() || isButtonDisabled">
           Editar reporte </button>
       </div>
     </div>

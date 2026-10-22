@@ -38,12 +38,20 @@ export interface ZambaReplaceDocumentRequest extends ZambaDocumentRequest {
   providedIn: 'root',
 })
 export class ZambaService {
-  LOGIN_URL = environment['apiRestBasePath'];
+  LOGIN_URL = environment['restApi'];
   private readonly apiUrlGetUserId: string = '';
+  private apiRestBasePath: string = `${environment['restApi']}`;
+  private restApiBasePath: string = `${environment['restApi']}`;
+  private externalSearchApiBasePath: string = `${environment['restApi']}`;
+  private zambaWebBasePath: string = `${environment['zambaWeb']}`;
   serverError = false;
   type = 0;
   loading = false;
   token: string = '';
+
+  ServiceBase: string = "";
+  URL: string = "";
+  WebUrl: string = "";
 
   constructor(
     iconSrv: NzIconService,
@@ -59,8 +67,27 @@ export class ZambaService {
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
 
-    let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
-    this.apiUrlGetUserId = `${restAPIUrl}/getUserId`;
+    if (typeof (window as any).getValueFromWebConfig === 'function') {
+      this.ServiceBase = (window as any).getValueFromWebConfig('replaceServiceBase');
+      this.WebUrl = (window as any).getValueFromWebConfig('WebUrl');
+    }
+
+    if (this.ServiceBase && this.ServiceBase.trim()) {
+      const serviceBase = this.ServiceBase.trim();
+      this.apiRestBasePath = serviceBase;
+      this.restApiBasePath = serviceBase;
+      this.externalSearchApiBasePath = serviceBase;
+    }
+
+    if (this.WebUrl && this.WebUrl.trim()) {
+      this.zambaWebBasePath = this.WebUrl.trim();
+    }
+
+    this.LOGIN_URL = this.apiRestBasePath;
+
+    const restAPIUrl = this.apiRestBasePath.toLocaleLowerCase();
+    this.apiUrlGetUserId = this.buildUrl(restAPIUrl, '/Dashboard/getUserId');
+
   }
 
   public getUserId(genericRequest: any) {
@@ -74,7 +101,7 @@ export class ZambaService {
   }
 
   public GetProfileImage() {
-    const url = `${this.LOGIN_URL}/GetProfileImage`;
+    const url = this.buildUrl(this.LOGIN_URL, '/Dashboard/GetProfileImage');
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -84,7 +111,7 @@ export class ZambaService {
   }
 
   public GetUserInfoForName(data: any) {
-    const url = `${this.LOGIN_URL}search/GetUserInfoForName?UserName=${data}`;
+    const url = this.buildUrl(this.LOGIN_URL, `/Dashboard/search/GetUserInfoForName?UserName=${data}`);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -114,7 +141,7 @@ export class ZambaService {
     //TODO: este codigo carga la visualizacion de la sidbar pensar mas adelante en ponerlo asyncronico
     //actualmente no funciona de esa manera ya que recarga 2 veces la  interfaz
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', `${this.LOGIN_URL}/configUserSidbar`, false); // El tercer parámetro indica si la solicitud es síncrona
+    xhr.open('POST', this.buildUrl(this.LOGIN_URL, '/Dashboard/configUserSidbar'), false); // El tercer parámetro indica si la solicitud es síncrona
     xhr.setRequestHeader('Content-Type', 'application/json');
 
     try {
@@ -172,7 +199,7 @@ export class ZambaService {
     const userId = urlParams['userId'] || urlParams['UserId'] || urlParams['u'] || urlParams['user'];
 
     if (userId) {
-      return this.httpClient.get(`${environment['restApi']}/auth/GetJwt?userId=${userId}`, { responseType: 'text' }).pipe(
+      return this.httpClient.get(this.buildUrl(this.restApiBasePath, `/auth/GetJwt?userId=${userId}`), { responseType: 'text' }).pipe(
         map((newToken: string) => {
           if (newToken) {
             this.tokenService.set({
@@ -256,7 +283,7 @@ export class ZambaService {
     }
 
     this.http
-      .post(`${environment['apiRestBasePath']}/getSidebarItems`, genericRequest, null, {
+      .post(this.buildUrl(this.apiRestBasePath, '/Dashboard/getSidebarItems'), genericRequest, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
@@ -269,7 +296,11 @@ export class ZambaService {
           if (appData) {
             this.settingService.setApp(appData.app);
             this.aclService.setFull(true);
-            this.menuService.add(appData.menu.items);
+            const menuItems = appData.menu.items as NzSafeAny[];
+            if (!menuItems.some(item => item.link === '/zamba/traces')) {
+              menuItems.push({ text: 'Trace Explorer', icon: 'file-search', link: '/zamba/traces' });
+            }
+            this.menuService.add(menuItems);
             this.titleService.default = '';
             this.titleService.suffix = appData.app.name;
           }
@@ -279,7 +310,7 @@ export class ZambaService {
   }
 
   executeRule(genericRequest: any): Observable<any> {
-    return this.http.post(`${environment['apiRestBasePath']}/executeRuleDashboard`, genericRequest, null, {
+    return this.http.post(this.buildUrl(this.apiRestBasePath, '/Dashboard/executeRuleDashboard'), genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
@@ -294,7 +325,7 @@ export class ZambaService {
         ...contextData
       }
     };
-    return this.httpClient.post(`${environment['restApi']}/WebBookmark/GetBookmarks`, genericRequest);
+    return this.httpClient.post(this.buildUrl(this.restApiBasePath, '/WebBookmark/GetBookmarks'), genericRequest);
   }
 
   public saveBookmark(bookmarkData: any, contextData?: any): Observable<any> {
@@ -307,7 +338,7 @@ export class ZambaService {
         ...contextData
       }
     };
-    return this.httpClient.post(`${environment['restApi']}/WebBookmark/SaveBookmark`, genericRequest);
+    return this.httpClient.post(this.buildUrl(this.restApiBasePath, '/WebBookmark/SaveBookmark'), genericRequest);
   }
 
   public deleteBookmark(bookmarkId: number, contextData?: any): Observable<any> {
@@ -320,7 +351,7 @@ export class ZambaService {
         ...contextData
       }
     };
-    return this.httpClient.post(`${environment['restApi']}/WebBookmark/DeleteBookmark`, genericRequest);
+    return this.httpClient.post(this.buildUrl(this.restApiBasePath, '/WebBookmark/DeleteBookmark'), genericRequest);
   }
 
   public getDocumentBase64(request: ZambaDocumentRequest): Observable<ZambaDocumentPayload> {
@@ -332,7 +363,7 @@ export class ZambaService {
     };
 
     return this.httpClient
-      .post(`${environment['externalSearchApi']}/getDocument`, genericRequest, {
+      .post(this.buildUrl(this.externalSearchApiBasePath, '/ExternalSearch/getDocument'), genericRequest, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
@@ -351,7 +382,7 @@ export class ZambaService {
       EncryptedData: false,
     };
 
-    return this.httpClient.post(`${environment['externalSearchApi']}/ReplaceDoc`, body, {
+    return this.httpClient.post(this.buildUrl(this.externalSearchApiBasePath, '/ExternalSearch/ReplaceDoc'), body, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -364,8 +395,34 @@ export class ZambaService {
     let userid = tokenService ? tokenService['userID'] : null;
     let token = tokenService ? tokenService['token'] : null;
     return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `${environment['zambaWeb']}/Views/Security/LoginRRHH.aspx?` + `c=${userid}&t=${token}`,
+      this.buildUrl(this.zambaWebBasePath, '/Views/Security/LoginRRHH.aspx?') + `c=${userid}&t=${token}`,
     );
+  }
+
+  private buildUrl(basePath: string, endpoint: string): string {
+    const normalizedBasePath = (basePath || '').trim();
+    const normalizedEndpoint = (endpoint || '').trim();
+
+    if (!normalizedBasePath) {
+      return normalizedEndpoint;
+    }
+
+    if (!normalizedEndpoint) {
+      return normalizedBasePath;
+    }
+
+    const baseEndsWithSlash = normalizedBasePath.endsWith('/');
+    const endpointStartsWithSlash = normalizedEndpoint.startsWith('/');
+
+    if (baseEndsWithSlash && endpointStartsWithSlash) {
+      return `${normalizedBasePath}${normalizedEndpoint.substring(1)}`;
+    }
+
+    if (!baseEndsWithSlash && !endpointStartsWithSlash) {
+      return `${normalizedBasePath}/${normalizedEndpoint}`;
+    }
+
+    return `${normalizedBasePath}${normalizedEndpoint}`;
   }
 
   private extractDocumentPayload(responseText: string): ZambaDocumentPayload {

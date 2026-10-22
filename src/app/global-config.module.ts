@@ -6,7 +6,7 @@ import { AlainConfig, ALAIN_CONFIG } from '@delon/util/config';
 
 import { throwIfAlreadyLoaded } from '@core';
 
-import { environment } from '@env/environment';
+import { environmentModules } from '@env/environment';
 
 // Please refer to: https://ng-alain.com/docs/global-config
 // #region NG-ALAIN Config
@@ -61,7 +61,7 @@ const zorroProvides = [provideNzConfig(ngZorroConfig)];
 // #endregion
 
 @NgModule({
-  imports: [...alainModules, ...(environment.modules || [])],
+  imports: [...alainModules, ...environmentModules],
 })
 export class GlobalConfigModule {
   constructor(@Optional() @SkipSelf() parentModule: GlobalConfigModule) {

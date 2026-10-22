@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Zamba Chat Element - Test Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 20px;
+      background: #fafafa;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    #api-url {
+      width: 100%;
+      padding: 6px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+
+    .binding-editor {
+      margin-bottom: 12px;
+    }
+
+    .binding-editor label {
+      display: block;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.65);
+      margin-bottom: 4px;
+    }
+
+    #field-bindings {
+      width: 100%;
+      min-height: 120px;
+      padding: 8px;
+      box-sizing: border-box;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 12px;
+      resize: vertical;
+    }
+
+    .automatic-extraction {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    .extracted-fields {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .extracted-fields label {
+      display: block;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.65);
+      margin-bottom: 2px;
+    }
+
+    .extracted-fields input {
+      width: 100%;
+      padding: 6px;
+      box-sizing: border-box;
+    }
+
+    .extracted-fields>div {
+      flex: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Zamba Chat Element - Test Page</h1>
+
+    <label for="api-url">Zamba.Api base URL</label>
+    <input id="api-url" type="text" value="http://localhost:5000" />
+
+    <label for="document-type">Tipo de documento</label>
+    <select id="document-type">
+      <option value="26">26 - Factura</option>
+      <option value="2524">2524 - Demanda legal</option>
+    </select>
+
+    <div class="binding-editor">
+      <label for="extraction-prompt">Extraction prompt</label>
+      <textarea id="extraction-prompt" spellcheck="false"></textarea>
+    </div>
+
+    <label class="automatic-extraction">
+      <input id="automatic-extraction" type="checkbox" checked />
+      Automatic extraction on file upload
+    </label>
+
+    <div class="extracted-fields">
+      <div>
+        <label for="zamba_index_20">zamba_index_20</label>
+        <input id="zamba_index_20" type="text" readonly placeholder="Se completa al adjuntar el archivo" />
+      </div>
+      <div>
+        <label for="zamba_index_21">zamba_index_21</label>
+        <input id="zamba_index_21" type="text" readonly placeholder="Se completa al adjuntar el archivo" />
+      </div>
+    </div>
+
+    <!-- Load the Angular-generated bundle files for the custom elements build -->
+    <script src="/dist/elements/runtime.js"></script>
+    <script src="/dist/elements/polyfills.js"></script>
+    <script src="/dist/elements/vendor.js"></script>
+    <script src="/dist/elements/main.js"></script>
+
+    <zamba-chat id="demoChat"></zamba-chat>
+
+    <script>
+      // Binding between each target input's id and the prompt used to auto-extract its value
+      // from the file right after it's attached to the chat.
+      const defaultExtractionPrompt = 'Extract the CUIT into a zamba_index_20 property and the amount into a zamba_index_21 property. Answer with a json object with the properties and value asked, nothing else.';
+
+      customElements.whenDefined('zamba-chat').then(() => {
+        const el = document.getElementById('demoChat');
+        const apiUrlInput = document.getElementById('api-url');
+        const documentTypeInput = document.getElementById('document-type');
+        const extractionPromptInput = document.getElementById('extraction-prompt');
+        const automaticExtractionInput = document.getElementById('automatic-extraction');
+
+        extractionPromptInput.value = defaultExtractionPrompt;
+        el.apiBaseUrl = apiUrlInput.value;
+        el.documentTypeCode = Number(documentTypeInput.value);
+        el.fieldBindings = [{ prompt: defaultExtractionPrompt }];
+        el.automaticExtraction = automaticExtractionInput.checked;
+        setTimeout(() => el.querySelector('.zamba-chat-launcher')?.click(), 0);
+
+        apiUrlInput.addEventListener('change', () => {
+          el.apiBaseUrl = apiUrlInput.value;
+        });
+
+        documentTypeInput.addEventListener('change', () => {
+          el.documentTypeCode = Number(documentTypeInput.value);
+        });
+
+        extractionPromptInput.addEventListener('input', () => {
+          el.fieldBindings = extractionPromptInput.value.trim()
+            ? [{ prompt: extractionPromptInput.value }]
+            : [];
+        });
+
+        automaticExtractionInput.addEventListener('change', () => {
+          el.automaticExtraction = automaticExtractionInput.checked;
+        });
+      });
+    </script>
+  </div>
+</body>
+
+
+</html>

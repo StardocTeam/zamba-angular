@@ -1,0 +1,62 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - link [ref=e7] [cursor=pointer]:
+      - /url: "#/"
+    - generic [ref=e9]:
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - generic [ref=e12] [cursor=pointer]
+        - listitem [ref=e16]:
+          - link [ref=e17] [cursor=pointer]:
+            - /url: "#/"
+      - list [ref=e22]:
+        - listitem [ref=e23]:
+          - generic [ref=e25] [cursor=pointer]
+        - listitem [ref=e31]:
+          - generic [ref=e32] [cursor=pointer]
+        - listitem [ref=e36]:
+          - generic [ref=e38] [cursor=pointer]
+  - generic [ref=e42]:
+    - generic:
+      - list
+  - generic [ref=e410]:
+    - generic [ref=e411]:
+      - heading "Schedules" [level=2] [ref=e412]
+      - button "Monitor" [ref=e413] [cursor=pointer]
+      - button "New Schedule" [ref=e418] [cursor=pointer]
+    - generic [ref=e420]:
+      - textbox "Search schedules" [ref=e421]
+      - generic "Filter by status" [ref=e422] [cursor=pointer]:
+        - textbox [ref=e425]
+      - button "Clear filters" [ref=e429] [cursor=pointer]
+    - table [ref=e437]:
+      - rowgroup [ref=e444]:
+        - row [ref=e445]:
+          - columnheader "Name" [ref=e446]
+          - columnheader "Target" [ref=e447]
+          - columnheader "Execution Type" [ref=e448]
+          - columnheader "Recurrence" [ref=e449]
+          - columnheader "Status" [ref=e450]
+          - columnheader "Actions" [ref=e451]
+      - rowgroup [ref=e452]:
+        - row [ref=e453]:
+          - cell "usrtable query every minute" [ref=e454]
+          - cell "select * from usrtable;" [ref=e455]
+          - cell "Execute Query" [ref=e456]
+          - cell "Every N Minutes" [ref=e457]
+          - cell "Active" [ref=e458]
+          - cell [ref=e460]:
+            - button "Edit" [ref=e461] [cursor=pointer]
+            - button "Logs" [ref=e463] [cursor=pointer]
+            - button "Deactivate" [ref=e465] [cursor=pointer]
+            - button "Delete" [ref=e467] [cursor=pointer]
+    - list [ref=e470]:
+      - listitem "Previous Page" [ref=e471]:
+        - button [disabled] [ref=e472]
+      - listitem "1" [ref=e476] [cursor=pointer]
+      - listitem "Next Page" [ref=e478]:
+        - button [disabled] [ref=e479]
+      - listitem [ref=e483]:
+        - generic [ref=e485] [cursor=pointer]:
+          - textbox [ref=e487]
+          - generic "10 / page" [ref=e488]

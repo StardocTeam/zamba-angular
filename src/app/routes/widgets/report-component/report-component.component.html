@@ -1,6 +1,11 @@
 <div class="firstDiv" [style.height.px]="height">
+  <button class="tree-toggle" nz-button nzType="default" type="button" [style.left.px]="treeCollapsed ? 0 : 290"
+    [attr.aria-label]="treeCollapsed ? 'Mostrar lista de reportes' : 'Ocultar lista de reportes'"
+    [nzTooltipTitle]="treeCollapsed ? 'Mostrar reportes' : 'Ocultar reportes'" nz-tooltip (click)="toggleTree()">
+    <i nz-icon [nzType]="treeCollapsed ? 'right' : 'left'"></i>
+  </button>
   <nz-layout>
-    <nz-sider [nzWidth]="290">
+    <nz-sider [nzWidth]="290" [nzCollapsed]="treeCollapsed" [nzCollapsedWidth]="0" [nzTrigger]="null">
       <div class="search-anchor" nz-row [nzGutter]="4">
         <div nz-col nzXs="20" nzFlex="auto">
           <nz-input-group [nzPrefix]="prefixTemplateUser" class="btnSearch" style="width: 100%">
@@ -27,16 +32,19 @@
 
       <div *ngIf="!isLoading">
         <ul class="ulContainer-menu" nz-menu nzMode="inline">
-          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzTitle]="titleTpl" nzOpen nzIcon="file">
+          <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzOpen]="isCategoryOpen(itemTree.name)"
+            (nzOpenChange)="onCategoryOpenChange(itemTree.name, $event)" [nzTitle]="titleTpl" nzIcon="file">
             <ng-template #titleTpl>
               <b class="boldMenuTittle">{{ itemTree.name }}</b>
             </ng-template>
 
             <ul class="ulContainer-menu" nz-menu nzMode="inline">
               <div *ngFor="let itemLeaf of itemTree.currentReport | filter: searchValue">
-                <div nz-row>
+                <div nz-row [ngClass]="{ 'manual-report-selected-row': selectedReportId === itemLeaf.ID }">
                   <div nz-col nzSpan="22">
                     <li #itemLeaf class="li-line-height move-up" nz-menu-item routerLinkActive="active"
+                      [attr.data-report-id]="itemLeaf.ID"
+                      [ngClass]="{ 'manual-report-selected': selectedReportId === itemLeaf.ID }"
                       (click)="switchView('viewer'); navigateToView(itemLeaf.ID)">
                       <div nz-row>
                         <div nz-col>
@@ -62,16 +70,16 @@
 
                     <nz-dropdown-menu #menu="nzDropdownMenu">
                       <ul nz-menu>
-                        <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)" [nzDisabled]="">
+                        <li nz-menu-item (click)="navigateToEdit(itemLeaf.ID)" [nzDisabled]="!UpdatePermission">
                           <i nz-icon nzType="edit"></i> Editar
                         </li>
-                        <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="true">
+                        <!-- <li nz-menu-item (click)="exportToExcel(itemLeaf)" [nzDisabled]="true">
                           <i nz-icon nzType="arrow-down" nzTheme="outline"></i> Exportar excel
                         </li>
 
-                        <li nz-menu-item (click)="viewCharts(itemLeaf.ID)" [nzDisabled]="chartsDisabled">
+                        <li nz-menu-item (click)="viewCharts(itemLeaf.ID)" [nzDisabled]="true">
                           <i nz-icon nzType="bar-chart" nzTheme="outline"></i> Ver gráficos
-                        </li>
+                        </li> -->
 
                         <li nz-menu-divider></li>
                         <li nz-menu-item (click)="deleteReport(itemLeaf)" [nzDisabled]="!DeletePermission"

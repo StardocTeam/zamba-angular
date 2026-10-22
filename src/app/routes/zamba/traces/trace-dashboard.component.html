@@ -1,0 +1,250 @@
+<main class="trace-dashboard">
+    <header class="dashboard-header">
+        <div>
+            <div class="eyebrow">ZAMBA / OBSERVABILITY</div>
+            <h1>Trace explorer</h1>
+            <p>Search application traces and inspect the original JSON payload.</p>
+        </div>
+        <div class="header-actions">
+            <button nz-button nz-tooltip="Refresh sources and traces" aria-label="Refresh sources and traces"
+                [nzLoading]="loadingSources || loadingTraces" (click)="loadSources()">
+                <span nz-icon nzType="reload"></span>
+            </button>
+            <button nz-button nzType="primary" (click)="showSourceForm = !showSourceForm">
+                <span nz-icon nzType="folder-add"></span> Add log source
+            </button>
+        </div>
+    </header>
+
+    <section class="source-form" *ngIf="showSourceForm" aria-label="Add trace source">
+        <div class="form-heading">
+            <div>
+                <h2>Register a log folder</h2>
+                <p>Folders must be beneath the API's configured trace root.</p>
+            </div>
+            <button nz-button nzType="text" nz-tooltip="Close" aria-label="Close source form"
+                (click)="showSourceForm = false">
+                <span nz-icon nzType="close"></span>
+            </button>
+        </div>
+        <div class="source-fields">
+            <label>Application<input nz-input [(ngModel)]="sourceApplication" placeholder="Zamba.API"></label>
+            <label>Environment<input nz-input [(ngModel)]="sourceEnvironment" placeholder="Production"></label>
+            <label class="folder-field">Log folder<input nz-input [(ngModel)]="sourceFolder"
+                    placeholder="C:\\ZambaWeb\\Zamba.api\\Log"></label>
+            <button nz-button nzType="primary" (click)="createSource()">Register and scan</button>
+        </div>
+    </section>
+
+    <section class="source-strip" *ngIf="sources.length">
+        <div class="source-strip-title"><span class="section-kicker">REGISTERED FOLDERS</span><span>{{ sources.length }}
+                sources</span></div>
+        <div class="source-list">
+            <div class="source-item" *ngFor="let source of sources">
+                <span class="source-mark"></span>
+                <div class="source-copy"><strong>{{ source.applicationName }}</strong><span>{{ source.environment }} ·
+                        {{ source.folderPath }}</span></div>
+                <button nz-button nzSize="small" nz-tooltip="Index new trace files"
+                    [nzLoading]="scanningSourceId === source.id" (click)="scanSource(source)"><span nz-icon
+                        nzType="sync"></span> Scan</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="filter-bar" aria-label="Trace filters">
+        <label class="search-field"><span nz-icon nzType="search"></span><input [(ngModel)]="search"
+                (keyup.enter)="applyFilters()" placeholder="Search title or filename"></label>
+        <nz-select [(ngModel)]="filterApplication" nzAllowClear nzPlaceHolder="All applications"
+            (ngModelChange)="filterEnvironment = ''; applyFilters()">
+            <nz-option *ngFor="let application of applications" [nzValue]="application"
+                [nzLabel]="application"></nz-option>
+        </nz-select>
+        <nz-select [(ngModel)]="filterEnvironment" nzAllowClear nzPlaceHolder="All environments"
+            (ngModelChange)="applyFilters()">
+            <nz-option *ngFor="let environment of environments" [nzValue]="environment"
+                [nzLabel]="environment"></nz-option>
+        </nz-select>
+        <input nz-input class="user-filter" [(ngModel)]="filterUserId" (keyup.enter)="applyFilters()"
+            placeholder="User ID">
+        <label class="date-field"><span>From</span><input type="date" [(ngModel)]="filterFrom"
+                (change)="applyFilters()"></label>
+        <label class="date-field"><span>To</span><input type="date" [(ngModel)]="filterTo"
+                (change)="applyFilters()"></label>
+        <button nz-button nzType="primary" (click)="applyFilters()">Search</button>
+        <button nz-button nz-tooltip="Clear filters" aria-label="Clear filters" (click)="clearFilters"><span nz-icon
+                nzType="clear"></span></button>
+    </section>
+
+    <section class="results-heading">
+        <div><span class="section-kicker">TRACE RECORDS</span><strong>{{ total | number }} matching traces</strong>
+        </div>
+        <span *ngIf="filterFrom || filterTo">{{ filterFrom || 'Any date' }} — {{ filterTo || 'Today' }}</span>
+    </section>
+
+    <section class="workspace-grid">
+        <article class="trace-list-panel">
+            <nz-spin [nzSpinning]="loadingTraces">
+                <div class="trace-table-wrap">
+                    <nz-table #traceTable [nzData]="traces" [nzFrontPagination]="false" [nzTotal]="total"
+                        [nzPageIndex]="page" [nzPageSize]="pageSize" [nzShowSizeChanger]="true"
+                        (nzPageIndexChange)="changePage($event)" (nzPageSizeChange)="changePageSize($event)"
+                        [nzShowTotal]="totalTemplate" nzSize="small">
+                        <ng-template #totalTemplate let-totalCount>{{ totalCount | number }} traces</ng-template>
+                        <thead>
+                            <tr>
+                                <th>Trace</th>
+                                <th>Application</th>
+                                <th>User</th>
+                                <th>Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let trace of traceTable.data" (click)="selectTrace(trace)"
+                                [class.selected-row]="selectedTrace?.id === trace.id" tabindex="0"
+                                (keyup.enter)="selectTrace(trace)">
+                                <td class="trace-title-cell"><strong>{{ trace.title }}</strong><span>{{ trace.fileName
+                                        }}</span></td>
+                                <td><span class="app-label">{{ trace.applicationName }}</span><small>{{
+                                        trace.environment }}</small></td>
+                                <td>{{ trace.userId || '—' }}</td>
+                                <td class="date-cell">{{ trace.traceTimestampUtc | date:'MMM d, y' }}<small>{{
+                                        trace.traceTimestampUtc | date:'HH:mm:ss' }}</small></td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <div class="empty-state" *ngIf="!loadingTraces && !traces.length">
+                        <span nz-icon nzType="file-search"></span>
+                        <strong>No traces match these filters</strong>
+                        <span>Add a source folder or clear the current filters.</span>
+                    </div>
+                </div>
+            </nz-spin>
+        </article>
+
+        <aside class="preview-panel" [class.preview-empty]="!selectedTrace">
+            <ng-container *ngIf="selectedTrace as trace; else chooseTrace">
+                <header class="preview-header">
+                    <div class="preview-heading"><span class="section-kicker">TRACE PREVIEW</span>
+                        <h2>{{ trace.title }}</h2>
+                    </div>
+                    <div class="preview-actions">
+                        <ng-container *ngIf="previewKind === 'json'">
+                            <button nz-button nzType="text" nzSize="small" nz-tooltip="Expand all objects and arrays"
+                                aria-label="Expand all objects and arrays" (click)="setTreeExpanded(true)"><span nz-icon
+                                    nzType="plus-square"></span></button>
+                            <button nz-button nzType="text" nzSize="small" nz-tooltip="Collapse all objects and arrays"
+                                aria-label="Collapse all objects and arrays" (click)="setTreeExpanded(false)"><span
+                                    nz-icon nzType="minus-square"></span></button>
+                        </ng-container>
+                        <nz-button-group *ngIf="previewKind === 'html'">
+                            <button nz-button nzSize="small"
+                                [nzType]="htmlPreviewMode === 'page' ? 'primary' : 'default'"
+                                (click)="htmlPreviewMode = 'page'"><span nz-icon nzType="eye"></span> Page</button>
+                            <button nz-button nzSize="small"
+                                [nzType]="htmlPreviewMode === 'source' ? 'primary' : 'default'"
+                                (click)="htmlPreviewMode = 'source'"><span nz-icon nzType="code"></span> Source</button>
+                        </nz-button-group>
+                        <button nz-button nzType="text" nzSize="small"
+                            [nz-tooltip]="liveTail ? 'Stop live tail' : 'Start live tail'"
+                            [attr.aria-label]="liveTail ? 'Stop live tail' : 'Start live tail'"
+                            [attr.aria-pressed]="liveTail" [class.live-tail-active]="liveTail"
+                            [disabled]="!previewKind || loadingPreview" (click)="toggleLiveTail()">
+                            <span nz-icon [nzType]="liveTail ? 'pause-circle' : 'play-circle'"></span>
+                        </button>
+                        <button nz-button nzSize="small" nz-tooltip="Copy preview content"
+                            aria-label="Copy preview content" [disabled]="previewKind === null"
+                            (click)="copyPreview()"><span nz-icon nzType="copy"></span></button>
+                    </div>
+                </header>
+                <div class="trace-meta">
+                    <div><span>Application</span><strong>{{ trace.applicationName }} · {{ trace.environment }}</strong>
+                    </div>
+                    <div><span>User ID</span><strong>{{ trace.userId || 'Not recorded' }}</strong></div>
+                    <div><span>Timestamp</span><strong>{{ trace.traceTimestampUtc | date:'medium' }}</strong></div>
+                    <div><span>Trace config</span><strong>{{ trace.traceConfig || 'Not recorded' }}</strong></div>
+                    <div class="path-meta"><span>File</span><strong
+                            [title]="trace.folderPath + '\\' + trace.relativePath">{{ trace.relativePath }}</strong>
+                    </div>
+                </div>
+                <nz-spin [nzSpinning]="loadingPreview">
+                    <div [ngSwitch]="previewKind">
+                        <section class="json-viewer" *ngSwitchCase="'json'" aria-label="Formatted trace JSON"
+                            #previewViewport>
+                            <div class="json-tree">
+                                <ng-container
+                                    *ngTemplateOutlet="jsonNode; context: { $implicit: previewRoot, depth: 0 }"></ng-container>
+                            </div>
+                        </section>
+                        <section class="text-viewer" *ngSwitchCase="'text'" aria-label="Formatted text file"
+                            #previewViewport>
+                            <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
+                        </section>
+                        <section class="html-viewer" *ngSwitchCase="'html'" aria-label="HTML document preview"
+                            #previewViewport>
+                            <iframe *ngIf="htmlPreviewMode === 'page'; else htmlSource" #htmlPreviewFrame
+                                [srcdoc]="htmlSrcdoc" sandbox="" referrerpolicy="no-referrer"
+                                title="Trace HTML document"></iframe>
+                            <ng-template #htmlSource>
+                                <div class="text-viewer html-source" #previewViewport>
+                                    <ng-container *ngTemplateOutlet="highlightedText"></ng-container>
+                                </div>
+                            </ng-template>
+                        </section>
+                        <div class="json-placeholder" *ngSwitchDefault>Loading trace payload...</div>
+                    </div>
+                </nz-spin>
+            </ng-container>
+            <ng-template #chooseTrace>
+                <div class="preview-placeholder"><span nz-icon nzType="code"></span><strong>Select a
+                        trace</strong><span>The original JSON payload will appear here.</span></div>
+            </ng-template>
+        </aside>
+    </section>
+
+    <ng-template #jsonNode let-node let-depth="depth">
+        <div class="json-tree-row" [style.padding-left.px]="depth * 16">
+            <button *ngIf="node.kind === 'object' || node.kind === 'array'; else toggleSpacer" type="button"
+                class="json-toggle" [disabled]="!node.children.length" [attr.aria-expanded]="node.expanded"
+                [attr.aria-label]="(node.expanded ? 'Collapse ' : 'Expand ') + (node.key || node.kind)"
+                (click)="node.expanded = !node.expanded">
+                <span nz-icon [nzType]="node.expanded ? 'down' : 'right'"></span>
+            </button>
+            <ng-template #toggleSpacer><span class="json-toggle-spacer"></span></ng-template>
+            <span *ngIf="node.key !== null" class="json-key">{{ node.key | json }}</span>
+            <span *ngIf="node.key !== null" class="json-punctuation">:</span>
+            <ng-container *ngIf="node.kind === 'object' || node.kind === 'array'; else jsonValue">
+                <span class="json-bracket">{{ node.kind === 'object' ? '{' : '[' }}</span>
+                <span *ngIf="!node.expanded" class="json-collapsed">{{ node.children.length }}
+                    {{ node.kind === 'object' ? 'properties' : 'items' }}</span>
+                <span *ngIf="!node.expanded" class="json-bracket">{{ node.kind === 'object' ? '}' : ']' }}</span>
+                <span *ngIf="!node.expanded && node.hasNext" class="json-punctuation">,</span>
+            </ng-container>
+            <ng-template #jsonValue>
+                <span [ngClass]="'json-value-' + node.kind">{{ node.value | json }}</span>
+                <span *ngIf="node.hasNext" class="json-punctuation">,</span>
+            </ng-template>
+        </div>
+        <ng-container *ngIf="(node.kind === 'object' || node.kind === 'array') && node.expanded">
+            <div class="json-children">
+                <ng-container *ngFor="let child of node.children">
+                    <ng-container
+                        *ngTemplateOutlet="jsonNode; context: { $implicit: child, depth: depth + 1 }"></ng-container>
+                </ng-container>
+                <div class="json-tree-row json-closing-row" [style.padding-left.px]="depth * 16">
+                    <span class="json-toggle-spacer"></span>
+                    <span class="json-bracket">{{ node.kind === 'object' ? '}' : ']' }}</span>
+                    <span *ngIf="node.hasNext" class="json-punctuation">,</span>
+                </div>
+            </div>
+        </ng-container>
+    </ng-template>
+
+    <ng-template #highlightedText>
+        <div class="text-line" *ngFor="let line of textLines; let index = index">
+            <span class="text-line-number">{{ index + 1 }}</span>
+            <code><ng-container *ngFor="let token of line.tokens"><span
+                        [ngClass]="'text-token-' + token.kind">{{ token.text }}</span></ng-container><span
+                    *ngIf="!line.tokens.length"> </span></code>
+        </div>
+    </ng-template>
+</main>

@@ -37,13 +37,51 @@ nz-submenu {
 .firstDiv {
     display: flex;
     flex-direction: column;
+    position: relative;
+}
+
+.tree-toggle {
+    position: absolute;
+    top: 3px;
+    z-index: 20;
+    transition: left 0.2s ease;
+    background: var(--app-primary-color) !important;
+    width: 15px;
+    height: 30px;
+    padding: 0;
+    border-radius: 0 6px 6px 0;
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .content-container {
     height: 100%;
     /* Ocupa el 100% de la altura del contenedor */
-    // overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     /* Habilita el scroll si el contenido excede la altura */
+}
+
+.content-container::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+:host ::ng-deep .content-container.ant-layout-content {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+:host ::ng-deep .content-container.ant-layout-content::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 .nzLayoutHeight100percent {
@@ -104,7 +142,7 @@ nz-layout:last-child {
 
 nz-sider {
     line-height: 10px !important;
-    min-width: 250px !important;
+    min-width: 0 !important;
     color: #fff !important;
     overflow-y: auto;
     overflow-x: hidden;
@@ -166,6 +204,30 @@ nz-divider {
 
     margin-top: 0px !important;
     margin-bottom: 0px !important;
+}
+
+::ng-deep .ant-menu-item.manual-report-selected {
+    background-color: var(--app-primary-color) !important;
+}
+
+::ng-deep .ant-menu-item.manual-report-selected .ant-menu-title-content,
+::ng-deep .ant-menu-item.manual-report-selected .ant-typography,
+::ng-deep .ant-menu-item.manual-report-selected span {
+    color: #fff !important;
+}
+
+::ng-deep .manual-report-selected-row>.ant-col {
+    background-color: var(--app-primary-color) !important;
+}
+
+::ng-deep .manual-report-selected-row .ant-menu-item.manual-report-selected {
+    background-color: transparent !important;
+}
+
+::ng-deep .manual-report-selected-row .btnSetting,
+::ng-deep .manual-report-selected-row .iconSetting,
+::ng-deep .manual-report-selected-row .anticon {
+    color: #fff !important;
 }
 
 .ant-menu-submenu-title {
@@ -237,6 +299,8 @@ nz-divider {
 
 ::ng-deep .alain-default__content {
     margin-top: 64px !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
     height: 90vh !important;
     margin-left: 63px !important;
     margin-right: 0px !important;
@@ -251,4 +315,11 @@ nz-divider {
     align-items: center;
     justify-content: center;
     z-index: 9999;
+}
+
+:host ::ng-deep .report-tooltip-wide .ant-tooltip-inner {
+    min-width: 280px;
+    max-width: 420px;
+    white-space: normal;
+    word-break: break-word;
 }

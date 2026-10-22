@@ -1,0 +1,40 @@
+:host { display: block; }
+.task-card { padding: 16px; border: 1px solid #e3e8e2; border-radius: 16px; background: #fff; box-shadow: 0 4px 14px rgba(29, 53, 45, .035); }
+.card-topline { display: flex; align-items: center; gap: 8px; }
+.task-type { color: #26b4bd; font-size: 9px; font-weight: 850; letter-spacing: 1px; }
+.task-date { margin-left: auto; color: #87938e; font-size: 10px; }
+.select-task { position: relative; display: flex; min-height: 22px; flex: 0 0 auto; align-items: center; gap: 6px; cursor: pointer; }
+.select-task input { position: absolute; opacity: 0; }
+.select-task .select-box { display: block; width: 17px; height: 17px; flex: 0 0 17px; border: 1px solid #b9c6bd; border-radius: 5px; background: #fff; }
+.select-task input:checked + .select-box { border-color: #26b4bd; background: #26b4bd; box-shadow: inset 0 0 0 4px #fff; }
+.select-task .select-label { color: #586961; font-size: 10px; font-weight: 600; line-height: 1; white-space: nowrap; }
+.task-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-top: 12px; }
+.task-title strong, .title-button strong { color: #18302e; font-size: 16px; line-height: 1.3; }
+.task-number { flex: 0 0 auto; padding: 5px 7px; border-radius: 7px; color: #78877f; background: #f3f6f1; font-size: 10px; }
+.title-button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding: 0; border: 0; text-align: left; background: none; cursor: pointer; }
+.title-button span { flex: 0 0 auto; color: #26b4bd; font-size: 11px; font-weight: 750; }
+.card-footer-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 12px; }
+.card-footer-row.has-thumbnail { grid-template-columns: minmax(0, 1fr) 88px; align-items: center; }
+.task-thumbnail { position: relative; display: block; width: 88px; aspect-ratio: 4 / 5; padding: 0; overflow: hidden; border: 1px solid #dce5dd; border-radius: 9px; background: #edf1ed; cursor: zoom-in; }
+.task-thumbnail img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .2s ease; }
+.task-thumbnail:hover img { transform: scale(1.04); }
+.task-thumbnail span { position: absolute; right: 0; bottom: 0; left: 0; padding: 5px 3px; color: #fff; background: rgba(20, 39, 34, .76); font-size: 8px; line-height: 1.2; text-align: center; }
+.preview-backdrop { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: rgba(8, 15, 14, .94); cursor: zoom-out; }
+.preview-image { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+.preview-close { position: absolute; top: max(16px, env(safe-area-inset-top)); right: 16px; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255, 255, 255, .45); border-radius: 50%; color: #fff; background: rgba(0, 0, 0, .35); font: inherit; font-size: 30px; line-height: 1; cursor: pointer; }
+.amount-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-top: 13px; color: #7d8983; font-size: 11px; line-height: 1.45; }
+.amount-row strong { flex: 0 0 auto; color: #18302e; text-align: right; font-size: 12px; }
+.details-toggle { display: flex; width: 100%; justify-content: space-between; margin-top: 14px; padding: 10px 0 0; border: 0; border-top: 1px solid #edf0eb; color: #26b4bd; text-align: left; background: none; font: inherit; font-size: 11px; font-weight: 700; cursor: pointer; }
+.details-toggle span { font-size: 18px; line-height: 12px; }
+.task-details { display: grid; gap: 10px; margin: 12px 0 0; }
+.task-details div { display: grid; gap: 3px; }
+.task-details span { color: #89958f; font-size: 10px; }
+.task-details strong { color: #314540; font-size: 12px; font-weight: 600; }
+.card-actions { display: flex; flex-wrap: wrap; align-content: center; gap: 8px; min-width: 0; }
+.card-actions button { min-height: 40px; padding: 0 12px; border: 0; border-radius: 10px; font: inherit; font-size: 11px; font-weight: 750; cursor: pointer; }
+.save-button { color: #586961; background: #f2f4f1; }
+.restore-button { color: #586961; background: #f2f4f1; }
+.approve-button { color: #fff; background: #26b4bd; }
+.reject-button { color: #b65843; background: #f9ece7; }
+.is-selected { border-color: #6cae9c; box-shadow: 0 0 0 2px rgba(38, 117, 104, .1); }
+@media (prefers-reduced-motion: reduce) { .task-thumbnail img { transition: none; } }

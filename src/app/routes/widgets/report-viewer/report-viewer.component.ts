@@ -17,6 +17,8 @@ import { Zvars } from './entitie/ZVar';
 
 import { ReportViewerService } from './service/report-viewer.service';
 import { Report } from '../report-component/entitie/report';
+import { UsuarioId } from './entitie/UsuarioId';
+import { ReportService } from '../report-component/service/report.service';
 
 @Component({
   selector: 'app-report-viewer',
@@ -40,12 +42,14 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   isButtonExcelDisabled: boolean = true;
   CanGoToCharts: boolean = true;
 
-  ZVARstartDate: Date = new Date();
-  ZVARendDate: Date = new Date();
+  ZVARstartDate: Date | null = null;
+  ZVARendDate: Date | null = null;
   ListZVARsFromRule: any[] = [];
   ZvarList: Zvars[] = [];
   endDateVisible: boolean = false;
   startDateVisible: boolean = false;
+
+  UserIdList: UsuarioId[] = [];
   ruleId: any;
   /** Optional input to set the report id externally */
   @Input() reportId?: string | number;
@@ -57,6 +61,71 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   private refreshSub?: Subscription;
   public FlagOnClick: boolean = false;
   public searchValue: string = '';
+  public ZVARUsuarioId: number = -1;
+  public UsuarioIdVisible: boolean = false;
+  public userSearchText: string = '';
+  private lastNonEmptyUserSearchText: string = '';
+  public userSelectFilterOption = (input: string, option: any): boolean => {
+    const normalizedInput = (input ?? '').toString().trim().toLowerCase();
+
+    if (!normalizedInput) {
+      return true;
+    }
+
+    const usuario = (option?.nzLabel ?? '').toString().toLowerCase();
+    const id = (option?.nzValue ?? '').toString().toLowerCase();
+
+    return usuario.includes(normalizedInput) || id.includes(normalizedInput);
+  };
+
+  public onUserSearch(input: string): void {
+    this.userSearchText = (input ?? '').toString();
+
+    if (this.userSearchText.trim()) {
+      this.lastNonEmptyUserSearchText = this.userSearchText;
+    }
+  }
+
+  public onUserSelectionChange(_value: number): void {
+    this.userSearchText = '';
+    this.lastNonEmptyUserSearchText = '';
+  }
+
+  public applyFilters(): void {
+    this.autoSelectFirstUserMatch();
+    this.OpenReport(this.currentReport);
+  }
+
+  private autoSelectFirstUserMatch(): void {
+    if (!this.UsuarioIdVisible) {
+      return;
+    }
+
+    const searchText = (this.userSearchText ?? '').toString().trim()
+      ? this.userSearchText
+      : this.lastNonEmptyUserSearchText;
+    const normalizedInput = (searchText ?? '').toString().trim().toLowerCase();
+
+    if (!normalizedInput) {
+      return;
+    }
+
+    const firstMatch = this.UserIdList.find(item => {
+      const usuario = (item?.Usuario ?? '').toString().toLowerCase();
+      const id = (item?.ID ?? '').toString().toLowerCase();
+
+      return usuario.includes(normalizedInput) || id.includes(normalizedInput);
+    });
+
+    if (firstMatch) {
+      this.ZVARUsuarioId = firstMatch.ID;
+    } else {
+      this.ZVARUsuarioId = -1;
+    }
+
+    this.userSearchText = '';
+    this.lastNonEmptyUserSearchText = '';
+  }
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -67,6 +136,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
     private modal: NzModalService,
     private router: Router,
     private TService: TaskService,
+    private reportService: ReportService,
   ) { }
 
   ngOnDestroy(): void {
@@ -114,8 +184,10 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
             this.ZVARstartDate = oneMonthAgo;
             this.ZVARendDate = new Date();
+            this.ZVARUsuarioId = -1;
             this.cdr.detectChanges();
 
+            this.GetUserIds();
             this.OpenReport(new Report(currentReport));
           });
       }
@@ -144,6 +216,8 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
           oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
           this.ZVARstartDate = oneMonthAgo;
           this.ZVARendDate = new Date();
+          this.ZVARUsuarioId = -1;
+          this.GetUserIds();
           this.OpenReport(new Report(currentReport));
         });
     }
@@ -155,11 +229,24 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
       });
     }
   }
+  GetUserIds() {
+    this.RVService.GetUserIds()
+      .pipe(
+        catchError(error => {
+          console.error('Error al obtener datos:', error);
+          throw error;
+        }),
+      )
+      .subscribe((data: any) => {
+        this.UserIdList = JSON.parse(data);
+      });
+  }
 
-  OpenReport(report: Report) {
+  OpenReport(report: Report, promoteToTop = false) {
     this.ResetAllVars();
 
     this.currentReport = report;
+    this.reportService.notifyReportFocus((this.currentReport as any)?.ID, promoteToTop);
     this.cdr.detectChanges();
 
     const tokenData = this.tokenService.get();
@@ -174,6 +261,18 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
     if (zVarsFound.includes('FechaHasta')) {
       this.endDateVisible = true;
+    }
+
+    if (zVarsFound.includes('UsuarioId')) {
+      this.UsuarioIdVisible = true;
+    }
+
+    if (this.ZVARstartDate == null || (this.ZVARstartDate as any) === '') {
+      this.ZVARstartDate = new Date(Date.UTC(0, 0, 1, 0, 0, 0, 0));
+    }
+
+    if (this.ZVARendDate == null || (this.ZVARendDate as any) === '') {
+      this.ZVARendDate = new Date(Date.UTC(3000, 11, 31, 23, 59, 59, 999));
     }
 
     this.cdr.detectChanges();
@@ -205,6 +304,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
     this.startDateVisible = false;
     this.endDateVisible = false;
+    this.UsuarioIdVisible = false;
 
     this.ListZVARsFromRule = [];
   }
@@ -254,6 +354,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
                     ...this.buildZvarsObject(),
                     FechaDesde: this.ZVARstartDate,
                     FechaHasta: this.ZVARendDate,
+                    UsuarioId: this.ZVARUsuarioId
                   }),
                   Query: this.currentReport.Query,
                   ReportId: this.currentReport.ID,
@@ -271,6 +372,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
                 ...this.buildZvarsObject(),
                 FechaDesde: this.ZVARstartDate,
                 FechaHasta: this.ZVARendDate,
+                UsuarioId: this.ZVARUsuarioId
               }),
               Query: this.currentReport.Query,
               ReportId: this.currentReport.ID,
@@ -309,6 +411,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             ...this.buildZvarsObject(),
             FechaDesde: this.ZVARstartDate,
             FechaHasta: this.ZVARendDate,
+            UsuarioId: this.ZVARUsuarioId
           }),
           Query: this.currentReport.Query,
           ReportId: this.currentReport.ID,
@@ -423,7 +526,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             listOfFilter: [],
             filterFn: null,
             width: `${columnWidth}px`,
-            visible: ColumnName !== 'TASKID',
+            visible: !['TASKID', 'DOCID', 'ENTITYID'].includes((ColumnName || '').toUpperCase()),
           };
 
           this.listOfColumns.push(newColumn);
@@ -536,6 +639,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
             ...this.buildZvarsObject(),
             FechaDesde: this.ZVARstartDate,
             FechaHasta: this.ZVARendDate,
+            UsuarioId: this.ZVARUsuarioId
           }),
           Query: this.currentReport.Query,
           ReportId: this.currentReport.ID,
@@ -614,6 +718,7 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
         ...this.buildZvarsObject(),
         FechaDesde: this.ZVARstartDate,
         FechaHasta: this.ZVARendDate,
+        UsuarioId: this.ZVARUsuarioId
       });
     }
 
@@ -639,7 +744,6 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
   }
 
   extractZvarVariables(sql: string): string[] {
-    // regex: busca zvar(contenido)
     const regex = /zvar\(([^)]+)\)/gi;
     const variables: string[] = [];
     let match;
@@ -742,10 +846,9 @@ export class ReportViewerComponent implements OnInit, OnDestroy {
 
   }
 
-  ViewAllRegisters(): void {
-    this.ZVARstartDate = new Date(Date.UTC(0, 0, 1, 0, 0, 0, 0));
-    this.ZVARendDate = new Date(Date.UTC(3000, 11, 31, 23, 59, 59, 999));
-    this.rechargeReport();
+  CleanDates(): void {
+    this.ZVARstartDate = null;
+    this.ZVARendDate = null;
   }
 
   //#endregion

@@ -1,0 +1,217 @@
+<main class="workflow-page">
+  <header class="page-heading">
+    <div>
+      <p class="eyebrow">ZAMBA / OPERACIONES</p>
+      <h1>Monitoreo de tareas</h1>
+      <p class="heading-note">Estado y asignación de tareas activas de workflows.</p>
+    </div>
+    <button class="icon-button" type="button" (click)="refresh()" [disabled]="loadingTasks || loadingFilters"
+      aria-label="Actualizar tareas" title="Actualizar tareas">
+      <span aria-hidden="true">↻</span>
+    </button>
+  </header>
+
+  <section class="filter-bar" aria-label="Filtros de tareas">
+    <label>
+      <span>Workflow</span>
+      <select [(ngModel)]="filters.workflowId" (ngModelChange)="filters.stepId = ''">
+        <option value="">Todos</option>
+        <option *ngFor="let item of filtersData?.workflows" [value]="optionId(item, 'work_id')">
+          {{ optionName(item, 'Name') }}
+        </option>
+      </select>
+    </label>
+    <label>
+      <span>Etapa</span>
+      <select [(ngModel)]="filters.stepId">
+        <option value="">Todas</option>
+        <option *ngFor="let item of visibleSteps" [value]="optionId(item, 'step_Id')">
+          {{ optionName(item, 'Name') }}
+        </option>
+      </select>
+    </label>
+    <label>
+      <span>Entidad</span>
+      <select [(ngModel)]="filters.documentTypeId">
+        <option value="">Todas</option>
+        <option *ngFor="let item of filtersData?.documentTypes" [value]="optionId(item, 'DOC_TYPE_ID')">
+          {{ optionName(item, 'DOC_TYPE_NAME') }}
+        </option>
+      </select>
+    </label>
+    <label class="assignee-filter">
+      <span>Usuario / grupo asignado</span>
+      <nz-select [(ngModel)]="filters.assigneeIds" nzMode="multiple" nzShowSearch nzAllowClear nzPlaceHolder="Todos"
+        style="width: 100%">
+        <nz-option *ngFor="let item of filtersData?.principals" [nzValue]="optionId(item, 'id')"
+          [nzLabel]="principalLabel(item)"></nz-option>
+      </nz-select>
+    </label>
+    <label>
+      <span>Filtrar fecha por</span>
+      <select [(ngModel)]="filters.dateField">
+        <option value="checkin">Ingreso (check-in)</option>
+        <option value="created">Creación / asignación</option>
+      </select>
+    </label>
+    <label>
+      <span>Desde</span>
+      <input type="date" [(ngModel)]="filters.from" />
+    </label>
+    <label>
+      <span>Hasta</span>
+      <input type="date" [(ngModel)]="filters.to" />
+    </label>
+    <div class="filter-actions">
+      <button class="primary-button" type="button" (click)="applyFilters()"
+        [disabled]="loadingTasks || loadingFilters">Aplicar</button>
+      <button class="text-button" type="button" (click)="clearFilters()"
+        [disabled]="loadingTasks || loadingFilters">Limpiar</button>
+    </div>
+  </section>
+
+  <p class="error-banner" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+
+  <section class="metrics-grid" aria-label="Contadores de tareas">
+    <article class="metric">
+      <span class="metric-label">Tareas encontradas</span>
+      <strong>{{ formatNumber(result?.summary?.total) }}</strong>
+      <small>Coincidencias con los filtros actuales</small>
+    </article>
+    <article class="metric metric-alert">
+      <span class="metric-label">Fuera de término</span>
+      <strong>{{ formatNumber(result?.summary?.overdue) }}</strong>
+      <small>Fecha límite anterior a hoy</small>
+    </article>
+    <article class="metric metric-unassigned">
+      <span class="metric-label">Sin asignar</span>
+      <strong>{{ formatNumber(result?.summary?.unassigned) }}</strong>
+      <small>Requieren asignación</small>
+    </article>
+    <article class="metric metric-scope">
+      <span class="metric-label">Página actual</span>
+      <strong>{{ formatNumber(result?.items?.length) }}</strong>
+      <small>{{ loadingTasks ? 'Actualizando…' : 'Tareas en esta página' }}</small>
+    </article>
+  </section>
+
+  <section class="task-section" aria-label="Listado de tareas">
+    <div class="section-heading">
+      <div>
+        <h2>Tareas</h2>
+        <span class="result-count">{{ formatNumber(result?.total) }} resultados</span>
+      </div>
+      <span class="loading-indicator" *ngIf="loadingTasks">Consultando…</span>
+    </div>
+
+    <div class="empty-state" *ngIf="!loadingTasks && result?.items?.length === 0">
+      <strong>No hay tareas para estos filtros</strong>
+      <span>Probá ampliar el período o quitar alguno de los filtros.</span>
+    </div>
+
+    <div class="table-scroll" *ngIf="result?.items?.length">
+      <table>
+        <thead>
+          <tr>
+            <th>Tarea / documento</th>
+            <th>Workflow / etapa</th>
+            <th>Entidad</th>
+            <th>Estado</th>
+            <th>Asignado a</th>
+            <th>Creador</th>
+            <th>Check-in</th>
+            <th>Creación / asignación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of result?.items; trackBy: trackTask" [class.row-selected]="selectedTask === task">
+            <td>
+              <button class="task-link" type="button" (click)="selectTask(task)">
+                {{ display(task.taskName || task.documentId) }}
+              </button>
+              <small class="document-id">Doc. {{ display(task.documentId) }}</small>
+            </td>
+            <td>
+              <span>{{ display(task.workflowName, 'Workflow ' + display(task.workflowId)) }}</span>
+              <small>{{ display(task.stepName, 'Etapa ' + display(task.stepId)) }}</small>
+            </td>
+            <td>{{ display(task.documentTypeName, 'Entidad ' + display(task.documentTypeId)) }}</td>
+            <td><span class="state-label">{{ display(task.stateName || task.stateDescription) }}</span></td>
+            <td>{{ display(task.assigneeName, task.assigneeId ? 'ID ' + task.assigneeId : 'Sin asignar') }}
+            </td>
+            <td>{{ display(task.creatorName, task.creatorId ? 'ID ' + task.creatorId : '—') }}</td>
+            <td>{{ formatDate(task.checkIn) }}</td>
+            <td>{{ formatDate(task.createdAt) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="empty-state loading-state" *ngIf="loadingTasks && !result">Cargando tareas…</div>
+
+    <footer class="pagination" *ngIf="result && result.total > 0">
+      <span>{{ formatNumber(firstRow) }}–{{ formatNumber(lastRow) }} de {{ formatNumber(result.total) }}</span>
+      <div>
+        <button type="button" (click)="changePage(filters.page - 1)" [disabled]="filters.page <= 1 || loadingTasks"
+          aria-label="Página anterior">‹</button>
+        <span>{{ filters.page }} / {{ pageCount }}</span>
+        <button type="button" (click)="changePage(filters.page + 1)"
+          [disabled]="filters.page >= pageCount || loadingTasks" aria-label="Página siguiente">›</button>
+      </div>
+    </footer>
+  </section>
+
+  <section class="task-detail" *ngIf="selectedTask as task" aria-label="Detalle de tarea">
+    <header>
+      <div>
+        <p class="eyebrow">DETALLE DE TAREA</p>
+        <h2>{{ display(task.taskName || task.documentId) }}</h2>
+      </div>
+      <button class="text-button" type="button" (click)="selectedTask = null; selectedAttributes = []">Cerrar</button>
+    </header>
+    <dl>
+      <div>
+        <dt>Documento</dt>
+        <dd>{{ display(task.documentId) }}</dd>
+      </div>
+      <div>
+        <dt>ID de tarea</dt>
+        <dd>{{ display(task.taskId) }}</dd>
+      </div>
+      <div>
+        <dt>Estado de tarea</dt>
+        <dd>{{ display(task.taskStateId) }}</dd>
+      </div>
+      <div>
+        <dt>Asignado por</dt>
+        <dd>{{ display(task.assignedByName, display(task.assignedById)) }}</dd>
+      </div>
+      <div>
+        <dt>Platter / creador</dt>
+        <dd>{{ display(task.creatorName, display(task.creatorId)) }}</dd>
+      </div>
+      <div>
+        <dt>Vencimiento</dt>
+        <dd>{{ formatDate(task.expiresAt) }}</dd>
+      </div>
+      <div>
+        <dt>Etiqueta</dt>
+        <dd>{{ display(task.tag) }}</dd>
+      </div>
+      <div class="detail-wide">
+        <dt>Comentarios</dt>
+        <dd>{{ display(task.comments) }}</dd>
+      </div>
+    </dl>
+    <p class="detail-loading" *ngIf="loadingDetail">Cargando atributos de entidad…</p>
+    <section class="attributes-section" *ngIf="!loadingDetail && selectedAttributes.length">
+      <h3>Atributos de entidad</h3>
+      <dl>
+        <div *ngFor="let attribute of selectedAttributes; trackBy: trackAttribute">
+          <dt>{{ display(attribute.name, 'Atributo ' + attribute.indexId) }}</dt>
+          <dd>{{ display(attribute.displayValue ?? attribute.value) }}</dd>
+        </div>
+      </dl>
+    </section>
+  </section>
+</main>

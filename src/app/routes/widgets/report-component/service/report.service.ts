@@ -3,11 +3,24 @@ import { Injectable } from '@angular/core';
 import { ALLOW_ANONYMOUS } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import { environment } from '@env/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportService {
+  private reportFocusSubject = new BehaviorSubject<{ reportId: number; promoteToTop: boolean } | null>(null);
+  public reportFocus$ = this.reportFocusSubject.asObservable();
+
+  notifyReportFocus(reportId: number | null | undefined, promoteToTop = false): void {
+    const id = Number(reportId);
+    if (!Number.isFinite(id) || id <= 0) {
+      return;
+    }
+
+    this.reportFocusSubject.next({ reportId: id, promoteToTop });
+  }
+
   GetLastReportViewed(genericRequest: {}) {
     return this.http.post(`${environment['restApi']}/reports/GetLastReportViewed`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
@@ -18,6 +31,25 @@ export class ReportService {
 
   _GetPermissions(genericRequest: {}) {
     return this.http.post(`${environment['restApi']}/reports/getPermissions`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+    });
+  }
+
+  //todo: encapsular todos los metodos de services de reportes...
+  _GetDeletePermission(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetDeleteRight`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+    });
+  }
+
+  _GetCreatePermission(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetCreateRight`, genericRequest, null, {
+      context: new HttpContext().set(ALLOW_ANONYMOUS, true),
+    });
+  }
+
+  _GetUpdatePermission(genericRequest: {}) {
+    return this.http.post(`${environment['restApi']}/reports/GetEditorRight`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }

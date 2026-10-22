@@ -1,18 +1,24 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { CopilotTelemetryComponent } from './copilot-telemetry/copilot-telemetry.component';
 import { DashboardAnalysisComponent } from './analysis/analysis.component';
 import { DashboardMonitorComponent } from './monitor/monitor.component';
 import { DashboardV1Component } from './v2/v2.component';
 import { DashboardWorkplaceComponent } from './workplace/workplace.component';
 import { DefaultComponent } from '../default/default.component';
+import { NgModule } from '@angular/core';
+import { UsersDashboardComponent } from './users-dashboard/users-dashboard.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
+import { WorkflowTasksComponent } from './workflow-tasks/workflow-tasks.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'widgets', pathMatch: 'full' },
   { path: 'default', component: DefaultComponent },
   { path: 'v2', component: DashboardV1Component },
   { path: 'analysis', component: DashboardAnalysisComponent },
+  { path: 'copilot-telemetry', component: CopilotTelemetryComponent },
+  { path: 'workflow-tasks', component: WorkflowTasksComponent, data: { title: 'Monitoreo de tareas' } },
+  { path: 'users', component: UsersDashboardComponent, data: { title: 'Dashboard de usuarios' } },
   { path: 'monitor', component: DashboardMonitorComponent },
   { path: 'workplace', component: DashboardWorkplaceComponent },
   { path: 'widgets', component: WidgetsContainerComponent },
@@ -24,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule { }

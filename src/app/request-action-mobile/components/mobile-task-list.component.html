@@ -1,0 +1,25 @@
+<section class="queue-screen">
+  <div class="queue-heading">
+    <div><span class="section-kicker"></span>
+      <h2>{{ queueLabel }}</h2>
+    </div><span class="queue-total">{{ tasks.length }}</span>
+  </div>
+  <div class="queue-tabs" role="tablist" aria-label="Tipo de tareas"><button type="button" role="tab"
+      [attr.aria-selected]="tab === 'pending'" [class.active]="tab === 'pending'"
+      (click)="tabChange.emit('pending')">Pendientes <span class="tab-count">{{ pendingCount }}</span></button><button
+      type="button" role="tab" [attr.aria-selected]="tab === 'saved'" [class.active]="tab === 'saved'"
+      (click)="tabChange.emit('saved')">Guardados <span class="tab-count">{{ savedCount }}</span></button></div>
+  <button *ngIf="queue !== 'summary' && tab === 'pending' && tasks.length" class="batch-button" type="button"
+    (click)="approveBatch()">{{ selectedTasks.length ? 'Aprobar seleccionadas (' + selectedTasks.length + ')' :
+    'Aprobar todas (' + tasks.length + ')' }}</button>
+  <p *ngIf="errorMessage" class="error-message" role="alert">{{ errorMessage }}</p>
+  <div *ngIf="busy" class="loading-state" role="status">Actualizando bandeja…</div>
+  <div *ngIf="!busy && !tasks.length" class="empty-state"><span class="empty-mark">✓</span>
+    <h3>{{ tab === 'saved' ? 'Nada guardado por ahora' : 'Todo al día' }}</h3>
+    <p>{{ tab === 'saved' ? 'Guarda una tarea para retomarla más tarde.' : 'No tienes tareas pendientes en esta
+      bandeja.' }}</p>
+  </div>
+  <div class="task-list" [class.is-saved]="tab === 'saved'"><app-mobile-task-card
+      *ngFor="let task of tasks; trackBy: trackTask" [task]="task" [queue]="queue" [saved]="tab === 'saved'"
+      [selected]="selectedKeys.has(taskKey(task))" (action)="onTaskAction($event)"></app-mobile-task-card></div>
+</section>

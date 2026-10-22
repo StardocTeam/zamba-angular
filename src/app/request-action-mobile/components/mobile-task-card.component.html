@@ -1,0 +1,56 @@
+<article class="task-card" [class.is-selected]="selected">
+  <div class="card-topline">
+    <label *ngIf="queue !== 'summary'" class="select-task" aria-label="Seleccionar"><input type="checkbox"
+        [checked]="selected" (change)="emit('detail')">
+      <span class="select-box"></span>
+      <span class="select-label">Seleccionar</span>
+    </label>
+    <span class="task-date">{{
+      task.FECHA || '' }}</span>
+  </div>
+  <button *ngIf="queue === 'summary'; else invoiceTitle" type="button" class="title-button" (click)="emit('detail')">
+    <strong>{{ title }}</strong>
+    <span>Ver caso ›</span>
+  </button>
+  <ng-template #invoiceTitle>
+    <div class="task-title">
+      <strong>{{ title }}</strong>
+      <span class="task-number">N.º {{ taskId }}</span>
+    </div>
+  </ng-template>
+  <div *ngIf="queue !== 'summary'" class="amount-row"><span>{{ task.CONCEPTO || task.TIPO_GASTO || 'Solicitud de pago'
+      }}</span><strong>{{ task.MONEDA || 'ARS' }} {{ task.IMPORTE || '—' }}</strong></div>
+  <div *ngIf="queue === 'summary'" class="amount-row"><span>{{ task.AREA || 'Siniestros' }} · {{ task.SOLICITANTE ||
+      'Equipo gerencial' }}</span><strong>{{ task.FECHA || 'En revisión' }}</strong></div>
+  <div class="card-footer-row" [class.has-thumbnail]="!!thumbnailUrl">
+    <div class="card-actions"><button *ngIf="saved && queue !== 'summary'" type="button" class="restore-button"
+        (click)="emit('restore')">Devolver a pendientes</button><button *ngIf="!saved && queue !== 'summary'"
+        type="button" class="save-button" (click)="emit('save')">Enviar a Guardados</button><button
+        *ngIf="queue === 'summary'" type="button" class="approve-button" (click)="emit('detail')">Ver
+        resumen</button><button *ngIf="queue !== 'summary'" type="button" class="approve-button"
+        (click)="emit('approve')">Aprobar</button><button *ngIf="queue !== 'summary'" type="button"
+        class="reject-button" (click)="emit('reject')">Rechazar</button></div>
+    <button *ngIf="thumbnailUrl" type="button" class="task-thumbnail" (click)="handleThumbnailClick()"
+      (dblclick)="handleThumbnailDoubleClick()"
+      [attr.aria-label]="'Clic para ampliar o doble clic para abrir el documento de ' + title"
+      title="Clic para ampliar; doble clic para abrir el documento">
+      <img [src]="thumbnailUrl" [alt]="'Vista previa del documento de ' + title">
+      <span>Ampliar · doble clic para abrir</span>
+    </button>
+  </div>
+  <div *ngIf="fullscreenPreview && thumbnailUrl" class="preview-backdrop" role="dialog" aria-modal="true"
+    [attr.aria-label]="'Vista previa del documento de ' + title" (click)="closePreview()">
+    <button type="button" class="preview-close" aria-label="Cerrar vista previa"
+      (click)="closePreview(); $event.stopPropagation()">×</button>
+    <img class="preview-image" [src]="thumbnailUrl" [alt]="'Vista previa del documento de ' + title"
+      (click)="$event.stopPropagation()">
+  </div>
+  <div *ngIf="expanded" class="task-details">
+    <div *ngIf="task.TIPO_GASTO"><span>Tipo</span><strong>{{ task.TIPO_GASTO }}</strong></div>
+    <div *ngIf="task.AREA"><span>Área</span><strong>{{ task.AREA }}</strong></div>
+    <div *ngIf="task.SOLICITANTE"><span>Solicitante</span><strong>{{ task.SOLICITANTE }}</strong></div>
+    <div *ngIf="task.CONCEPTO"><span>Concepto</span><strong>{{ task.CONCEPTO }}</strong></div>
+  </div>
+  <button *ngIf="queue !== 'summary'" type="button" class="details-toggle" (click)="expanded = !expanded">{{ expanded
+    ? 'Ocultar detalle' : 'Ver detalle' }} <span>{{ expanded ? '−' : '+' }}</span></button>
+</article>

@@ -170,6 +170,7 @@ nz-sider .card-container ::ng-deep .ant-tabs-content>.ant-tabs-tabpane {
 }
 
 .selected-group-title {
+    padding-top: 4px;
     font-size: 1.2rem;
     font-weight: bold;
     display: block;
@@ -187,6 +188,23 @@ nz-sider .card-container ::ng-deep .ant-tabs-content>.ant-tabs-tabpane {
 
 .sidebar-card {
     overflow: hidden !important;
+}
+
+.sidebar-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.sidebar-toggle-container button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
 }
 
 .spinner-overlay {

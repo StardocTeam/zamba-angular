@@ -56,7 +56,7 @@ export class InitialPasswordWizardComponent implements OnInit, OnDestroy {
     private startupSrv: StartupService,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   passwordMatchValidator(g: FormGroup) {
     let password = g.get('password')?.value;
@@ -88,7 +88,7 @@ export class InitialPasswordWizardComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.cdr.detectChanges();
     this.http
-      .post(`${environment['apiRestBasePath']}/ResetPasswordFirstTime`, genericRequest, null, {
+      .post(`${environment['restApi']}/Dashboard/ResetPasswordFirstTime`, genericRequest, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
@@ -119,7 +119,7 @@ export class InitialPasswordWizardComponent implements OnInit, OnDestroy {
       Params: { tokendata: this.token },
     };
     this.http
-      .post(`${environment['apiRestBasePath']}/ValidateResetToken`, genericRequest, null, {
+      .post(`${environment['restApi']}/Dashboard/ValidateResetToken`, genericRequest, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(

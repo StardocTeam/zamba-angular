@@ -12,7 +12,7 @@ export class PassportService {
   constructor(
     private http: _HttpClient,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-  ) {}
+  ) { }
 
   doLogin(
     data: Partial<{
@@ -28,7 +28,7 @@ export class PassportService {
       Params: data,
     };
     return this.http
-      .post(`${environment['apiRestBasePath']}/zlogin`, genericRequest, null, {
+      .post(`${environment['restApi']}/Dashboard/zlogin`, genericRequest, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(

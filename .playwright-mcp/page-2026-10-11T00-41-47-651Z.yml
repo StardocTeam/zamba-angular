@@ -1,0 +1,25 @@
+- generic [ref=f3e2]:
+  - heading "Zamba Chat Element - Test Page" [level=1] [ref=f3e3]
+  - text: Zamba.Api base URL
+  - textbox "Zamba.Api base URL" [ref=f3e4]: http://localhost:5000
+  - text: Tipo de documento
+  - combobox "Tipo de documento" [ref=f3e5]:
+    - option "26 - Factura" [selected]
+    - option "2524 - Demanda legal"
+  - generic [ref=f3e6]:
+    - generic [ref=f3e7]: Extraction prompt
+    - textbox "Extraction prompt" [ref=f3e8]: Extract the CUIT into a zamba_index_20 property and the amount into a zamba_index_21 property. Answer with a json object with the properties and value asked, nothing else.
+  - generic [ref=f3e9]:
+    - checkbox "Automatic extraction on file upload" [checked] [ref=f3e10]
+    - text: Automatic extraction on file upload
+  - generic [ref=f3e11]:
+    - generic [ref=f3e12]:
+      - generic [ref=f3e13]: zamba_index_20
+      - textbox "zamba_index_20" [ref=f3e14]:
+        - /placeholder: Se completa al adjuntar el archivo
+    - generic [ref=f3e15]:
+      - generic [ref=f3e16]: zamba_index_21
+      - textbox "zamba_index_21" [ref=f3e17]:
+        - /placeholder: Se completa al adjuntar el archivo
+  - button "Abrir asistente Zamba AI" [ref=f3e19] [cursor=pointer]:
+    - generic [aria-hidden] [ref=f3e20]: Z

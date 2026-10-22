@@ -71,7 +71,7 @@ export class ChartContainerComponent {
     private RViewService: ReportViewerService,
     private router: Router,
     private RVService: ReportViewerService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     const tokenData = this.tokenService.get();

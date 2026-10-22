@@ -1,0 +1,35 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - link [ref=e7] [cursor=pointer]:
+      - /url: "#/"
+    - generic [ref=e9]:
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - generic [ref=e12] [cursor=pointer]
+        - listitem [ref=e16]:
+          - link [ref=e17] [cursor=pointer]:
+            - /url: "#/"
+      - list [ref=e22]:
+        - listitem [ref=e23]:
+          - generic [ref=e25] [cursor=pointer]
+        - listitem [ref=e31]:
+          - generic [ref=e32] [cursor=pointer]
+        - listitem [ref=e36]:
+          - generic [ref=e38] [cursor=pointer]
+  - generic [ref=e42]:
+    - generic:
+      - list
+  - generic [ref=e45]:
+    - generic [ref=e46]:
+      - heading "Schedules" [level=2] [ref=e47]
+      - button "New Schedule" [active] [ref=e48] [cursor=pointer]
+    - table [ref=e58]:
+      - rowgroup [ref=e62]:
+        - row [ref=e63]:
+          - columnheader "Name" [ref=e64]
+          - columnheader "Status" [ref=e65]
+          - columnheader "Actions" [ref=e66]
+      - rowgroup [ref=e67]:
+        - row [ref=e68]:
+          - cell [ref=e69]:
+            - paragraph [ref=e80]: No Data

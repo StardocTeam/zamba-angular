@@ -81,7 +81,7 @@ export class UserPermissionsService {
       };
 
       this.http
-        .post(`${environment['apiRestBasePath']}/getUserAllPermissions`, genericRequest, null, {
+        .post(`${environment['restApi']}/Dashboard/getUserAllPermissions`, genericRequest, null, {
           context: new HttpContext().set(ALLOW_ANONYMOUS, true),
         })
         .pipe(

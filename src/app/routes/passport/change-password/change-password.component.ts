@@ -36,7 +36,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
     private startupSrv: StartupService,
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.loadingSrv.open(this.LoadingType);
     this.token = this.route.snapshot.queryParams['token'] || '';
@@ -45,7 +45,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
       Params: { tokendata: this.token },
     };
     this.http
-      .post(`${environment['apiRestBasePath']}/ValidateResetToken`, genericRequest, null, {
+      .post(`${environment['restApi']}/Dashboard/ValidateResetToken`, genericRequest, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(
@@ -124,7 +124,7 @@ export class ChangePasswordComponent implements OnDestroy, OnInit {
     this.loading = true;
     this.cdr.detectChanges();
     this.http
-      .post(`${environment['apiRestBasePath']}/ResetPassword`, genericRequest, null, {
+      .post(`${environment['restApi']}/Dashboard/ResetPassword`, genericRequest, null, {
         context: new HttpContext().set(ALLOW_ANONYMOUS, true),
       })
       .pipe(

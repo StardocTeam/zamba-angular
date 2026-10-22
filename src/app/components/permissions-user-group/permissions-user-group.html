@@ -18,16 +18,18 @@
       </div>
 
       <ng-template #extraTemplate>
-        <button nz-button nzType="text" (click)="toggleSidebar()">
-          <span nz-icon nzType="menu-fold"></span>
-        </button>
+        <div class="sidebar-toggle-container">
+          <button nz-button nzType="text" (click)="toggleSidebar()" aria-label="Colapsar panel">
+            <span nz-icon nzType="menu-fold"></span>
+          </button>
+        </div>
       </ng-template>
 
       <div
         *ngIf="!isLoading && isSidebarCollapsed"
-        style="text-align: center; margin-top: 10px; padding: 0; width: 100%; display: flex; justify-content: center"
+        class="sidebar-toggle-container"
       >
-        <button nz-button nzType="text" (click)="toggleSidebar()" style="padding: 0 4px; border: none; background: transparent">
+        <button nz-button nzType="text" (click)="toggleSidebar()" aria-label="Expandir panel">
           <span nz-icon nzType="menu-unfold"></span>
         </button>
       </div>

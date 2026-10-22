@@ -1,40 +1,46 @@
-import { NgForOf } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { GridsterComponent, GridsterItemComponent } from 'angular-gridster2';
+
+import { CopilotTelemetryComponent } from './copilot-telemetry/copilot-telemetry.component';
 import { CountDownModule } from '@delon/abc/count-down';
-import { OnboardingModule } from '@delon/abc/onboarding';
-import { QuickMenuModule } from '@delon/abc/quick-menu';
+import { CountdownModule } from 'ngx-countdown';
+import { DashboardAnalysisComponent } from './analysis/analysis.component';
+import { DashboardMonitorComponent } from './monitor/monitor.component';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { DashboardV1Component } from './v2/v2.component';
+import { DashboardWorkplaceComponent } from './workplace/workplace.component';
 import { G2BarModule } from '@delon/chart/bar';
 import { G2CardModule } from '@delon/chart/card';
 import { G2GaugeModule } from '@delon/chart/gauge';
 import { G2MiniAreaModule } from '@delon/chart/mini-area';
 import { G2MiniBarModule } from '@delon/chart/mini-bar';
 import { G2MiniProgressModule } from '@delon/chart/mini-progress';
-import { NumberInfoModule } from '@delon/chart/number-info';
 import { G2PieModule } from '@delon/chart/pie';
 import { G2RadarModule } from '@delon/chart/radar';
 import { G2SingleBarModule } from '@delon/chart/single-bar';
 import { G2TagCloudModule } from '@delon/chart/tag-cloud';
 import { G2TimelineModule } from '@delon/chart/timeline';
-import { TrendModule } from '@delon/chart/trend';
 import { G2WaterWaveModule } from '@delon/chart/water-wave';
-import { SharedModule } from '@shared';
-import { GridsterComponent, GridsterItemComponent } from 'angular-gridster2';
+import { NgForOf } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { NumberInfoModule } from '@delon/chart/number-info';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
-import { CountdownModule } from 'ngx-countdown';
-
-import { DashboardAnalysisComponent } from './analysis/analysis.component';
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardMonitorComponent } from './monitor/monitor.component';
-import { DashboardV1Component } from './v2/v2.component';
-import { DashboardWorkplaceComponent } from './workplace/workplace.component';
+import { OnboardingModule } from '@delon/abc/onboarding';
+import { QuickMenuModule } from '@delon/abc/quick-menu';
+import { SharedModule } from '@shared';
+import { TrendModule } from '@delon/chart/trend';
+import { UsersDashboardComponent } from './users-dashboard/users-dashboard.component';
 import { WidgetSelectorComponent } from '../widgets/widgetSelector/widget-selector.component';
 import { WidgetsContainerComponent } from '../widgets-container/widgets-container.component';
+import { WorkflowTasksComponent } from './workflow-tasks/workflow-tasks.component';
 
 const COMPONENTS = [
   DashboardV1Component,
   DashboardAnalysisComponent,
   DashboardMonitorComponent,
   DashboardWorkplaceComponent,
+  CopilotTelemetryComponent,
+  WorkflowTasksComponent,
+  UsersDashboardComponent,
   WidgetsContainerComponent,
 ];
 
@@ -68,4 +74,4 @@ const COMPONENTS = [
   ],
   declarations: [...COMPONENTS],
 })
-export class DashboardModule {}
+export class DashboardModule { }

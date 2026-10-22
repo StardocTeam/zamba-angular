@@ -1,31 +1,31 @@
-import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { DoBootstrap, Injector, NgModule } from '@angular/core';
-import { createCustomElement } from '@angular/elements';
-import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
-import { DefaultInterceptor } from '@core';
 import { DelonAuthModule, TokenService } from '@delon/auth';
-import { SharedModule } from '@shared';
-import { EditorModule } from '@tinymce/tinymce-angular';
+import { DoBootstrap, Injector, NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { ChecklistComponent } from './checklist/checklist.component';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from 'src/app/core/core.module';
+import { DefaultInterceptor } from '@core';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { FormsModule } from '@angular/forms';
+import { GlobalConfigModule } from 'src/app/global-config.module';
+import { GlobalSearchElementComponent } from './global-search/global-search.component';
+import { MiniwebBookmarkComponent } from './miniweb-bookmark/miniweb-bookmark.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
-import { CoreModule } from 'src/app/core/core.module';
 import { ReportViewerService } from 'src/app/routes/widgets/report-viewer/service/report-viewer.service';
-import { GlobalConfigModule } from 'src/app/global-config.module';
-import { ChecklistComponent } from './checklist/checklist.component';
-
-import { GlobalSearchElementComponent } from './global-search/global-search.component';
-import { MiniwebBookmarkComponent } from './miniweb-bookmark/miniweb-bookmark.component';
+import { SharedModule } from '@shared';
 import { TinymceElementComponent } from './tinymce-editor/tinymce-editor.component';
 import { WebBookmarkComponent } from './web-bookmark/web-bookmark.component';
+import { ZambaChatComponent } from './zamba-chat/zamba-chat.component';
+import { createCustomElement } from '@angular/elements';
 
 const routes: Routes = [
   { path: '', component: ChecklistComponent },
@@ -36,7 +36,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ChecklistComponent, TinymceElementComponent, GlobalSearchElementComponent, WebBookmarkComponent, MiniwebBookmarkComponent],
+  declarations: [
+    ChecklistComponent,
+    TinymceElementComponent,
+    GlobalSearchElementComponent,
+    WebBookmarkComponent,
+    MiniwebBookmarkComponent,
+    ZambaChatComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,
@@ -68,6 +75,7 @@ const routes: Routes = [
     GlobalSearchElementComponent,
     WebBookmarkComponent,
     MiniwebBookmarkComponent,
+    ZambaChatComponent,
     NzIconModule,
   ],
 })
@@ -98,6 +106,11 @@ export class ElementsModule implements DoBootstrap {
     const MiniwebBookmarkElement = createCustomElement(MiniwebBookmarkComponent, { injector: this.injector });
     if (!customElements.get('zamba-miniweb-bookmark')) {
       customElements.define('zamba-miniweb-bookmark', MiniwebBookmarkElement);
+    }
+
+    const ZambaChatElement = createCustomElement(ZambaChatComponent, { injector: this.injector });
+    if (!customElements.get('zamba-chat')) {
+      customElements.define('zamba-chat', ZambaChatElement);
     }
   }
 }

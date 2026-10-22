@@ -11,16 +11,16 @@ import { Generic } from '../entitie/generic';
   providedIn: 'root',
 })
 export class PendingVacationsService {
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   _GetVacation(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/getVacation`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/Dashboard/getVacation`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
 
   _PostExternalsearchInfo(genericRequest: any) {
-    return this.http.post(`${environment['apiRestBasePath']}/postExternalsearchInfo`, genericRequest, null, {
+    return this.http.post(`${environment['restApi']}/Dashboard/postExternalsearchInfo`, genericRequest, null, {
       context: new HttpContext().set(ALLOW_ANONYMOUS, true),
     });
   }
@@ -29,6 +29,6 @@ export class PendingVacationsService {
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let options = { headers: headers };
 
-    return this.http.get(`${environment['apiRestBasePath']}/getExternalsearchInfo`, request, options);
+    return this.http.get(`${environment['restApi']}/Dashboard/getExternalsearchInfo`, request, options);
   }
 }

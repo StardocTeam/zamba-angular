@@ -1,0 +1,54 @@
+export interface CopilotPromptRequest {
+    prompt: string;
+    fileBase64?: string;
+    fileName?: string;
+    documentId?: string;
+    documentTypeCode?: number;
+}
+
+export interface PromptStats {
+    embeddingProvider?: string;
+    documentAlreadyIndexed?: boolean;
+    chunksIndexed?: number;
+    embeddingDurationMs?: number;
+    retrievalDurationMs?: number;
+    chatDurationMs?: number;
+    totalDurationMs?: number;
+    chatModel?: string;
+    inputTokens?: number;
+    outputTokens?: number;
+    totalTokens?: number;
+    copilotCreditsUsed?: number;
+    estimatedCostAtOverageRateUsd?: number;
+    cacheReadTokens?: number;
+    cacheWriteTokens?: number;
+    estimatedCost?: number;
+}
+
+export interface CopilotPromptResponse {
+    runId: string;
+    response: string;
+    documentId: string;
+    chunksUsed: number;
+    stats: PromptStats;
+}
+
+export type ZambaChatRole = 'user' | 'assistant' | 'error';
+
+export interface ZambaChatMessage {
+    role: ZambaChatRole;
+    text: string;
+    fileName?: string;
+    runId?: string;
+    copilotCreditsUsed?: number;
+    estimatedCostAtOverageRateUsd?: number;
+    feedbackRating?: number;
+    feedbackSending?: boolean;
+    feedbackError?: boolean;
+}
+
+/** Binds an extraction prompt (answered right after a file is attached) to a target input's id. */
+export interface ZambaFieldBinding {
+    inputId?: string;
+    prompt: string;
+}

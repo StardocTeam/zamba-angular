@@ -196,3 +196,14 @@ tr.clickable {
         left: -20;
     }
 }
+
+::ng-deep .report-viewer-user-select-dropdown .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+::ng-deep .report-viewer-user-select-dropdown .ant-select-item-option-active.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+    background-color: var(--app-primary-color) !important;
+    color: #fff !important;
+}
+
+::ng-deep .report-viewer-user-select-dropdown .ant-select-item-option-active .ant-select-item-option-content,
+::ng-deep .report-viewer-user-select-dropdown .ant-select-item-option-active.ant-select-item-option-selected .ant-select-item-option-content {
+    color: #fff !important;
+}

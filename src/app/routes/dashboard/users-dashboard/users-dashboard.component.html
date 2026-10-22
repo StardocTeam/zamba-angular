@@ -1,0 +1,278 @@
+<main class="users-page">
+    <header class="page-heading">
+        <div>
+            <p class="eyebrow">ZAMBA / GESTIÓN DE EQUIPO</p>
+            <h1>Dashboard de usuarios</h1>
+            <p class="heading-note">Carga asignada, rendimiento medido y actividad de workflows.</p>
+        </div>
+        <button class="icon-button" type="button" (click)="refresh()" [disabled]="loading || loadingTasks"
+            aria-label="Actualizar dashboard" title="Actualizar dashboard">
+            <span aria-hidden="true">↻</span>
+        </button>
+    </header>
+
+    <section class="filter-bar" aria-label="Filtros del dashboard de usuarios">
+        <label>
+            <span>Usuario</span>
+            <select [(ngModel)]="filters.userId">
+                <option value="">Todos los usuarios</option>
+                <option *ngFor="let user of userDirectory" [value]="user.id">
+                    {{ user.name }}
+                </option>
+            </select>
+        </label>
+        <label>
+            <span>Workflow</span>
+            <select [(ngModel)]="filters.workflowId" (ngModelChange)="filters.stepId = ''">
+                <option value="">Todos</option>
+                <option *ngFor="let item of filtersData?.workflows" [value]="optionId(item, 'work_id')">
+                    {{ optionName(item, 'Name') }}
+                </option>
+            </select>
+        </label>
+        <label>
+            <span>Etapa</span>
+            <select [(ngModel)]="filters.stepId">
+                <option value="">Todas</option>
+                <option *ngFor="let item of visibleSteps" [value]="optionId(item, 'step_Id')">
+                    {{ optionName(item, 'Name') }}
+                </option>
+            </select>
+        </label>
+        <label>
+            <span>Entidad</span>
+            <select [(ngModel)]="filters.documentTypeId">
+                <option value="">Todas</option>
+                <option *ngFor="let item of filtersData?.documentTypes" [value]="optionId(item, 'DOC_TYPE_ID')">
+                    {{ optionName(item, 'DOC_TYPE_NAME') }}
+                </option>
+            </select>
+        </label>
+        <label>
+            <span>Desde</span>
+            <input type="date" [(ngModel)]="filters.from" />
+        </label>
+        <label>
+            <span>Hasta</span>
+            <input type="date" [(ngModel)]="filters.to" />
+        </label>
+        <div class="filter-actions">
+            <button class="primary-button" type="button" (click)="applyFilters()" [disabled]="loading">Aplicar</button>
+            <button class="text-button" type="button" (click)="clearFilters()" [disabled]="loading">Limpiar</button>
+        </div>
+    </section>
+
+    <p class="error-banner" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+    <output class="status-banner" *ngIf="statusMessage">{{ statusMessage }}</output>
+
+    <section class="metrics-grid" aria-label="Indicadores del equipo">
+        <article class="metric">
+            <span class="metric-label">Tareas pendientes asignadas</span>
+            <strong>{{ formatNumber(overview?.summary?.pendingTasks) }}</strong>
+            <small>{{ formatNumber(overview?.summary?.overdueTasks) }} fuera de término</small>
+        </article>
+        <article class="metric metric-time">
+            <span class="metric-label">Promedio medido por etapa</span>
+            <strong>{{ formatMinutes(overview?.summary?.averageExecutionMinutes) }}</strong>
+            <small>{{ formatNumber(overview?.summary?.recordedSteps) }} registros de performance</small>
+        </article>
+        <article class="metric metric-forecast">
+            <span class="metric-label">Carga estimada pendiente</span>
+            <strong>{{ formatMinutes(overview?.summary?.forecastMinutes) }}</strong>
+            <small>Fecha global estimada: {{ forecastDate(overview?.summary?.forecastMinutes, forecastUserCount)
+                }}</small>
+        </article>
+        <article class="metric metric-history">
+            <span class="metric-label">Actividad reciente consultada</span>
+            <strong>{{ formatNumber(asNumber(overview?.summary?.workflowHistoryEntries) +
+                asNumber(overview?.summary?.userActions)) }}</strong>
+            <small>Historial de workflow y acciones de usuario</small>
+        </article>
+    </section>
+
+    <section class="forecast-controls" aria-label="Supuestos del forecast">
+        <label>
+            <span>Capacidad productiva por usuario / día</span>
+            <span class="capacity-input"><input type="number" min="0.5" max="24" step="0.5"
+                    [(ngModel)]="capacityHoursPerDay" /> horas</span>
+        </label>
+        <p>El forecast aproxima una tarea pendiente con el promedio de ejecución registrado para ese usuario. La fecha
+            considera días hábiles y la capacidad indicada.</p>
+    </section>
+
+    <section class="charts-grid" aria-label="Distribución y tiempos por usuario">
+        <article class="chart-panel">
+            <header class="panel-heading">
+                <div>
+                    <h2>Distribución de tareas</h2>
+                    <span>Asignaciones pendientes por usuario</span>
+                </div>
+            </header>
+            <div class="chart-list" *ngIf="overview?.distribution?.length; else noDistribution">
+                <button class="bar-row" type="button"
+                    *ngFor="let item of overview?.distribution; trackBy: trackDistribution"
+                    [class.bar-row-selected]="filters.userId === item.userId"
+                    (click)="selectUser(item.userId, item.userName)">
+                    <span class="bar-label">{{ item.userName }}</span>
+                    <span class="bar-track"><span class="bar-fill"
+                            [style.width.%]="asNumber(item.pendingTasks) / maxPendingTasks * 100"></span></span>
+                    <strong>{{ formatNumber(item.pendingTasks) }}</strong>
+                    <small>{{ formatNumber(item.overdueTasks) }} vencidas</small>
+                </button>
+            </div>
+            <ng-template #noDistribution>
+                <p class="empty-state">No hay usuarios para los filtros seleccionados.</p>
+            </ng-template>
+        </article>
+
+        <article class="chart-panel">
+            <header class="panel-heading">
+                <div>
+                    <h2>Tiempo promedio por usuario</h2>
+                    <span>Minutos consumidos por etapa registrada</span>
+                </div>
+            </header>
+            <div class="chart-list" *ngIf="overview?.distribution?.length; else noTimes">
+                <div class="bar-row time-row" *ngFor="let item of overview?.distribution; trackBy: trackDistribution">
+                    <span class="bar-label">{{ item.userName }}</span>
+                    <span class="bar-track"><span class="bar-fill time-fill"
+                            [style.width.%]="asNumber(item.averageExecutionMinutes) / maxAverageMinutes * 100"></span></span>
+                    <strong>{{ formatMinutes(item.averageExecutionMinutes) }}</strong>
+                    <small>{{ formatMinutes(item.forecastMinutes) }} pendientes · {{ forecastDate(item.forecastMinutes,
+                        1) }}</small>
+                </div>
+            </div>
+            <ng-template #noTimes>
+                <p class="empty-state">No hay registros de tiempos para los filtros seleccionados.</p>
+            </ng-template>
+        </article>
+    </section>
+
+    <section class="data-panel">
+        <header class="panel-heading">
+            <div>
+                <h2>Tareas de {{ selectedUserName || 'usuario seleccionado' }}</h2>
+                <span>{{ filters.userId ? formatNumber(tasks?.total) + ' asignadas' : 'Seleccioná un usuario para
+                    consultar y reasignar tareas' }}</span>
+            </div>
+            <span class="loading-indicator" *ngIf="loadingTasks">Actualizando…</span>
+        </header>
+        <div class="table-scroll" *ngIf="tasks?.items?.length">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tarea / documento</th>
+                        <th>Workflow / etapa</th>
+                        <th>Estado</th>
+                        <th>Vencimiento</th>
+                        <th>Reasignar a</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of tasks?.items; let taskIndex = index; trackBy: trackTask">
+                        <td><strong>{{ display(task.taskName || task.documentId) }}</strong><small>Doc. {{
+                                display(task.documentId) }}</small></td>
+                        <td>{{ display(task.workflowName) }}<small>{{ display(task.stepName) }}</small></td>
+                        <td>{{ display(task.stateName || task.stateDescription) }}</td>
+                        <td>{{ formatDate(task.expiresAt) }}</td>
+                        <td class="reassign-cell">
+                            <nz-select [(ngModel)]="reassignmentTargets[trackTask(taskIndex, task)]" nzShowSearch
+                                nzPlaceHolder="Elegir usuario" style="width: 180px">
+                                <nz-option *ngFor="let user of userDirectory" [nzValue]="user.id"
+                                    [nzLabel]="user.name"></nz-option>
+                            </nz-select>
+                            <button class="text-button" type="button"
+                                (click)="reassign(task, reassignmentTargets[trackTask(taskIndex, task)])"
+                                [disabled]="!reassignmentTargets[trackTask(taskIndex, task)] || reassignmentTargets[trackTask(taskIndex, task)] === filters.userId">Asignar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="empty-state" *ngIf="filters.userId && !loadingTasks && !tasks?.items?.length">Este usuario no tiene
+            tareas pendientes con los filtros actuales.</div>
+        <div class="empty-state" *ngIf="!filters.userId">Seleccioná un usuario en los filtros o en la distribución para
+            ver sus tareas.</div>
+        <footer class="pagination" *ngIf="tasks && tasks.total > pageSize">
+            <span>Página {{ tasks.page }} de {{ taskPageCount }}</span>
+            <div>
+                <button type="button" (click)="changePage(tasks.page - 1)" [disabled]="tasks.page <= 1 || loadingTasks"
+                    aria-label="Página anterior">‹</button>
+                <button type="button" (click)="changePage(tasks.page + 1)"
+                    [disabled]="tasks.page >= taskPageCount || loadingTasks" aria-label="Página siguiente">›</button>
+            </div>
+        </footer>
+    </section>
+
+    <section class="data-panel">
+        <header class="panel-heading">
+            <div>
+                <h2>Ejecuciones medidas</h2><span>Duraciones registradas en WfStepPerformance</span>
+            </div>
+        </header>
+        <div class="table-scroll" *ngIf="overview?.performanceHistory?.length; else noPerformanceHistory">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Workflow</th>
+                        <th>Etapa</th>
+                        <th>Duración</th>
+                        <th>Finalización registrada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let execution of overview?.performanceHistory">
+                        <td>{{ display(execution.userName) }}</td>
+                        <td>{{ display(execution.workflowId) }}</td>
+                        <td>{{ display(execution.stepId) }}</td>
+                        <td>{{ formatMinutes(execution.consumedMinutes) }}</td>
+                        <td>{{ formatDate(execution.checkedOut) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ng-template #noPerformanceHistory>
+            <p class="empty-state">No hay duraciones de ejecución registradas para estos filtros.</p>
+        </ng-template>
+    </section>
+
+    <section class="history-grid" aria-label="Historial de actividad">
+        <article class="data-panel">
+            <header class="panel-heading">
+                <div>
+                    <h2>Historial de workflows</h2><span>Últimos eventos de WFStepHst</span>
+                </div>
+            </header>
+            <div class="history-list" *ngIf="overview?.workflowHistory?.length; else noWorkflowHistory">
+                <article class="history-row" *ngFor="let entry of overview?.workflowHistory; trackBy: trackHistory">
+                    <div><strong>{{ display(entry.documentName || entry.documentId) }}</strong><small>{{
+                            display(entry.workflowName) }} · {{ display(entry.stepName) }}</small></div>
+                    <span>{{ display(entry.action) }}</span>
+                    <small>{{ display(entry.userName) }} · {{ formatDate(entry.date) }}</small>
+                </article>
+            </div>
+            <ng-template #noWorkflowHistory>
+                <p class="empty-state">No hay eventos de workflow para este período.</p>
+            </ng-template>
+        </article>
+        <article class="data-panel">
+            <header class="panel-heading">
+                <div>
+                    <h2>Acciones de usuarios</h2><span>Últimos eventos de USER_HST</span>
+                </div>
+            </header>
+            <div class="history-list" *ngIf="overview?.userActions?.length; else noUserActions">
+                <article class="history-row" *ngFor="let entry of overview?.userActions; trackBy: trackHistory">
+                    <div><strong>{{ display(entry.action) }}</strong><small>{{ display(entry.tool) }} · {{
+                            display(entry.description) }}</small></div>
+                    <span>{{ display(entry.userName) }}</span>
+                    <small>Doc. {{ display(entry.documentId) }} · {{ formatDate(entry.date) }}</small>
+                </article>
+            </div>
+            <ng-template #noUserActions>
+                <p class="empty-state">No hay acciones registradas para este período.</p>
+            </ng-template>
+        </article>
+    </section>
+</main>

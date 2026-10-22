@@ -18,7 +18,7 @@ export class TaskHistoryService {
   private apiUrl6: string;
 
   constructor(private http: HttpClient) {
-    let restAPIUrl = `${environment['apiRestBasePath']}`.toLocaleLowerCase();
+    let restAPIUrl = `${environment['restApi']}/Dashboard`.toLocaleLowerCase();
     restAPIUrl = restAPIUrl.replace('dashboard', 'TasksHistory');
     this.serviceBase = restAPIUrl;
     this.apiUrl = `${this.serviceBase}/GetTaskHistory`;

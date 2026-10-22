@@ -5,16 +5,15 @@ import {
   HostListener,
   inject,
   Inject,
-  NgModule,
   QueryList,
-  Renderer2,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { BehaviorSubject, of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { GridService } from 'src/app/services/Grid/grid.service';
 import { ZambaService } from 'src/app/services/zamba/zamba.service';
@@ -22,6 +21,7 @@ import { ZambaService } from 'src/app/services/zamba/zamba.service';
 import { ReportViewStateDto as ReportViewState } from './entitie/ReportViewState';
 import { Report } from './entitie/report';
 import { ReportService } from './service/report.service';
+import { UserPermissionsService } from 'src/app/services/user-permissions.service';
 
 export interface TreeNode {
   name: string;
@@ -36,18 +36,21 @@ export interface TreeNode {
 export class ReportComponentComponent {
   //#region Properties
   private route = inject(ActivatedRoute);
+  private document = inject(DOCUMENT);
   @ViewChild('outlet') outlet!: RouterOutlet;
   @ViewChildren('itemTree') itemTrees!: QueryList<ElementRef>;
   @ViewChildren('itemLeaf') itemLeafs!: QueryList<ElementRef>;
   ReportsList: Report[] = [];
   searchValue = '';
   TREE_DATA?: TreeNode[];
+  openCategories: Record<string, boolean> = {};
   isDashboardVisible: boolean = true;
+  treeCollapsed = false;
 
   ViewPermission: boolean = false;
-  UpdatePermission: boolean = true;
-  DeletePermission: boolean = true;
-  CreatePermission: boolean = true;
+  UpdatePermission: boolean = false;
+  DeletePermission: boolean = false;
+  CreatePermission: boolean = false;
   ConsultPermission: boolean = false;
 
   height: number = 400;
@@ -57,10 +60,15 @@ export class ReportComponentComponent {
 
   chartsDisabled: boolean = false;
   isLoading: boolean = false;
+  selectedReportId: number | null = null;
+  private pendingFocusReportId: number | null = null;
+  private pendingPromoteReportId: number | null = null;
+  private reportFocusSub?: Subscription;
   //#endregion
 
   constructor(
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+    private userPermissionsService: UserPermissionsService,
     private RService: ReportService,
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -73,6 +81,17 @@ export class ReportComponentComponent {
 
   //#region ngOnInit
   ngOnInit() {
+    this.document.documentElement.classList.add('reports-page-lock-scroll');
+    this.document.body.classList.add('reports-page-lock-scroll');
+
+    this.reportFocusSub = this.RService.reportFocus$.subscribe(focus => {
+      if (!focus) {
+        return;
+      }
+
+      this.focusReportInTree(focus.reportId, focus.promoteToTop);
+    });
+
     this.route.queryParamMap.subscribe(params => {
       if (params && params.keys.length > 0) {
         if (params.get('t')) {
@@ -105,6 +124,12 @@ export class ReportComponentComponent {
         throw new Error('Token not found');
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.document.documentElement.classList.remove('reports-page-lock-scroll');
+    this.document.body.classList.remove('reports-page-lock-scroll');
+    this.reportFocusSub?.unsubscribe();
   }
   //#endregion
 
@@ -201,30 +226,91 @@ export class ReportComponentComponent {
         token: tokenData['token'],
       };
 
-      this.RService._GetPermissions(genericRequest)
+
+      const parsePermissionValue = (response: any): boolean => {
+        let parsed = response;
+
+        if (typeof parsed === 'string') {
+          const trimmed = parsed.trim();
+
+          try {
+            parsed = JSON.parse(trimmed);
+          } catch {
+            parsed = trimmed;
+          }
+        }
+
+        if (Array.isArray(parsed)) {
+          parsed = parsed[0];
+        }
+
+        if (typeof parsed === 'object' && parsed !== null) {
+          if ('value' in parsed) {
+            parsed = parsed.value;
+          } else if ('Permission' in parsed) {
+            parsed = parsed.Permission;
+          } else if ('Right' in parsed) {
+            parsed = parsed.Right;
+          }
+        }
+
+        if (typeof parsed === 'string') {
+          const normalized = parsed.trim().toLowerCase();
+          return normalized === 'true' || normalized === '1';
+        }
+
+        return parsed === true || parsed === 1;
+      };
+
+      this.RService._GetCreatePermission(genericRequest)
         .pipe(
           catchError(error => {
-            console.error('Error al obtener datos:', error);
-            throw error;
+            console.error('Error al obtener permiso de creación:', error);
+            this.CreatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
           }),
         )
         .subscribe((data: any) => {
-          var data = JSON.parse(data);
-          if (data) {
-            this.ViewPermission = true;
-
-            this.cdr.detectChanges();
-          } else {
-            console.warn('No permissions found.');
-          }
+          this.CreatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
         });
+
+      this.RService._GetUpdatePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de edición:', error);
+            this.UpdatePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.UpdatePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.RService._GetDeletePermission(genericRequest)
+        .pipe(
+          catchError(error => {
+            console.error('Error al obtener permiso de eliminación:', error);
+            this.DeletePermission = false;
+            this.cdr.detectChanges();
+            return of(false);
+          }),
+        )
+        .subscribe((data: any) => {
+          this.DeletePermission = parsePermissionValue(data);
+          this.cdr.detectChanges();
+        });
+
+      this.ViewPermission = true;
     }
 
     this.cdr.detectChanges();
   }
 
   private GetReports() {
-    //this.TREE_DATA = [];
     const tokenData = this.tokenService.get();
     let genericRequest = {};
 
@@ -269,6 +355,22 @@ export class ReportComponentComponent {
             name: category,
             currentReport: Categories[category].map(item => new Report(item)),
           }));
+
+          const nextOpenCategories: Record<string, boolean> = {};
+          this.TREE_DATA.forEach(node => {
+            nextOpenCategories[node.name] = this.openCategories[node.name] ?? true;
+          });
+          this.openCategories = nextOpenCategories;
+
+          const reportIdFromRoute = this.getReportIdFromCurrentUrl();
+          if (reportIdFromRoute) {
+            this.focusReportInTree(reportIdFromRoute);
+          } else if (this.pendingFocusReportId) {
+            this.focusReportInTree(this.pendingFocusReportId);
+          }
+
+          // Keep category open state in sync after reloading data.
+          //this.search(this.searchValue);
 
           this.isLoading = false;
         });
@@ -477,18 +579,6 @@ export class ReportComponentComponent {
 
   search(searchValue: string): void {
     this.searchValue = searchValue;
-
-    this.TREE_DATA?.forEach(node => {
-      var filteredReports = node.currentReport?.filter(report => report.Name.toLowerCase().includes(this.searchValue.toLowerCase())) || [];
-
-      this.itemTrees.forEach((itemTree: any) => {
-        if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length == 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'none';
-        } else if (node.name == itemTree.cdkOverlayOrigin.nativeElement.textContent && filteredReports.length > 0) {
-          itemTree.cdkOverlayOrigin.nativeElement.style.display = 'block';
-        }
-      });
-    });
   }
 
   navigateToCreate() {
@@ -576,5 +666,130 @@ export class ReportComponentComponent {
     this.GetReports();
     this.adjustHeight();
     this.cdr.detectChanges();
+  }
+
+  isCategoryOpen(categoryName: string): boolean {
+    return this.openCategories[categoryName] ?? true;
+  }
+
+  onCategoryOpenChange(categoryName: string, isOpen: boolean): void {
+    this.openCategories[categoryName] = isOpen;
+  }
+
+  toggleTree(): void {
+    this.treeCollapsed = !this.treeCollapsed;
+  }
+
+  private focusReportInTree(reportId: number, promoteToTop = false): void {
+    const numericReportId = Number(reportId);
+    if (!Number.isFinite(numericReportId) || numericReportId <= 0) {
+      return;
+    }
+
+    if (promoteToTop) {
+      this.pendingPromoteReportId = numericReportId;
+    }
+
+    if (this.pendingPromoteReportId === numericReportId && this.promoteReportToTop(numericReportId)) {
+      this.pendingPromoteReportId = null;
+    }
+
+    this.openCategoryForReport(numericReportId);
+
+    this.selectedReportId = numericReportId;
+    this.pendingFocusReportId = numericReportId;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      const target = document.querySelector(`[data-report-id="${numericReportId}"]`) as HTMLElement | null;
+
+      if (!target) {
+        return;
+      }
+
+      const sidePanel = target.closest('.ant-layout-sider') as HTMLElement | null;
+
+      if (sidePanel) {
+        const sidePanelRect = sidePanel.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        const targetTopInPanel = targetRect.top - sidePanelRect.top + sidePanel.scrollTop;
+        const targetBottomInPanel = targetTopInPanel + targetRect.height;
+        const anchorHeight =
+          (sidePanel.querySelector('.search-anchor') as HTMLElement | null)?.offsetHeight ?? 0;
+        const visibleTop = sidePanel.scrollTop + anchorHeight;
+        const visibleBottom = sidePanel.scrollTop + sidePanel.clientHeight;
+
+        if (targetTopInPanel < visibleTop) {
+          sidePanel.scrollTop = Math.max(targetTopInPanel - anchorHeight - 8, 0);
+        } else if (targetBottomInPanel > visibleBottom) {
+          sidePanel.scrollTop = targetBottomInPanel - sidePanel.clientHeight + 8;
+        }
+      } else {
+        target.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'nearest' });
+      }
+
+      this.pendingFocusReportId = null;
+    }, 0);
+  }
+
+  private promoteReportToTop(reportId: number): boolean {
+    if (!this.TREE_DATA?.length) {
+      return false;
+    }
+
+    const categoryIndex = this.TREE_DATA.findIndex(node =>
+      (node.currentReport ?? []).some(report => Number(report.ID) === reportId),
+    );
+
+    if (categoryIndex < 0) {
+      return false;
+    }
+
+    const category = this.TREE_DATA[categoryIndex];
+    const reports = category.currentReport ?? [];
+    const reportIndex = reports.findIndex(report => Number(report.ID) === reportId);
+
+    if (reportIndex < 0) {
+      return false;
+    }
+
+    const reorderedCategory = {
+      ...category,
+      currentReport: [reports[reportIndex], ...reports.filter((_, index) => index !== reportIndex)],
+    };
+
+    this.TREE_DATA = [
+      reorderedCategory,
+      ...this.TREE_DATA.filter((_, index) => index !== categoryIndex),
+    ];
+    return true;
+  }
+
+  private openCategoryForReport(reportId: number): void {
+    if (!this.TREE_DATA?.length) {
+      return;
+    }
+
+    const parentCategory = this.TREE_DATA.find(node =>
+      (node.currentReport ?? []).some(report => Number(report.ID) === reportId),
+    );
+
+    if (!parentCategory) {
+      return;
+    }
+
+    this.openCategories[parentCategory.name] = true;
+  }
+
+  private getReportIdFromCurrentUrl(): number | null {
+    const currentUrl = this.router.url.split('?')[0].replace(/#.*$/, '');
+    const match = currentUrl.match(/\/(view|edit|chartcontainer)\/(\d+)$/);
+
+    if (!match || !match[2]) {
+      return null;
+    }
+
+    const reportId = Number(match[2]);
+    return Number.isFinite(reportId) && reportId > 0 ? reportId : null;
   }
 }

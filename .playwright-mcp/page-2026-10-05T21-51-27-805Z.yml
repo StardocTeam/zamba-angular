@@ -1,0 +1,38 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - link [ref=e7] [cursor=pointer]:
+      - /url: "#/"
+    - generic [ref=e9]:
+      - list [ref=e10]:
+        - listitem [ref=e11]:
+          - generic [ref=e12] [cursor=pointer]
+        - listitem [ref=e16]:
+          - link [ref=e17] [cursor=pointer]:
+            - /url: "#/"
+      - list [ref=e22]:
+        - listitem [ref=e23]:
+          - generic [ref=e25] [cursor=pointer]
+        - listitem [ref=e31]:
+          - generic [ref=e32] [cursor=pointer]
+        - listitem [ref=e36]:
+          - generic [ref=e38] [cursor=pointer]
+  - generic [ref=e42]:
+    - generic:
+      - list
+  - main [ref=e517]:
+    - generic [ref=e518]:
+      - generic [ref=e519]:
+        - generic [ref=e520]: SCHEDULE OPERATIONS
+        - heading "Live monitor" [level=1] [ref=e521]
+        - paragraph [ref=e522]: Execution health, workload and results across scheduled events.
+      - generic [ref=e523]:
+        - generic "Monitoring time range" [ref=e524]:
+          - button "24h" [ref=e525] [cursor=pointer]
+          - button "7 days" [ref=e527] [cursor=pointer]
+          - button "30 days" [ref=e529] [cursor=pointer]
+        - button "Refresh monitoring data" [ref=e531]
+        - button "Schedules" [ref=e535] [cursor=pointer]
+        - button "New schedule" [ref=e537] [cursor=pointer]
+    - generic [ref=e543]:
+      - strong [ref=e545]: Worker not reporting
+      - generic [ref=e546]: No worker heartbeat received
