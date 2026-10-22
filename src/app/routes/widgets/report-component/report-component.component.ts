@@ -358,7 +358,7 @@ export class ReportComponentComponent {
 
           const nextOpenCategories: Record<string, boolean> = {};
           this.TREE_DATA.forEach(node => {
-            nextOpenCategories[node.name] = this.openCategories[node.name] ?? true;
+            nextOpenCategories[node.name] = this.openCategories[node.name] ?? this.pendingPromoteReportId === null;
           });
           this.openCategories = nextOpenCategories;
 
@@ -688,6 +688,9 @@ export class ReportComponentComponent {
 
     if (promoteToTop) {
       this.pendingPromoteReportId = numericReportId;
+      // When a report is refreshed from the viewer, collapse the tree categories
+      // before focusing it; its own category is reopened below so the selection stays visible.
+      this.openCategories = Object.fromEntries((this.TREE_DATA ?? []).map(node => [node.name, false]));
     }
 
     if (this.pendingPromoteReportId === numericReportId && this.promoteReportToTop(numericReportId)) {
