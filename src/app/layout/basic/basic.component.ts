@@ -20,7 +20,8 @@ export class LayoutBasicComponent implements OnInit {
     private ZambaService: ZambaService,
     private message: MessageService,
     private userPermissionsService: UserPermissionsService,
-  ) {}
+  ) { }
+
   ngOnInit(): void {
     this.ZambaService.GetSidebarItems();
     var UP = this.userPermissionsService.getPermissions();

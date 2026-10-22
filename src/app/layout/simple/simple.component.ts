@@ -20,7 +20,7 @@ export class LayoutSimpleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private settings: SettingsService,
     private message: MessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.settings.setLayout('collapsed', true);
@@ -51,11 +51,11 @@ export class LayoutSimpleComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
   options: LayoutDefaultOptions = {
     logoExpanded: `./assets/logo-zamba-rrhh-t.svg`,
     logoCollapsed: `./assets/logo-zamba-rrhh-iso.png`,
     hideAside: true,
-    logoLink: '/',
   };
   searchToggleStatus = false;
   showSettingDrawer = false;
