@@ -19,7 +19,7 @@ export const environmentModules = [DelonMockModule.forRoot({ data: MOCKDATA })];
 export const environment = {
   get production() { return r('production', true); },
   useHash: true,
-  get appPrimaryColor() { return r('appPrimaryColor', '#c36200'); },
+  get appPrimaryColor() { return r('appPrimaryColor', '#337ab7'); },
 
   get restApi() { return r('restApi', ''); },
   get apiRestBasePath() { return r('apiRestBasePath', ''); },
