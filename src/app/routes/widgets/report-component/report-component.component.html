@@ -30,7 +30,7 @@
         <nz-spin [nzSize]="'large'" />
       </div>
 
-      <div *ngIf="!isLoading">
+      <div *ngIf="!isLoading" class="report-list-scroll">
         <ul class="ulContainer-menu" nz-menu nzMode="inline">
           <li #itemTree *ngFor="let itemTree of TREE_DATA" nz-submenu [nzOpen]="isCategoryOpen(itemTree.name)"
             (nzOpenChange)="onCategoryOpenChange(itemTree.name, $event)" [nzTitle]="titleTpl" nzIcon="file">

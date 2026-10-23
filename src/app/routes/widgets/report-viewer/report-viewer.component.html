@@ -75,13 +75,6 @@
                                     style="width: 100%"></nz-date-picker>
                             </div>
 
-                            <div style="align-content: end;" *ngIf="startDateVisible && endDateVisible">
-                                <button nz-button nzType="primary" (click)="CleanDates()">
-                                    <i nz-icon nzType="delete"></i>
-                                </button>
-                            </div>
-
-
                             <div *ngIf="UsuarioIdVisible" nz-col nzXs="24" nzSm="6">
                                 <label for="UsuarioId">Usuario:</label>
 
@@ -93,6 +86,12 @@
                                     <nz-option *ngFor="let item of UserIdList" [nzValue]="item.ID"
                                         [nzLabel]="item.Usuario" />
                                 </nz-select>
+                            </div>
+
+                            <div style="align-content: end;" *ngIf="startDateVisible && endDateVisible">
+                                <button nz-button nzType="primary" (click)="CleanDates()">
+                                    <i nz-icon nzType="delete"></i>
+                                </button>
                             </div>
 
                         </div>
