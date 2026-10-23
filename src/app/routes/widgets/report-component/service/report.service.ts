@@ -9,16 +9,16 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ReportService {
-  private reportFocusSubject = new BehaviorSubject<{ reportId: number; promoteToTop: boolean } | null>(null);
+  private reportFocusSubject = new BehaviorSubject<{ reportId: number } | null>(null);
   public reportFocus$ = this.reportFocusSubject.asObservable();
 
-  notifyReportFocus(reportId: number | null | undefined, promoteToTop = false): void {
+  notifyReportFocus(reportId: number | null | undefined): void {
     const id = Number(reportId);
     if (!Number.isFinite(id) || id <= 0) {
       return;
     }
 
-    this.reportFocusSubject.next({ reportId: id, promoteToTop });
+    this.reportFocusSubject.next({ reportId: id });
   }
 
   GetLastReportViewed(genericRequest: {}) {

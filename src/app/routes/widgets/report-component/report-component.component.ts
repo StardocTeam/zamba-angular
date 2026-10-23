@@ -62,7 +62,6 @@ export class ReportComponentComponent {
   isLoading: boolean = false;
   selectedReportId: number | null = null;
   private pendingFocusReportId: number | null = null;
-  private pendingPromoteReportId: number | null = null;
   private reportFocusSub?: Subscription;
   //#endregion
 
@@ -89,7 +88,7 @@ export class ReportComponentComponent {
         return;
       }
 
-      this.focusReportInTree(focus.reportId, focus.promoteToTop);
+      this.focusReportInTree(focus.reportId);
     });
 
     this.route.queryParamMap.subscribe(params => {
@@ -680,21 +679,10 @@ export class ReportComponentComponent {
     this.treeCollapsed = !this.treeCollapsed;
   }
 
-  private focusReportInTree(reportId: number, promoteToTop = false): void {
+  private focusReportInTree(reportId: number): void {
     const numericReportId = Number(reportId);
     if (!Number.isFinite(numericReportId) || numericReportId <= 0) {
       return;
-    }
-
-    if (promoteToTop) {
-      this.pendingPromoteReportId = numericReportId;
-      // When a report is refreshed from the viewer, collapse the tree categories
-      // before focusing it; its own category is reopened below so the selection stays visible.
-      this.openCategories = Object.fromEntries((this.TREE_DATA ?? []).map(node => [node.name, false]));
-    }
-
-    if (this.pendingPromoteReportId === numericReportId && this.promoteReportToTop(numericReportId)) {
-      this.pendingPromoteReportId = null;
     }
 
     this.openCategoryForReport(numericReportId);
@@ -731,39 +719,6 @@ export class ReportComponentComponent {
 
       this.pendingFocusReportId = null;
     }, 0);
-  }
-
-  private promoteReportToTop(reportId: number): boolean {
-    if (!this.TREE_DATA?.length) {
-      return false;
-    }
-
-    const categoryIndex = this.TREE_DATA.findIndex(node =>
-      (node.currentReport ?? []).some(report => Number(report.ID) === reportId),
-    );
-
-    if (categoryIndex < 0) {
-      return false;
-    }
-
-    const category = this.TREE_DATA[categoryIndex];
-    const reports = category.currentReport ?? [];
-    const reportIndex = reports.findIndex(report => Number(report.ID) === reportId);
-
-    if (reportIndex < 0) {
-      return false;
-    }
-
-    const reorderedCategory = {
-      ...category,
-      currentReport: [reports[reportIndex], ...reports.filter((_, index) => index !== reportIndex)],
-    };
-
-    this.TREE_DATA = [
-      reorderedCategory,
-      ...this.TREE_DATA.filter((_, index) => index !== categoryIndex),
-    ];
-    return true;
   }
 
   private openCategoryForReport(reportId: number): void {
