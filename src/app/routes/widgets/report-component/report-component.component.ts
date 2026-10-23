@@ -358,7 +358,7 @@ export class ReportComponentComponent {
 
           const nextOpenCategories: Record<string, boolean> = {};
           this.TREE_DATA.forEach(node => {
-            nextOpenCategories[node.name] = this.openCategories[node.name] ?? this.pendingPromoteReportId === null;
+            nextOpenCategories[node.name] = this.openCategories[node.name] ?? false;
           });
           this.openCategories = nextOpenCategories;
 
@@ -669,7 +669,7 @@ export class ReportComponentComponent {
   }
 
   isCategoryOpen(categoryName: string): boolean {
-    return this.openCategories[categoryName] ?? true;
+    return this.openCategories[categoryName] ?? false;
   }
 
   onCategoryOpenChange(categoryName: string, isOpen: boolean): void {
@@ -710,22 +710,20 @@ export class ReportComponentComponent {
         return;
       }
 
-      const sidePanel = target.closest('.ant-layout-sider') as HTMLElement | null;
+      const scrollContainer = target.closest('.report-list-scroll') as HTMLElement | null;
 
-      if (sidePanel) {
-        const sidePanelRect = sidePanel.getBoundingClientRect();
+      if (scrollContainer) {
+        const scrollContainerRect = scrollContainer.getBoundingClientRect();
         const targetRect = target.getBoundingClientRect();
-        const targetTopInPanel = targetRect.top - sidePanelRect.top + sidePanel.scrollTop;
-        const targetBottomInPanel = targetTopInPanel + targetRect.height;
-        const anchorHeight =
-          (sidePanel.querySelector('.search-anchor') as HTMLElement | null)?.offsetHeight ?? 0;
-        const visibleTop = sidePanel.scrollTop + anchorHeight;
-        const visibleBottom = sidePanel.scrollTop + sidePanel.clientHeight;
+        const targetTopInContainer = targetRect.top - scrollContainerRect.top + scrollContainer.scrollTop;
+        const targetBottomInContainer = targetTopInContainer + targetRect.height;
+        const visibleTop = scrollContainer.scrollTop;
+        const visibleBottom = visibleTop + scrollContainer.clientHeight;
 
-        if (targetTopInPanel < visibleTop) {
-          sidePanel.scrollTop = Math.max(targetTopInPanel - anchorHeight - 8, 0);
-        } else if (targetBottomInPanel > visibleBottom) {
-          sidePanel.scrollTop = targetBottomInPanel - sidePanel.clientHeight + 8;
+        if (targetTopInContainer < visibleTop) {
+          scrollContainer.scrollTop = Math.max(targetTopInContainer - 8, 0);
+        } else if (targetBottomInContainer > visibleBottom) {
+          scrollContainer.scrollTop = targetBottomInContainer - scrollContainer.clientHeight + 8;
         }
       } else {
         target.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'nearest' });
