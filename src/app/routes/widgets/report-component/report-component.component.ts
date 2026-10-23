@@ -63,6 +63,7 @@ export class ReportComponentComponent {
   selectedReportId: number | null = null;
   private pendingFocusReportId: number | null = null;
   private reportFocusSub?: Subscription;
+  private focusScrollFrameId: number | null = null;
   //#endregion
 
   constructor(
@@ -129,6 +130,9 @@ export class ReportComponentComponent {
     this.document.documentElement.classList.remove('reports-page-lock-scroll');
     this.document.body.classList.remove('reports-page-lock-scroll');
     this.reportFocusSub?.unsubscribe();
+    if (this.focusScrollFrameId !== null) {
+      cancelAnimationFrame(this.focusScrollFrameId);
+    }
   }
   //#endregion
 
@@ -704,21 +708,47 @@ export class ReportComponentComponent {
         const scrollContainerRect = scrollContainer.getBoundingClientRect();
         const targetRect = target.getBoundingClientRect();
         const targetTopInContainer = targetRect.top - scrollContainerRect.top + scrollContainer.scrollTop;
-        const targetBottomInContainer = targetTopInContainer + targetRect.height;
-        const visibleTop = scrollContainer.scrollTop;
-        const visibleBottom = visibleTop + scrollContainer.clientHeight;
-
-        if (targetTopInContainer < visibleTop) {
-          scrollContainer.scrollTop = Math.max(targetTopInContainer - 8, 0);
-        } else if (targetBottomInContainer > visibleBottom) {
-          scrollContainer.scrollTop = targetBottomInContainer - scrollContainer.clientHeight + 8;
-        }
+        const centeredTop = targetTopInContainer - (scrollContainer.clientHeight - targetRect.height) / 2;
+        const maxScrollTop = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+        this.animateListScroll(scrollContainer, Math.max(0, Math.min(centeredTop, maxScrollTop)));
       } else {
-        target.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'nearest' });
+        target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
       }
 
       this.pendingFocusReportId = null;
     }, 0);
+  }
+
+  private animateListScroll(container: HTMLElement, targetTop: number): void {
+    if (this.focusScrollFrameId !== null) {
+      cancelAnimationFrame(this.focusScrollFrameId);
+    }
+
+    const startTop = container.scrollTop;
+    const distance = targetTop - startTop;
+    const duration = 450;
+    const startTime = performance.now();
+
+    if (Math.abs(distance) < 1) {
+      return;
+    }
+
+    const step = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const easedProgress = progress < 0.5
+        ? 4 * progress * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      container.scrollTop = startTop + distance * easedProgress;
+
+      if (progress < 1) {
+        this.focusScrollFrameId = requestAnimationFrame(step);
+      } else {
+        this.focusScrollFrameId = null;
+      }
+    };
+
+    this.focusScrollFrameId = requestAnimationFrame(step);
   }
 
   private openCategoryForReport(reportId: number): void {
